@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window type="dialog" id="1154">
+    <defaultcontrol always="true">451</defaultcontrol>
+
+    <controls>
+
+        <control type="group">
+            <include>OSD_HideControls</include>
+            <control type="list" id="451">
+                <left>-1920</left>
+                <width>1</width>
+                <height>1</height>
+                <itemlayout width="1" height="1" />
+                <focusedlayout width="1" height="1" />
+                <content target="songs">$VAR[Path_OSD_NextRecommendation_Music]</content>
+            </control>
+
+            <control type="group">
+                <top>view_pad</top>
+                <right>view_pad</right>
+                <width>850</width>
+                <align>right</align>
+                <visible>!Container(451).IsUpdating</visible>
+                <visible>!Integer.IsEqual(Container(451).NumItems,0)</visible>
+                <visible>Integer.IsLess(Player.PlaylistPosition,Player.PlaylistLength)</visible>
+                <animation type="WindowOpen" reversible="true">
+                    <effect type="fade" start="0" end="100" time="300" delay="600"/>
+                    <effect type="slide" start="48,0" end="0" center="auto" tween="back" easing="out" time="400" delay="600"/>
+                </animation>
+                <animation type="Visible" reversible="true">
+                    <effect type="fade" start="0" end="100" time="300" delay="600"/>
+                    <effect type="slide" start="48,0" end="0" center="auto" tween="back" easing="out" time="400" delay="600"/>
+                </animation>
+                <control type="group">
+                    <right>0</right>
+                    <height>view_landscape_item_h</height>
+                    <width>view_landscape_item_w</width>
+                    <control type="group">
+                        <include>Object_ItemBack</include>
+                        <control type="image">
+                            <texture background="true" diffuse="diffuse/landscape_w410_h231.png">$VAR[Image_OSD_UpNext_Music_Playlist_Landscape]</texture>
+                            <aspectratio scalediffuse="false">keep</aspectratio>
+                        </control>
+                    </control>
+                </control>
+                <control type="grouplist">
+                    <right>view_landscape_item_w</right>
+                    <width>400</width>
+                    <height>view_landscape_item_h</height>
+                    <align>right</align>
+                    <aligny>center</aligny>
+                    <orientation>vertical</orientation>
+                    <control type="label">
+                        <right>40</right>
+                        <textcolor>panel_fg_90</textcolor>
+                        <label>$LOCALIZE[31196]$VAR[Label_OSD_UpNext_Music_Playlist_TopTitle, - ,]</label>
+                        <height>40</height>
+                        <font>font_main_bold</font>
+                        <align>right</align>
+                    </control>
+                    <control type="label">
+                        <right>40</right>
+                        <textcolor>panel_fg_70</textcolor>
+                        <label>$VAR[Label_OSD_UpNext_Music_Playlist_SubTitle]</label>
+                        <height>40</height>
+                        <align>right</align>
+                    </control>
+                </control>
+            </control>
+
+        </control>
+
+    </controls>
+</window>

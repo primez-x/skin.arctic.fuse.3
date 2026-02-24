@@ -75,6 +75,7 @@
                         <include>Defs_OSD_Button</include>
                         <onclick>CancelAlarm(osd_timeout,true)</onclick>
                         <onclick>PlayerControl(Next)</onclick>
+                        <onfocus condition="Integer.IsLess(Player.PlaylistPosition,Player.PlaylistLength)">ActivateWindow(1154)</onfocus>
                         <onfocus>ClearProperty(OSDArtistDetails,Home)</onfocus>
                         <onfocus condition="String.IsEmpty(Window(Home).Property(ResetScroll))">SetProperty(ResetScroll," ",home)</onfocus>
                         <onfocus condition="!String.IsEmpty(Window(Home).Property(ResetScroll))">ClearProperty(ResetScroll,home)</onfocus>

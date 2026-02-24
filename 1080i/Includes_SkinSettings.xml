@@ -1001,6 +1001,21 @@
             <selected>System.AddonIsEnabled(service.upnext) + System.HasAddon(service.upnext)</selected>
         </include>
 
+        <include content="Settings_Button" condition="true">
+            <param name="dialog">false</param>
+            <param name="window">skinsettings</param>
+            <param name="slevel">3</param>
+            <param name="baseid">$PARAM[baseid]</param>
+            <param name="id">0171</param>
+            <param name="control">radiobutton</param>
+            <label>service.upnextmusic</label>
+            <label2>$INFO[System.AddonVersion(service.upnextmusic),v,       ]</label2>
+            <onclick condition="!System.HasAddon(service.upnextmusic)">InstallAddon(service.upnextmusic)</onclick>
+            <onclick condition="!System.AddonIsEnabled(service.upnextmusic) + System.HasAddon(service.upnextmusic)">EnableAddon(service.upnextmusic)</onclick>
+            <onclick condition="System.AddonIsEnabled(service.upnextmusic) + System.HasAddon(service.upnextmusic)">Addon.OpenSettings(service.upnextmusic)</onclick>
+            <selected>System.AddonIsEnabled(service.upnextmusic) + System.HasAddon(service.upnextmusic)</selected>
+        </include>
+
         <include content="Settings_Label" description="Debug">
             <param name="window">skinsettings</param>
             <param name="slevel">3</param>

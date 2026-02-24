@@ -3,9 +3,13 @@
     <defaultcontrol always="true">3012</defaultcontrol>
     <onload>Dialog.Close(fullscreeninfo,true)</onload>
     <onload>Dialog.Close(videoosd,true)</onload>
+    <onload>Dialog.Close(musicosd,true)</onload>
     <include>Animation_FadeIn</include>
     <controls>
-        <include content="OSD_UpNext">
+        <include content="OSD_UpNext_Music_InfoOnly" condition="Player.PlayingAudio + System.AddonIsEnabled(service.upnextmusic)">
+            <param name="label">$ADDON[service.upnextmusic 30008]</param>
+        </include>
+        <include content="OSD_UpNext" condition="!Player.PlayingAudio | !System.AddonIsEnabled(service.upnextmusic)">
             <param name="label">$LOCALIZE[31129]</param>
         </include>
     </controls>
