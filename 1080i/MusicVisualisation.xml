@@ -82,5 +82,7 @@
         </control>
 
         <include>OSD_Background_Dim</include>
+
+        <include>Furniture_NextTrack</include>
     </controls>
 </window>
