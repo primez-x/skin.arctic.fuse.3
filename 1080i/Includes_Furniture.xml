@@ -139,18 +139,18 @@
     <include name="Furniture_NextTrack">
         <control type="group">
             <visible>!String.IsEmpty(Window(Home).Property(service.nexttrack.dialog))</visible>
+            <animation type="Visible" reversible="true">
+                <effect type="fade" start="0" end="100" time="500"/>
+            </animation>
+            <animation type="Hidden" reversible="true">
+                <effect type="fade" start="100" end="0" time="300"/>
+            </animation>
             <!-- Bottom-right gradient backdrop -->
             <control type="image">
                 <right>0</right>
                 <bottom>0</bottom>
                 <texture colordiffuse="$VAR[ColorBackground]" flipy="true">background/combined_overlay.png</texture>
                 <aspectratio>stretch</aspectratio>
-                <animation type="Visible" reversible="true">
-                    <effect type="fade" start="0" end="100" time="400"/>
-                </animation>
-                <animation type="Hidden" reversible="true">
-                    <effect type="fade" start="100" end="0" time="250"/>
-                </animation>
             </control>
             <!-- Widget card -->
             <control type="group">
@@ -159,11 +159,7 @@
                 <width>400</width>
                 <height>100</height>
                 <animation type="Visible" reversible="true">
-                    <effect type="fade" start="0" end="100" time="300"/>
                     <effect type="slide" start="0,20" end="0,0" tween="back" easing="out" time="400"/>
-                </animation>
-                <animation type="Hidden" reversible="true">
-                    <effect type="fade" start="100" end="0" time="200"/>
                 </animation>
                 <animation effect="slide" start="0" end="0,-160" time="300" tween="sine" easing="inout" condition="Window.IsActive(DialogSeekBar.xml) + Window.IsActive(MusicVisualisation.xml)">Conditional</animation>
                 <animation effect="slide" start="0" end="0,-170" time="300" tween="sine" easing="inout" condition="Window.IsVisible(musicosd) + Window.IsActive(MusicVisualisation.xml)">Conditional</animation>
