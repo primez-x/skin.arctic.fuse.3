@@ -198,8 +198,8 @@
         </definition>
     </include>
 
-    <!-- Up Next Music (right-anchored, for service.upnextmusic) -->
-    <include name="OSD_UpNext_Music_Buttons">
+    <!-- Next Track (right-anchored, for service.nexttrack) -->
+    <include name="OSD_NextTrack_Buttons">
         <control type="grouplist" id="4000">
             <top>300</top>
             <bottom>-80</bottom>
@@ -237,7 +237,7 @@
         </control>
     </include>
 
-    <include name="OSD_UpNext_Music_Progress">
+    <include name="OSD_NextTrack_Progress">
         <control type="group">
             <height>view_landscape_item_h</height>
             <width>view_landscape_item_w</width>
@@ -252,7 +252,7 @@
         </control>
     </include>
 
-    <include name="OSD_UpNext_Music_Labels">
+    <include name="OSD_NextTrack_Labels">
         <control type="group">
             <top>view_landscape_item_h</top>
 
@@ -289,12 +289,12 @@
         </control>
     </include>
 
-    <include name="OSD_UpNext_Music">
+    <include name="OSD_NextTrack">
         <param name="is_addon">true</param>
         <param name="icon">$VAR[Image_UpNext]</param>
         <param name="secondary_label">[COLOR=$VAR[ColorHighlight]]$INFO[Window.Property(remaining), ,][/COLOR] [LOWERCASE]$LOCALIZE[31130][/LOWERCASE]...</param>
         <param name="top_title">$INFO[Window.Property(title)]</param>
-        <param name="sub_title">$VAR[Label_OSD_UpNext_SubTitle]</param>
+        <param name="sub_title">$VAR[Label_OSD_NextTrack_SubTitle]</param>
         <definition>
             <control type="group">
                 <include>OSD_Info_Dimensions</include>
@@ -317,16 +317,16 @@
                         <param name="detailed">true</param>
                     </include>
 
-                    <include condition="$PARAM[is_addon]">OSD_UpNext_Music_Progress</include>
+                    <include condition="$PARAM[is_addon]">OSD_NextTrack_Progress</include>
 
-                    <include content="OSD_UpNext_Music_Labels">
+                    <include content="OSD_NextTrack_Labels">
                         <param name="top_title">$PARAM[top_title]</param>
                         <param name="sub_title">$PARAM[sub_title]</param>
                     </include>
 
                 </control>
 
-                <include condition="$PARAM[is_addon]">OSD_UpNext_Music_Buttons</include>
+                <include condition="$PARAM[is_addon]">OSD_NextTrack_Buttons</include>
 
             </control>
 
@@ -336,12 +336,12 @@
         </definition>
     </include>
 
-    <!-- Up Next Music info-only (no Play/Close; informational overlay, music always plays next) -->
-    <include name="OSD_UpNext_Music_InfoOnly">
+    <!-- Next Track info-only (no Play/Close; informational overlay, music always plays next) -->
+    <include name="OSD_NextTrack_InfoOnly">
         <param name="icon">$VAR[Image_UpNext]</param>
         <param name="secondary_label">[COLOR=$VAR[ColorHighlight]]$INFO[Window.Property(remaining), ,][/COLOR] [LOWERCASE]$LOCALIZE[31130][/LOWERCASE]...</param>
         <param name="top_title">$INFO[Window.Property(title)]</param>
-        <param name="sub_title">$VAR[Label_OSD_UpNext_SubTitle]</param>
+        <param name="sub_title">$VAR[Label_OSD_NextTrack_SubTitle]</param>
         <definition>
             <control type="group">
                 <include>OSD_Info_Dimensions</include>
@@ -364,9 +364,9 @@
                         <param name="detailed">true</param>
                     </include>
 
-                    <include>OSD_UpNext_Music_Progress</include>
+                    <include>OSD_NextTrack_Progress</include>
 
-                    <include content="OSD_UpNext_Music_Labels">
+                    <include content="OSD_NextTrack_Labels">
                         <param name="top_title">$PARAM[top_title]</param>
                         <param name="sub_title">$PARAM[sub_title]</param>
                     </include>
@@ -1234,7 +1234,7 @@
             <texture colordiffuse="panel_bg_70">background/combined_flixart.png</texture>
             <include>Animation_OSD_Fullscreen_Change</include>
             <visible>Window.IsActive(DialogSeekBar.xml) | Window.IsVisible(1152)</visible>
-            <visible>Window.IsActive(videoosd) | Window.IsActive(musicosd) | Window.IsActive(1140) | Window.IsActive(1141) | Window.IsActive(1142) | Window.IsActive(1143) | Window.IsActive(1144) | Window.IsActive(1145) | Window.IsActive(1146) | Window.IsActive(1147) | Window.IsActive(1148) | Window.IsActive(1149) | Window.IsActive(1154) | Window.IsVisible(videobookmarks) | Window.IsVisible(pvrosdguide) | Window.IsVisible(pvrosdchannels) | Window.IsVisible(1152) | Window.IsActive(script-upnext-stillwatching.xml) | Window.IsActive(script-upnext-upnext.xml)</visible>
+            <visible>Window.IsActive(videoosd) | Window.IsActive(musicosd) | Window.IsActive(1140) | Window.IsActive(1141) | Window.IsActive(1142) | Window.IsActive(1143) | Window.IsActive(1144) | Window.IsActive(1145) | Window.IsActive(1146) | Window.IsActive(1147) | Window.IsActive(1148) | Window.IsActive(1149) | Window.IsActive(1154) | Window.IsVisible(videobookmarks) | Window.IsVisible(pvrosdguide) | Window.IsVisible(pvrosdchannels) | Window.IsVisible(1152) | Window.IsActive(script-upnext-stillwatching.xml) | Window.IsActive(script-upnext-upnext.xml) | Window.IsActive(script-nexttrack-nexttrack.xml) | Window.IsActive(script-nexttrack-nexttrack-simple.xml)</visible>
         </control>
     </include>
 

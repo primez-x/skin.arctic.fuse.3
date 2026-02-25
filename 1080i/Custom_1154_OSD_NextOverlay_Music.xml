@@ -38,7 +38,7 @@
                     <control type="group">
                         <include>Object_ItemBack</include>
                         <control type="image">
-                            <texture background="true" diffuse="diffuse/landscape_w410_h231.png">$VAR[Image_OSD_UpNext_Music_Playlist_Landscape]</texture>
+                            <texture background="true" diffuse="diffuse/landscape_w410_h231.png">$VAR[Image_OSD_NextTrack_Playlist_Landscape]</texture>
                             <aspectratio scalediffuse="false">keep</aspectratio>
                         </control>
                     </control>
@@ -53,7 +53,7 @@
                     <control type="label">
                         <right>40</right>
                         <textcolor>panel_fg_90</textcolor>
-                        <label>$LOCALIZE[31196]$VAR[Label_OSD_UpNext_Music_Playlist_TopTitle, - ,]</label>
+                        <label>$LOCALIZE[31196]$VAR[Label_OSD_NextTrack_Playlist_TopTitle, - ,]</label>
                         <height>40</height>
                         <font>font_main_bold</font>
                         <align>right</align>
@@ -61,7 +61,7 @@
                     <control type="label">
                         <right>40</right>
                         <textcolor>panel_fg_70</textcolor>
-                        <label>$VAR[Label_OSD_UpNext_Music_Playlist_SubTitle]</label>
+                        <label>$VAR[Label_OSD_NextTrack_Playlist_SubTitle]</label>
                         <height>40</height>
                         <align>right</align>
                     </control>

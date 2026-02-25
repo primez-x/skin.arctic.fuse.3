@@ -1008,12 +1008,12 @@
             <param name="baseid">$PARAM[baseid]</param>
             <param name="id">0171</param>
             <param name="control">radiobutton</param>
-            <label>service.upnextmusic</label>
-            <label2>$INFO[System.AddonVersion(service.upnextmusic),v,       ]</label2>
-            <onclick condition="!System.HasAddon(service.upnextmusic)">InstallAddon(service.upnextmusic)</onclick>
-            <onclick condition="!System.AddonIsEnabled(service.upnextmusic) + System.HasAddon(service.upnextmusic)">EnableAddon(service.upnextmusic)</onclick>
-            <onclick condition="System.AddonIsEnabled(service.upnextmusic) + System.HasAddon(service.upnextmusic)">Addon.OpenSettings(service.upnextmusic)</onclick>
-            <selected>System.AddonIsEnabled(service.upnextmusic) + System.HasAddon(service.upnextmusic)</selected>
+            <label>service.nexttrack</label>
+            <label2>$INFO[System.AddonVersion(service.nexttrack),v,       ]</label2>
+            <onclick condition="!System.HasAddon(service.nexttrack)">InstallAddon(service.nexttrack)</onclick>
+            <onclick condition="!System.AddonIsEnabled(service.nexttrack) + System.HasAddon(service.nexttrack)">EnableAddon(service.nexttrack)</onclick>
+            <onclick condition="System.AddonIsEnabled(service.nexttrack) + System.HasAddon(service.nexttrack)">Addon.OpenSettings(service.nexttrack)</onclick>
+            <selected>System.AddonIsEnabled(service.nexttrack) + System.HasAddon(service.nexttrack)</selected>
         </include>
 
         <include content="Settings_Label" description="Debug">

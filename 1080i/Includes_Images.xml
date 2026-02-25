@@ -681,28 +681,28 @@
         <value condition="Integer.IsEqual(VideoPlayer.PlaylistPosition,50)">$VAR[Image_Landscape_LIA_C450_50]</value>
     </variable>
 
-    <!-- Up Next Music playlist (Container 451, right-anchored OSD) -->
-    <variable name="Image_OSD_UpNext_Music_Playlist_Landscape">
-        <value condition="Integer.IsEqual(Player.PlaylistPosition,1)">$INFO[Container(451).ListItemAbsolute(1).Art(thumb)]</value>
-        <value condition="Integer.IsEqual(Player.PlaylistPosition,2)">$INFO[Container(451).ListItemAbsolute(2).Art(thumb)]</value>
-        <value condition="Integer.IsEqual(Player.PlaylistPosition,3)">$INFO[Container(451).ListItemAbsolute(3).Art(thumb)]</value>
-        <value condition="Integer.IsEqual(Player.PlaylistPosition,4)">$INFO[Container(451).ListItemAbsolute(4).Art(thumb)]</value>
-        <value condition="Integer.IsEqual(Player.PlaylistPosition,5)">$INFO[Container(451).ListItemAbsolute(5).Art(thumb)]</value>
-        <value condition="Integer.IsEqual(Player.PlaylistPosition,6)">$INFO[Container(451).ListItemAbsolute(6).Art(thumb)]</value>
-        <value condition="Integer.IsEqual(Player.PlaylistPosition,7)">$INFO[Container(451).ListItemAbsolute(7).Art(thumb)]</value>
-        <value condition="Integer.IsEqual(Player.PlaylistPosition,8)">$INFO[Container(451).ListItemAbsolute(8).Art(thumb)]</value>
-        <value condition="Integer.IsEqual(Player.PlaylistPosition,9)">$INFO[Container(451).ListItemAbsolute(9).Art(thumb)]</value>
-        <value condition="Integer.IsEqual(Player.PlaylistPosition,10)">$INFO[Container(451).ListItemAbsolute(10).Art(thumb)]</value>
-        <value condition="Integer.IsEqual(Player.PlaylistPosition,11)">$INFO[Container(451).ListItemAbsolute(11).Art(thumb)]</value>
-        <value condition="Integer.IsEqual(Player.PlaylistPosition,12)">$INFO[Container(451).ListItemAbsolute(12).Art(thumb)]</value>
-        <value condition="Integer.IsEqual(Player.PlaylistPosition,13)">$INFO[Container(451).ListItemAbsolute(13).Art(thumb)]</value>
-        <value condition="Integer.IsEqual(Player.PlaylistPosition,14)">$INFO[Container(451).ListItemAbsolute(14).Art(thumb)]</value>
-        <value condition="Integer.IsEqual(Player.PlaylistPosition,15)">$INFO[Container(451).ListItemAbsolute(15).Art(thumb)]</value>
-        <value condition="Integer.IsEqual(Player.PlaylistPosition,16)">$INFO[Container(451).ListItemAbsolute(16).Art(thumb)]</value>
-        <value condition="Integer.IsEqual(Player.PlaylistPosition,17)">$INFO[Container(451).ListItemAbsolute(17).Art(thumb)]</value>
-        <value condition="Integer.IsEqual(Player.PlaylistPosition,18)">$INFO[Container(451).ListItemAbsolute(18).Art(thumb)]</value>
-        <value condition="Integer.IsEqual(Player.PlaylistPosition,19)">$INFO[Container(451).ListItemAbsolute(19).Art(thumb)]</value>
-        <value condition="Integer.IsEqual(Player.PlaylistPosition,20)">$INFO[Container(451).ListItemAbsolute(20).Art(thumb)]</value>
+    <!-- Next Track playlist (Container 451): show NEXT track (position N → ListItemAbsolute N+1) -->
+    <variable name="Image_OSD_NextTrack_Playlist_Landscape">
+        <value condition="Integer.IsEqual(Player.PlaylistPosition,1)">$INFO[Container(451).ListItemAbsolute(2).Art(thumb)]</value>
+        <value condition="Integer.IsEqual(Player.PlaylistPosition,2)">$INFO[Container(451).ListItemAbsolute(3).Art(thumb)]</value>
+        <value condition="Integer.IsEqual(Player.PlaylistPosition,3)">$INFO[Container(451).ListItemAbsolute(4).Art(thumb)]</value>
+        <value condition="Integer.IsEqual(Player.PlaylistPosition,4)">$INFO[Container(451).ListItemAbsolute(5).Art(thumb)]</value>
+        <value condition="Integer.IsEqual(Player.PlaylistPosition,5)">$INFO[Container(451).ListItemAbsolute(6).Art(thumb)]</value>
+        <value condition="Integer.IsEqual(Player.PlaylistPosition,6)">$INFO[Container(451).ListItemAbsolute(7).Art(thumb)]</value>
+        <value condition="Integer.IsEqual(Player.PlaylistPosition,7)">$INFO[Container(451).ListItemAbsolute(8).Art(thumb)]</value>
+        <value condition="Integer.IsEqual(Player.PlaylistPosition,8)">$INFO[Container(451).ListItemAbsolute(9).Art(thumb)]</value>
+        <value condition="Integer.IsEqual(Player.PlaylistPosition,9)">$INFO[Container(451).ListItemAbsolute(10).Art(thumb)]</value>
+        <value condition="Integer.IsEqual(Player.PlaylistPosition,10)">$INFO[Container(451).ListItemAbsolute(11).Art(thumb)]</value>
+        <value condition="Integer.IsEqual(Player.PlaylistPosition,11)">$INFO[Container(451).ListItemAbsolute(12).Art(thumb)]</value>
+        <value condition="Integer.IsEqual(Player.PlaylistPosition,12)">$INFO[Container(451).ListItemAbsolute(13).Art(thumb)]</value>
+        <value condition="Integer.IsEqual(Player.PlaylistPosition,13)">$INFO[Container(451).ListItemAbsolute(14).Art(thumb)]</value>
+        <value condition="Integer.IsEqual(Player.PlaylistPosition,14)">$INFO[Container(451).ListItemAbsolute(15).Art(thumb)]</value>
+        <value condition="Integer.IsEqual(Player.PlaylistPosition,15)">$INFO[Container(451).ListItemAbsolute(16).Art(thumb)]</value>
+        <value condition="Integer.IsEqual(Player.PlaylistPosition,16)">$INFO[Container(451).ListItemAbsolute(17).Art(thumb)]</value>
+        <value condition="Integer.IsEqual(Player.PlaylistPosition,17)">$INFO[Container(451).ListItemAbsolute(18).Art(thumb)]</value>
+        <value condition="Integer.IsEqual(Player.PlaylistPosition,18)">$INFO[Container(451).ListItemAbsolute(19).Art(thumb)]</value>
+        <value condition="Integer.IsEqual(Player.PlaylistPosition,19)">$INFO[Container(451).ListItemAbsolute(20).Art(thumb)]</value>
+        <value condition="Integer.IsEqual(Player.PlaylistPosition,20)">$INFO[Container(451).ListItemAbsolute(21).Art(thumb)]</value>
         <value>$INFO[Container(451).ListItem.Art(thumb)]</value>
     </variable>
 
