@@ -299,8 +299,11 @@
             <control type="group">
                 <include>OSD_Info_Dimensions</include>
 
-                <include content="OSD_View_Line">
+                <include content="View_Line">
                     <param name="label">$PARAM[label]$PARAM[secondary_label]</param>
+                    <param name="textcolor">panel_fg_90</param>
+                    <param name="top">-140</param>
+                    <param name="align">right</param>
                 </include>
 
                 <control type="group">
@@ -346,8 +349,11 @@
             <control type="group">
                 <include>OSD_Info_Dimensions</include>
 
-                <include content="OSD_View_Line">
+                <include content="View_Line">
                     <param name="label">$PARAM[label]$PARAM[secondary_label]</param>
+                    <param name="textcolor">panel_fg_90</param>
+                    <param name="top">-140</param>
+                    <param name="align">right</param>
                 </include>
 
                 <control type="group">
