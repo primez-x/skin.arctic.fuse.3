@@ -109,6 +109,9 @@
     <variable name="ColorBackground">
         <value>main_bg_100</value>
     </variable>
+    <variable name="ColorBackground70">
+        <value>main_bg_70</value>
+    </variable>
 
     <variable name="Color_PC_to_Hex_Alpha">
         <value condition="String.IsEqual(Control.GetLabel(8001),100%)">FF</value>

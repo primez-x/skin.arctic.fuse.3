@@ -149,7 +149,7 @@
             <control type="image">
                 <right>0</right>
                 <bottom>0</bottom>
-                <texture colordiffuse="$VAR[ColorBackground]" flipy="true">background/combined_overlay.png</texture>
+                <texture colordiffuse="$VAR[ColorBackground70]" flipy="true">background/combined_overlay.png</texture>
                 <aspectratio>stretch</aspectratio>
             </control>
             <!-- Widget card -->
