@@ -29,7 +29,9 @@
                     <orientation>horizontal</orientation>
                     <itemgap>osd_itemgap</itemgap>
                     <onleft>6008</onleft>
-                    <onright>6005</onright>
+                    <onright condition="!String.IsEmpty(Window(Home).Property(Spotify.CurrentTrackId))">6009</onright>
+                    <onright condition="String.IsEmpty(Window(Home).Property(Spotify.CurrentTrackId))">6005</onright>
+                    <!-- When Spotify Like is visible, right from left group goes to 6009 first -->
 
                     <ondown condition="!Window.IsVisible(script-cu-lrclyrics-main.xml)">ActivateWindow(1142)</ondown>
 
@@ -107,7 +109,79 @@
                     </include>
                 </control>
 
-                <!-- Right Side Buttons -->
+                <!-- Spotify Like: fixed position left of mic so grouplist never reflows (avoids stacking when track buffers) -->
+                <control type="grouplist">
+                    <visible>!String.IsEmpty(Window(Home).Property(Spotify.CurrentTrackId))</visible>
+                    <centerbottom>80</centerbottom>
+                    <height>120</height>
+                    <right>460</right>
+                    <width>400</width>
+                    <orientation>horizontal</orientation>
+                    <itemgap>osd_itemgap</itemgap>
+                    <align>right</align>
+                    <!-- Grouplist-level navigation so the grouplist boundary keys are handled correctly -->
+                    <onleft>6004</onleft>
+                    <onright>6005</onright>
+                    <onup>8200</onup>
+                    <ondown condition="!Window.IsVisible(script-cu-lrclyrics-main.xml)">ActivateWindow(1142)</ondown>
+                    <control type="button" id="6009">
+                        <onup>8200</onup>
+                        <onleft>6004</onleft>
+                        <onright>6005</onright>
+                        <include>Defs_OSD_Button</include>
+                        <onclick>CancelAlarm(osd_timeout,true)</onclick>
+                        <onclick>RunPlugin(plugin://plugin.audio.spotifykodiconnect/?action=toggle_liked)</onclick>
+                        <onfocus>SetProperty(OSDArtistDetails,1,Home)</onfocus>
+                    </control>
+                    <!-- Single outer group (width=0) so only one grouplist item exists, avoiding itemgap offset bug.
+                         Two inner groups use <visible> (always dynamic) to swap icons at runtime.
+                         Icons: unliked = heart-regular / heart-circle-plus (hover); liked = heart / heart-circle-xmark (hover). -->
+                    <control type="group" id="6109">
+                        <animation effect="fade" start="100" end="30" condition="!Control.IsEnabled(6009)" reversible="false">Conditional</animation>
+                        <left>-osd_itemgap</left>
+                        <width>0</width>
+                        <!-- Unliked: heart-regular (unhovered), heart-circle-plus (hovered) -->
+                        <control type="group">
+                            <left>-80</left>
+                            <visible>!String.Equals(Window(Home).Property(Spotify.CurrentTrackLiked),true) + !String.Equals(Window(Home).Property(Spotify.CurrentTrackLiked),1)</visible>
+                            <control type="image">
+                                <bordersize>12</bordersize>
+                                <height>80</height>
+                                <width>80</width>
+                                <texture colordiffuse="panel_fg_70">special://skin/extras/icons/heart-regular.png</texture>
+                                <visible>!Control.HasFocus(6009)</visible>
+                            </control>
+                            <control type="image">
+                                <bordersize>12</bordersize>
+                                <height>80</height>
+                                <width>80</width>
+                                <texture colordiffuse="$VAR[ColorSelected]">special://skin/extras/icons/heart-circle-plus.png</texture>
+                                <visible>Control.HasFocus(6009)</visible>
+                            </control>
+                        </control>
+                        <!-- Liked: heart (unhovered), heart-circle-xmark (hovered) -->
+                        <control type="group">
+                            <left>-80</left>
+                            <visible>String.Equals(Window(Home).Property(Spotify.CurrentTrackLiked),true) | String.Equals(Window(Home).Property(Spotify.CurrentTrackLiked),1)</visible>
+                            <control type="image">
+                                <bordersize>12</bordersize>
+                                <height>80</height>
+                                <width>80</width>
+                                <texture colordiffuse="panel_fg_70">special://skin/extras/icons/heart.png</texture>
+                                <visible>!Control.HasFocus(6009)</visible>
+                            </control>
+                            <control type="image">
+                                <bordersize>12</bordersize>
+                                <height>80</height>
+                                <width>80</width>
+                                <texture colordiffuse="$VAR[ColorSelected]">special://skin/extras/icons/heart-circle-xmark.png</texture>
+                                <visible>Control.HasFocus(6009)</visible>
+                            </control>
+                        </control>
+                    </control>
+                </control>
+
+                <!-- Right Side Buttons (4 items only – Like is in its own grouplist above, so layout never changes) -->
                 <control type="grouplist" id="6092">
                     <centerbottom>80</centerbottom>
                     <height>120</height>
@@ -115,7 +189,8 @@
                     <orientation>horizontal</orientation>
                     <itemgap>osd_itemgap</itemgap>
                     <align>right</align>
-                    <onleft>6004</onleft>
+                    <onleft condition="!String.IsEmpty(Window(Home).Property(Spotify.CurrentTrackId))">6009</onleft>
+                    <onleft condition="String.IsEmpty(Window(Home).Property(Spotify.CurrentTrackId))">6004</onleft>
                     <onright>6001</onright>
                     <onup>SetFocus(9802)</onup>
 
@@ -124,6 +199,8 @@
                     <!-- Button 5 -->
                     <control type="button" id="6005">
                         <include>Defs_OSD_Button</include>
+                        <onleft condition="!String.IsEmpty(Window(Home).Property(Spotify.CurrentTrackId))">6009</onleft>
+                        <onleft condition="String.IsEmpty(Window(Home).Property(Spotify.CurrentTrackId))">6004</onleft>
                         <onclick>CancelAlarm(osd_timeout,true)</onclick>
                         <onclick>Close</onclick>
                         <onclick>runscript(script.cu.lrclyrics)</onclick>
@@ -135,6 +212,7 @@
                         <param name="groupid">6105</param>
                         <param name="itemgap">osd_itemgap</param>
                     </include>
+
 
                     <!-- Button 6 -->
                     <control type="button" id="6006">
