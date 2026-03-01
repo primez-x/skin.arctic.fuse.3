@@ -225,7 +225,7 @@
 
     <include name="Hub_Wall_Info">
         <control type="group">
-            <animation effect="fade" start="0" end="100" delay="399" time="1" condition="!$EXP[Hub_Spotlight_Visible_Expression]">Conditional</animation>
+            <animation effect="fade" start="0" end="100" delay="dialoginfo_open_delay" time="1" condition="!$EXP[Hub_Spotlight_Visible_Expression]">Conditional</animation>
             <animation effect="fade" start="100" end="0" condition="$EXP[Hub_Spotlight_Visible_Expression]">Conditional</animation>
             <visible>String.IsEmpty(Window(Home).Property(HomeSwitcher.IsVisible))</visible>
             <include>Home_Info_Animation</include>
@@ -242,7 +242,7 @@
 
     <include name="Hub_Combined_Info">
         <control type="group">
-            <animation effect="fade" start="0" end="100" delay="399" time="1" condition="!$EXP[Hub_Spotlight_Visible_Expression]">Conditional</animation>
+            <animation effect="fade" start="0" end="100" delay="dialoginfo_open_delay" time="1" condition="!$EXP[Hub_Spotlight_Visible_Expression]">Conditional</animation>
             <animation effect="fade" start="100" end="0" condition="$EXP[Hub_Spotlight_Visible_Expression]">Conditional</animation>
             <control type="group">
                 <include>Home_Slide_Animation</include>
