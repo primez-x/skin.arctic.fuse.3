@@ -20,7 +20,7 @@
                         <param name="width">settings_category_w</param>
                         <param name="control">fixedlist</param>
                         <param name="textcolor">main_fg</param>
-                        <focusposition>4</focusposition>
+                        <focusposition>0</focusposition>
                         <movement>4</movement>
                         <onback>Action(PreviousMenu)</onback>
 
