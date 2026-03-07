@@ -32,7 +32,7 @@
                     <height>240</height>
                     <bottom>-20</bottom>
                     <control type="group">
-                        <width>460</width>
+                        <width>1080</width>
                         <visible>[Window.IsVisible(script-cu-lrclyrics-main.xml) | [!String.IsEmpty(Window(Home).Property(OSDArtistDetails)) + !Window.IsVisible(1142)]]</visible>
                         <animation effect="slide" start="340" end="0" time="400" tween="cubic" easing="out" reversible="false">Visible</animation>
                         <animation type="Hidden" reversible="false">
@@ -40,7 +40,7 @@
                         </animation>
                         <include content="OSD_TitleDetails">
                             <param name="sub_label">$INFO[MusicPlayer.Artist]</param>
-                            <param name="top_logo_width">460</param>
+                            <param name="top_logo_width">1080</param>
                             <param name="listitem">MusicPlayer</param>
                         </include>
                     </control>
@@ -54,7 +54,7 @@
                         </animation>
                         <include content="OSD_TitleDetails">
                             <param name="sub_label">$INFO[MusicPlayer.Artist]</param>
-                            <param name="top_logo_width">460</param>
+                            <param name="top_logo_width">1080</param>
                             <param name="listitem">MusicPlayer</param>
                         </include>
                     </control>

@@ -130,7 +130,7 @@
                         <onright>6005</onright>
                         <include>Defs_OSD_Button</include>
                         <onclick>CancelAlarm(osd_timeout,true)</onclick>
-                        <onclick>RunPlugin(plugin://plugin.audio.spotifykodiconnect/?action=toggle_liked)</onclick>
+                        <onclick>NotifyAll(plugin.audio.spotifykodiconnect,ToggleLike,"")</onclick>
                         <onfocus>SetProperty(OSDArtistDetails,1,Home)</onfocus>
                     </control>
                     <!-- Single outer group (width=0) so only one grouplist item exists, avoiding itemgap offset bug.
