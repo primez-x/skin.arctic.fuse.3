@@ -130,7 +130,7 @@
                         <onright>6005</onright>
                         <include>Defs_OSD_Button</include>
                         <onclick>CancelAlarm(osd_timeout,true)</onclick>
-                        <onclick>NotifyAll(plugin.audio.spotifykodiconnect,ToggleLike,"")</onclick>
+                        <onclick>NotifyAll(plugin.audio.spotifykodiconnect,ToggleLike,true)</onclick>
                         <onfocus>SetProperty(OSDArtistDetails,1,Home)</onfocus>
                     </control>
                     <!-- Single outer group (width=0) so only one grouplist item exists, avoiding itemgap offset bug.
@@ -143,7 +143,7 @@
                         <!-- Unliked: heart-regular (unhovered), heart-circle-plus (hovered) -->
                         <control type="group">
                             <left>-80</left>
-                            <visible>!String.Equals(Window(Home).Property(Spotify.CurrentTrackLiked),true) + !String.Equals(Window(Home).Property(Spotify.CurrentTrackLiked),1)</visible>
+                            <visible>String.IsEmpty(Window(Home).Property(Spotify.CurrentTrackLiked))</visible>
                             <control type="image">
                                 <bordersize>12</bordersize>
                                 <height>80</height>
@@ -162,7 +162,7 @@
                         <!-- Liked: heart (unhovered), heart-circle-xmark (hovered) -->
                         <control type="group">
                             <left>-80</left>
-                            <visible>String.Equals(Window(Home).Property(Spotify.CurrentTrackLiked),true) | String.Equals(Window(Home).Property(Spotify.CurrentTrackLiked),1)</visible>
+                            <visible>!String.IsEmpty(Window(Home).Property(Spotify.CurrentTrackLiked))</visible>
                             <control type="image">
                                 <bordersize>12</bordersize>
                                 <height>80</height>
