@@ -126,7 +126,7 @@
 
     <expression name="Exp_OSD_QuickInfo">[$EXP[Exp_OSD_PVRChannelSwitch] | Window.IsActive(fullscreeninfo) | $EXP[Exp_OSD_DelayInfo]]</expression>
 
-    <expression name="Exp_OSD_HideControls">[Window.IsActive(1140) | Window.IsActive(1141) | Window.IsActive(1142) | Window.IsActive(1154) | Window.IsActive(videobookmarks) | Window.IsActive(pvrosdguide) | Window.IsActive(pvrosdchannels) | Window.IsActive(script-upnext-stillwatching.xml) | Window.IsActive(script-upnext-upnext.xml) | Window.IsActive(script-nexttrack-nexttrack.xml) | Window.IsActive(script-nexttrack-nexttrack-simple.xml)]</expression>
+    <expression name="Exp_OSD_HideControls">[Window.IsActive(1140) | Window.IsActive(1141) | Window.IsActive(1142) | Window.IsActive(1154) | Window.IsActive(videobookmarks) | Window.IsActive(pvrosdguide) | Window.IsActive(pvrosdchannels) | Window.IsActive(script-upnext-stillwatching.xml) | Window.IsActive(script-upnext-upnext.xml)]</expression>
 
     <!-- ==== -->
     <!-- Misc -->
