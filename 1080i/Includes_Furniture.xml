@@ -448,6 +448,86 @@
         <animation effect="slide" start="0" end="0,-80" time="300" tween="sine" easing="inout" condition="[Window.IsVisible(videoosd) | Window.ISVisible(musicosd)] + [Window.IsActive(VideoFullScreen.xml) | Window.IsActive(MusicVisualisation.xml)] + ![Window.IsVisible(DialogSubtitles.xml) | Window.IsVisible(DialogSettings.xml) | Window.IsVisible(DialogSelect.xml) | Window.IsVisible(DialogPlayerProcessInfo.xml) | Window.IsVisible(FileBrowser.xml) | Window.IsVisible(DialogContextMenu.xml) | Window.IsVisible(DialogSlider.xml) | Window.IsVisible(1193)]">Conditional</animation>
     </include>
 
+    <include name="Furniture_NextTrack">
+        <definition>
+            <control type="group">
+                <visible>!String.IsEmpty(Window(Home).Property(NextTrack.IsVisible))</visible>
+                <right>80</right>
+                <bottom>140</bottom>
+                <width>520</width>
+                <height>180</height>
+                <animation type="Visible" reversible="false">
+                    <effect type="fade" start="0" end="100" time="300" />
+                    <effect type="slide" start="0,24" end="0,0" tween="back" easing="out" time="360" />
+                </animation>
+                <animation type="Hidden" reversible="false">
+                    <effect type="fade" start="100" end="0" time="200" />
+                    <effect type="slide" start="0,0" end="0,24" tween="cubic" easing="in" time="220" />
+                </animation>
+
+                <control type="group">
+                    <left>0</left>
+                    <top>0</top>
+                    <width>180</width>
+                    <height>180</height>
+                    <control type="image">
+                        <width>180</width>
+                        <height>180</height>
+                        <texture colordiffuse="$VAR[ColorHighlight]" flipx="true" flipy="true">$INFO[Window(Home).Property(NextTrack.progress),progress/circle/p,.png]</texture>
+                        <aspectratio align="center" aligny="center">keep</aspectratio>
+                    </control>
+                    <control type="image">
+                        <centerleft>50%</centerleft>
+                        <centertop>50%</centertop>
+                        <width>96</width>
+                        <height>96</height>
+                        <aspectratio scalediffuse="true">keep</aspectratio>
+                        <texture diffuse="diffuse/circle/circle_120.png">$INFO[Window(Home).Property(NextTrack.thumb)]</texture>
+                        <visible>!String.IsEmpty(Window(Home).Property(NextTrack.thumb))</visible>
+                    </control>
+                    <control type="image">
+                        <centerleft>50%</centerleft>
+                        <centertop>50%</centertop>
+                        <width>96</width>
+                        <height>96</height>
+                        <aspectratio scalediffuse="true">keep</aspectratio>
+                        <texture diffuse="diffuse/circle/circle_120.png">$INFO[Window(Home).Property(NextTrack.landscape)]</texture>
+                        <visible>String.IsEmpty(Window(Home).Property(NextTrack.thumb)) + !String.IsEmpty(Window(Home).Property(NextTrack.landscape))</visible>
+                    </control>
+                </control>
+
+                <control type="grouplist">
+                    <left>150</left>
+                    <right>0</right>
+                    <centertop>50%</centertop>
+                    <height>104</height>
+                    <orientation>vertical</orientation>
+                    <aligny>center</aligny>
+                    <control type="label">
+                        <height>28</height>
+                        <font>font_tiny_bold</font>
+                        <textcolor>panel_fg_50</textcolor>
+                        <label>$ADDON[service.nexttrack 30008] $INFO[Window(Home).Property(NextTrack.remaining),in ,s]</label>
+                    </control>
+                    <control type="label">
+                        <height>40</height>
+                        <font>font_main_bold</font>
+                        <textcolor>panel_fg_100</textcolor>
+                        <label>$INFO[Window(Home).Property(NextTrack.title)]</label>
+                        <scroll>true</scroll>
+                    </control>
+                    <control type="label">
+                        <height>32</height>
+                        <font>font_main</font>
+                        <textcolor>panel_fg_70</textcolor>
+                        <label>$INFO[Window(Home).Property(NextTrack.artist)]$INFO[Window(Home).Property(NextTrack.album), [COLOR=panel_fg_30]•[/COLOR] ,]</label>
+                        <scroll>true</scroll>
+                    </control>
+                </control>
+            </control>
+        </definition>
+    </include>
+
     <include name="Furniture_Busy_Main">
         <param name="mainlabel">$LOCALIZE[20186]</param>
         <param name="minilabel">$LOCALIZE[31023]...</param>
