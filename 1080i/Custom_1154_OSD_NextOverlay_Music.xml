@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<window type="dialog" id="1154">
+    <controls>
+        <control type="group">
+            <include>OSD_HideControls</include>
+            <visible>!String.IsEmpty(Window(Home).Property(Spotify.NextTrackAvailable))</visible>
+
+            <control type="group">
+                <top>view_pad</top>
+                <right>view_pad</right>
+                <width>850</width>
+                <align>right</align>
+                <animation type="WindowOpen" reversible="true">
+                    <effect type="fade" start="0" end="100" time="300" delay="600" />
+                    <effect type="slide" start="48,0" end="0" center="auto" tween="back" easing="out" time="400" delay="600" />
+                </animation>
+                <animation type="Visible" reversible="true">
+                    <effect type="fade" start="0" end="100" time="300" delay="600" />
+                    <effect type="slide" start="48,0" end="0" center="auto" tween="back" easing="out" time="400" delay="600" />
+                </animation>
+                <control type="group">
+                    <right>0</right>
+                    <height>view_landscape_item_h</height>
+                    <width>view_landscape_item_w</width>
+                    <control type="group">
+                        <include>Object_ItemBack</include>
+                        <control type="image">
+                            <texture background="true" diffuse="diffuse/landscape_w410_h231.png">$INFO[Window(Home).Property(Spotify.NextTrackThumb)]</texture>
+                            <aspectratio scalediffuse="false">keep</aspectratio>
+                            <visible>!String.IsEmpty(Window(Home).Property(Spotify.NextTrackThumb))</visible>
+                        </control>
+                        <control type="image">
+                            <texture background="true" diffuse="diffuse/landscape_w410_h231.png">$INFO[Window(Home).Property(Spotify.NextTrackFanart)]</texture>
+                            <aspectratio scalediffuse="false">keep</aspectratio>
+                            <visible>String.IsEmpty(Window(Home).Property(Spotify.NextTrackThumb)) + !String.IsEmpty(Window(Home).Property(Spotify.NextTrackFanart))</visible>
+                        </control>
+                    </control>
+                </control>
+                <control type="grouplist">
+                    <right>view_landscape_item_w</right>
+                    <width>400</width>
+                    <height>view_landscape_item_h</height>
+                    <align>right</align>
+                    <aligny>center</aligny>
+                    <orientation>vertical</orientation>
+                    <control type="label">
+                        <right>40</right>
+                        <textcolor>panel_fg_90</textcolor>
+                        <label>$LOCALIZE[31196]$INFO[Window(Home).Property(Spotify.NextTrackTitle), - ,]</label>
+                        <height>40</height>
+                        <font>font_main_bold</font>
+                        <align>right</align>
+                    </control>
+                    <control type="label">
+                        <right>40</right>
+                        <textcolor>panel_fg_70</textcolor>
+                        <label>$INFO[Window(Home).Property(Spotify.NextTrackArtist)]$INFO[Window(Home).Property(Spotify.NextTrackAlbum), [COLOR=panel_fg_30]•[/COLOR] ,]</label>
+                        <height>40</height>
+                        <align>right</align>
+                    </control>
+                </control>
+            </control>
+        </control>
+    </controls>
+</window>

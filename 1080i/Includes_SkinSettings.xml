@@ -1011,6 +1011,21 @@
             <selected>System.AddonIsEnabled(service.upnext) + System.HasAddon(service.upnext)</selected>
         </include>
 
+        <include content="Settings_Button">
+            <param name="dialog">false</param>
+            <param name="window">skinsettings</param>
+            <param name="slevel">3</param>
+            <param name="baseid">$PARAM[baseid]</param>
+            <param name="id">0171</param>
+            <param name="control">radiobutton</param>
+            <label>service.nexttrack</label>
+            <label2>$INFO[System.AddonVersion(service.nexttrack),v,       ]</label2>
+            <onclick condition="!System.HasAddon(service.nexttrack)">InstallAddon(service.nexttrack)</onclick>
+            <onclick condition="!System.AddonIsEnabled(service.nexttrack) + System.HasAddon(service.nexttrack)">EnableAddon(service.nexttrack)</onclick>
+            <onclick condition="System.AddonIsEnabled(service.nexttrack) + System.HasAddon(service.nexttrack)">Addon.OpenSettings(service.nexttrack)</onclick>
+            <selected>System.AddonIsEnabled(service.nexttrack) + System.HasAddon(service.nexttrack)</selected>
+        </include>
+
         <include content="Settings_Label" description="Debug">
             <param name="window">skinsettings</param>
             <param name="slevel">3</param>

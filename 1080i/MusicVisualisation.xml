@@ -81,5 +81,7 @@
             <include>Animation_OSD_Fullscreen_Change</include>
         </control>
 
+        <include>Furniture_NextTrack</include>
+
     </controls>
 </window>
