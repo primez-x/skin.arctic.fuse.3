@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window type="dialog" id="1154">
+    <defaultcontrol always="true">6003</defaultcontrol>
     <controls>
         <control type="group">
             <include>OSD_HideControls</include>
@@ -59,6 +60,19 @@
                         <align>right</align>
                     </control>
                 </control>
+            </control>
+            <control type="group">
+                <left>view_pad</left>
+                <right>view_pad</right>
+
+                <include content="OSD_CustomDialog_GroupList">
+                    <param name="onclick">PlayerControl(Next)</param>
+                    <param name="icon">$VAR[Image_OSD_SkipNext]</param>
+                    <param name="button_3">true</param>
+
+                    <param name="onup">Close</param>
+                    <param name="onup_02">SetFocus(8200)</param>
+                </include>
             </control>
         </control>
     </controls>
