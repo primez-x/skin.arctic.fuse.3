@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window>
-    <onload>RunScript(script.skinvariables,run_executebuiltin=special://skin/shortcuts/skinvariables-splash.json,use_rules=True)</onload>
+    <onload condition="!String.IsEmpty(Window(Home).Property(StartupSplashAllowed))">RunScript(script.skinvariables,run_executebuiltin=special://skin/shortcuts/skinvariables-splash.json,use_rules=True)</onload>
+    <onload condition="!String.IsEmpty(Window(Home).Property(StartupSplashAllowed))">ClearProperty(StartupSplashAllowed,Home)</onload>
     <include>Action_BuildViews</include>
     <onload>Skin.SetString(TMDbHelper.Corner.Radius,20)</onload>
     <onload>Skin.SetString(TMDbHelper.UseLocalWindowIDs,10000|11101|11102|11103|11104|11105|11106|11107|11108|11109)</onload>

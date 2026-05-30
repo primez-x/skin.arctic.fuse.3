@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window>
     <onload condition="Skin.HasSetting(SkinUserLogin.StartupLoginScreen) + !Skin.HasSetting(SkinUserLogin.Disabled) + String.IsEmpty(Window(Home).Property(StartupReplaceWindow))">SetProperty(StartupReplaceWindow,1195,Home)</onload>
+    <onload>SetProperty(StartupSplashAllowed,True,Home)</onload>
     <onload>SetProperty(SplashIsVisible,True,1198)</onload>
     <onload>AlarmClock(SplashTimeOut,noop,00:59,silent)</onload>
     <onload>SetProperty(InitStatus,$LOCALIZE[31145],1198)</onload>
