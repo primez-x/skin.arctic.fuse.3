@@ -83,20 +83,13 @@
                 <control type="image">
                     <width>450</width>
                     <height>82</height>
-                    <texture border="44" colordiffuse="EE121316">common/circlebutton.png</texture>
+                    <texture border="12" colordiffuse="EE121316">pkc-skip-marker/pill.png</texture>
                 </control>
-                <control type="progress">
-                    <left>30</left>
-                    <bottom>18</bottom>
-                    <width>318</width>
-                    <height>5</height>
-                    <texturebg colordiffuse="main_fg_30" border="12,0,12,0">progress/progress-nib.png</texturebg>
-                    <lefttexture />
-                    <midtexture colordiffuse="$VAR[ColorHighlight]" border="12,0,12,0">progress/progress-nib.png</midtexture>
-                    <righttexture />
-                    <overlaytexture />
-                    <info>Window(10000).Property(plugin.video.plexkodiconnect.skip_marker.hide_progress_percent)</info>
-                    <visible>!String.IsEmpty(Window(10000).Property(plugin.video.plexkodiconnect.skip_marker.hide_progress_percent))</visible>
+                <control type="image">
+                    <width>450</width>
+                    <height>82</height>
+                    <texture colordiffuse="$VAR[ColorHighlight]">$INFO[Window(10000).Property(plugin.video.plexkodiconnect.skip_marker.hide_progress_frame),pkc-skip-marker/progress/,.png]</texture>
+                    <visible>!String.IsEmpty(Window(10000).Property(plugin.video.plexkodiconnect.skip_marker.hide_progress_frame))</visible>
                 </control>
                 <control type="label">
                     <left>30</left>
