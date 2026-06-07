@@ -264,6 +264,10 @@
         <value>$LOCALIZE[208]</value>
     </variable>
 
+    <variable name="Label_OSD_PKC_SkipMarker">
+        <value condition="!String.IsEmpty(Window(10000).Property(plugin.video.plexkodiconnect.skip_marker.available))">$INFO[Window(10000).Property(plugin.video.plexkodiconnect.skip_marker.label)]</value>
+    </variable>
+
     <variable name="Label_Setting_SeekbarPauseBehaviour">
         <value condition="Skin.String(OSD.AutoOnPause,Hide)">$LOCALIZE[31162]</value>
         <value condition="Skin.String(OSD.AutoOnPause,Info)">$LOCALIZE[29915]</value>

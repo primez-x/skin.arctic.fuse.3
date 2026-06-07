@@ -30,6 +30,7 @@
     </variable>
 
     <variable name="Image_OSD_SkipNext">
+        <value condition="!String.IsEmpty(Window(10000).Property(plugin.video.plexkodiconnect.skip_marker.available))">special://skin/extras/icons/forward-fast.png</value>
         <value condition="!String.IsEmpty(Player.Chapter) + !String.IsEqual(Player.Chapter,00) + !String.IsEmpty(Player.ChapterCount) + !String.IsEqual(Player.ChapterCount,00) + !String.IsEqual(Player.Chapter,Player.ChapterCount)">special://skin/extras/icons/forward-fast.png</value>
         <value condition="Integer.IsLess(VideoPlayer.PlaylistPosition,VideoPlayer.PlaylistLength)">special://skin/extras/icons/forward-step.png</value>
         <value condition="Integer.IsLess(Player.TimeRemaining(mins),10)">special://skin/extras/icons/forward-step.png</value>

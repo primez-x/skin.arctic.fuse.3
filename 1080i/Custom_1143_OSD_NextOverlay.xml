@@ -65,6 +65,60 @@
             </control>
 
             <control type="group">
+                <right>view_pad</right>
+                <top>view_pad</top>
+                <width>430</width>
+                <height>86</height>
+                <visible>!String.IsEmpty(Window(10000).Property(plugin.video.plexkodiconnect.skip_marker.available))</visible>
+                <visible>!Window.IsActive(DialogPlayerProcessInfo.xml)</visible>
+                <visible>!Window.IsVisible(DialogSlider.xml)</visible>
+                <animation type="WindowOpen" reversible="true">
+                    <effect type="fade" start="0" end="100" time="220" delay="120"/>
+                    <effect type="slide" start="0,-24" end="0" center="auto" tween="cubic" easing="out" time="260" delay="120"/>
+                </animation>
+                <animation type="Visible" reversible="true">
+                    <effect type="fade" start="0" end="100" time="220"/>
+                    <effect type="slide" start="0,-24" end="0" center="auto" tween="cubic" easing="out" time="260"/>
+                </animation>
+                <control type="image">
+                    <width>430</width>
+                    <height>72</height>
+                    <texture border="36" colordiffuse="EE121316">common/circlebutton.png</texture>
+                </control>
+                <control type="image">
+                    <left>28</left>
+                    <bottom>18</bottom>
+                    <width>306</width>
+                    <height>4</height>
+                    <texture colordiffuse="FFE5A00D">$INFO[Window(10000).Property(plugin.video.plexkodiconnect.skip_marker.hide_progress_frame),progress/,.png]</texture>
+                    <visible>!String.IsEmpty(Window(10000).Property(plugin.video.plexkodiconnect.skip_marker.hide_progress_frame))</visible>
+                </control>
+                <control type="label">
+                    <left>28</left>
+                    <top>10</top>
+                    <width>306</width>
+                    <height>44</height>
+                    <label>$VAR[Label_OSD_PKC_SkipMarker]</label>
+                    <font>font_main_bold</font>
+                    <textcolor>panel_fg_100</textcolor>
+                    <shadowcolor>99000000</shadowcolor>
+                    <aligny>center</aligny>
+                </control>
+                <control type="label">
+                    <right>28</right>
+                    <top>17</top>
+                    <width>52</width>
+                    <height>32</height>
+                    <label>$INFO[Window(10000).Property(plugin.video.plexkodiconnect.skip_marker.hide_remaining),,s]</label>
+                    <font>font_tiny</font>
+                    <textcolor>$VAR[ColorHighlight]</textcolor>
+                    <align>center</align>
+                    <aligny>center</aligny>
+                    <visible>!String.IsEmpty(Window(10000).Property(plugin.video.plexkodiconnect.skip_marker.hide_remaining))</visible>
+                </control>
+            </control>
+
+            <control type="group">
                 <left>view_pad</left>
                 <right>view_pad</right>
 
