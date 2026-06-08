@@ -23,12 +23,22 @@
 
     <!-- Poster Wall -->
     <include name="View_512_Poster_Wall">
+        <include content="View_Wall_Include">
+            <param name="id">512</param>
+            <param name="include">List_Poster_Row</param>
+            <param name="viewtype_label">$LOCALIZE[31554]</param>
+            <param name="visible">$EXP[Exp_View_512]</param>
+        </include>
+    </include>
+
+    <!-- Poster Wall Details -->
+    <include name="View_515_Poster_Wall_Details">
         <control type="group">
-            <visible>Control.IsVisible(512)</visible>
+            <visible>Control.IsVisible(515)</visible>
             <include>View_Poster_Wall_Details</include>
             <control type="group">
                 <include content="List_Poster_Row">
-                    <param name="id">512</param>
+                    <param name="id">515</param>
                     <param name="control">panel</param>
                     <param name="orientation">vertical</param>
                     <param name="item_w">view_poster_wall_item_w</param>
@@ -50,11 +60,11 @@
                     <onleft>ActivateWindow(1171)</onleft>
                     <pagecontrol>66</pagecontrol>
                     <include content="Action_View_Movement_OnBack">
-                        <param name="id">512</param>
+                        <param name="id">515</param>
                         <param name="onback">True</param>
                     </include>
-                    <visible>$EXP[Exp_View_512]</visible>
-                    <viewtype label="$LOCALIZE[31554]">wrap</viewtype>
+                    <visible>$EXP[Exp_View_515]</visible>
+                    <viewtype label="$LOCALIZE[31558]">wrap</viewtype>
                     <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
                     <onfocus>SetProperty(Background.ShowOverlay,True,Home)</onfocus>
                     <onfocus>SetProperty(InfoPanel.FullSwitch,Wall,Home)</onfocus>
@@ -119,7 +129,7 @@
 
     <include name="View_Poster_Wall_Details">
         <control type="group">
-            <visible>$EXP[Exp_View_512]</visible>
+            <visible>$EXP[Exp_View_515]</visible>
             <visible>!Integer.IsEqual(Container.NumItems,0)</visible>
             <left>view_pad</left>
             <top>80</top>
