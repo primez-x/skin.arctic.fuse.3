@@ -165,41 +165,41 @@
     <expression name="View_Scrollbar_Horizontal_Expression">[$EXP[View_Mode_Rows_Expression] | $EXP[View_Mode_Comb_Flix_Expression]]</expression>
     <expression name="View_Scrollbar_Vertical_Flix_Expression">[$EXP[View_Mode_List_Flix_Expression]]</expression>
     <expression name="View_Scrollbar_Vertical_Full_Expression">[$EXP[View_Mode_List_Full_Expression] | $EXP[View_Mode_Comb_Full_Expression] | $EXP[View_Mode_Comb_Tall_Expression]]</expression>
-    <expression name="View_Scrollbar_Vertical_Wall_Expression">[$EXP[View_Mode_Wall_Expression] + !$EXP[Exp_View_515]]</expression>
+    <expression name="View_Scrollbar_Vertical_Wall_Expression">[$EXP[View_Mode_Wall_Expression] + !Control.IsVisible(515)]</expression>
     <expression name="View_AlphabetStrip_IsNonAlpha">[!String.IsEqual(ListItem.SortLetter,A) + !String.IsEqual(ListItem.SortLetter,B) + !String.IsEqual(ListItem.SortLetter,C) + !String.IsEqual(ListItem.SortLetter,D) + !String.IsEqual(ListItem.SortLetter,E) + !String.IsEqual(ListItem.SortLetter,F) + !String.IsEqual(ListItem.SortLetter,G) + !String.IsEqual(ListItem.SortLetter,H) + !String.IsEqual(ListItem.SortLetter,I) + !String.IsEqual(ListItem.SortLetter,J) + !String.IsEqual(ListItem.SortLetter,K) + !String.IsEqual(ListItem.SortLetter,L) + !String.IsEqual(ListItem.SortLetter,M) + !String.IsEqual(ListItem.SortLetter,N) + !String.IsEqual(ListItem.SortLetter,O) + !String.IsEqual(ListItem.SortLetter,P) + !String.IsEqual(ListItem.SortLetter,Q) + !String.IsEqual(ListItem.SortLetter,R) + !String.IsEqual(ListItem.SortLetter,S) + !String.IsEqual(ListItem.SortLetter,T) + !String.IsEqual(ListItem.SortLetter,U) + !String.IsEqual(ListItem.SortLetter,V) + !String.IsEqual(ListItem.SortLetter,W) + !String.IsEqual(ListItem.SortLetter,X) + !String.IsEqual(ListItem.SortLetter,Y) + !String.IsEqual(ListItem.SortLetter,Z)]</expression>
 
     <include name="Action_PosterWall_Alphabet_NextNonAlpha">
         <definition>
-            <ondown condition="$EXP[Exp_View_515] + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="$EXP[Exp_View_515] + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="$EXP[Exp_View_515] + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="$EXP[Exp_View_515] + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="$EXP[Exp_View_515] + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="$EXP[Exp_View_515] + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="$EXP[Exp_View_515] + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="$EXP[Exp_View_515] + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="$EXP[Exp_View_515] + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="$EXP[Exp_View_515] + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="$EXP[Exp_View_515] + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="$EXP[Exp_View_515] + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="$EXP[Exp_View_515] + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="$EXP[Exp_View_515] + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="$EXP[Exp_View_515] + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="$EXP[Exp_View_515] + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="$EXP[Exp_View_515] + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="$EXP[Exp_View_515] + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="$EXP[Exp_View_515] + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="$EXP[Exp_View_515] + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="$EXP[Exp_View_515] + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="$EXP[Exp_View_515] + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="$EXP[Exp_View_515] + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="$EXP[Exp_View_515] + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="$EXP[Exp_View_515] + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="$EXP[Exp_View_515] + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="$EXP[Exp_View_515] + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="$EXP[Exp_View_515] + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="$EXP[Exp_View_515] + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="$EXP[Exp_View_515] + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
+            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
+            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
+            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
+            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
+            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
+            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
+            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
+            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
+            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
+            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
+            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
+            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
+            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
+            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
+            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
+            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
+            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
+            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
+            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
+            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
+            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
+            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
+            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
+            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
+            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
+            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
+            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
+            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
+            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
+            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
         </definition>
     </include>
 
@@ -258,7 +258,7 @@
     <include name="View_Row_Line">
         <control type="group">
             <visible>!Integer.IsEqual(Container.NumItems,0)</visible>
-            <visible>!$EXP[Exp_View_515]</visible>
+            <visible>!Control.IsVisible(515)</visible>
             <control type="group">
                 <visible>$EXP[View_Row_Info_Details_Expression]</visible>
                 <visible>!$EXP[View_Mode_Comb_Flix_Expression]</visible>
@@ -294,7 +294,7 @@
             <visible>!Integer.IsEqual(Container.NumItems,0)</visible>
             <include>Info_Panel_Dimensions</include>
             <include content="Info_Panel">
-                <param name="visible">String.IsEmpty(Window.Property(TMDBHelper.WidgetContainer)) + !$EXP[Exp_View_515]</param>
+                <param name="visible">String.IsEmpty(Window.Property(TMDBHelper.WidgetContainer)) + !Control.IsVisible(515)</param>
                 <param name="visible_line">$EXP[View_Row_Info_Details_Expression]</param>
                 <param name="visible_plot">$EXP[View_Row_Info_Details_Expression]</param>
                 <param name="visible_meta">$EXP[View_Row_Info_Details_Expression]</param>
@@ -387,6 +387,7 @@
         <value condition="Control.IsVisible(512)">512</value>
         <value condition="Control.IsVisible(513)">513</value>
         <value condition="Control.IsVisible(514)">514</value>
+        <value condition="Control.IsVisible(515)">515</value>
         <value condition="Control.IsVisible(520)">530</value>
         <value condition="Control.IsVisible(521)">531</value>
         <value condition="Control.IsVisible(522)">532</value>
@@ -541,7 +542,7 @@
             <top>100</top>
             <width>54</width>
             <height>900</height>
-            <visible>$EXP[Exp_View_515]</visible>
+            <visible>Control.IsVisible(515)</visible>
             <control type="image">
                 <width>54</width>
                 <height>900</height>

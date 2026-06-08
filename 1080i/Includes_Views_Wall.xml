@@ -129,7 +129,7 @@
 
     <include name="View_Poster_Wall_Details">
         <control type="group">
-            <visible>$EXP[Exp_View_515]</visible>
+            <visible>Control.IsVisible(515)</visible>
             <visible>!Integer.IsEqual(Container.NumItems,0)</visible>
             <left>view_pad</left>
             <top>80</top>
