@@ -132,105 +132,111 @@
             <visible>Control.IsVisible(515)</visible>
             <visible>!Integer.IsEqual(Container.NumItems,0)</visible>
             <left>view_pad</left>
-            <top>80</top>
+            <top>view_pad</top>
             <width>view_poster_wall_details_w</width>
             <height>920</height>
 
-            <control type="textbox">
-                <width>view_poster_wall_details_w</width>
-                <height>116</height>
-                <font>font_title_main</font>
-                <label>$VAR[Label_MediaList_Title]</label>
-                <textcolor>main_fg_100</textcolor>
-                <aligny>center</aligny>
-            </control>
-
+            <!-- Composed from the canonical Info_* blocks (same components as Info_Panel /
+                 View_Row_Info), re-laid-out for the narrow side panel. The vertical grouplist
+                 mirrors Info_Panel exactly so spacing/typography stay consistent skin-wide. -->
             <control type="grouplist">
-                <top>132</top>
-                <height>46</height>
-                <width>view_poster_wall_details_w</width>
-                <orientation>horizontal</orientation>
-                <itemgap>10</itemgap>
-                <include content="Info_Line_VideoQuality_Resolution">
-                    <param name="colordiffuse">main_fg</param>
-                    <param name="visible">true</param>
-                    <param name="is_8k">[Integer.IsGreater(ListItem.VideoResolution,2160) | String.IsEqual(ListItem.VideoResolution,8K)]</param>
-                    <param name="is_4k">[Integer.IsGreater(ListItem.VideoResolution,1080) | String.IsEqual(ListItem.VideoResolution,4K)]</param>
-                    <param name="is_fd">[Integer.IsGreater(ListItem.VideoResolution,720)]</param>
-                    <param name="is_hd">[Integer.IsEqual(ListItem.VideoResolution,720)]</param>
-                    <param name="is_sd">[!String.IsEmpty(ListItem.VideoResolution)]</param>
-                </include>
-                <include content="Info_Line_VideoQuality_HDRType" condition="Skin.HasSetting(InfoTags.EnableHDR)">
-                    <param name="colordiffuse">main_fg</param>
-                    <param name="container" />
-                    <param name="listitem">ListItem</param>
-                </include>
-                <include content="Info_Line_AudioChannels_Resolution" condition="Skin.HasSetting(InfoTags.EnableAudioChannels)">
-                    <param name="colordiffuse">main_fg</param>
-                    <param name="container" />
-                    <param name="listitem">ListItem</param>
-                </include>
-                <include content="Info_Line_StarRating" condition="!Skin.HasSetting(InfoTags.DisableStarRating)">
-                    <param name="colordiffuse">main_fg</param>
-                    <param name="rating">ListItem.Rating</param>
-                    <param name="visible">!String.IsEmpty(ListItem.Rating) + String.IsEmpty(ListItem.UserRating)</param>
-                </include>
-                <include content="Info_Line_StarRating" condition="!Skin.HasSetting(InfoTags.DisableStarRating)">
-                    <param name="colordiffuse">main_fg</param>
-                    <param name="rating">ListItem.UserRating</param>
-                    <param name="visible">!String.IsEmpty(ListItem.UserRating)</param>
-                </include>
-            </control>
-
-            <control type="label">
-                <top>190</top>
-                <width>view_poster_wall_details_w</width>
-                <height>34</height>
-                <font>font_mini_bold</font>
-                <label>$INFO[ListItem.Year]$INFO[ListItem.MPAA,  -  ,]$INFO[ListItem.Duration(h),  -  ,h ]$INFO[ListItem.Duration(m),,m]</label>
-                <textcolor>main_fg_70</textcolor>
-            </control>
-
-            <control type="label">
-                <top>234</top>
-                <width>view_poster_wall_details_w</width>
-                <height>28</height>
-                <font>font_hint_bold</font>
-                <label>$INFO[ListItem.Genre]</label>
-                <textcolor>main_fg_50</textcolor>
-                <visible>!String.IsEmpty(ListItem.Genre)</visible>
-            </control>
-
-            <control type="label">
-                <top>270</top>
-                <width>view_poster_wall_details_w</width>
-                <height>28</height>
-                <font>font_hint_bold</font>
-                <label>$INFO[ListItem.Studio]</label>
-                <textcolor>main_fg_50</textcolor>
-                <visible>!String.IsEmpty(ListItem.Studio)</visible>
-            </control>
-
-            <control type="group">
-                <top>310</top>
+                <top>-20</top>
                 <left>-40</left>
+                <hitrect x="0" y="0" w="0" h="0" />
+                <orientation>vertical</orientation>
+                <itemgap>0</itemgap>
+
+                <control type="group" description="Avoid grouplist chop with spacer">
+                    <height>20</height>
+                </control>
+
+                <!-- Title: plain text (TVShowTitle -> Artist -> Title -> Label).
+                     No clearlogo chain — text title always visible in this side panel. -->
+                <control type="group">
+                    <left>40</left>
+                    <width>view_poster_wall_details_w</width>
+                    <height>info_title_h</height>
+                    <control type="label">
+                        <wrapmultiline>true</wrapmultiline>
+                        <label>$INFO[ListItem.TVShowTitle]</label>
+                        <font>font_title_midi</font>
+                        <aligny>center</aligny>
+                        <textcolor>main_fg_100</textcolor>
+                        <visible>!String.IsEmpty(ListItem.TVShowTitle)</visible>
+                    </control>
+                    <control type="label">
+                        <wrapmultiline>true</wrapmultiline>
+                        <label>$INFO[ListItem.Artist]</label>
+                        <font>font_title_midi</font>
+                        <aligny>center</aligny>
+                        <textcolor>main_fg_100</textcolor>
+                        <visible>String.IsEmpty(ListItem.TVShowTitle)</visible>
+                        <visible>!String.IsEmpty(ListItem.Artist)</visible>
+                    </control>
+                    <control type="label">
+                        <wrapmultiline>true</wrapmultiline>
+                        <label>$INFO[ListItem.Title]</label>
+                        <font>font_title_midi</font>
+                        <aligny>center</aligny>
+                        <textcolor>main_fg_100</textcolor>
+                        <visible>String.IsEmpty(ListItem.TVShowTitle)</visible>
+                        <visible>String.IsEmpty(ListItem.Artist)</visible>
+                        <visible>!String.IsEmpty(ListItem.Title)</visible>
+                    </control>
+                    <control type="label">
+                        <wrapmultiline>true</wrapmultiline>
+                        <label>$INFO[ListItem.Label]</label>
+                        <font>font_title_midi</font>
+                        <aligny>center</aligny>
+                        <textcolor>main_fg_100</textcolor>
+                        <visible>String.IsEmpty(ListItem.TVShowTitle)</visible>
+                        <visible>String.IsEmpty(ListItem.Artist)</visible>
+                        <visible>String.IsEmpty(ListItem.Title)</visible>
+                    </control>
+                </control>
+
+                <!-- Quality pills + star rating + Premiered/MPAA/Duration meta labels -->
+                <include content="Info_Line">
+                    <param name="colordiffuse">main_fg</param>
+                    <param name="listitem">ListItem</param>
+                </include>
+
+                <!-- Genre / Studio as canonical dot-divider meta labels (Info_Line_Label),
+                     same component/font/color/alignment Info_Line uses for its meta labels -->
+                <control type="group">
+                    <visible>!String.IsEmpty(ListItem.Genre) | !String.IsEmpty(ListItem.Studio)</visible>
+                    <left>40</left>
+                    <height>40</height>
+                    <control type="grouplist">
+                        <left>-20</left>
+                        <hitrect x="0" y="0" w="0" h="0" />
+                        <orientation>horizontal</orientation>
+                        <itemgap>10</itemgap>
+                        <control type="group" description="Avoid grouplist chop with spacer">
+                            <left>-10</left>
+                            <width>20</width>
+                        </control>
+                        <include content="Info_Line_Label">
+                            <param name="colordiffuse">main_fg</param>
+                            <param name="label">$INFO[ListItem.Genre]</param>
+                            <param name="visible">!String.IsEmpty(ListItem.Genre)</param>
+                        </include>
+                        <include content="Info_Line_Label">
+                            <param name="colordiffuse">main_fg</param>
+                            <param name="label">$INFO[ListItem.Studio]</param>
+                            <param name="visible">!String.IsEmpty(ListItem.Studio)</param>
+                        </include>
+                    </control>
+                </control>
+
+                <!-- Plot (+ plotline tagline/genre/director per skin setting) -->
                 <include content="Info_Plot">
                     <param name="colordiffuse">main_fg</param>
-                    <param name="width">520</param>
-                    <param name="height">320</param>
                     <param name="listitem">ListItem</param>
+                    <param name="width">view_poster_wall_details_w</param>
+                    <param name="height">380</param>
                     <param name="visible">true</param>
                 </include>
-            </control>
-
-            <control type="label">
-                <bottom>0</bottom>
-                <left>0</left>
-                <width>view_poster_wall_details_w</width>
-                <height>28</height>
-                <font>font_hint_bold</font>
-                <label>$INFO[Container.CurrentItem,, / ]$INFO[Container.NumItems]</label>
-                <textcolor>main_fg_30</textcolor>
             </control>
         </control>
     </include>
