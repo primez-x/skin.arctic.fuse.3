@@ -490,11 +490,14 @@
         <param name="show_meta">true</param>
         <param name="show_divider">true</param>
         <param name="leading_divider">true</param>
+        <param name="height">80</param>
+        <param name="top">0</param>
         <definition>
             <control type="group">
                 <visible>$PARAM[visible]</visible>
                 <left>$PARAM[left]</left>
-                <height>80</height>
+                <top>$PARAM[top]</top>
+                <height>$PARAM[height]</height>
 
                 <visible>[String.IsEqual($PARAM[container]$PARAM[listitem].DBType,movie) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,tvshow) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,season) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,episode) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,video) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,album) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,song) | !String.IsEmpty($PARAM[container]$PARAM[listitem].ChannelNumberLabel) | $PARAM[override]]</visible>
 

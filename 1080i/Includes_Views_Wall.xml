@@ -195,25 +195,24 @@
                     </control>
                 </control>
 
-                <!-- Row 1: quality pills (resolution / HDR / audio) + star rating.
-                     Meta labels (Premiered/MPAA/Duration/...) are split onto the
-                     next row so the release date no longer gets clipped on the
-                     narrow poster panel. -->
+                <!-- Row 1: quality pills (resolution / HDR / audio) + star rating. -->
                 <include content="Info_Line">
                     <param name="colordiffuse">main_fg</param>
                     <param name="listitem">ListItem</param>
                     <param name="show_meta">false</param>
+                    <param name="height">56</param>
                 </include>
 
                 <!-- Row 2: meta labels (Premiered / MPAA / Duration / ...).
-                     Same Info_Line component, quality half hidden. Leading dot
-                     suppressed so the row starts cleanly at the first label;
-                     inter-item separators are preserved. -->
+                     Pulled up (top -16) to tighten against the quality row.
+                     Leading dot suppressed; inter-item separators preserved. -->
                 <include content="Info_Line">
                     <param name="colordiffuse">main_fg</param>
                     <param name="listitem">ListItem</param>
                     <param name="show_quality">false</param>
                     <param name="leading_divider">false</param>
+                    <param name="height">56</param>
+                    <param name="top">-16</param>
                 </include>
 
                 <!-- Spacer: breathing room between meta labels and genre row -->
@@ -221,47 +220,24 @@
                     <height>8</height>
                 </control>
 
-                <!-- Genre as canonical dot-divider meta label (Info_Line_Label),
-                     same component/font/color/alignment Info_Line uses for its meta labels -->
-                <control type="group">
+                <!-- Genre: single scrolling label. When the genre string
+                     overflows the panel width it scrolls horizontally instead
+                     of clipping. -->
+                <control type="label">
                     <visible>!String.IsEmpty(ListItem.Genre)</visible>
                     <left>40</left>
-                    <height>40</height>
-                    <control type="grouplist">
-                        <left>-20</left>
-                        <hitrect x="0" y="0" w="0" h="0" />
-                        <orientation>horizontal</orientation>
-                        <itemgap>10</itemgap>
-                        <control type="group" description="Avoid grouplist chop with spacer">
-                            <left>-10</left>
-                            <width>20</width>
-                        </control>
-                        <include content="Info_Line_Label">
-                            <param name="colordiffuse">main_fg</param>
-                            <param name="show_divider">false</param>
-                            <param name="label">$INFO[ListItem.Genre]</param>
-                            <param name="visible">!String.IsEmpty(ListItem.Genre)</param>
-                        </include>
-                    </control>
+                    <width>view_poster_wall_details_w</width>
+                    <height>36</height>
+                    <label>$INFO[ListItem.Genre]</label>
+                    <textcolor>main_fg_70</textcolor>
+                    <font>font_main</font>
+                    <aligny>center</aligny>
+                    <scroll>true</scroll>
                 </control>
 
-                <!-- Spacer: breathing room between genre row and tagline/plot block -->
+                <!-- Spacer: breathing room between genre row and plot -->
                 <control type="group" description="Spacer: genre -> plot">
                     <height>8</height>
-                </control>
-
-                <!-- Tagline (bold). wrapmultiline prevents horizontal auto-scroll.
-                     Height fits 2 wrapped lines so it doesn't overlap the plot. -->
-                <control type="label">
-                    <visible>!String.IsEmpty(ListItem.Tagline)</visible>
-                    <wrapmultiline>true</wrapmultiline>
-                    <left>40</left>
-                    <width>view_poster_wall_details_w</width>
-                    <height>64</height>
-                    <label>$INFO[ListItem.Tagline]</label>
-                    <textcolor>main_fg_90</textcolor>
-                    <font>font_main_bold</font>
-                    <aligny>top</aligny>
                 </control>
 
                 <!-- Plot textbox: wraps to fill available vertical space,
