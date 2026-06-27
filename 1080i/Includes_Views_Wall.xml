@@ -220,10 +220,10 @@
                     <height>8</height>
                 </control>
 
-                <!-- Genre: single scrolling label. When the genre string
-                     overflows the panel width it scrolls horizontally instead
-                     of clipping. -->
-                <control type="label">
+                <!-- Genre: fadelabel so text scrolls horizontally when it
+                     overflows the panel width, regardless of focus state.
+                     (plain <label scroll=true> only animates when focused.) -->
+                <control type="fadelabel">
                     <visible>!String.IsEmpty(ListItem.Genre)</visible>
                     <left>40</left>
                     <width>view_poster_wall_details_w</width>
@@ -233,6 +233,8 @@
                     <font>font_main</font>
                     <aligny>center</aligny>
                     <scroll>true</scroll>
+                    <scrollout>false</scrollout>
+                    <pauseatend>2000</pauseatend>
                 </control>
 
                 <!-- Spacer: breathing room between genre row and plot -->
