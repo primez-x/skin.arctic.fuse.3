@@ -218,13 +218,13 @@
 
                 <!-- Spacer: breathing room between meta labels and genre row -->
                 <control type="group" description="Spacer: meta -> genre">
-                    <height>20</height>
+                    <height>8</height>
                 </control>
 
-                <!-- Genre / Studio as canonical dot-divider meta labels (Info_Line_Label),
+                <!-- Genre as canonical dot-divider meta label (Info_Line_Label),
                      same component/font/color/alignment Info_Line uses for its meta labels -->
                 <control type="group">
-                    <visible>!String.IsEmpty(ListItem.Genre) | !String.IsEmpty(ListItem.Studio)</visible>
+                    <visible>!String.IsEmpty(ListItem.Genre)</visible>
                     <left>40</left>
                     <height>40</height>
                     <control type="grouplist">
@@ -242,17 +242,12 @@
                             <param name="label">$INFO[ListItem.Genre]</param>
                             <param name="visible">!String.IsEmpty(ListItem.Genre)</param>
                         </include>
-                        <include content="Info_Line_Label">
-                            <param name="colordiffuse">main_fg</param>
-                            <param name="label">$INFO[ListItem.Studio]</param>
-                            <param name="visible">!String.IsEmpty(ListItem.Studio)</param>
-                        </include>
                     </control>
                 </control>
 
                 <!-- Spacer: breathing room between genre row and tagline/plot block -->
                 <control type="group" description="Spacer: genre -> plot">
-                    <height>24</height>
+                    <height>8</height>
                 </control>
 
                 <!-- Tagline (bold). wrapmultiline prevents horizontal auto-scroll.
