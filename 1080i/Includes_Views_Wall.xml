@@ -222,7 +222,9 @@
 
                 <!-- Genre: fadelabel so text scrolls horizontally when it
                      overflows the panel width, regardless of focus state.
-                     (plain <label scroll=true> only animates when focused.) -->
+                     (plain <label scroll=true> only animates when focused.)
+                     Note: fadelabel scrolls natively — don't add <scroll>true</scroll>
+                     (a plain-label prop that interferes with fadelabel rendering). -->
                 <control type="fadelabel">
                     <visible>!String.IsEmpty(ListItem.Genre)</visible>
                     <left>40</left>
@@ -232,8 +234,7 @@
                     <textcolor>main_fg_70</textcolor>
                     <font>font_main</font>
                     <aligny>center</aligny>
-                    <scroll>true</scroll>
-                    <scrollout>false</scrollout>
+                    <scrollspeed>30</scrollspeed>
                     <pauseatend>2000</pauseatend>
                 </control>
 
