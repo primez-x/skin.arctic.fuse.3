@@ -195,10 +195,22 @@
                     </control>
                 </control>
 
-                <!-- Quality pills + star rating + Premiered/MPAA/Duration meta labels -->
+                <!-- Row 1: quality pills (resolution / HDR / audio) + star rating.
+                     Meta labels (Premiered/MPAA/Duration/...) are split onto the
+                     next row so the release date no longer gets clipped on the
+                     narrow poster panel. -->
                 <include content="Info_Line">
                     <param name="colordiffuse">main_fg</param>
                     <param name="listitem">ListItem</param>
+                    <param name="show_meta">false</param>
+                </include>
+
+                <!-- Row 2: meta labels (Premiered / MPAA / Duration / ...).
+                     Same Info_Line component, quality half hidden. -->
+                <include content="Info_Line">
+                    <param name="colordiffuse">main_fg</param>
+                    <param name="listitem">ListItem</param>
+                    <param name="show_quality">false</param>
                 </include>
 
                 <!-- Genre / Studio as canonical dot-divider meta labels (Info_Line_Label),
