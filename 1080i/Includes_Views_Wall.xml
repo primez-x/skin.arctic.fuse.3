@@ -206,12 +206,20 @@
                 </include>
 
                 <!-- Row 2: meta labels (Premiered / MPAA / Duration / ...).
-                     Same Info_Line component, quality half hidden. -->
+                     Same Info_Line component, quality half hidden. Leading dot
+                     suppressed so the row starts cleanly at the first label;
+                     inter-item separators are preserved. -->
                 <include content="Info_Line">
                     <param name="colordiffuse">main_fg</param>
                     <param name="listitem">ListItem</param>
                     <param name="show_quality">false</param>
+                    <param name="leading_divider">false</param>
                 </include>
+
+                <!-- Spacer: breathing room between meta labels and genre row -->
+                <control type="group" description="Spacer: meta -> genre">
+                    <height>20</height>
+                </control>
 
                 <!-- Genre / Studio as canonical dot-divider meta labels (Info_Line_Label),
                      same component/font/color/alignment Info_Line uses for its meta labels -->
@@ -230,6 +238,7 @@
                         </control>
                         <include content="Info_Line_Label">
                             <param name="colordiffuse">main_fg</param>
+                            <param name="show_divider">false</param>
                             <param name="label">$INFO[ListItem.Genre]</param>
                             <param name="visible">!String.IsEmpty(ListItem.Genre)</param>
                         </include>
@@ -241,14 +250,36 @@
                     </control>
                 </control>
 
-                <!-- Plot (+ plotline tagline/genre/director per skin setting) -->
-                <include content="Info_Plot">
-                    <param name="colordiffuse">main_fg</param>
-                    <param name="listitem">ListItem</param>
-                    <param name="width">view_poster_wall_details_w</param>
-                    <param name="height">380</param>
-                    <param name="visible">true</param>
-                </include>
+                <!-- Spacer: breathing room between genre row and tagline/plot block -->
+                <control type="group" description="Spacer: genre -> plot">
+                    <height>24</height>
+                </control>
+
+                <!-- Tagline (bold). wrapmultiline prevents horizontal auto-scroll.
+                     Height fits 2 wrapped lines so it doesn't overlap the plot. -->
+                <control type="label">
+                    <visible>!String.IsEmpty(ListItem.Tagline)</visible>
+                    <wrapmultiline>true</wrapmultiline>
+                    <left>40</left>
+                    <width>view_poster_wall_details_w</width>
+                    <height>64</height>
+                    <label>$INFO[ListItem.Tagline]</label>
+                    <textcolor>main_fg_90</textcolor>
+                    <font>font_main_bold</font>
+                    <aligny>top</aligny>
+                </control>
+
+                <!-- Plot textbox: wraps to fill available vertical space,
+                     scrolls in-container when text overflows. -->
+                <control type="textbox">
+                    <left>40</left>
+                    <width>view_poster_wall_details_w</width>
+                    <height>440</height>
+                    <label>$INFO[ListItem.Plot]</label>
+                    <textcolor>main_fg_70</textcolor>
+                    <font>font_main_plot</font>
+                    <aligny>top</aligny>
+                </control>
             </control>
         </control>
     </include>

@@ -300,9 +300,10 @@
     <include name="Info_Line_Label">
         <param name="haspath">false</param>
         <param name="dbtype_count">1</param>
+        <param name="show_divider">true</param>
         <definition>
             <include content="Info_Line_Divider">
-                <param name="visible">$PARAM[visible]</param>
+                <param name="visible">$PARAM[visible] + $PARAM[show_divider]</param>
             </include>
             <control type="label">
                 <label fallback="$PARAM[label_fallback]">$PARAM[label]</label>
@@ -487,6 +488,8 @@
              visible ones correctly. -->
         <param name="show_quality">true</param>
         <param name="show_meta">true</param>
+        <param name="show_divider">true</param>
+        <param name="leading_divider">true</param>
         <definition>
             <control type="group">
                 <visible>$PARAM[visible]</visible>
@@ -554,6 +557,7 @@
                     <!-- Gender -->
                     <include content="Info_Line_Label">
                         <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                        <param name="show_divider">$PARAM[leading_divider]</param>
                         <param name="label">$INFO[$PARAM[container]ListItem.Property(gender)]</param>
                         <param name="visible">$PARAM[show_meta] + !String.IsEmpty($PARAM[container]$PARAM[listitem].Property(gender)) + [String.IsEqual($PARAM[container]$PARAM[listitem].DBType,actor) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,video)]</param>
                     </include>
@@ -561,6 +565,7 @@
                     <!-- Department -->
                     <include content="Info_Line_Label">
                         <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                        <param name="show_divider">$PARAM[show_divider]</param>
                         <param name="label">$INFO[$PARAM[container]ListItem.Property(department)]</param>
                         <param name="visible">$PARAM[show_meta] + !String.IsEmpty($PARAM[container]$PARAM[listitem].Property(department)) + [String.IsEqual($PARAM[container]$PARAM[listitem].DBType,actor) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,video)]</param>
                     </include>
@@ -568,6 +573,7 @@
                     <!-- Age -->
                     <include content="Info_Line_Label">
                         <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                        <param name="show_divider">$PARAM[show_divider]</param>
                         <param name="label">$INFO[$PARAM[container]ListItem.Property(Age),, $LOCALIZE[31057]]</param>
                         <param name="visible">$PARAM[show_meta] + !String.IsEmpty($PARAM[container]$PARAM[listitem].Property(age)) + [String.IsEqual($PARAM[container]$PARAM[listitem].DBType,actor) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,video)]</param>
                     </include>
@@ -575,6 +581,7 @@
                     <!-- Premiered -->
                     <include content="Info_Line_Label">
                         <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                        <param name="show_divider">$PARAM[leading_divider]</param>
                         <param name="label">$INFO[$PARAM[container]$PARAM[listitem].Premiered]</param>
                         <param name="visible">$PARAM[show_meta] + !String.IsEmpty($PARAM[container]$PARAM[listitem].Premiered) + [String.IsEqual($PARAM[container]$PARAM[listitem].DBType,movie) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,tvshow) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,episode) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,season) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,video) | !String.IsEmpty($PARAM[container]$PARAM[listitem].ChannelNumberLabel) | $PARAM[override]]</param>
                     </include>
@@ -582,6 +589,7 @@
                     <!-- Channel Name -->
                     <include content="Info_Line_Label">
                         <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                        <param name="show_divider">$PARAM[leading_divider]</param>
                         <param name="label">$INFO[$PARAM[container]$PARAM[listitem].ChannelName]</param>
                         <param name="visible">$PARAM[show_meta] + !String.IsEmpty($PARAM[container]$PARAM[listitem].ChannelName)</param>
                     </include>
@@ -589,6 +597,7 @@
                     <!-- Channel Number -->
                     <include content="Info_Line_Label">
                         <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                        <param name="show_divider">$PARAM[show_divider]</param>
                         <param name="label">$INFO[$PARAM[container]$PARAM[listitem].ChannelNumberLabel,Channel ,]</param>
                         <param name="visible">$PARAM[show_meta] + !String.IsEmpty($PARAM[container]$PARAM[listitem].ChannelNumberLabel)</param>
                     </include>
@@ -596,6 +605,7 @@
                     <!-- MPAA -->
                     <include content="Info_Line_Label">
                         <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                        <param name="show_divider">$PARAM[show_divider]</param>
                         <param name="label">$INFO[$PARAM[container]$PARAM[listitem].MPAA]</param>
                         <param name="visible">$PARAM[show_meta] + !String.IsEmpty($PARAM[container]$PARAM[listitem].MPAA) + [String.IsEqual($PARAM[container]$PARAM[listitem].DBType,movie) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,tvshow) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,episode) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,season) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,video) | $PARAM[override]]</param>
                     </include>
@@ -603,6 +613,7 @@
                     <!-- Year -->
                     <include content="Info_Line_Label">
                         <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                        <param name="show_divider">$PARAM[leading_divider]</param>
                         <param name="label">$INFO[$PARAM[container]$PARAM[listitem].Year]</param>
                         <param name="visible">$PARAM[show_meta] + !String.IsEmpty($PARAM[container]$PARAM[listitem].Year) + [String.IsEqual($PARAM[container]$PARAM[listitem].DBType,album) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,song)]</param>
                     </include>
@@ -610,6 +621,7 @@
                     <!-- Album Label -->
                     <include content="Info_Line_Label">
                         <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                        <param name="show_divider">$PARAM[show_divider]</param>
                         <param name="label">$INFO[$PARAM[container]ListItem.Property(album_label)]</param>
                         <param name="visible">$PARAM[show_meta] + !String.IsEmpty($PARAM[container]$PARAM[listitem].Property(album_label)) + [String.IsEqual($PARAM[container]$PARAM[listitem].DBType,album) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,song)]</param>
                     </include>
@@ -617,16 +629,19 @@
                     <!-- Duration -->
                     <include content="Info_Line_Label">
                         <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                        <param name="show_divider">$PARAM[show_divider]</param>
                         <param name="label">$INFO[$PARAM[container]$PARAM[listitem].Duration]</param>
                         <param name="visible">$PARAM[show_meta] + !String.IsEmpty($PARAM[container]$PARAM[listitem].Duration) + [String.IsEqual($PARAM[container]$PARAM[listitem].DBType,album) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,song)]</param>
                     </include>
                     <include content="Info_Line_Label">
                         <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                        <param name="show_divider">$PARAM[show_divider]</param>
                         <param name="label">$INFO[$PARAM[container]$PARAM[listitem].Duration(h),, $LOCALIZE[31074] ]$INFO[$PARAM[container]$PARAM[listitem].Duration(m),, $LOCALIZE[31073]]</param>
                         <param name="visible">$PARAM[show_meta] + !String.IsEmpty($PARAM[container]$PARAM[listitem].Duration) + !Integer.IsEqual($PARAM[container]$PARAM[listitem].Duration(h),0) + [String.IsEqual($PARAM[container]$PARAM[listitem].DBType,movie) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,tvshow) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,episode) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,season) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,video) | $PARAM[override]]</param>
                     </include>
                     <include content="Info_Line_Label">
                         <param name="colordiffuse">$PARAM[colordiffuse]</param>
+                        <param name="show_divider">$PARAM[show_divider]</param>
                         <param name="label">$INFO[$PARAM[container]$PARAM[listitem].Duration(m),, $LOCALIZE[31073]]</param>
                         <param name="visible">$PARAM[show_meta] + !String.IsEmpty($PARAM[container]$PARAM[listitem].Duration) + Integer.IsEqual($PARAM[container]$PARAM[listitem].Duration(h),0) + [String.IsEqual($PARAM[container]$PARAM[listitem].DBType,movie) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,tvshow) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,episode) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,season) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,video) | $PARAM[override]]</param>
                     </include>
