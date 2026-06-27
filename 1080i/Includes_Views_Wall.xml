@@ -237,7 +237,7 @@
 
                 <!-- Spacer: breathing room between genre row and plot -->
                 <control type="group" description="Spacer: genre -> plot">
-                    <height>8</height>
+                    <height>20</height>
                 </control>
 
                 <!-- Plot textbox: wraps to fill available vertical space,
