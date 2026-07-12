@@ -220,11 +220,11 @@
                     <height>8</height>
                 </control>
 
-                <!-- Genre: fadelabel so text scrolls horizontally when it
-                     overflows the panel width, regardless of focus state.
-                     (plain <label scroll=true> only animates when focused.)
-                     Note: fadelabel scrolls natively — don't add <scroll>true</scroll>
-                     (a plain-label prop that interferes with fadelabel rendering). -->
+                <!-- Genre: fadelabel for continuous scroll without Kodi's
+                     plain-label "…" timeout. scrollout=true (default) lets text
+                     scroll fully off-screen before looping (no fade cycle).
+                     resetonlabelchange resets scroll position when the focused
+                     movie changes, so the new genre starts fresh. -->
                 <control type="fadelabel">
                     <visible>!String.IsEmpty(ListItem.Genre)</visible>
                     <left>40</left>
@@ -234,8 +234,8 @@
                     <textcolor>main_fg_70</textcolor>
                     <font>font_main</font>
                     <aligny>center</aligny>
-                    <scrollspeed>30</scrollspeed>
-                    <pauseatend>2000</pauseatend>
+                    <scrollspeed>40</scrollspeed>
+                    <resetonlabelchange>true</resetonlabelchange>
                 </control>
 
                 <!-- Spacer: breathing room between genre row and plot -->
