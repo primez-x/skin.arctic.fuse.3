@@ -5,6 +5,8 @@
     <menucontrol>67</menucontrol>
     <include>Action_Blur_Onload</include>
     <include>Action_Media_Onload</include>
+    <onload>SetProperty(PKC.SidePanelContainers,530|531|532|533|534|536|538,10000)</onload>
+    <onunload>ClearProperty(PKC.SidePanelContainers,10000)</onunload>
     <controls>
         <include>View_Main</include>
     </controls>

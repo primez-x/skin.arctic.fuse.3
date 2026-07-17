@@ -16,31 +16,31 @@
     </variable>
 
     <variable name="View_530_Content">
-        <value condition="String.IsEmpty(Window.Property(SpecialFolderPath)) + !String.IsEmpty(Container(520).ListItem.FolderPath) + Container(520).ListItem.IsFolder">$INFO[Container(520).ListItem.FolderPath]</value>
+        <value condition="String.IsEmpty(Window.Property(SpecialFolderPath)) + !String.IsEmpty(Container(520).ListItem.FolderPath) + Container(520).ListItem.IsFolder">$INFO[Container(520).ListItem.FolderPath]$INFO[Window(10000).Property(PKC.SyncToken.530),&amp;pkc=,]</value>
         <value condition="!String.IsEmpty(Window.Property(SpecialFolderPath))">$INFO[Window.Property(SpecialFolderPath)]</value>
     </variable>
     <variable name="View_531_Content">
-        <value condition="String.IsEmpty(Window.Property(SpecialFolderPath)) + !String.IsEmpty(Container(521).ListItem.FolderPath) + Container(521).ListItem.IsFolder">$INFO[Container(521).ListItem.FolderPath]</value>
+        <value condition="String.IsEmpty(Window.Property(SpecialFolderPath)) + !String.IsEmpty(Container(521).ListItem.FolderPath) + Container(521).ListItem.IsFolder">$INFO[Container(521).ListItem.FolderPath]$INFO[Window(10000).Property(PKC.SyncToken.531),&amp;pkc=,]</value>
         <value condition="!String.IsEmpty(Window.Property(SpecialFolderPath))">$INFO[Window.Property(SpecialFolderPath)]</value>
     </variable>
     <variable name="View_532_Content">
-        <value condition="String.IsEmpty(Window.Property(SpecialFolderPath)) + !String.IsEmpty(Container(522).ListItem.FolderPath) + Container(522).ListItem.IsFolder">$INFO[Container(522).ListItem.FolderPath]</value>
+        <value condition="String.IsEmpty(Window.Property(SpecialFolderPath)) + !String.IsEmpty(Container(522).ListItem.FolderPath) + Container(522).ListItem.IsFolder">$INFO[Container(522).ListItem.FolderPath]$INFO[Window(10000).Property(PKC.SyncToken.532),&amp;pkc=,]</value>
         <value condition="!String.IsEmpty(Window.Property(SpecialFolderPath))">$INFO[Window.Property(SpecialFolderPath)]</value>
     </variable>
     <variable name="View_533_Content">
-        <value condition="String.IsEmpty(Window.Property(SpecialFolderPath)) + !String.IsEmpty(Container(523).ListItem.FolderPath) + Container(523).ListItem.IsFolder">$INFO[Container(523).ListItem.FolderPath]</value>
+        <value condition="String.IsEmpty(Window.Property(SpecialFolderPath)) + !String.IsEmpty(Container(523).ListItem.FolderPath) + Container(523).ListItem.IsFolder">$INFO[Container(523).ListItem.FolderPath]$INFO[Window(10000).Property(PKC.SyncToken.533),&amp;pkc=,]</value>
         <value condition="!String.IsEmpty(Window.Property(SpecialFolderPath))">$INFO[Window.Property(SpecialFolderPath)]</value>
     </variable>
     <variable name="View_534_Content">
-        <value condition="String.IsEmpty(Window.Property(SpecialFolderPath)) + !String.IsEmpty(Container(524).ListItem.FolderPath) + Container(524).ListItem.IsFolder">$INFO[Container(524).ListItem.FolderPath]</value>
+        <value condition="String.IsEmpty(Window.Property(SpecialFolderPath)) + !String.IsEmpty(Container(524).ListItem.FolderPath) + Container(524).ListItem.IsFolder">$INFO[Container(524).ListItem.FolderPath]$INFO[Window(10000).Property(PKC.SyncToken.534),&amp;pkc=,]</value>
         <value condition="!String.IsEmpty(Window.Property(SpecialFolderPath))">$INFO[Window.Property(SpecialFolderPath)]</value>
     </variable>
     <variable name="View_536_Content">
-        <value condition="String.IsEmpty(Window.Property(SpecialFolderPath)) + !String.IsEmpty(Container(526).ListItem.FolderPath) + Container(526).ListItem.IsFolder">$INFO[Container(526).ListItem.FolderPath]</value>
+        <value condition="String.IsEmpty(Window.Property(SpecialFolderPath)) + !String.IsEmpty(Container(526).ListItem.FolderPath) + Container(526).ListItem.IsFolder">$INFO[Container(526).ListItem.FolderPath]$INFO[Window(10000).Property(PKC.SyncToken.536),&amp;pkc=,]</value>
         <value condition="!String.IsEmpty(Window.Property(SpecialFolderPath))">$INFO[Window.Property(SpecialFolderPath)]</value>
     </variable>
     <variable name="View_538_Content">
-        <value condition="String.IsEmpty(Window.Property(SpecialFolderPath)) + !String.IsEmpty(Container(528).ListItem.FolderPath) + Container(528).ListItem.IsFolder">$INFO[Container(528).ListItem.FolderPath]</value>
+        <value condition="String.IsEmpty(Window.Property(SpecialFolderPath)) + !String.IsEmpty(Container(528).ListItem.FolderPath) + Container(528).ListItem.IsFolder">$INFO[Container(528).ListItem.FolderPath]$INFO[Window(10000).Property(PKC.SyncToken.538),&amp;pkc=,]</value>
         <value condition="!String.IsEmpty(Window.Property(SpecialFolderPath))">$INFO[Window.Property(SpecialFolderPath)]</value>
     </variable>
 
