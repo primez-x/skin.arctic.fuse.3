@@ -21,6 +21,7 @@
         <param name="flixart_size_w">flixart_size_w</param>
         <param name="flixart_size_h">flixart_size_h</param>
         <param name="right">0</param>
+        <param name="top">0</param>
         <param name="diffuse">diffuse/flixart/flixart.png</param>
         <param name="aspectratio">scale</param>
         <param name="fadetime">background_fadetime</param>
@@ -28,7 +29,7 @@
             <control type="image">
                 <fadetime>$PARAM[fadetime]</fadetime>
                 <right>$PARAM[right]</right>
-                <top>0</top>
+                <top>$PARAM[top]</top>
                 <height>$PARAM[flixart_size_h]</height>
                 <width>$PARAM[flixart_size_w]</width>
                 <aspectratio scalediffuse="false" align="$PARAM[align]" aligny="$PARAM[aligny]">$PARAM[aspectratio]</aspectratio>
@@ -40,13 +41,32 @@
         </definition>
     </include>
 
+    <include name="Background_Artwork_FlixArt">
+        <param name="fadetime">background_fadetime</param>
+        <param name="diffuse">diffuse/flixart/flixart.png</param>
+        <definition>
+            <include content="Background_FlixArt" condition="Control.IsVisible(515)">
+                <param name="fadetime">$PARAM[fadetime]</param>
+                <param name="diffuse">$PARAM[diffuse]</param>
+                <param name="flixart_size_w">view_poster_wall_details_flixart_w</param>
+                <param name="flixart_size_h">view_poster_wall_details_flixart_h</param>
+                <param name="right">view_poster_wall_details_flixart_r</param>
+                <param name="top">view_poster_wall_details_flixart_t</param>
+            </include>
+            <include content="Background_FlixArt" condition="!Control.IsVisible(515)">
+                <param name="fadetime">$PARAM[fadetime]</param>
+                <param name="diffuse">$PARAM[diffuse]</param>
+            </include>
+        </definition>
+    </include>
+
     <include name="Background_Artwork">
         <param name="fadetime">background_fadetime</param>
         <definition>
-            <include content="Background_FlixArt" condition="$EXP[Exp_TMDbHelper_IsBlur]">
+            <include content="Background_Artwork_FlixArt" condition="$EXP[Exp_TMDbHelper_IsBlur]">
                 <param name="fadetime">$PARAM[fadetime]</param>
             </include>
-            <include content="Background_FlixArt" condition="!$EXP[Exp_TMDbHelper_IsBlur]">
+            <include content="Background_Artwork_FlixArt" condition="!$EXP[Exp_TMDbHelper_IsBlur]">
                 <param name="fadetime">$PARAM[fadetime]</param>
                 <param name="diffuse">diffuse/flixart/flixart_new.png</param>
             </include>
