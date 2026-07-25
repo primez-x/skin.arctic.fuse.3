@@ -1532,8 +1532,8 @@
 
                     <!-- Play/Browse Icon -->
                     <control type="image">
-                        <width>28</width>
-                        <height>28</height>
+                        <width>56</width>
+                        <height>56</height>
                         <centertop>50%</centertop>
                         <texture colordiffuse="$VAR[Color_DialogInfo_PlayIcon]">$VAR[Image_DialogInfo_PlayButton]</texture>
                     </control>
@@ -1794,8 +1794,8 @@
 
                     <!-- Play Icon -->
                     <control type="image">
-                        <width>28</width>
-                        <height>28</height>
+                        <width>56</width>
+                        <height>56</height>
                         <centertop>50%</centertop>
                         <texture colordiffuse="$VAR[Color_DialogInfo_PlayIcon]">$VAR[Image_DialogInfo_PlayButton]</texture>
                     </control>

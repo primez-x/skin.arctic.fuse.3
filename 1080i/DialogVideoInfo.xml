@@ -17,12 +17,16 @@
     <onload>ClearProperty(PKC.Watchlist.Detail.Error,Home)</onload>
     <onload>ClearProperty(PKC.Watchlist.Detail.TMDbId,Home)</onload>
     <onload>ClearProperty(PKC.Watchlist.Detail.TMDbType,Home)</onload>
+    <onload>ClearProperty(PKC.Watchlist.Detail.RatingKey,Home)</onload>
+    <onload>ClearProperty(PKC.Watchlist.Detail.MonitorRevision,Home)</onload>
     <onload>SetProperty(PKC.Watchlist.Detail.Context.Label,$INFO[ListItem.Label],Home)</onload>
     <onload>SetProperty(PKC.Watchlist.Detail.Context.DBType,$INFO[ListItem.DBTYPE],Home)</onload>
 
     <onunload>ClearProperty(PKC.Watchlist.Detail.Identity,Home)</onunload>
     <onunload>ClearProperty(PKC.Watchlist.Detail.Revision,Home)</onunload>
     <onunload>ClearProperty(PKC.Watchlist.Detail.StatusRevision,Home)</onunload>
+    <onunload>ClearProperty(PKC.Watchlist.Detail.RatingKey,Home)</onunload>
+    <onunload>ClearProperty(PKC.Watchlist.Detail.MonitorRevision,Home)</onunload>
     <onunload>ClearProperty(PKC.Watchlist.Detail.Context.Label,Home)</onunload>
     <onunload>ClearProperty(PKC.Watchlist.Detail.Context.DBType,Home)</onunload>
 

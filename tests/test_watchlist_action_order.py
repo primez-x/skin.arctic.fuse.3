@@ -86,6 +86,8 @@ class WatchlistActionOrderTests(unittest.TestCase):
             "<onunload>ClearProperty(PKC.Watchlist.Detail.StatusRevision,Home)</onunload>",
             dialog,
         )
+        self.assertIn("PKC.Watchlist.Detail.RatingKey", dialog)
+        self.assertIn("PKC.Watchlist.Detail.MonitorRevision", dialog)
         self.assertIn("PKC.Watchlist.Detail.State", labels)
         self.assertIn("PKC.Watchlist.Detail.State", actions)
         self.assertIn(
@@ -158,6 +160,24 @@ class WatchlistActionOrderTests(unittest.TestCase):
         self.assertNotIn("circle-plus.png", images)
         self.assertNotIn("square-plus.png", images)
         self.assertNotIn("play2.png", images)
+
+    def test_detail_action_icons_have_control_sized_geometry(self):
+        root = ET.parse(SKIN_ROOT / "1080i" / "Includes_DialogInfo.xml").getroot()
+        icon_controls = [
+            control
+            for control in root.findall(".//control[@type='image']")
+            if control.findtext("texture")
+            == "$VAR[Image_DialogInfo_PlayButton]"
+        ]
+
+        self.assertEqual(len(icon_controls), 2)
+        self.assertTrue(
+            all(
+                control.findtext("width") == "56"
+                and control.findtext("height") == "56"
+                for control in icon_controls
+            )
+        )
 
 
 if __name__ == "__main__":
