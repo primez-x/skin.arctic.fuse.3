@@ -1,4 +1,4 @@
-<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.2.48">
+<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.2.49">
     <requires>
         <import addon="xbmc.gui" version="5.17.0" />
         <import addon="xbmc.python" version="3.0.0" />
@@ -35,7 +35,11 @@
         <license>Creative Commons Attribution Non-Commercial Share-Alike 4.0</license>
         <forum />
         <source>https://github.com/primez-x/skin.arctic.fuse.3</source>
-        <news>v3.2.21
+        <news>v3.2.49
+- Send TMDb Helper Watchlist actions to PKC with the exact TMDb ID instead of title and year.
+- Add a Plex Discovery shortcut backed by PKC's native Plex Discover browser.
+
+v3.2.21
 - Restore the original Wall Poster info header when the details variant is also available.
 
 v3.2.20

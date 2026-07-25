@@ -112,6 +112,13 @@
         },
         "grouping://shortcuts/tmdbhelper/",
         {
+            "name": "Plex Discovery",
+            "path": "ActivateWindow(videos,\"plugin://plugin.video.plexkodiconnect/?mode=discover_hubs\",return)",
+            "icon": "special://skin/extras/icons/plex.png",
+            "link": "true",
+            "rule": "System.HasAddon(plugin.video.plexkodiconnect) + System.AddonIsEnabled(plugin.video.plexkodiconnect)"
+        },
+        {
             "name": "Miscellaneous",
             "path": "grouping://shortcuts/links/kodi/",
             "icon": "special://skin/extras/icons/window-restore-regular.png",
