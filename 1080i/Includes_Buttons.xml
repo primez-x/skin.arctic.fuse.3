@@ -232,7 +232,7 @@
         </definition>
     </include>
 
-    <!-- Compact, focusable pill used by the primary action row in detail dialogs. -->
+    <!-- Native-height focusable pill used by the primary action row in detail dialogs. -->
     <include name="Button_DialogInfo_ActionPill">
         <param name="control">button</param>
         <param name="width">auto</param>
@@ -245,7 +245,7 @@
             <control type="$PARAM[control]" id="$PARAM[id]">
                 <nested />
                 <width>$PARAM[width]</width>
-                <height>56</height>
+                <height>80</height>
                 <align>$PARAM[align]</align>
                 <aligny>center</aligny>
                 <textoffsetx>$PARAM[textoffsetx]</textoffsetx>
@@ -265,7 +265,7 @@
         <definition>
             <control type="image">
                 <left>26</left>
-                <top>0</top>
+                <centertop>50%</centertop>
                 <width>56</width>
                 <height>56</height>
                 <texture colordiffuse="$VAR[Color_DialogInfo_PlayIcon]">$VAR[Image_DialogInfo_PlayButton]</texture>
@@ -274,7 +274,7 @@
                 <left>78</left>
                 <top>0</top>
                 <width>auto</width>
-                <height>56</height>
+                <height>80</height>
                 <align>left</align>
                 <aligny>center</aligny>
                 <font>font_main_bold</font>
@@ -286,7 +286,7 @@
                 <left>78</left>
                 <top>0</top>
                 <width>auto</width>
-                <height>56</height>
+                <height>80</height>
                 <align>left</align>
                 <aligny>center</aligny>
                 <font>font_main_bold</font>

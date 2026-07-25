@@ -1514,18 +1514,21 @@
             <control type="group">
                 <top>20</top>
                 <left>20</left>
-                <height>80</height>
+                <height>100</height>
                 <include content="View_Line">
                     <param name="top">20</param>
                     <param name="use_spinner">false</param>
                     <param name="left">20</param>
                     <param name="label" />
                 </include>
-                <control type="grouplist" id="9000">
+                <control type="group">
+                    <top>10</top>
+                    <height>80</height>
+                    <control type="grouplist" id="9000">
                     <orientation>horizontal</orientation>
                     <top>0</top>
                     <left>20</left>
-                    <height>56</height>
+                    <height>80</height>
                     <itemgap>10</itemgap>
                     <ondown>90001</ondown>
                     <onup condition="$EXP[Exp_TMDbHelper_IsData]">ActivateWindow(1113)</onup>
@@ -1586,10 +1589,11 @@
                         <onclick>ActivateWindow(1172)</onclick>
                     </include>
 
+                    </control>
+                    <include content="DialogInfo_PrimaryActionForeground">
+                        <param name="label">$VAR[Label_DialogInfo_PlayButton]</param>
+                    </include>
                 </control>
-                <include content="DialogInfo_PrimaryActionForeground">
-                    <param name="label">$VAR[Label_DialogInfo_PlayButton]</param>
-                </include>
             </control>
 
             <control type="group">
@@ -1781,13 +1785,16 @@
 
             <control type="group">
                 <left>20</left>
-                <height>80</height>
+                <height>100</height>
 
-                <control type="grouplist" id="9000">
+                <control type="group">
+                    <top>10</top>
+                    <height>80</height>
+                    <control type="grouplist" id="9000">
                     <orientation>horizontal</orientation>
                     <top>0</top>
                     <left>20</left>
-                    <height>56</height>
+                    <height>80</height>
                     <itemgap>10</itemgap>
                     <ondown>5000</ondown>
                     <onup condition="$EXP[Exp_TMDbHelper_IsData]">ActivateWindow(1113)</onup>
@@ -1848,11 +1855,12 @@
                         <onclick>SendClick(6)</onclick>
                         <visible>Control.IsEnabled(6)</visible>
                     </include>
-                </control>
+                    </control>
 
-                <include content="DialogInfo_PrimaryActionForeground">
-                    <param name="label">$VAR[Label_DialogInfo_PlayButton]</param>
-                </include>
+                    <include content="DialogInfo_PrimaryActionForeground">
+                        <param name="label">$VAR[Label_DialogInfo_PlayButton]</param>
+                    </include>
+                </control>
 
             </control>
 

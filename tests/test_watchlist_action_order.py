@@ -169,6 +169,25 @@ class WatchlistActionOrderTests(unittest.TestCase):
         dialog_root = ET.parse(
             SKIN_ROOT / "1080i" / "Includes_DialogInfo.xml"
         ).getroot()
+
+        for include_name in ("DialogInfo_VideoDetails", "_DialogInfo_MusicDetails"):
+            definition = dialog_root.find(
+                f"./include[@name='{include_name}']/definition"
+            )
+            action_group = next(
+                group
+                for group in definition.findall("./control[@type='group']")
+                if group.find(".//control[@type='grouplist'][@id='9000']") is not None
+            )
+            action_row = action_group.find("./control[@type='group']")
+            action_list = action_row.find("./control[@type='grouplist'][@id='9000']")
+
+            self.assertEqual(action_group.findtext("height"), "100")
+            self.assertEqual(action_row.findtext("top"), "10")
+            self.assertEqual(action_row.findtext("height"), "80")
+            self.assertEqual(action_list.findtext("top"), "0")
+            self.assertEqual(action_list.findtext("height"), "80")
+
         foregrounds = dialog_root.findall(
             ".//include[@content='DialogInfo_PrimaryActionForeground']"
         )
@@ -204,7 +223,8 @@ class WatchlistActionOrderTests(unittest.TestCase):
         )
         icon = foreground.find("./definition/control[@type='image']")
         self.assertEqual(icon.findtext("left"), "26")
-        self.assertEqual(icon.findtext("top"), "0")
+        self.assertEqual(icon.findtext("centertop"), "50%")
+        self.assertIsNone(icon.find("top"))
         self.assertEqual(icon.findtext("width"), "56")
         self.assertEqual(icon.findtext("height"), "56")
         labels = foreground.findall("./definition/control[@type='label']")
@@ -212,8 +232,9 @@ class WatchlistActionOrderTests(unittest.TestCase):
         self.assertTrue(
             all(
                 label.findtext("left") == "78"
+                and label.findtext("top") == "0"
                 and label.findtext("width") == "auto"
-                and label.findtext("height") == "56"
+                and label.findtext("height") == "80"
                 for label in labels
             )
         )
@@ -229,6 +250,7 @@ class WatchlistActionOrderTests(unittest.TestCase):
         self.assertIn('<param name="align">center</param>', button_template)
         self.assertIn('<param name="focusedcolor">$VAR[ColorSelected]</param>', button_template)
         self.assertIn('<focusedcolor>$PARAM[focusedcolor]</focusedcolor>', button_template)
+        self.assertIn("<height>80</height>", button_template)
         self.assertIn("Texture_Highlight_ToggleButton_FakeFocus_H", button_template)
 
 
