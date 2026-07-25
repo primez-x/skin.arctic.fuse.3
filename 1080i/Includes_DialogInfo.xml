@@ -1523,10 +1523,10 @@
                 </include>
                 <control type="grouplist" id="9000">
                     <orientation>horizontal</orientation>
-                    <top>-2</top>
+                    <top>0</top>
                     <left>20</left>
-                    <height>64</height>
-                    <itemgap>12</itemgap>
+                    <height>56</height>
+                    <itemgap>10</itemgap>
                     <ondown>90001</ondown>
                     <onup condition="$EXP[Exp_TMDbHelper_IsData]">ActivateWindow(1113)</onup>
 
@@ -1534,7 +1534,9 @@
                     <include content="Button_DialogInfo_ActionPill">
                         <param name="id">4001</param>
                         <param name="control">button</param>
-                        <param name="textoffsetx">74</param>
+                        <param name="width">$VAR[Width_DialogInfo_PrimaryActionPill]</param>
+                        <param name="align">left</param>
+                        <param name="textoffsetx">58</param>
                         <label>$VAR[Label_DialogInfo_PlayButton]</label>
                         <onclick>$VAR[Action_DialogInfo_PlayMedia]</onclick>
                         <onclick condition="String.IsEmpty(ListItem.DBID) + !$EXP[Exp_PlexWatchlist_Target] + [[String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,tvshow)] | [String.IsEmpty(ListItem.Property(ratingKey)) + String.IsEmpty(ListItem.UniqueID(tmdb)) + String.IsEmpty(ListItem.Property(tmdb_id)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID)) + [String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_Type),movie) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_Type),tv)]]]">Dialog.Close(1190,true)</onclick>
@@ -1585,10 +1587,10 @@
                 </control>
                 <!-- Overlay the PNG inside the first action pill instead of reserving a separate row item. -->
                 <control type="image">
-                    <left>30</left>
-                    <top>-2</top>
-                    <width>64</width>
-                    <height>64</height>
+                    <left>26</left>
+                    <top>0</top>
+                    <width>56</width>
+                    <height>56</height>
                     <texture colordiffuse="$VAR[Color_DialogInfo_PlayIcon]">$VAR[Image_DialogInfo_PlayButton]</texture>
                 </control>
             </control>
@@ -1786,17 +1788,19 @@
 
                 <control type="grouplist" id="9000">
                     <orientation>horizontal</orientation>
-                    <top>-2</top>
+                    <top>0</top>
                     <left>20</left>
-                    <height>64</height>
-                    <itemgap>12</itemgap>
+                    <height>56</height>
+                    <itemgap>10</itemgap>
                     <ondown>5000</ondown>
                     <onup condition="$EXP[Exp_TMDbHelper_IsData]">ActivateWindow(1113)</onup>
 
                     <!-- Info -->
                     <include content="Button_DialogInfo_ActionPill">
                         <param name="id">4001</param>
-                        <param name="textoffsetx">74</param>
+                        <param name="width">$VAR[Width_DialogInfo_PrimaryActionPill]</param>
+                        <param name="align">left</param>
+                        <param name="textoffsetx">58</param>
                         <label>$VAR[Label_DialogInfo_PlayButton]</label>
                         <usealttexture>false</usealttexture>
                         <onfocus>ClearProperty(Background.DialogInfo.HideArtwork,Home)</onfocus>
@@ -1849,10 +1853,10 @@
 
                 <!-- Keep the primary PNG visually inside the first action pill. -->
                 <control type="image">
-                    <left>30</left>
-                    <top>-2</top>
-                    <width>64</width>
-                    <height>64</height>
+                    <left>26</left>
+                    <top>0</top>
+                    <width>56</width>
+                    <height>56</height>
                     <texture colordiffuse="$VAR[Color_DialogInfo_PlayIcon]">$VAR[Image_DialogInfo_PlayButton]</texture>
                 </control>
 

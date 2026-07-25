@@ -177,10 +177,10 @@ class WatchlistActionOrderTests(unittest.TestCase):
         self.assertEqual(len(icon_controls), 2)
         self.assertTrue(
             all(
-                control.findtext("width") == "64"
-                and control.findtext("height") == "64"
-                and control.findtext("left") == "30"
-                and control.findtext("top") == "-2"
+                control.findtext("width") == "56"
+                and control.findtext("height") == "56"
+                and control.findtext("left") == "26"
+                and control.findtext("top") == "0"
                 for control in icon_controls
             )
         )
@@ -189,13 +189,21 @@ class WatchlistActionOrderTests(unittest.TestCase):
         self.assertEqual(len(buttons), 9)
         self.assertEqual(
             [button.findtext("param[@name='textoffsetx']") for button in buttons],
-            ["74", None, None, None, None, "74", None, None, None],
+            ["58", None, None, None, None, "58", None, None, None],
         )
+        for button in (buttons[0], buttons[5]):
+            self.assertEqual(
+                button.findtext("param[@name='width']"),
+                "$VAR[Width_DialogInfo_PrimaryActionPill]",
+            )
+            self.assertEqual(button.findtext("param[@name='align']"), "left")
 
         button_template = (SKIN_ROOT / "1080i" / "Includes_Buttons.xml").read_text(
             encoding="utf-8"
         )
         self.assertIn('name="Button_DialogInfo_ActionPill"', button_template)
+        self.assertIn('name="Width_DialogInfo_PrimaryActionPill"', button_template)
+        self.assertIn('<param name="align">center</param>', button_template)
         self.assertIn("Texture_Highlight_ToggleButton_FakeFocus_H", button_template)
         self.assertIn("<focusedcolor>$VAR[ColorSelected]</focusedcolor>", button_template)
 
