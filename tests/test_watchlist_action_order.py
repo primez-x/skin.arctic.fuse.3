@@ -39,7 +39,7 @@ class WatchlistActionOrderTests(unittest.TestCase):
         self.assertTrue(timer_file.is_file())
         self.assertEqual(ET.parse(timer_file).getroot().tag, "timers")
 
-    def test_watchlist_command_keeps_the_detail_dialog_open_and_disables_reentry(self):
+    def test_watchlist_command_keeps_the_detail_dialog_open_and_preserves_focus(self):
         source = (SKIN_ROOT / "1080i" / "Includes_DialogInfo.xml").read_text(
             encoding="utf-8"
         )
@@ -48,10 +48,8 @@ class WatchlistActionOrderTests(unittest.TestCase):
         )[0]
 
         self.assertIn("<onclick>$VAR[Action_DialogInfo_PlayMedia]</onclick>", button)
-        self.assertIn(
-            "<enable>String.IsEmpty(Window(Home).Property(PKC.Watchlist.Detail.Pending))</enable>",
-            button,
-        )
+        self.assertIn('content="Button_DialogInfo_ActionPill"', source)
+        self.assertNotIn("<enable>", button)
         self.assertIn(
             "!$EXP[Exp_PlexWatchlist_Target]",
             button,
@@ -59,6 +57,12 @@ class WatchlistActionOrderTests(unittest.TestCase):
         self.assertIn("String.IsEqual(ListItem.DBTYPE,movie)", button)
         self.assertIn("String.IsEqual(ListItem.DBTYPE,tvshow)", button)
         self.assertNotIn("<onclick>Dialog.Close(1190,true)</onclick>", button)
+
+        actions = (SKIN_ROOT / "1080i" / "Includes_Actions.xml").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("PKC.Watchlist.Detail.Pending", actions)
+        self.assertIn("SetFocus(4001)", actions)
 
     def test_watchlist_detail_bootstraps_from_plex_and_projects_state(self):
         dialog = (SKIN_ROOT / "1080i" / "DialogVideoInfo.xml").read_text(
@@ -161,7 +165,7 @@ class WatchlistActionOrderTests(unittest.TestCase):
         self.assertNotIn("square-plus.png", images)
         self.assertNotIn("play2.png", images)
 
-    def test_detail_action_icons_have_control_sized_geometry(self):
+    def test_detail_action_pills_keep_pngs_inside_their_button_geometry(self):
         root = ET.parse(SKIN_ROOT / "1080i" / "Includes_DialogInfo.xml").getroot()
         icon_controls = [
             control
@@ -173,11 +177,27 @@ class WatchlistActionOrderTests(unittest.TestCase):
         self.assertEqual(len(icon_controls), 2)
         self.assertTrue(
             all(
-                control.findtext("width") == "56"
-                and control.findtext("height") == "56"
+                control.findtext("width") == "64"
+                and control.findtext("height") == "64"
+                and control.findtext("left") == "30"
+                and control.findtext("top") == "-2"
                 for control in icon_controls
             )
         )
+
+        buttons = root.findall(".//include[@content='Button_DialogInfo_ActionPill']")
+        self.assertEqual(len(buttons), 9)
+        self.assertEqual(
+            [button.findtext("param[@name='textoffsetx']") for button in buttons],
+            ["74", None, None, None, None, "74", None, None, None],
+        )
+
+        button_template = (SKIN_ROOT / "1080i" / "Includes_Buttons.xml").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn('name="Button_DialogInfo_ActionPill"', button_template)
+        self.assertIn("Texture_Highlight_ToggleButton_FakeFocus_H", button_template)
+        self.assertIn("<focusedcolor>$VAR[ColorSelected]</focusedcolor>", button_template)
 
 
 if __name__ == "__main__":

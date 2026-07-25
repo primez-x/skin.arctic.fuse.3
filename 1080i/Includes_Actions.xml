@@ -31,6 +31,8 @@
     </include>
 
     <variable name="Action_DialogInfo_PlayMedia">
+        <!-- Keep focus on the action pill while a native Watchlist mutation verifies. -->
+        <value condition="$EXP[Exp_PlexWatchlist_Target] + !String.IsEmpty(Window(Home).Property(PKC.Watchlist.Detail.Pending))">SetFocus(4001)</value>
         <!-- Remove from Watchlist (non-library item with ratingKey, in watchlist view) -->
         <value condition="$EXP[Exp_PlexWatchlist_Target] + !String.IsEmpty(ListItem.Property(ratingKey)) + [String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.State),present) | [String.IsEqual(ListItem.Property(LISTINGKEY),watchlist) + !String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.State),absent)]]">RunPlugin(plugin://plugin.video.plexkodiconnect/?mode=watchlist_remove_key&amp;rating_key=$INFO[ListItem.Property(ratingKey)]&amp;plex_type=$INFO[ListItem.DBTYPE])</value>
         <!-- Remove from Watchlist (non-library item with an exact TMDb ID) -->

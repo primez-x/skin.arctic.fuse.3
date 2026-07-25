@@ -1525,30 +1525,23 @@
                     <orientation>horizontal</orientation>
                     <top>-2</top>
                     <left>20</left>
-                    <height>57</height>
-                    <itemgap>40</itemgap>
+                    <height>64</height>
+                    <itemgap>12</itemgap>
                     <ondown>90001</ondown>
                     <onup condition="$EXP[Exp_TMDbHelper_IsData]">ActivateWindow(1113)</onup>
 
-                    <!-- Play/Browse Icon -->
-                    <control type="image">
-                        <width>56</width>
-                        <height>56</height>
-                        <centertop>50%</centertop>
-                        <texture colordiffuse="$VAR[Color_DialogInfo_PlayIcon]">$VAR[Image_DialogInfo_PlayButton]</texture>
-                    </control>
                     <!-- Play/Browse -->
-                    <include content="Button_Underline_Switcher">
+                    <include content="Button_DialogInfo_ActionPill">
                         <param name="id">4001</param>
                         <param name="control">button</param>
+                        <param name="textoffsetx">74</param>
                         <label>$VAR[Label_DialogInfo_PlayButton]</label>
-                        <enable>String.IsEmpty(Window(Home).Property(PKC.Watchlist.Detail.Pending))</enable>
                         <onclick>$VAR[Action_DialogInfo_PlayMedia]</onclick>
                         <onclick condition="String.IsEmpty(ListItem.DBID) + !$EXP[Exp_PlexWatchlist_Target] + [[String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,tvshow)] | [String.IsEmpty(ListItem.Property(ratingKey)) + String.IsEmpty(ListItem.UniqueID(tmdb)) + String.IsEmpty(ListItem.Property(tmdb_id)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID)) + [String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_Type),movie) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_Type),tv)]]]">Dialog.Close(1190,true)</onclick>
                     </include>
 
                     <!-- Button 0 -->
-                    <include content="Button_Underline_Switcher">
+                    <include content="Button_DialogInfo_ActionPill">
                         <param name="id">4002</param>
                         <param name="control">button</param>
                         <label>$INFO[Container(4900).ListItemAbsolute(0).Label]</label>
@@ -1559,7 +1552,7 @@
                     </include>
 
                     <!-- Button 1 -->
-                    <include content="Button_Underline_Switcher">
+                    <include content="Button_DialogInfo_ActionPill">
                         <param name="id">4003</param>
                         <param name="control">button</param>
                         <label>$INFO[Container(4900).ListItemAbsolute(1).Label]</label>
@@ -1570,7 +1563,7 @@
                     </include>
 
                     <!-- Button 2 -->
-                    <include content="Button_Underline_Switcher">
+                    <include content="Button_DialogInfo_ActionPill">
                         <param name="id">4004</param>
                         <param name="control">button</param>
                         <label>$INFO[Container(4900).ListItemAbsolute(2).Label]</label>
@@ -1581,7 +1574,7 @@
                     </include>
 
                     <!-- Options -->
-                    <include content="Button_Underline_Switcher">
+                    <include content="Button_DialogInfo_ActionPill">
                         <param name="id">4005</param>
                         <param name="control">button</param>
                         <label>$LOCALIZE[33063]</label>
@@ -1589,6 +1582,14 @@
                         <onclick>ActivateWindow(1172)</onclick>
                     </include>
 
+                </control>
+                <!-- Overlay the PNG inside the first action pill instead of reserving a separate row item. -->
+                <control type="image">
+                    <left>30</left>
+                    <top>-2</top>
+                    <width>64</width>
+                    <height>64</height>
+                    <texture colordiffuse="$VAR[Color_DialogInfo_PlayIcon]">$VAR[Image_DialogInfo_PlayButton]</texture>
                 </control>
             </control>
 
@@ -1787,21 +1788,15 @@
                     <orientation>horizontal</orientation>
                     <top>-2</top>
                     <left>20</left>
-                    <height>57</height>
-                    <itemgap>40</itemgap>
+                    <height>64</height>
+                    <itemgap>12</itemgap>
                     <ondown>5000</ondown>
                     <onup condition="$EXP[Exp_TMDbHelper_IsData]">ActivateWindow(1113)</onup>
 
-                    <!-- Play Icon -->
-                    <control type="image">
-                        <width>56</width>
-                        <height>56</height>
-                        <centertop>50%</centertop>
-                        <texture colordiffuse="$VAR[Color_DialogInfo_PlayIcon]">$VAR[Image_DialogInfo_PlayButton]</texture>
-                    </control>
                     <!-- Info -->
-                    <include content="Button_Underline_Switcher">
+                    <include content="Button_DialogInfo_ActionPill">
                         <param name="id">4001</param>
+                        <param name="textoffsetx">74</param>
                         <label>$VAR[Label_DialogInfo_PlayButton]</label>
                         <usealttexture>false</usealttexture>
                         <onfocus>ClearProperty(Background.DialogInfo.HideArtwork,Home)</onfocus>
@@ -1824,7 +1819,7 @@
                         <onclick condition="!String.IsEqual(ListItem.DBType,artist) + System.AddonIsEnabled(script.playalbum) + String.IsEqual(ListItem.DBType,song)">RunScript(script.playalbum,songid=$INFO[ListItem.DBID])</onclick>
                     </include>
 
-                    <include content="Button_Underline_Switcher">
+                    <include content="Button_DialogInfo_ActionPill">
                         <param name="id">4007</param>
                         <label>$LOCALIZE[563]</label>
                         <usealttexture>false</usealttexture>
@@ -1833,7 +1828,7 @@
                         <visible>Control.IsEnabled(7)</visible>
                     </include>
 
-                    <include content="Button_Underline_Switcher">
+                    <include content="Button_DialogInfo_ActionPill">
                         <param name="id">4010</param>
                         <label>$LOCALIZE[39123]</label>
                         <usealttexture>false</usealttexture>
@@ -1842,7 +1837,7 @@
                         <visible>Control.IsEnabled(10)</visible>
                     </include>
 
-                    <include content="Button_Underline_Switcher">
+                    <include content="Button_DialogInfo_ActionPill">
                         <param name="id">4006</param>
                         <label>$LOCALIZE[184]</label>
                         <usealttexture>false</usealttexture>
@@ -1850,6 +1845,15 @@
                         <onclick>SendClick(6)</onclick>
                         <visible>Control.IsEnabled(6)</visible>
                     </include>
+                </control>
+
+                <!-- Keep the primary PNG visually inside the first action pill. -->
+                <control type="image">
+                    <left>30</left>
+                    <top>-2</top>
+                    <width>64</width>
+                    <height>64</height>
+                    <texture colordiffuse="$VAR[Color_DialogInfo_PlayIcon]">$VAR[Image_DialogInfo_PlayButton]</texture>
                 </control>
 
             </control>

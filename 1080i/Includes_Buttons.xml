@@ -231,4 +231,23 @@
             </control>
         </definition>
     </include>
+
+    <!-- Compact, focusable pill used by the primary action row in detail dialogs. -->
+    <include name="Button_DialogInfo_ActionPill">
+        <param name="control">button</param>
+        <param name="textoffsetx">20</param>
+        <definition>
+            <control type="$PARAM[control]" id="$PARAM[id]">
+                <nested />
+                <width>auto</width>
+                <height>64</height>
+                <aligny>center</aligny>
+                <textoffsetx>$PARAM[textoffsetx]</textoffsetx>
+                <font>font_main_bold</font>
+                <textcolor>dialog_fg_30</textcolor>
+                <focusedcolor>$VAR[ColorSelected]</focusedcolor>
+                <include>Texture_Highlight_ToggleButton_FakeFocus_H</include>
+            </control>
+        </definition>
+    </include>
 </includes>

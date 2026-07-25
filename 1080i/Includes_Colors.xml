@@ -34,9 +34,9 @@
         <value>ffffffff</value>
     </variable>
 
-    <!-- Dialog Info Play Button Icon Color (brightens on focus) -->
+    <!-- Dialog Info action icons become ink-coloured inside their focused pill. -->
     <variable name="Color_DialogInfo_PlayIcon">
-        <value condition="Control.HasFocus(4001)">$VAR[ColorHighlight]</value>
+        <value condition="Control.HasFocus(4001)">$VAR[ColorSelected]</value>
         <value>dialog_fg_30</value>
     </variable>
 
