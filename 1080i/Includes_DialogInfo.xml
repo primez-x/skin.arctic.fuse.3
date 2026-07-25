@@ -1534,9 +1534,11 @@
                     <include content="Button_DialogInfo_ActionPill">
                         <param name="id">4001</param>
                         <param name="control">button</param>
-                        <param name="width">$VAR[Width_DialogInfo_PrimaryActionPill]</param>
                         <param name="align">left</param>
-                        <param name="textoffsetx">58</param>
+                        <param name="textoffsetx">39</param>
+                        <param name="textcolor">00ffffff</param>
+                        <param name="focusedcolor">00ffffff</param>
+                        <param name="selectedcolor">00ffffff</param>
                         <label>$VAR[Label_DialogInfo_PlayButton]</label>
                         <onclick>$VAR[Action_DialogInfo_PlayMedia]</onclick>
                         <onclick condition="String.IsEmpty(ListItem.DBID) + !$EXP[Exp_PlexWatchlist_Target] + [[String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,tvshow)] | [String.IsEmpty(ListItem.Property(ratingKey)) + String.IsEmpty(ListItem.UniqueID(tmdb)) + String.IsEmpty(ListItem.Property(tmdb_id)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID)) + [String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_Type),movie) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_Type),tv)]]]">Dialog.Close(1190,true)</onclick>
@@ -1585,14 +1587,9 @@
                     </include>
 
                 </control>
-                <!-- Overlay the PNG inside the first action pill instead of reserving a separate row item. -->
-                <control type="image">
-                    <left>26</left>
-                    <top>0</top>
-                    <width>56</width>
-                    <height>56</height>
-                    <texture colordiffuse="$VAR[Color_DialogInfo_PlayIcon]">$VAR[Image_DialogInfo_PlayButton]</texture>
-                </control>
+                <include content="DialogInfo_PrimaryActionForeground">
+                    <param name="label">$VAR[Label_DialogInfo_PlayButton]</param>
+                </include>
             </control>
 
             <control type="group">
@@ -1798,9 +1795,11 @@
                     <!-- Info -->
                     <include content="Button_DialogInfo_ActionPill">
                         <param name="id">4001</param>
-                        <param name="width">$VAR[Width_DialogInfo_PrimaryActionPill]</param>
                         <param name="align">left</param>
-                        <param name="textoffsetx">58</param>
+                        <param name="textoffsetx">39</param>
+                        <param name="textcolor">00ffffff</param>
+                        <param name="focusedcolor">00ffffff</param>
+                        <param name="selectedcolor">00ffffff</param>
                         <label>$VAR[Label_DialogInfo_PlayButton]</label>
                         <usealttexture>false</usealttexture>
                         <onfocus>ClearProperty(Background.DialogInfo.HideArtwork,Home)</onfocus>
@@ -1851,14 +1850,9 @@
                     </include>
                 </control>
 
-                <!-- Keep the primary PNG visually inside the first action pill. -->
-                <control type="image">
-                    <left>26</left>
-                    <top>0</top>
-                    <width>56</width>
-                    <height>56</height>
-                    <texture colordiffuse="$VAR[Color_DialogInfo_PlayIcon]">$VAR[Image_DialogInfo_PlayButton]</texture>
-                </control>
+                <include content="DialogInfo_PrimaryActionForeground">
+                    <param name="label">$VAR[Label_DialogInfo_PlayButton]</param>
+                </include>
 
             </control>
 

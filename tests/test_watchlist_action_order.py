@@ -166,46 +166,70 @@ class WatchlistActionOrderTests(unittest.TestCase):
         self.assertNotIn("play2.png", images)
 
     def test_detail_action_pills_keep_pngs_inside_their_button_geometry(self):
-        root = ET.parse(SKIN_ROOT / "1080i" / "Includes_DialogInfo.xml").getroot()
-        icon_controls = [
-            control
-            for control in root.findall(".//control[@type='image']")
-            if control.findtext("texture")
-            == "$VAR[Image_DialogInfo_PlayButton]"
-        ]
-
-        self.assertEqual(len(icon_controls), 2)
+        dialog_root = ET.parse(
+            SKIN_ROOT / "1080i" / "Includes_DialogInfo.xml"
+        ).getroot()
+        foregrounds = dialog_root.findall(
+            ".//include[@content='DialogInfo_PrimaryActionForeground']"
+        )
+        self.assertEqual(len(foregrounds), 2)
         self.assertTrue(
             all(
-                control.findtext("width") == "56"
-                and control.findtext("height") == "56"
-                and control.findtext("left") == "26"
-                and control.findtext("top") == "0"
-                for control in icon_controls
+                foreground.findtext("param[@name='label']")
+                == "$VAR[Label_DialogInfo_PlayButton]"
+                for foreground in foregrounds
             )
         )
 
-        buttons = root.findall(".//include[@content='Button_DialogInfo_ActionPill']")
+        buttons = dialog_root.findall(
+            ".//include[@content='Button_DialogInfo_ActionPill']"
+        )
         self.assertEqual(len(buttons), 9)
         self.assertEqual(
             [button.findtext("param[@name='textoffsetx']") for button in buttons],
-            ["58", None, None, None, None, "58", None, None, None],
+            ["39", None, None, None, None, "39", None, None, None],
         )
         for button in (buttons[0], buttons[5]):
-            self.assertEqual(
-                button.findtext("param[@name='width']"),
-                "$VAR[Width_DialogInfo_PrimaryActionPill]",
-            )
             self.assertEqual(button.findtext("param[@name='align']"), "left")
+            self.assertEqual(button.findtext("param[@name='textcolor']"), "00ffffff")
+            self.assertEqual(button.findtext("param[@name='focusedcolor']"), "00ffffff")
+            self.assertEqual(button.findtext("param[@name='selectedcolor']"), "00ffffff")
 
         button_template = (SKIN_ROOT / "1080i" / "Includes_Buttons.xml").read_text(
             encoding="utf-8"
         )
+        button_root = ET.fromstring(button_template)
+        foreground = button_root.find(
+            "./include[@name='DialogInfo_PrimaryActionForeground']"
+        )
+        icon = foreground.find("./definition/control[@type='image']")
+        self.assertEqual(icon.findtext("left"), "26")
+        self.assertEqual(icon.findtext("top"), "0")
+        self.assertEqual(icon.findtext("width"), "56")
+        self.assertEqual(icon.findtext("height"), "56")
+        labels = foreground.findall("./definition/control[@type='label']")
+        self.assertEqual(len(labels), 2)
+        self.assertTrue(
+            all(
+                label.findtext("left") == "78"
+                and label.findtext("width") == "auto"
+                and label.findtext("height") == "56"
+                for label in labels
+            )
+        )
+        self.assertEqual(
+            [label.findtext("visible") for label in labels],
+            [
+                "!Control.HasFocus($PARAM[buttonid])",
+                "Control.HasFocus($PARAM[buttonid])",
+            ],
+        )
         self.assertIn('name="Button_DialogInfo_ActionPill"', button_template)
-        self.assertIn('name="Width_DialogInfo_PrimaryActionPill"', button_template)
+        self.assertIn('name="DialogInfo_PrimaryActionForeground"', button_template)
         self.assertIn('<param name="align">center</param>', button_template)
+        self.assertIn('<param name="focusedcolor">$VAR[ColorSelected]</param>', button_template)
+        self.assertIn('<focusedcolor>$PARAM[focusedcolor]</focusedcolor>', button_template)
         self.assertIn("Texture_Highlight_ToggleButton_FakeFocus_H", button_template)
-        self.assertIn("<focusedcolor>$VAR[ColorSelected]</focusedcolor>", button_template)
 
 
 if __name__ == "__main__":

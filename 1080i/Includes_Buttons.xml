@@ -232,19 +232,15 @@
         </definition>
     </include>
 
-    <variable name="Width_DialogInfo_PrimaryActionPill">
-        <value condition="$EXP[Exp_PlexWatchlist_Target] + [String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.State),present) | [String.IsEqual(ListItem.Property(LISTINGKEY),watchlist) + !String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.State),absent)]]">420</value>
-        <value condition="$EXP[Exp_PlexWatchlist_Target]">324</value>
-        <value condition="$EXP[Exp_IsFolder]">180</value>
-        <value>150</value>
-    </variable>
-
     <!-- Compact, focusable pill used by the primary action row in detail dialogs. -->
     <include name="Button_DialogInfo_ActionPill">
         <param name="control">button</param>
         <param name="width">auto</param>
         <param name="align">center</param>
         <param name="textoffsetx">20</param>
+        <param name="textcolor">dialog_fg_30</param>
+        <param name="focusedcolor">$VAR[ColorSelected]</param>
+        <param name="selectedcolor">dialog_fg_30</param>
         <definition>
             <control type="$PARAM[control]" id="$PARAM[id]">
                 <nested />
@@ -254,9 +250,49 @@
                 <aligny>center</aligny>
                 <textoffsetx>$PARAM[textoffsetx]</textoffsetx>
                 <font>font_main_bold</font>
-                <textcolor>dialog_fg_30</textcolor>
-                <focusedcolor>$VAR[ColorSelected]</focusedcolor>
+                <textcolor>$PARAM[textcolor]</textcolor>
+                <focusedcolor>$PARAM[focusedcolor]</focusedcolor>
+                <selectedcolor>$PARAM[selectedcolor]</selectedcolor>
                 <include>Texture_Highlight_ToggleButton_FakeFocus_H</include>
+            </control>
+        </definition>
+    </include>
+
+    <!-- A 39px transparent native offset yields the 78px icon, gap, and outer-padding reserve; this foreground centers the visible icon and label as one unit. -->
+    <include name="DialogInfo_PrimaryActionForeground">
+        <param name="buttonid">4001</param>
+        <param name="label" />
+        <definition>
+            <control type="image">
+                <left>26</left>
+                <top>0</top>
+                <width>56</width>
+                <height>56</height>
+                <texture colordiffuse="$VAR[Color_DialogInfo_PlayIcon]">$VAR[Image_DialogInfo_PlayButton]</texture>
+            </control>
+            <control type="label">
+                <left>78</left>
+                <top>0</top>
+                <width>auto</width>
+                <height>56</height>
+                <align>left</align>
+                <aligny>center</aligny>
+                <font>font_main_bold</font>
+                <textcolor>dialog_fg_30</textcolor>
+                <label>$PARAM[label]</label>
+                <visible>!Control.HasFocus($PARAM[buttonid])</visible>
+            </control>
+            <control type="label">
+                <left>78</left>
+                <top>0</top>
+                <width>auto</width>
+                <height>56</height>
+                <align>left</align>
+                <aligny>center</aligny>
+                <font>font_main_bold</font>
+                <textcolor>$VAR[ColorSelected]</textcolor>
+                <label>$PARAM[label]</label>
+                <visible>Control.HasFocus($PARAM[buttonid])</visible>
             </control>
         </definition>
     </include>
