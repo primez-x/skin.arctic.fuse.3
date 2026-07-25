@@ -31,6 +31,8 @@
     </include>
 
     <variable name="Action_DialogInfo_PlayMedia">
+        <!-- Add to Watchlist (non-library discover item) -->
+        <value condition="String.IsEmpty(ListItem.DBID) + !String.IsEmpty(ListItem.Property(ratingKey))">RunPlugin(plugin://plugin.video.plexkodiconnect/?mode=watchlist_add_key&amp;rating_key=$INFO[ListItem.Property(ratingKey)]&amp;plex_type=$INFO[ListItem.DBTYPE])</value>
         <!-- Play FileNameAndPath -->
         <value condition="!String.IsEmpty(ListItem.FileNameAndPath) + !$EXP[Exp_IsFolder]">RunScript(plugin.video.themoviedb.helper,close_dialog=1190,"playmedia=$INFO[ListItem.FileNameAndPath]")</value>
 

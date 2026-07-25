@@ -584,6 +584,7 @@
     </variable>
 
     <variable name="Label_DialogInfo_PlayButton">
+        <value condition="String.IsEmpty(ListItem.DBID) + !String.IsEmpty(ListItem.Property(ratingKey))">Add to Watchlist</value>
         <value condition="$EXP[Exp_IsFolder]">$LOCALIZE[1024]</value>
         <value>$LOCALIZE[208]</value>
     </variable>
