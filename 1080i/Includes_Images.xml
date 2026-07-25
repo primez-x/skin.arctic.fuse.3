@@ -375,6 +375,8 @@
     </variable>
 
     <variable name="Image_DialogInfo_PlayButton">
+        <value condition="String.IsEmpty(ListItem.DBID) + String.IsEqual(ListItem.Property(LISTINGKEY),watchlist)">special://skin/extras/icons/circle-check.png</value>
+        <value condition="String.IsEmpty(ListItem.DBID) + [String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,tvshow)]">special://skin/extras/icons/square-plus.png</value>
         <value condition="$EXP[Exp_IsFolder]">special://skin/extras/icons/folder.png</value>
         <value>special://skin/extras/icons/play2.png</value>
     </variable>

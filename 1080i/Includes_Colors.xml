@@ -34,6 +34,12 @@
         <value>ffffffff</value>
     </variable>
 
+    <!-- Dialog Info Play Button Icon Color (brightens on focus) -->
+    <variable name="Color_DialogInfo_PlayIcon">
+        <value condition="Control.HasFocus(4001)">$VAR[ColorHighlight]</value>
+        <value>dialog_fg_30</value>
+    </variable>
+
     <!-- Watched / Progress Color -->
     <variable name="ColorWatchedProgress">
         <value condition="!String.IsEmpty(Skin.String(watchedprogresscolor.name))">$INFO[Skin.String(watchedprogresscolor.name)]</value>

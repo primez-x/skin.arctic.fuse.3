@@ -1530,6 +1530,13 @@
                     <ondown>90001</ondown>
                     <onup condition="$EXP[Exp_TMDbHelper_IsData]">ActivateWindow(1113)</onup>
 
+                    <!-- Play/Browse Icon -->
+                    <control type="image">
+                        <width>28</width>
+                        <height>28</height>
+                        <centertop>50%</centertop>
+                        <texture colordiffuse="$VAR[Color_DialogInfo_PlayIcon]">$VAR[Image_DialogInfo_PlayButton]</texture>
+                    </control>
                     <!-- Play/Browse -->
                     <include content="Button_Underline_Switcher">
                         <param name="id">4001</param>
@@ -1784,6 +1791,13 @@
                     <ondown>5000</ondown>
                     <onup condition="$EXP[Exp_TMDbHelper_IsData]">ActivateWindow(1113)</onup>
 
+                    <!-- Play Icon -->
+                    <control type="image">
+                        <width>28</width>
+                        <height>28</height>
+                        <centertop>50%</centertop>
+                        <texture colordiffuse="$VAR[Color_DialogInfo_PlayIcon]">$VAR[Image_DialogInfo_PlayButton]</texture>
+                    </control>
                     <!-- Info -->
                     <include content="Button_Underline_Switcher">
                         <param name="id">4001</param>
