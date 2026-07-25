@@ -157,6 +157,27 @@ class WatchlistActionOrderTests(unittest.TestCase):
                 for onload in watchlist_onloads
             )
         )
+        direct_key_status = next(
+            onload
+            for onload in watchlist_onloads
+            if "mode=watchlist_status_key" in (onload.text or "")
+        )
+        self.assertIn(
+            "watchlist_hint=$INFO[ListItem.Property(PlexWatchlistHint)]",
+            direct_key_status.text or "",
+        )
+        self.assertIn(
+            "!String.IsEmpty(ListItem.Property(ratingKey))",
+            direct_key_status.get("condition", ""),
+        )
+        self.assertIn(
+            "String.IsEqual(ListItem.DBTYPE,movie)",
+            direct_key_status.get("condition", ""),
+        )
+        self.assertIn(
+            "String.IsEqual(ListItem.DBTYPE,tvshow)",
+            direct_key_status.get("condition", ""),
+        )
 
     def test_watchlist_preflight_accepts_every_tap_and_routes_the_projected_target(self):
         root = ET.parse(SKIN_ROOT / "1080i" / "Includes_Actions.xml").getroot()
