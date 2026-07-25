@@ -1381,6 +1381,18 @@
         </item>
     </include>
 
+    <include name="DialogInfo_VideoButtons_PlexWatchlist">
+        <item>
+            <label>Add to Plex Watchlist</label>
+            <icon>special://skin/extras/icons/watchlist.png</icon>
+            <onclick>Dialog.Close(1172,true)</onclick>
+            <onclick>RunPlugin(plugin://plugin.video.plexkodiconnect?mode=discover_tmdb_watchlist&amp;tmdb_id=$INFO[ListItem.UniqueID(tmdb)]&amp;tmdb_type=$INFO[ListItem.DBType])</onclick>
+            <visible>System.HasAddon(plugin.video.plexkodiconnect) + System.AddonIsEnabled(plugin.video.plexkodiconnect)</visible>
+            <visible>!String.IsEmpty(ListItem.UniqueID(tmdb))</visible>
+            <visible>[String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,tvshow)]</visible>
+        </item>
+    </include>
+
     <include name="DialogInfo_VideoButtons_Wikipedia">
         <item>
             <label>Wikipedia</label>
@@ -1462,6 +1474,7 @@
     </include>
 
     <include name="DialogInfo_VideoButtons_Overflow">
+        <include>DialogInfo_VideoButtons_PlexWatchlist</include>
         <include condition="!Skin.String(DialogInfo.$PARAM[type].item01,Trailer) + !Skin.String(DialogInfo.$PARAM[type].item02,Trailer) + !Skin.String(DialogInfo.$PARAM[type].item03,Trailer)">DialogInfo_VideoButtons_Trailer</include>
         <include condition="!Skin.String(DialogInfo.$PARAM[type].item01,Trakt) + !Skin.String(DialogInfo.$PARAM[type].item02,Trakt) + !Skin.String(DialogInfo.$PARAM[type].item03,Trakt)">DialogInfo_VideoButtons_Trakt</include>
         <include condition="!Skin.String(DialogInfo.$PARAM[type].item01,Wikipedia) + !Skin.String(DialogInfo.$PARAM[type].item02,Wikipedia) + !Skin.String(DialogInfo.$PARAM[type].item03,Wikipedia)">DialogInfo_VideoButtons_Wikipedia</include>
