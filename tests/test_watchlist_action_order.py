@@ -39,7 +39,7 @@ class WatchlistActionOrderTests(unittest.TestCase):
         self.assertTrue(timer_file.is_file())
         self.assertEqual(ET.parse(timer_file).getroot().tag, "timers")
 
-    def test_watchlist_command_runs_before_dialog_teardown(self):
+    def test_watchlist_command_keeps_the_detail_dialog_open_and_disables_reentry(self):
         source = (SKIN_ROOT / "1080i" / "Includes_DialogInfo.xml").read_text(
             encoding="utf-8"
         )
@@ -47,10 +47,117 @@ class WatchlistActionOrderTests(unittest.TestCase):
             "</include>", 1
         )[0]
 
-        self.assertLess(
-            button.index("<onclick>$VAR[Action_DialogInfo_PlayMedia]</onclick>"),
-            button.index("Dialog.Close(1190,true)"),
+        self.assertIn("<onclick>$VAR[Action_DialogInfo_PlayMedia]</onclick>", button)
+        self.assertIn(
+            "<enable>String.IsEmpty(Window(Home).Property(PKC.Watchlist.Detail.Pending))</enable>",
+            button,
         )
+        self.assertIn(
+            "!$EXP[Exp_PlexWatchlist_Target]",
+            button,
+        )
+        self.assertIn("String.IsEqual(ListItem.DBTYPE,movie)", button)
+        self.assertIn("String.IsEqual(ListItem.DBTYPE,tvshow)", button)
+        self.assertNotIn("<onclick>Dialog.Close(1190,true)</onclick>", button)
+
+    def test_watchlist_detail_bootstraps_from_plex_and_projects_state(self):
+        dialog = (SKIN_ROOT / "1080i" / "DialogVideoInfo.xml").read_text(
+            encoding="utf-8"
+        )
+        labels = (SKIN_ROOT / "1080i" / "Includes_Labels.xml").read_text(
+            encoding="utf-8"
+        )
+        actions = (SKIN_ROOT / "1080i" / "Includes_Actions.xml").read_text(
+            encoding="utf-8"
+        )
+
+        self.assertIn("mode=watchlist_status_tmdb", dialog)
+        self.assertIn("mode=watchlist_status_key", dialog)
+        self.assertIn("mode=watchlist_status_monitor", dialog)
+        self.assertNotIn(
+            "<onload>ClearProperty(PKC.Watchlist.Detail.Revision,Home)</onload>",
+            dialog,
+        )
+        self.assertIn(
+            "<onunload>ClearProperty(PKC.Watchlist.Detail.Revision,Home)</onunload>",
+            dialog,
+        )
+        self.assertIn(
+            "<onunload>ClearProperty(PKC.Watchlist.Detail.StatusRevision,Home)</onunload>",
+            dialog,
+        )
+        self.assertIn("PKC.Watchlist.Detail.State", labels)
+        self.assertIn("PKC.Watchlist.Detail.State", actions)
+        self.assertIn(
+            "PKC.Watchlist.Detail.Identity",
+            (SKIN_ROOT / "1080i" / "Includes_Expressions.xml").read_text(
+                encoding="utf-8"
+            ),
+        )
+
+        dialog_root = ET.fromstring(dialog)
+        watchlist_onloads = [
+            onload
+            for onload in dialog_root.findall("onload")
+            if "mode=watchlist_" in (onload.text or "")
+        ]
+        self.assertTrue(watchlist_onloads)
+        self.assertTrue(
+            all(
+                "System.AddonIsEnabled(plugin.video.plexkodiconnect)"
+                in onload.get("condition", "")
+                for onload in watchlist_onloads
+            )
+        )
+
+    def test_watchlist_actions_use_only_validated_monitor_identity(self):
+        root = ET.parse(SKIN_ROOT / "1080i" / "Includes_Actions.xml").getroot()
+        action = root.find("./variable[@name='Action_DialogInfo_PlayMedia']")
+        watchlist_values = [
+            value
+            for value in action.findall("value")
+            if "mode=watchlist_" in (value.text or "")
+        ]
+
+        self.assertEqual(len(watchlist_values), 8)
+        self.assertTrue(
+            all(
+                "$EXP[Exp_PlexWatchlist_Target]" in value.get("condition", "")
+                for value in watchlist_values
+            )
+        )
+        action_source = "\n".join(value.text or "" for value in watchlist_values)
+        action_conditions = "\n".join(
+            value.get("condition", "") for value in watchlist_values
+        )
+        self.assertNotIn("TMDbHelper.ListItem.Monitor", action_source)
+        self.assertNotIn("TMDbHelper.ListItem.Monitor", action_conditions)
+        self.assertIn("PKC.Watchlist.Detail.TMDbId", action_source)
+        self.assertIn("PKC.Watchlist.Detail.TMDbType", action_source)
+
+    def test_detail_button_uses_png_hover_states_for_play_and_watchlist(self):
+        root = ET.parse(SKIN_ROOT / "1080i" / "Includes_Images.xml").getroot()
+        image_values = root.find(
+            "./variable[@name='Image_DialogInfo_PlayButton']"
+        ).findall("value")
+        images = "\n".join(value.text or "" for value in image_values)
+        conditions = "\n".join(value.get("condition", "") for value in image_values)
+
+        for icon in (
+            "play.png",
+            "play3.png",
+            "circle-check-regular.png",
+            "circle-check.png",
+            "circle-xmark-regular.png",
+            "circle-xmark.png",
+        ):
+            self.assertIn(icon, images)
+            self.assertTrue((SKIN_ROOT / "extras" / "icons" / icon).is_file())
+        self.assertIn("Control.HasFocus(4001)", conditions)
+        self.assertNotIn("circle-regular.png", images)
+        self.assertNotIn("circle-plus.png", images)
+        self.assertNotIn("square-plus.png", images)
+        self.assertNotIn("play2.png", images)
 
 
 if __name__ == "__main__":

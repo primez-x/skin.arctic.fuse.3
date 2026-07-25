@@ -8,6 +8,40 @@
     <include>DialogInfo_Onload</include>
     <onload>SetProperty(TMDbHelper.EnableExtendedProperties,True)</onload>
     <onload>SetProperty(BaseID,$INFO[ListItem.Label]$INFO[ListItem.FolderPath])</onload>
+    <onload>ClearProperty(PKC.Watchlist.Detail.Identity,Home)</onload>
+    <onload>SetProperty(PKC.Watchlist.Detail.State,unknown,Home)</onload>
+    <onload>ClearProperty(PKC.Watchlist.Detail.PreviousState,Home)</onload>
+    <onload>ClearProperty(PKC.Watchlist.Detail.Pending,Home)</onload>
+    <onload>ClearProperty(PKC.Watchlist.Detail.RequestId,Home)</onload>
+    <onload>ClearProperty(PKC.Watchlist.Detail.StatusRevision,Home)</onload>
+    <onload>ClearProperty(PKC.Watchlist.Detail.Error,Home)</onload>
+    <onload>ClearProperty(PKC.Watchlist.Detail.TMDbId,Home)</onload>
+    <onload>ClearProperty(PKC.Watchlist.Detail.TMDbType,Home)</onload>
+    <onload>SetProperty(PKC.Watchlist.Detail.Context.Label,$INFO[ListItem.Label],Home)</onload>
+    <onload>SetProperty(PKC.Watchlist.Detail.Context.DBType,$INFO[ListItem.DBTYPE],Home)</onload>
+
+    <onunload>ClearProperty(PKC.Watchlist.Detail.Identity,Home)</onunload>
+    <onunload>ClearProperty(PKC.Watchlist.Detail.Revision,Home)</onunload>
+    <onunload>ClearProperty(PKC.Watchlist.Detail.StatusRevision,Home)</onunload>
+    <onunload>ClearProperty(PKC.Watchlist.Detail.Context.Label,Home)</onunload>
+    <onunload>ClearProperty(PKC.Watchlist.Detail.Context.DBType,Home)</onunload>
+
+    <!-- Native Plex Watchlist state: source it from Plex, never from a listing position. -->
+    <onload condition="System.AddonIsEnabled(plugin.video.plexkodiconnect) + String.IsEmpty(ListItem.DBID) + !String.IsEmpty(ListItem.Property(ratingKey))">SetProperty(PKC.Watchlist.Detail.Identity,plex.$INFO[ListItem.Property(ratingKey)],Home)</onload>
+    <onload condition="System.AddonIsEnabled(plugin.video.plexkodiconnect) + String.IsEmpty(ListItem.DBID) + !String.IsEmpty(ListItem.Property(ratingKey))">RunPlugin(plugin://plugin.video.plexkodiconnect/?mode=watchlist_status_key&amp;rating_key=$INFO[ListItem.Property(ratingKey)]&amp;plex_type=$INFO[ListItem.DBTYPE])</onload>
+
+    <onload condition="System.AddonIsEnabled(plugin.video.plexkodiconnect) + String.IsEmpty(ListItem.DBID) + String.IsEmpty(ListItem.Property(ratingKey)) + !String.IsEmpty(ListItem.UniqueID(tmdb)) + String.IsEqual(ListItem.DBTYPE,movie)">SetProperty(PKC.Watchlist.Detail.Identity,tmdb.movie.$INFO[ListItem.UniqueID(tmdb)],Home)</onload>
+    <onload condition="System.AddonIsEnabled(plugin.video.plexkodiconnect) + String.IsEmpty(ListItem.DBID) + String.IsEmpty(ListItem.Property(ratingKey)) + !String.IsEmpty(ListItem.UniqueID(tmdb)) + String.IsEqual(ListItem.DBTYPE,movie)">RunPlugin(plugin://plugin.video.plexkodiconnect/?mode=watchlist_status_tmdb&amp;tmdb_id=$INFO[ListItem.UniqueID(tmdb)]&amp;tmdb_type=movie)</onload>
+    <onload condition="System.AddonIsEnabled(plugin.video.plexkodiconnect) + String.IsEmpty(ListItem.DBID) + String.IsEmpty(ListItem.Property(ratingKey)) + !String.IsEmpty(ListItem.UniqueID(tmdb)) + String.IsEqual(ListItem.DBTYPE,tvshow)">SetProperty(PKC.Watchlist.Detail.Identity,tmdb.tv.$INFO[ListItem.UniqueID(tmdb)],Home)</onload>
+    <onload condition="System.AddonIsEnabled(plugin.video.plexkodiconnect) + String.IsEmpty(ListItem.DBID) + String.IsEmpty(ListItem.Property(ratingKey)) + !String.IsEmpty(ListItem.UniqueID(tmdb)) + String.IsEqual(ListItem.DBTYPE,tvshow)">RunPlugin(plugin://plugin.video.plexkodiconnect/?mode=watchlist_status_tmdb&amp;tmdb_id=$INFO[ListItem.UniqueID(tmdb)]&amp;tmdb_type=tvshow)</onload>
+
+    <onload condition="System.AddonIsEnabled(plugin.video.plexkodiconnect) + String.IsEmpty(ListItem.DBID) + String.IsEmpty(ListItem.Property(ratingKey)) + String.IsEmpty(ListItem.UniqueID(tmdb)) + !String.IsEmpty(ListItem.Property(tmdb_id)) + String.IsEqual(ListItem.DBTYPE,movie)">SetProperty(PKC.Watchlist.Detail.Identity,tmdb.movie.$INFO[ListItem.Property(tmdb_id)],Home)</onload>
+    <onload condition="System.AddonIsEnabled(plugin.video.plexkodiconnect) + String.IsEmpty(ListItem.DBID) + String.IsEmpty(ListItem.Property(ratingKey)) + String.IsEmpty(ListItem.UniqueID(tmdb)) + !String.IsEmpty(ListItem.Property(tmdb_id)) + String.IsEqual(ListItem.DBTYPE,movie)">RunPlugin(plugin://plugin.video.plexkodiconnect/?mode=watchlist_status_tmdb&amp;tmdb_id=$INFO[ListItem.Property(tmdb_id)]&amp;tmdb_type=movie)</onload>
+    <onload condition="System.AddonIsEnabled(plugin.video.plexkodiconnect) + String.IsEmpty(ListItem.DBID) + String.IsEmpty(ListItem.Property(ratingKey)) + String.IsEmpty(ListItem.UniqueID(tmdb)) + !String.IsEmpty(ListItem.Property(tmdb_id)) + String.IsEqual(ListItem.DBTYPE,tvshow)">SetProperty(PKC.Watchlist.Detail.Identity,tmdb.tv.$INFO[ListItem.Property(tmdb_id)],Home)</onload>
+    <onload condition="System.AddonIsEnabled(plugin.video.plexkodiconnect) + String.IsEmpty(ListItem.DBID) + String.IsEmpty(ListItem.Property(ratingKey)) + String.IsEmpty(ListItem.UniqueID(tmdb)) + !String.IsEmpty(ListItem.Property(tmdb_id)) + String.IsEqual(ListItem.DBTYPE,tvshow)">RunPlugin(plugin://plugin.video.plexkodiconnect/?mode=watchlist_status_tmdb&amp;tmdb_id=$INFO[ListItem.Property(tmdb_id)]&amp;tmdb_type=tvshow)</onload>
+
+    <!-- TMDb Helper publishes monitor identities asynchronously; validate freshness in PKC. -->
+    <onload condition="System.AddonIsEnabled(plugin.video.plexkodiconnect) + String.IsEmpty(ListItem.DBID) + String.IsEmpty(ListItem.Property(ratingKey)) + String.IsEmpty(ListItem.UniqueID(tmdb)) + String.IsEmpty(ListItem.Property(tmdb_id)) + [String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,tvshow)]">RunPlugin(plugin://plugin.video.plexkodiconnect/?mode=watchlist_status_monitor)</onload>
 
     <controls>
 

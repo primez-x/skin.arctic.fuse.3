@@ -584,8 +584,10 @@
     </variable>
 
     <variable name="Label_DialogInfo_PlayButton">
-        <value condition="String.IsEmpty(ListItem.DBID) + String.IsEqual(ListItem.Property(LISTINGKEY),watchlist) + [!String.IsEmpty(ListItem.Property(ratingKey)) | !String.IsEmpty(ListItem.UniqueID(tmdb)) | !String.IsEmpty(ListItem.Property(tmdb_id)) | [String.IsEmpty(ListItem.Property(ratingKey)) + String.IsEmpty(ListItem.UniqueID(tmdb)) + String.IsEmpty(ListItem.Property(tmdb_id)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID)) + [String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_Type),movie) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_Type),tv)]]]">Remove from Watchlist</value>
-        <value condition="String.IsEmpty(ListItem.DBID) + [[[String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,tvshow)] + [!String.IsEmpty(ListItem.Property(ratingKey)) | !String.IsEmpty(ListItem.UniqueID(tmdb)) | !String.IsEmpty(ListItem.Property(tmdb_id))]] | [String.IsEmpty(ListItem.Property(ratingKey)) + String.IsEmpty(ListItem.UniqueID(tmdb)) + String.IsEmpty(ListItem.Property(tmdb_id)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID)) + [String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_Type),movie) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_Type),tv)]]]">Add to Watchlist</value>
+        <value condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.State),present)">Remove from Watchlist</value>
+        <value condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.State),absent)">Add to Watchlist</value>
+        <value condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEqual(ListItem.Property(LISTINGKEY),watchlist) + !String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.State),absent)">Remove from Watchlist</value>
+        <value condition="$EXP[Exp_PlexWatchlist_Target]">Add to Watchlist</value>
         <value condition="$EXP[Exp_IsFolder]">$LOCALIZE[1024]</value>
         <value>$LOCALIZE[208]</value>
     </variable>
