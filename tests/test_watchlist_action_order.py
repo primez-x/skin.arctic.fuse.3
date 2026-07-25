@@ -70,7 +70,6 @@ class WatchlistActionOrderTests(unittest.TestCase):
         actions = (SKIN_ROOT / "1080i" / "Includes_Actions.xml").read_text(
             encoding="utf-8"
         )
-        self.assertIn("PKC.Watchlist.Detail.Pending", actions)
         self.assertIn("PKC.Watchlist.Detail.OptimisticIdentity", actions)
         self.assertIn("PKC.Watchlist.Detail.OptimisticState", actions)
         self.assertIn("PKC.Watchlist.Detail.OptimisticDispatch", actions)
@@ -133,6 +132,16 @@ class WatchlistActionOrderTests(unittest.TestCase):
                 encoding="utf-8"
             ),
         )
+        watchlist_target = next(
+            expression
+            for expression in ET.parse(
+                SKIN_ROOT / "1080i" / "Includes_Expressions.xml"
+            ).getroot()
+            if expression.get("name") == "Exp_PlexWatchlist_Target"
+        )
+        self.assertIn("String.IsEqual(ListItem.DBTYPE,movie)", watchlist_target.text)
+        self.assertIn("String.IsEqual(ListItem.DBTYPE,tvshow)", watchlist_target.text)
+        self.assertNotIn("ListItem.DBTYPE,video", watchlist_target.text)
 
         dialog_root = ET.fromstring(dialog)
         watchlist_onloads = [
@@ -149,7 +158,7 @@ class WatchlistActionOrderTests(unittest.TestCase):
             )
         )
 
-    def test_watchlist_preflight_projects_before_dispatch_and_guards_repeats(self):
+    def test_watchlist_preflight_accepts_every_tap_and_routes_the_projected_target(self):
         root = ET.parse(SKIN_ROOT / "1080i" / "Includes_Actions.xml").getroot()
         preflight = root.find(
             "./include[@name='Action_DialogInfo_WatchlistPreflight']"
@@ -164,19 +173,40 @@ class WatchlistActionOrderTests(unittest.TestCase):
 
         self.assertIn("OptimisticDispatch", "\n".join(actions))
         self.assertIn(optimistic_identity, actions)
+        self.assertIn("OptimisticDispatch,toggle", "\n".join(actions))
+        self.assertIn("OptimisticDispatch,remove", "\n".join(actions))
+        self.assertIn("OptimisticDispatch,add", "\n".join(actions))
         self.assertIn("OptimisticState,absent", "\n".join(actions))
         self.assertIn("OptimisticState,present", "\n".join(actions))
         self.assertIn("AlarmClock(pkc_watchlist_optimistic", "\n".join(actions))
-        self.assertLess(
-            actions.index(optimistic_identity),
-            actions.index("SetProperty(PKC.Watchlist.Detail.OptimisticState,absent,Home)"),
+        self.assertTrue(
+            all("PKC.Watchlist.Detail.Pending" not in action for action in actions)
         )
         self.assertLess(
             actions.index(optimistic_identity),
-            actions.index("SetProperty(PKC.Watchlist.Detail.OptimisticState,present,Home)"),
+            actions.index("SetProperty(PKC.Watchlist.Detail.OptimisticDispatch,remove,Home)"),
+        )
+        self.assertLess(
+            actions.index(optimistic_identity),
+            actions.index("SetProperty(PKC.Watchlist.Detail.OptimisticDispatch,add,Home)"),
         )
         self.assertIn("OptimisticState", guard)
         self.assertIn("OptimisticDispatch", guard)
+        self.assertNotIn("PKC.Watchlist.Detail.Pending", guard)
+
+        watchlist_values = [
+            value
+            for value in action_variable.findall("value")
+            if "mode=watchlist_" in (value.text or "")
+        ]
+        for value in watchlist_values:
+            mode = (value.text or "").split("mode=", 1)[1].split("&", 1)[0]
+            condition = value.get("condition", "")
+            expected_target = "absent" if "_remove_" in mode else "present"
+            self.assertIn(
+                f"PKC.Watchlist.Detail.OptimisticState),{expected_target})",
+                condition,
+            )
 
     def test_watchlist_actions_use_only_validated_monitor_identity(self):
         root = ET.parse(SKIN_ROOT / "1080i" / "Includes_Actions.xml").getroot()
