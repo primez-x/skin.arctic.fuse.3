@@ -1535,6 +1535,7 @@
                         <param name="id">4001</param>
                         <param name="control">button</param>
                         <label>$VAR[Label_DialogInfo_PlayButton]</label>
+                        <onclick condition="String.IsEmpty(ListItem.DBID) + !String.IsEmpty(ListItem.Property(ratingKey))">Dialog.Close(1190,true)</onclick>
                         <onclick>$VAR[Action_DialogInfo_PlayMedia]</onclick>
                     </include>
 

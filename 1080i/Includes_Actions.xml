@@ -31,6 +31,8 @@
     </include>
 
     <variable name="Action_DialogInfo_PlayMedia">
+        <!-- Remove from Watchlist (non-library item in watchlist view) -->
+        <value condition="String.IsEmpty(ListItem.DBID) + !String.IsEmpty(ListItem.Property(ratingKey)) + String.IsEqual(ListItem.Property(LISTINGKEY),watchlist)">RunPlugin(plugin://plugin.video.plexkodiconnect/?mode=watchlist_remove_key&amp;rating_key=$INFO[ListItem.Property(ratingKey)]&amp;plex_type=$INFO[ListItem.DBTYPE])</value>
         <!-- Add to Watchlist (non-library discover item) -->
         <value condition="String.IsEmpty(ListItem.DBID) + !String.IsEmpty(ListItem.Property(ratingKey))">RunPlugin(plugin://plugin.video.plexkodiconnect/?mode=watchlist_add_key&amp;rating_key=$INFO[ListItem.Property(ratingKey)]&amp;plex_type=$INFO[ListItem.DBTYPE])</value>
         <!-- Play FileNameAndPath -->
