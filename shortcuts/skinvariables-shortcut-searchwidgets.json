@@ -40,5 +40,33 @@
         "path": "DefaultSearch-TMDBShows",
         "target": "videos",
         "widget_style": "Poster"
+    },
+    {
+        "label": "Spotify Tracks",
+        "icon": "special://skin/extras/icons/song.png",
+        "path": "DefaultSearch-SpotifySongs",
+        "target": "music",
+        "widget_style": "Square"
+    },
+    {
+        "label": "Spotify Artists",
+        "icon": "special://skin/extras/icons/artist.png",
+        "path": "DefaultSearch-SpotifyArtists",
+        "target": "music",
+        "widget_style": "Square"
+    },
+    {
+        "label": "Spotify Albums",
+        "icon": "special://skin/extras/icons/songs.png",
+        "path": "DefaultSearch-SpotifyAlbums",
+        "target": "music",
+        "widget_style": "Square"
+    },
+    {
+        "label": "Spotify Playlists",
+        "icon": "special://skin/extras/icons/playlist.png",
+        "path": "DefaultSearch-SpotifyPlaylists",
+        "target": "music",
+        "widget_style": "Square"
     }
 ]

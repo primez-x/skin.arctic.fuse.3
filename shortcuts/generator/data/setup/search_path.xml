@@ -122,19 +122,19 @@
         </rule>
         <rule>
             <condition>{item_path}==DefaultSearch-SpotifyArtists</condition>
-            <value>plugin://plugin.audio.spotify/?action=search_artists&amp;amp;artistid=</value>
+            <value>plugin://plugin.audio.spotifykodiconnect/?action=search_artists&amp;amp;artistid=</value>
         </rule>
         <rule>
             <condition>{item_path}==DefaultSearch-SpotifyAlbums</condition>
-            <value>plugin://plugin.audio.spotify/?action=search_albums&amp;amp;albumid=</value>
+            <value>plugin://plugin.audio.spotifykodiconnect/?action=search_albums&amp;amp;albumid=</value>
         </rule>
         <rule>
             <condition>{item_path}==DefaultSearch-SpotifySongs</condition>
-            <value>plugin://plugin.audio.spotify/?action=search_tracks&amp;amp;trackid=</value>
+            <value>plugin://plugin.audio.spotifykodiconnect/?action=search_tracks&amp;amp;trackid=</value>
         </rule>
         <rule>
             <condition>{item_path}==DefaultSearch-SpotifyPlaylists</condition>
-            <value>plugin://plugin.audio.spotify/?action=search_playlists&amp;amp;playlistid=</value>
+            <value>plugin://plugin.audio.spotifykodiconnect/?action=search_playlists&amp;amp;playlistid=</value>
         </rule>
         <rule>
             <condition>{item_path}==DefaultSearch-TMDBMovies</condition>
