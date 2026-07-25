@@ -1514,9 +1514,9 @@
             <control type="group">
                 <top>20</top>
                 <left>20</left>
-                <height>100</height>
+                <height>120</height>
                 <include content="View_Line">
-                    <param name="top">20</param>
+                    <param name="top">80</param>
                     <param name="use_spinner">false</param>
                     <param name="left">20</param>
                     <param name="label" />

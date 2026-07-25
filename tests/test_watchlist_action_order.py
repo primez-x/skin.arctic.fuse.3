@@ -170,7 +170,11 @@ class WatchlistActionOrderTests(unittest.TestCase):
             SKIN_ROOT / "1080i" / "Includes_DialogInfo.xml"
         ).getroot()
 
-        for include_name in ("DialogInfo_VideoDetails", "_DialogInfo_MusicDetails"):
+        action_heights = {
+            "DialogInfo_VideoDetails": "120",
+            "_DialogInfo_MusicDetails": "100",
+        }
+        for include_name, action_height in action_heights.items():
             definition = dialog_root.find(
                 f"./include[@name='{include_name}']/definition"
             )
@@ -182,11 +186,15 @@ class WatchlistActionOrderTests(unittest.TestCase):
             action_row = action_group.find("./control[@type='group']")
             action_list = action_row.find("./control[@type='grouplist'][@id='9000']")
 
-            self.assertEqual(action_group.findtext("height"), "100")
+            self.assertEqual(action_group.findtext("height"), action_height)
             self.assertEqual(action_row.findtext("top"), "10")
             self.assertEqual(action_row.findtext("height"), "80")
             self.assertEqual(action_list.findtext("top"), "0")
             self.assertEqual(action_list.findtext("height"), "80")
+
+            if include_name == "DialogInfo_VideoDetails":
+                divider = action_group.find("./include[@content='View_Line']")
+                self.assertEqual(divider.findtext("param[@name='top']"), "80")
 
         foregrounds = dialog_root.findall(
             ".//include[@content='DialogInfo_PrimaryActionForeground']"
