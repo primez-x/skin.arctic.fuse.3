@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<includes>
+    <!--
+        script.skinvariables replaces this default-profile fallback with the
+        generated includes after Kodi has loaded the skin. Keeping it packaged
+        prevents a first load or an add-on update from referencing a missing
+        XML file.
+    -->
+</includes>
