@@ -1,38 +1,14 @@
 [
-    {
-        "label": "On Deck",
-        "icon": "",
-        "path": "special://skin/extras/playlists/InProgressMovies.xsp",
-        "target": "videos"
-    },
-    {
-        "label": "In-Progress",
-        "icon": "",
-        "path": "special://skin/extras/playlists/InProgressEpisodes.xsp",
-        "target": "videos"
-    },
-    {
-        "label": "New Movies",
-        "icon": "",
-        "path": "special://skin/extras/playlists/NewMovies.xsp",
-        "target": "videos"
-    },
-    {
-        "label": "New Shows",
-        "icon": "",
-        "path": "special://skin/extras/playlists/NewShows.xsp",
-        "target": "videos"
-    },
-    {
-        "label": "Recent Shows",
-        "icon": "",
-        "path": "special://skin/extras/playlists/RecentTvShows.xsp",
-        "target": "videos"
-    },
-    {
-        "label": "Top 250",
-        "icon": "",
-        "path": "special://skin/extras/playlists/Top250Movies.xsp",
-        "target": "videos"
-    }
+    {"label": "On Deck", "icon": "", "path": "special://skin/extras/playlists/InProgressMovies.xsp", "target": "videos"},
+    {"label": "In-Progress", "icon": "", "path": "special://skin/extras/playlists/InProgressEpisodes.xsp", "target": "videos"},
+    {"label": "New Movies", "icon": "", "path": "special://skin/extras/playlists/NewMovies.xsp", "target": "videos"},
+    {"label": "New Shows", "icon": "", "path": "special://skin/extras/playlists/NewShows.xsp", "target": "videos"},
+    {"label": "Recent Shows", "icon": "", "path": "special://skin/extras/playlists/RecentTvShows.xsp", "target": "videos"},
+    {"label": "Top 250", "icon": "", "path": "special://skin/extras/playlists/Top250Movies.xsp", "target": "videos"},
+    {"label": "Plex: Trending", "icon": "special://skin/extras/icons/film.png", "path": "plugin://plugin.video.plexkodiconnect/?mode=discover_hub&hub_id=trending-plex", "target": "videos"},
+    {"label": "Plex: Most Watchlisted", "icon": "special://skin/extras/icons/film.png", "path": "plugin://plugin.video.plexkodiconnect/?mode=discover_hub&hub_id=top_watchlisted", "target": "videos"},
+    {"label": "Plex: Trending for You", "icon": "special://skin/extras/icons/film.png", "path": "plugin://plugin.video.plexkodiconnect/?mode=discover_hub&hub_id=trending-for-you", "target": "videos"},
+    {"label": "Plex: Horror Debuts", "icon": "special://skin/extras/icons/film.png", "path": "plugin://plugin.video.plexkodiconnect/?mode=discover_hub&hub_id=horror-debuts", "target": "videos"},
+    {"label": "Plex: Trending Trailers", "icon": "special://skin/extras/icons/video.png", "path": "plugin://plugin.video.plexkodiconnect/?mode=discover_hub&hub_id=trending-trailers", "target": "videos"},
+    {"label": "Plex: Discover Hubs", "icon": "special://skin/extras/icons/video.png", "path": "plugin://plugin.video.plexkodiconnect/?mode=discover_hubs", "target": "videos"}
 ]
