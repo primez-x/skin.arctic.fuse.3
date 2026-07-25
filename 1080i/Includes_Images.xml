@@ -375,6 +375,10 @@
     </variable>
 
     <variable name="Image_DialogInfo_PlayButton">
+        <value condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.OptimisticState),present) + Control.HasFocus(4001)">special://skin/extras/icons/circle-xmark.png</value>
+        <value condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.OptimisticState),present)">special://skin/extras/icons/circle-xmark-regular.png</value>
+        <value condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.OptimisticState),absent) + Control.HasFocus(4001)">special://skin/extras/icons/circle-check.png</value>
+        <value condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.OptimisticState),absent)">special://skin/extras/icons/circle-check-regular.png</value>
         <value condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.State),present) + Control.HasFocus(4001)">special://skin/extras/icons/circle-xmark.png</value>
         <value condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.State),present)">special://skin/extras/icons/circle-xmark-regular.png</value>
         <value condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEqual(ListItem.Property(LISTINGKEY),watchlist) + !String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.State),absent) + Control.HasFocus(4001)">special://skin/extras/icons/circle-xmark.png</value>

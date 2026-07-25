@@ -1543,7 +1543,9 @@
                         <param name="focusedcolor">00ffffff</param>
                         <param name="selectedcolor">00ffffff</param>
                         <label>$VAR[Label_DialogInfo_PlayButton]</label>
+                        <include>Action_DialogInfo_WatchlistPreflight</include>
                         <onclick>$VAR[Action_DialogInfo_PlayMedia]</onclick>
+                        <onclick condition="$EXP[Exp_PlexWatchlist_Target]">ClearProperty(PKC.Watchlist.Detail.OptimisticDispatch,Home)</onclick>
                         <onclick condition="String.IsEmpty(ListItem.DBID) + !$EXP[Exp_PlexWatchlist_Target] + [[String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,tvshow)] | [String.IsEmpty(ListItem.Property(ratingKey)) + String.IsEmpty(ListItem.UniqueID(tmdb)) + String.IsEmpty(ListItem.Property(tmdb_id)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID)) + [String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_Type),movie) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_Type),tv)]]]">Dialog.Close(1190,true)</onclick>
                     </include>
 

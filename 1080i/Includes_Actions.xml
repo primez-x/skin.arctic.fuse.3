@@ -30,9 +30,19 @@
         <onclick>ClearProperty(TMDbHelper.ListItem.base_label,Home)</onclick>
     </include>
 
+    <!-- Render the detail action immediately; PKC reconciles this projection. -->
+    <include name="Action_DialogInfo_WatchlistPreflight">
+        <onclick condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEmpty(Window(Home).Property(PKC.Watchlist.Detail.Pending)) + String.IsEmpty(Window(Home).Property(PKC.Watchlist.Detail.OptimisticState))">CancelAlarm(pkc_watchlist_optimistic,true)</onclick>
+        <onclick condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEmpty(Window(Home).Property(PKC.Watchlist.Detail.Pending)) + String.IsEmpty(Window(Home).Property(PKC.Watchlist.Detail.OptimisticState))">SetProperty(PKC.Watchlist.Detail.OptimisticDispatch,1,Home)</onclick>
+        <onclick condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEmpty(Window(Home).Property(PKC.Watchlist.Detail.Pending)) + String.IsEmpty(Window(Home).Property(PKC.Watchlist.Detail.OptimisticState))">SetProperty(PKC.Watchlist.Detail.OptimisticIdentity,$INFO[Window(Home).Property(PKC.Watchlist.Detail.Identity)],Home)</onclick>
+        <onclick condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEmpty(Window(Home).Property(PKC.Watchlist.Detail.Pending)) + String.IsEmpty(Window(Home).Property(PKC.Watchlist.Detail.OptimisticState)) + [String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.State),present) | [String.IsEqual(ListItem.Property(LISTINGKEY),watchlist) + !String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.State),absent)]]">SetProperty(PKC.Watchlist.Detail.OptimisticState,absent,Home)</onclick>
+        <onclick condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEmpty(Window(Home).Property(PKC.Watchlist.Detail.Pending)) + String.IsEmpty(Window(Home).Property(PKC.Watchlist.Detail.OptimisticState)) + ![String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.State),present) | [String.IsEqual(ListItem.Property(LISTINGKEY),watchlist) + !String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.State),absent)]]">SetProperty(PKC.Watchlist.Detail.OptimisticState,present,Home)</onclick>
+        <onclick condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEmpty(Window(Home).Property(PKC.Watchlist.Detail.Pending))">AlarmClock(pkc_watchlist_optimistic,ClearProperty(PKC.Watchlist.Detail.OptimisticState,Home),00:30,silent)</onclick>
+    </include>
+
     <variable name="Action_DialogInfo_PlayMedia">
         <!-- Keep focus on the action pill while a native Watchlist mutation verifies. -->
-        <value condition="$EXP[Exp_PlexWatchlist_Target] + !String.IsEmpty(Window(Home).Property(PKC.Watchlist.Detail.Pending))">SetFocus(4001)</value>
+        <value condition="$EXP[Exp_PlexWatchlist_Target] + [!String.IsEmpty(Window(Home).Property(PKC.Watchlist.Detail.Pending)) | [!String.IsEmpty(Window(Home).Property(PKC.Watchlist.Detail.OptimisticState)) + String.IsEmpty(Window(Home).Property(PKC.Watchlist.Detail.OptimisticDispatch))]]">SetFocus(4001)</value>
         <!-- Remove from Watchlist (non-library item with ratingKey, in watchlist view) -->
         <value condition="$EXP[Exp_PlexWatchlist_Target] + !String.IsEmpty(ListItem.Property(ratingKey)) + [String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.State),present) | [String.IsEqual(ListItem.Property(LISTINGKEY),watchlist) + !String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.State),absent)]]">RunPlugin(plugin://plugin.video.plexkodiconnect/?mode=watchlist_remove_key&amp;rating_key=$INFO[ListItem.Property(ratingKey)]&amp;plex_type=$INFO[ListItem.DBTYPE])</value>
         <!-- Remove from Watchlist (non-library item with an exact TMDb ID) -->

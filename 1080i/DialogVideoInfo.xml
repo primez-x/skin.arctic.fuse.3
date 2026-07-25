@@ -15,6 +15,10 @@
     <onload>ClearProperty(PKC.Watchlist.Detail.RequestId,Home)</onload>
     <onload>ClearProperty(PKC.Watchlist.Detail.StatusRevision,Home)</onload>
     <onload>ClearProperty(PKC.Watchlist.Detail.Error,Home)</onload>
+    <onload>CancelAlarm(pkc_watchlist_optimistic,true)</onload>
+    <onload>ClearProperty(PKC.Watchlist.Detail.OptimisticIdentity,Home)</onload>
+    <onload>ClearProperty(PKC.Watchlist.Detail.OptimisticState,Home)</onload>
+    <onload>ClearProperty(PKC.Watchlist.Detail.OptimisticDispatch,Home)</onload>
     <onload>ClearProperty(PKC.Watchlist.Detail.TMDbId,Home)</onload>
     <onload>ClearProperty(PKC.Watchlist.Detail.TMDbType,Home)</onload>
     <onload>ClearProperty(PKC.Watchlist.Detail.RatingKey,Home)</onload>
@@ -23,6 +27,10 @@
     <onload>SetProperty(PKC.Watchlist.Detail.Context.DBType,$INFO[ListItem.DBTYPE],Home)</onload>
 
     <onunload>ClearProperty(PKC.Watchlist.Detail.Identity,Home)</onunload>
+    <onunload>CancelAlarm(pkc_watchlist_optimistic,true)</onunload>
+    <onunload>ClearProperty(PKC.Watchlist.Detail.OptimisticIdentity,Home)</onunload>
+    <onunload>ClearProperty(PKC.Watchlist.Detail.OptimisticState,Home)</onunload>
+    <onunload>ClearProperty(PKC.Watchlist.Detail.OptimisticDispatch,Home)</onunload>
     <onunload>ClearProperty(PKC.Watchlist.Detail.Revision,Home)</onunload>
     <onunload>ClearProperty(PKC.Watchlist.Detail.StatusRevision,Home)</onunload>
     <onunload>ClearProperty(PKC.Watchlist.Detail.RatingKey,Home)</onunload>

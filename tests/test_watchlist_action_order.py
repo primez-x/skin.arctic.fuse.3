@@ -43,11 +43,20 @@ class WatchlistActionOrderTests(unittest.TestCase):
         source = (SKIN_ROOT / "1080i" / "Includes_DialogInfo.xml").read_text(
             encoding="utf-8"
         )
-        button = source.split('<param name="id">4001</param>', 1)[1].split(
-            "</include>", 1
-        )[0]
+        dialog_root = ET.fromstring(source)
+        button = ET.tostring(
+            next(
+                include
+                for include in dialog_root.findall(".//include")
+                if include.get("content") == "Button_DialogInfo_ActionPill"
+                and include.findtext("param[@name='id']") == "4001"
+            ),
+            encoding="unicode",
+        )
 
         self.assertIn("<onclick>$VAR[Action_DialogInfo_PlayMedia]</onclick>", button)
+        self.assertIn("<include>Action_DialogInfo_WatchlistPreflight</include>", button)
+        self.assertIn("PKC.Watchlist.Detail.OptimisticDispatch", button)
         self.assertIn('content="Button_DialogInfo_ActionPill"', source)
         self.assertNotIn("<enable>", button)
         self.assertIn(
@@ -62,6 +71,9 @@ class WatchlistActionOrderTests(unittest.TestCase):
             encoding="utf-8"
         )
         self.assertIn("PKC.Watchlist.Detail.Pending", actions)
+        self.assertIn("PKC.Watchlist.Detail.OptimisticIdentity", actions)
+        self.assertIn("PKC.Watchlist.Detail.OptimisticState", actions)
+        self.assertIn("PKC.Watchlist.Detail.OptimisticDispatch", actions)
         self.assertIn("SetFocus(4001)", actions)
 
     def test_watchlist_detail_bootstraps_from_plex_and_projects_state(self):
@@ -90,9 +102,30 @@ class WatchlistActionOrderTests(unittest.TestCase):
             "<onunload>ClearProperty(PKC.Watchlist.Detail.StatusRevision,Home)</onunload>",
             dialog,
         )
+        self.assertIn(
+            "<onload>ClearProperty(PKC.Watchlist.Detail.OptimisticIdentity,Home)</onload>",
+            dialog,
+        )
+        self.assertIn(
+            "<onload>ClearProperty(PKC.Watchlist.Detail.OptimisticState,Home)</onload>",
+            dialog,
+        )
+        self.assertIn(
+            "<onunload>ClearProperty(PKC.Watchlist.Detail.OptimisticIdentity,Home)</onunload>",
+            dialog,
+        )
+        self.assertIn(
+            "<onunload>ClearProperty(PKC.Watchlist.Detail.OptimisticState,Home)</onunload>",
+            dialog,
+        )
+        self.assertIn("CancelAlarm(pkc_watchlist_optimistic,true)", dialog)
         self.assertIn("PKC.Watchlist.Detail.RatingKey", dialog)
         self.assertIn("PKC.Watchlist.Detail.MonitorRevision", dialog)
         self.assertIn("PKC.Watchlist.Detail.State", labels)
+        self.assertLess(
+            labels.index("PKC.Watchlist.Detail.OptimisticState"),
+            labels.index("PKC.Watchlist.Detail.State"),
+        )
         self.assertIn("PKC.Watchlist.Detail.State", actions)
         self.assertIn(
             "PKC.Watchlist.Detail.Identity",
@@ -115,6 +148,35 @@ class WatchlistActionOrderTests(unittest.TestCase):
                 for onload in watchlist_onloads
             )
         )
+
+    def test_watchlist_preflight_projects_before_dispatch_and_guards_repeats(self):
+        root = ET.parse(SKIN_ROOT / "1080i" / "Includes_Actions.xml").getroot()
+        preflight = root.find(
+            "./include[@name='Action_DialogInfo_WatchlistPreflight']"
+        )
+        actions = [onclick.text or "" for onclick in preflight.findall("onclick")]
+        action_variable = root.find("./variable[@name='Action_DialogInfo_PlayMedia']")
+        guard = action_variable.find("value").get("condition", "")
+        optimistic_identity = (
+            "SetProperty(PKC.Watchlist.Detail.OptimisticIdentity,"
+            "$INFO[Window(Home).Property(PKC.Watchlist.Detail.Identity)],Home)"
+        )
+
+        self.assertIn("OptimisticDispatch", "\n".join(actions))
+        self.assertIn(optimistic_identity, actions)
+        self.assertIn("OptimisticState,absent", "\n".join(actions))
+        self.assertIn("OptimisticState,present", "\n".join(actions))
+        self.assertIn("AlarmClock(pkc_watchlist_optimistic", "\n".join(actions))
+        self.assertLess(
+            actions.index(optimistic_identity),
+            actions.index("SetProperty(PKC.Watchlist.Detail.OptimisticState,absent,Home)"),
+        )
+        self.assertLess(
+            actions.index(optimistic_identity),
+            actions.index("SetProperty(PKC.Watchlist.Detail.OptimisticState,present,Home)"),
+        )
+        self.assertIn("OptimisticState", guard)
+        self.assertIn("OptimisticDispatch", guard)
 
     def test_watchlist_actions_use_only_validated_monitor_identity(self):
         root = ET.parse(SKIN_ROOT / "1080i" / "Includes_Actions.xml").getroot()
@@ -160,6 +222,7 @@ class WatchlistActionOrderTests(unittest.TestCase):
             self.assertIn(icon, images)
             self.assertTrue((SKIN_ROOT / "extras" / "icons" / icon).is_file())
         self.assertIn("Control.HasFocus(4001)", conditions)
+        self.assertIn("PKC.Watchlist.Detail.OptimisticState", conditions)
         self.assertNotIn("circle-regular.png", images)
         self.assertNotIn("circle-plus.png", images)
         self.assertNotIn("square-plus.png", images)
