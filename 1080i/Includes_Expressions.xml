@@ -8,6 +8,8 @@
     <expression name="Exp_TMDbHelper_IsBlur">[Skin.HasSetting(TMDbHelper.EnableBlur)]</expression>
     <expression name="Exp_TMDbHelper_IsCrop">[Skin.HasSetting(TMDbHelper.EnableCrop)]</expression>
     <expression name="Exp_PlexWatchlist_Target">[System.AddonIsEnabled(plugin.video.plexkodiconnect) + String.IsEmpty(ListItem.DBID) + [String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,tvshow)] + !String.IsEmpty(Window(Home).Property(PKC.Watchlist.Detail.Identity)) + [!String.IsEmpty(ListItem.Property(ratingKey)) | !String.IsEmpty(ListItem.UniqueID(tmdb)) | !String.IsEmpty(ListItem.Property(tmdb_id)) | [String.IsEmpty(ListItem.Property(ratingKey)) + String.IsEmpty(ListItem.UniqueID(tmdb)) + String.IsEmpty(ListItem.Property(tmdb_id)) + !String.IsEmpty(Window(Home).Property(PKC.Watchlist.Detail.TMDbId)) + [String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.TMDbType),movie) | String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.TMDbType),tv)]]]]</expression>
+    <expression name="Exp_PlexWatchlist_EffectivePresent">[$EXP[Exp_PlexWatchlist_Target] + [String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.OptimisticState),present) | [String.IsEmpty(Window(Home).Property(PKC.Watchlist.Detail.OptimisticState)) + [String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.State),present) | [String.IsEqual(ListItem.Property(LISTINGKEY),watchlist) + !String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.State),absent)]]]]]</expression>
+    <expression name="Exp_PlexWatchlist_EffectiveAbsent">[$EXP[Exp_PlexWatchlist_Target] + !$EXP[Exp_PlexWatchlist_EffectivePresent]]</expression>
 
 
     <!-- ============== -->

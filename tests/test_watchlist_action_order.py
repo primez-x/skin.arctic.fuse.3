@@ -54,9 +54,14 @@ class WatchlistActionOrderTests(unittest.TestCase):
             encoding="unicode",
         )
 
-        self.assertIn("<onclick>$VAR[Action_DialogInfo_PlayMedia]</onclick>", button)
+        self.assertIn(
+            '<onclick condition="!$EXP[Exp_PlexWatchlist_Target]">'
+            "$VAR[Action_DialogInfo_PlayMedia]</onclick>",
+            button,
+        )
         self.assertIn("<include>Action_DialogInfo_WatchlistPreflight</include>", button)
-        self.assertIn("PKC.Watchlist.Detail.OptimisticDispatch", button)
+        self.assertNotIn("Action_DialogInfo_WatchlistDispatch", button)
+        self.assertNotIn("PKC.Watchlist.Detail.OptimisticDispatch", button)
         self.assertIn('content="Button_DialogInfo_ActionPill"', source)
         self.assertNotIn("<enable>", button)
         self.assertIn(
@@ -72,8 +77,20 @@ class WatchlistActionOrderTests(unittest.TestCase):
         )
         self.assertIn("PKC.Watchlist.Detail.OptimisticIdentity", actions)
         self.assertIn("PKC.Watchlist.Detail.OptimisticState", actions)
-        self.assertIn("PKC.Watchlist.Detail.OptimisticDispatch", actions)
+        self.assertIn("Exp_PlexWatchlist_EffectivePresent", actions)
+        self.assertIn("Exp_PlexWatchlist_EffectiveAbsent", actions)
+        self.assertNotIn("PKC.Watchlist.Detail.OptimisticDispatch", actions)
         self.assertIn("SetFocus(4001)", actions)
+        self.assertNotIn("mode=watchlist_", button)
+
+        action_variable = ET.fromstring(actions).find(
+            "./variable[@name='Action_DialogInfo_PlayMedia']"
+        )
+        self.assertEqual(
+            action_variable.find("value").get("condition"),
+            "$EXP[Exp_PlexWatchlist_Target]",
+        )
+        self.assertEqual(action_variable.findtext("value"), "SetFocus(4001)")
 
     def test_watchlist_detail_bootstraps_from_plex_and_projects_state(self):
         dialog = (SKIN_ROOT / "1080i" / "DialogVideoInfo.xml").read_text(
@@ -118,6 +135,7 @@ class WatchlistActionOrderTests(unittest.TestCase):
             dialog,
         )
         self.assertIn("CancelAlarm(pkc_watchlist_optimistic,true)", dialog)
+        self.assertNotIn("PKC.Watchlist.Detail.OptimisticDispatch", dialog)
         self.assertIn("PKC.Watchlist.Detail.RatingKey", dialog)
         self.assertIn("PKC.Watchlist.Detail.MonitorRevision", dialog)
         self.assertIn("PKC.Watchlist.Detail.State", labels)
@@ -125,7 +143,7 @@ class WatchlistActionOrderTests(unittest.TestCase):
             labels.index("PKC.Watchlist.Detail.OptimisticState"),
             labels.index("PKC.Watchlist.Detail.State"),
         )
-        self.assertIn("PKC.Watchlist.Detail.State", actions)
+        self.assertNotIn("PKC.Watchlist.Detail.OptimisticDispatch", actions)
         self.assertIn(
             "PKC.Watchlist.Detail.Identity",
             (SKIN_ROOT / "1080i" / "Includes_Expressions.xml").read_text(
@@ -142,6 +160,25 @@ class WatchlistActionOrderTests(unittest.TestCase):
         self.assertIn("String.IsEqual(ListItem.DBTYPE,movie)", watchlist_target.text)
         self.assertIn("String.IsEqual(ListItem.DBTYPE,tvshow)", watchlist_target.text)
         self.assertNotIn("ListItem.DBTYPE,video", watchlist_target.text)
+
+        expressions = ET.parse(
+            SKIN_ROOT / "1080i" / "Includes_Expressions.xml"
+        ).getroot()
+        effective_present = next(
+            expression
+            for expression in expressions
+            if expression.get("name") == "Exp_PlexWatchlist_EffectivePresent"
+        )
+        effective_absent = next(
+            expression
+            for expression in expressions
+            if expression.get("name") == "Exp_PlexWatchlist_EffectiveAbsent"
+        )
+        self.assertIn("$EXP[Exp_PlexWatchlist_Target]", effective_present.text)
+        self.assertIn("PKC.Watchlist.Detail.OptimisticState", effective_present.text)
+        self.assertIn("PKC.Watchlist.Detail.State", effective_present.text)
+        self.assertIn("$EXP[Exp_PlexWatchlist_Target]", effective_absent.text)
+        self.assertIn("!$EXP[Exp_PlexWatchlist_EffectivePresent]", effective_absent.text)
 
         dialog_root = ET.fromstring(dialog)
         watchlist_onloads = [
@@ -185,18 +222,13 @@ class WatchlistActionOrderTests(unittest.TestCase):
             "./include[@name='Action_DialogInfo_WatchlistPreflight']"
         )
         actions = [onclick.text or "" for onclick in preflight.findall("onclick")]
-        action_variable = root.find("./variable[@name='Action_DialogInfo_PlayMedia']")
-        guard = action_variable.find("value").get("condition", "")
         optimistic_identity = (
             "SetProperty(PKC.Watchlist.Detail.OptimisticIdentity,"
             "$INFO[Window(Home).Property(PKC.Watchlist.Detail.Identity)],Home)"
         )
 
-        self.assertIn("OptimisticDispatch", "\n".join(actions))
         self.assertIn(optimistic_identity, actions)
-        self.assertIn("OptimisticDispatch,toggle", "\n".join(actions))
-        self.assertIn("OptimisticDispatch,remove", "\n".join(actions))
-        self.assertIn("OptimisticDispatch,add", "\n".join(actions))
+        self.assertNotIn("OptimisticDispatch", "\n".join(actions))
         self.assertIn("OptimisticState,absent", "\n".join(actions))
         self.assertIn("OptimisticState,present", "\n".join(actions))
         self.assertIn("AlarmClock(pkc_watchlist_optimistic", "\n".join(actions))
@@ -205,52 +237,64 @@ class WatchlistActionOrderTests(unittest.TestCase):
         )
         self.assertLess(
             actions.index(optimistic_identity),
-            actions.index("SetProperty(PKC.Watchlist.Detail.OptimisticDispatch,remove,Home)"),
+            actions.index("SetProperty(PKC.Watchlist.Detail.OptimisticState,absent,Home)"),
         )
         self.assertLess(
             actions.index(optimistic_identity),
-            actions.index("SetProperty(PKC.Watchlist.Detail.OptimisticDispatch,add,Home)"),
+            actions.index("SetProperty(PKC.Watchlist.Detail.OptimisticState,present,Home)"),
         )
-        self.assertIn("OptimisticState", guard)
-        self.assertIn("OptimisticDispatch", guard)
-        self.assertNotIn("PKC.Watchlist.Detail.Pending", guard)
-
-        watchlist_values = [
-            value
-            for value in action_variable.findall("value")
-            if "mode=watchlist_" in (value.text or "")
+        watchlist_actions = [
+            onclick
+            for onclick in preflight.findall("onclick")
+            if "mode=watchlist_" in (onclick.text or "")
         ]
-        for value in watchlist_values:
-            mode = (value.text or "").split("mode=", 1)[1].split("&", 1)[0]
-            condition = value.get("condition", "")
-            expected_target = "absent" if "_remove_" in mode else "present"
-            self.assertIn(
-                f"PKC.Watchlist.Detail.OptimisticState),{expected_target})",
-                condition,
+        self.assertEqual(len(watchlist_actions), 8)
+        for onclick in watchlist_actions:
+            mode = (onclick.text or "").split("mode=", 1)[1].split("&", 1)[0]
+            condition = onclick.get("condition", "")
+            expected_expression = (
+                "$EXP[Exp_PlexWatchlist_EffectivePresent]"
+                if "_remove_" in mode
+                else "$EXP[Exp_PlexWatchlist_EffectiveAbsent]"
             )
+            self.assertIn(expected_expression, condition)
+            self.assertNotIn("OptimisticDispatch", condition)
+
+        action_variable = root.find("./variable[@name='Action_DialogInfo_PlayMedia']")
+        self.assertEqual(
+            action_variable.find("value").get("condition"),
+            "$EXP[Exp_PlexWatchlist_Target]",
+        )
+        self.assertEqual(action_variable.findtext("value"), "SetFocus(4001)")
 
     def test_watchlist_actions_use_only_validated_monitor_identity(self):
         root = ET.parse(SKIN_ROOT / "1080i" / "Includes_Actions.xml").getroot()
-        action = root.find("./variable[@name='Action_DialogInfo_PlayMedia']")
+        action = root.find("./include[@name='Action_DialogInfo_WatchlistPreflight']")
         watchlist_values = [
-            value
-            for value in action.findall("value")
-            if "mode=watchlist_" in (value.text or "")
+            onclick
+            for onclick in action.findall("onclick")
+            if "mode=watchlist_" in (onclick.text or "")
         ]
 
         self.assertEqual(len(watchlist_values), 8)
         self.assertTrue(
             all(
-                "$EXP[Exp_PlexWatchlist_Target]" in value.get("condition", "")
+                (
+                    "$EXP[Exp_PlexWatchlist_EffectivePresent]"
+                    in value.get("condition", "")
+                    or "$EXP[Exp_PlexWatchlist_EffectiveAbsent]"
+                    in value.get("condition", "")
+                )
                 for value in watchlist_values
             )
         )
-        action_source = "\n".join(value.text or "" for value in watchlist_values)
+        action_source = "\n".join(onclick.text or "" for onclick in watchlist_values)
         action_conditions = "\n".join(
-            value.get("condition", "") for value in watchlist_values
+            onclick.get("condition", "") for onclick in watchlist_values
         )
         self.assertNotIn("TMDbHelper.ListItem.Monitor", action_source)
         self.assertNotIn("TMDbHelper.ListItem.Monitor", action_conditions)
+        self.assertNotIn("OptimisticDispatch", action_conditions)
         self.assertIn("PKC.Watchlist.Detail.TMDbId", action_source)
         self.assertIn("PKC.Watchlist.Detail.TMDbType", action_source)
 
