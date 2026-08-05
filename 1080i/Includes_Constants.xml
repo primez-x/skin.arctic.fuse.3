@@ -109,10 +109,6 @@
     <constant name="view_poster_wall_details_w">540</constant>
     <constant name="view_poster_wall_grid_l">680</constant>
     <constant name="view_poster_wall_grid_r">100</constant>
-    <constant name="view_poster_wall_details_flixart_w">1040</constant>
-    <constant name="view_poster_wall_details_flixart_h">585</constant>
-    <constant name="view_poster_wall_details_flixart_r">1050</constant>
-    <constant name="view_poster_wall_details_flixart_t">248</constant>
     <constant name="view_poster_wall_itemlayout_h">330</constant>
     <constant name="-view_poster_wall_itemlayout_h">-330</constant>
     <constant name="view_poster_wall_item_h">285</constant>
