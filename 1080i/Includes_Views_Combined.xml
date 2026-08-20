@@ -98,6 +98,7 @@
                         </include>
 
                         <onup>SetFocus(53$PARAM[id],0,absolute)</onup>
+                        <onup condition="Container(53$PARAM[id]).Content(episodes)">SetProperty(FirstUnwatched.UserChoseSeasons,true)</onup>
                         <onup>52$PARAM[id]</onup>
 
                         <include content="Action_View_Movement_OnDown">
@@ -110,10 +111,12 @@
 
                         <visible>Container(52$PARAM[id]).ListItem.IsFolder</visible>
                         <onclick condition="Container(53$PARAM[id]).ListItem.IsFolder">Container.Update($INFO[Container(53$PARAM[id]).ListItem.FolderPath])</onclick>
-                        <onclick condition="Container(53$PARAM[id]).ListItem.IsFolder">SetFocus(50)</onclick>
+                        <onclick condition="Container(53$PARAM[id]).ListItem.IsFolder">SetFocus(53$PARAM[id])</onclick>
                         <onclick condition="!Container(53$PARAM[id]).ListItem.IsFolder">PlayMedia($ESCINFO[Container(53$PARAM[id]).ListItem.FileNameAndPath])</onclick>
                         <content target="$VAR[Path_CollectionNode_Target]" sortby="$VAR[View_Combined_SortBy]" sortorder="ascending">$VAR[View_53$PARAM[id]_Content]</content>
+                        <onfocus condition="Container(53$PARAM[id]).Content(episodes) + !Container(53$PARAM[id]).IsUpdating + Integer.IsGreater(Container(53$PARAM[id]).NumItems,0) + String.IsEmpty(Window.Property(FirstUnwatched.UserChoseSeasons))">SetFocus(53$PARAM[id])</onfocus>
                         <onfocus>SetProperty(TMDbHelper.WidgetContainer,53$PARAM[id])</onfocus>
+                        <onfocus>ClearProperty(FirstUnwatched.UserChoseSeasons)</onfocus>
                         <onfocus>ClearProperty(Background.ShowOverlay,Home)</onfocus>
                         <onfocus>ClearProperty(InfoPanel.FullSwitch,Home)</onfocus>
 
@@ -165,6 +168,7 @@
             <height>80</height>
             <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
             <onfocus>ClearProperty(SpecialFolderPath)</onfocus>
+            <onfocus condition="Container(53$PARAM[id]).Content(episodes) + Integer.IsGreater(Container(53$PARAM[id]).NumItems,0) + String.IsEmpty(Window.Property(FirstUnwatched.UserChoseSeasons))">SetFocus(53$PARAM[id])</onfocus>
             <onfocus condition="![$PARAM[overlay]]">ClearProperty(Background.ShowOverlay,Home)</onfocus>
             <onfocus condition="$PARAM[overlay]">SetProperty(Background.ShowOverlay,True,Home)</onfocus>
             <onfocus condition="![$PARAM[overlay]]">ClearProperty(InfoPanel.FullSwitch,Home)</onfocus>
@@ -383,7 +387,7 @@
 
                 <nested />
 
-                <focusposition>1</focusposition>
+                <focusposition condition="!Container(53$PARAM[id]).Content(episodes)">1</focusposition>
                 <movement>$PARAM[movement]</movement>
                 <pagecontrol>64</pagecontrol>
                 <onright>64</onright>

@@ -29,7 +29,6 @@
                     </control>
                 </control>
                 <control type="group">
-                    <animation effect="slide" start="60,0" end="-60,0" time="10000" condition="true" reversible="false" pulse="true">Conditional</animation>
                     <animation effect="fade" end="20" condition="true">Conditional</animation>
                     <control type="image">
                         <texture flipx="true" flipy="true" colordiffuse="main_fg_70">holiday/$VAR[Path_HolidayMode]/snow_loop.png</texture>
@@ -45,7 +44,6 @@
                     </control>
                 </control>
                 <control type="group">
-                    <animation effect="slide" start="-60,0" end="60,0" time="10000" condition="true" reversible="false" pulse="true">Conditional</animation>
                     <control type="image">
                         <texture colordiffuse="main_fg_70">holiday/$VAR[Path_HolidayMode]/snow_loop.png</texture>
                         <width>2430</width>
@@ -62,7 +60,6 @@
                 <control type="group">
                     <posx>100</posx>
                     <visible>!Skin.HasSetting(Disable.HolidayTheme.AdditionalIcons)</visible>
-                    <animation effect="slide" start="-60,0" end="60,0" time="10000" condition="true" reversible="false" pulse="true">Conditional</animation>
                     <control type="multiimage">
                         <posx>100</posx>
                         <posy>-100</posy>
@@ -98,47 +95,6 @@
                         <imagepath>holiday/$VAR[Path_HolidayMode]/icons</imagepath>
                         <aspectratio scalediffuse="false">keep</aspectratio>
                         <animation effect="slide" start="0,0" end="0,1180" time="47000" delay="2400" reversible="false" loop="true" condition="true">Conditional</animation>
-                    </control>
-                </control>
-                <control type="group">
-                    <posx>900</posx>
-                    <visible>!Skin.HasSetting(Disable.HolidayTheme.AdditionalIcons)</visible>
-                    <animation effect="slide" start="-60,0" end="60,0" time="10000" condition="true" reversible="false" pulse="true">Conditional</animation>
-                    <control type="multiimage">
-                        <posx>100</posx>
-                        <posy>-100</posy>
-                        <width>24</width>
-                        <height>24</height>
-                        <timeperimage>23000</timeperimage>
-                        <fadetime>2000</fadetime>
-                        <randomize>true</randomize>
-                        <imagepath>holiday/$VAR[Path_HolidayMode]/icons</imagepath>
-                        <aspectratio scalediffuse="false">keep</aspectratio>
-                        <animation effect="slide" start="0,0" end="0,1180" time="24000" delay="1200" reversible="false" loop="true" condition="true">Conditional</animation>
-                    </control>
-                    <control type="multiimage">
-                        <posx>460</posx>
-                        <posy>-150</posy>
-                        <width>40</width>
-                        <height>40</height>
-                        <timeperimage>25000</timeperimage>
-                        <fadetime>2000</fadetime>
-                        <randomize>true</randomize>
-                        <imagepath>holiday/$VAR[Path_HolidayMode]/icons</imagepath>
-                        <aspectratio scalediffuse="false">keep</aspectratio>
-                        <animation effect="slide" start="0,0" end="0,1180" time="26000" delay="4300" reversible="false" loop="true" condition="true">Conditional</animation>
-                    </control>
-                    <control type="multiimage">
-                        <posx>690</posx>
-                        <posy>-30</posy>
-                        <width>32</width>
-                        <height>32</height>
-                        <timeperimage>27000</timeperimage>
-                        <fadetime>2000</fadetime>
-                        <randomize>true</randomize>
-                        <imagepath>holiday/$VAR[Path_HolidayMode]/icons</imagepath>
-                        <aspectratio scalediffuse="false">keep</aspectratio>
-                        <animation effect="slide" start="0,0" end="0,1180" time="28000" delay="2300" reversible="false" loop="true" condition="true">Conditional</animation>
                     </control>
                 </control>
             </control>

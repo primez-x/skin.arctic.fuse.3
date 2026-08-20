@@ -4,8 +4,8 @@
     <include name="DialogInfo_Animation_Delay">
         <param name="condition">true</param>
         <definition>
-            <animation effect="fade" start="0" end="100" delay="399" time="1" condition="$PARAM[condition]">WindowOpen</animation>
-            <animation effect="fade" start="100" end="0" delay="399" time="1" condition="$PARAM[condition]">WindowClose</animation>
+            <animation effect="fade" start="0" end="100" delay="dialoginfo_open_delay" time="1" condition="$PARAM[condition]">WindowOpen</animation>
+            <animation effect="fade" start="100" end="0" delay="dialoginfo_open_delay" time="1" condition="$PARAM[condition]">WindowClose</animation>
         </definition>
     </include>
 
@@ -91,7 +91,7 @@
                     <centertop>infodialog_poster_w</centertop>
                     <texture background="true">$VAR[Image_DiscArt]</texture>
                     <bordersize>20</bordersize>
-                    <animation effect="rotate" condition="true" start="0" end="-360" loop="true" time="30000" center="auto" reversible="false">Conditional</animation>
+                    <animation effect="rotate" condition="Player.HasMedia + !Player.Paused" start="0" end="-360" loop="true" time="30000" center="auto" reversible="false">Conditional</animation>
                 </include>
                 <include content="Object_BigPoster" condition="![Window.IsVisible(movieinformation) | Window.IsActive(fullscreenvideo)]">
                     <param name="icon">$PARAM[icon]</param>

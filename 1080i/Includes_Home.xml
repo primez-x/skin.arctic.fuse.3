@@ -380,6 +380,7 @@
         </definition>
     </include>
 
+    <!-- Submenu panel: visibility groups size the panel by item count (layout only; keep as separate groups). -->
     <include name="Home_Submenu_Panel">
         <definition>
             <control type="group">

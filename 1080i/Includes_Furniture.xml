@@ -87,7 +87,6 @@
                         </control>
                     </control>
                 </control>
-                <include>Furniture_NextTrack</include>
             </control>
         </definition>
     </include>
@@ -134,96 +133,6 @@
                 <param name="mainlabel">$VAR[Label_NowPlayingTitle]</param>
                 <param name="minilabel">$VAR[Label_NowPlayingSubLabel]</param>
             </include>
-        </control>
-    </include>
-    <include name="Furniture_NextTrack">
-        <control type="group">
-            <visible>!String.IsEmpty(Window(Home).Property(service.nexttrack.dialog))</visible>
-            <animation type="Visible" reversible="true">
-                <effect type="fade" start="0" end="100" time="500"/>
-            </animation>
-            <animation type="Hidden" reversible="true">
-                <effect type="fade" start="100" end="0" time="300"/>
-            </animation>
-            <!-- Bottom-right gradient backdrop -->
-            <control type="image">
-                <right>0</right>
-                <bottom>0</bottom>
-                <texture colordiffuse="$VAR[ColorBackground]" flipy="true">background/combined_overlay.png</texture>
-                <aspectratio>stretch</aspectratio>
-            </control>
-            <!-- Widget card -->
-            <control type="group">
-                <right>view_pad</right>
-                <bottom>140</bottom>
-                <width>400</width>
-                <height>100</height>
-                <animation type="Visible" reversible="true">
-                    <effect type="slide" start="0,20" end="0,0" tween="back" easing="out" time="400"/>
-                </animation>
-                <animation effect="slide" start="0" end="0,-160" time="300" tween="sine" easing="inout" condition="Window.IsActive(DialogSeekBar.xml) + Window.IsActive(MusicVisualisation.xml)">Conditional</animation>
-                <animation effect="slide" start="0" end="0,-170" time="300" tween="sine" easing="inout" condition="Window.IsVisible(musicosd) + Window.IsActive(MusicVisualisation.xml)">Conditional</animation>
-                <!-- Circular thumbnail with progress ring -->
-                <control type="group">
-                    <centerleft>58</centerleft>
-                    <centertop>50%</centertop>
-                    <width>120</width>
-                    <height>120</height>
-                    <!-- Progress circle ring (120x120 container, expands to ~136 with bordersize) -->
-                    <control type="image">
-                        <bordersize>-8</bordersize>
-                        <texture colordiffuse="$VAR[ColorHighlight]">$INFO[Window(Home).Property(NextTrack.progress),progress/circle/p,.png]</texture>
-                        <aspectratio align="center" aligny="center">keep</aspectratio>
-                    </control>
-                    <!-- Circular thumbnail (70x70, centered inside the ring) -->
-                    <control type="image">
-                        <centerleft>50%</centerleft>
-                        <centertop>50%</centertop>
-                        <width>70</width>
-                        <height>70</height>
-                        <aspectratio scalediffuse="false">scale</aspectratio>
-                        <texture diffuse="diffuse/circle/circle_120.png">$INFO[Window(Home).Property(NextTrack.thumb)]</texture>
-                        <visible>!String.IsEmpty(Window(Home).Property(NextTrack.thumb))</visible>
-                    </control>
-                    <control type="image">
-                        <centerleft>50%</centerleft>
-                        <centertop>50%</centertop>
-                        <width>70</width>
-                        <height>70</height>
-                        <aspectratio scalediffuse="false">scale</aspectratio>
-                        <texture diffuse="diffuse/circle/circle_120.png">$INFO[Window(Home).Property(NextTrack.landscape)]</texture>
-                        <visible>String.IsEmpty(Window(Home).Property(NextTrack.thumb)) + !String.IsEmpty(Window(Home).Property(NextTrack.landscape))</visible>
-                    </control>
-                </control>
-                <!-- Text labels -->
-                <control type="group">
-                    <left>120</left>
-                    <right>14</right>
-                    <centertop>50%</centertop>
-                    <height>80</height>
-                    <control type="label">
-                        <top>4</top>
-                        <height>26</height>
-                        <font>font_mini</font>
-                        <textcolor>panel_fg_50</textcolor>
-                        <label>Next track $INFO[Window(Home).Property(NextTrack.remaining),in ,s]</label>
-                    </control>
-                    <control type="label">
-                        <top>28</top>
-                        <height>26</height>
-                        <font>font_main_bold</font>
-                        <textcolor>panel_fg_90</textcolor>
-                        <label>$INFO[Window(Home).Property(NextTrack.title)]</label>
-                    </control>
-                    <control type="label">
-                        <top>54</top>
-                        <height>24</height>
-                        <font>font_mini</font>
-                        <textcolor>panel_fg_50</textcolor>
-                        <label>$INFO[Window(Home).Property(NextTrack.artist)]</label>
-                    </control>
-                </control>
-            </control>
         </control>
     </include>
     <include name="Furniture_Studio">

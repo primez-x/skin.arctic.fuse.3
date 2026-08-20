@@ -236,5 +236,8 @@
     <!-- Background Fadetime -->
     <constant name="background_fadetime">400</constant>
 
+    <!-- Dialog open/close animation delay (reduced for snappier feel) -->
+    <constant name="dialoginfo_open_delay">250</constant>
+
 
 </includes>

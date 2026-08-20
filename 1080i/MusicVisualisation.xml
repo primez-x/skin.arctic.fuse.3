@@ -9,22 +9,34 @@
             <visible>![[!String.IsEmpty(Window(Home).Property(OSDArtistDetails)) + !Window.IsVisible(1142)]]</visible>
         </control>
 
-        <control type="multiimage">
-            <aspectratio>scale</aspectratio>
-            <randomize>true</randomize>
-            <fadetime>600</fadetime>
-            <loop>true</loop>
-            <imagepath background="true">$VAR[Image_ArtistFanartVis]</imagepath>
-            <animation effect="fade" start="100" end="65" condition="Visualisation.Enabled">Conditional</animation>
-            <animation effect="zoom" start="110" end="130" center="auto" time="10000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Visualisation.AnimateSlideshow)">Conditional</animation>
-            <animation effect="slide" start="-30,-30" end="30,30" time="6000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Visualisation.AnimateSlideshow)">Conditional</animation>
+        <control type="group">
+            <left>0</left>
+            <right>0</right>
+            <top>0</top>
+            <bottom>0</bottom>
             <visible>!Skin.HasSetting(Visualisation.HideSlideshow)</visible>
+            <control type="multiimage">
+                <left>0</left>
+                <right>0</right>
+                <width>100%</width>
+                <height>1320</height>
+                <top>-120</top>
+                <aspectratio>scale</aspectratio>
+                <randomize>true</randomize>
+                <fadetime>600</fadetime>
+                <loop>true</loop>
+                <imagepath background="true">$VAR[Image_ArtistFanartVis]</imagepath>
+                <animation effect="fade" start="100" end="65" condition="Visualisation.Enabled">Conditional</animation>
+                <animation effect="slide" start="0,120" end="0,-120" time="16000" tween="sine" easing="inout" pulse="true" condition="Visualisation.Enabled">Conditional</animation>
+                <animation effect="zoom" start="110" end="130" center="auto" time="16000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Visualisation.AnimateSlideshow)">Conditional</animation>
+                <animation effect="slide" start="-30,-30" end="30,30" time="16000" tween="sine" easing="inout" pulse="true" condition="Skin.HasSetting(Visualisation.AnimateSlideshow)">Conditional</animation>
+            </control>
         </control>
 
         <control type="multiimage">
             <randomize>true</randomize>
-            <timeperimage>4000</timeperimage>
-            <fadetime>4000</fadetime>
+            <timeperimage>0</timeperimage>
+            <fadetime>10000</fadetime>
             <pauseatend>0</pauseatend>
             <loop>true</loop>
             <imagepath background="true">special://skin/extras/backgrounds/music_colors</imagepath>
@@ -82,7 +94,5 @@
         </control>
 
         <include>OSD_Background_Dim</include>
-
-        <include>Furniture_NextTrack</include>
     </controls>
 </window>
