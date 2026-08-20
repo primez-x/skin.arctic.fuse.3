@@ -11,7 +11,6 @@
     <onload>ClearProperty(show_all_hubs)</onload>
     <include>Action_Blur_Onload</include>
     <onload>SetFocus(30000,0,absolute)</onload>
-    <onload>Skin.SetString(Shortcuts.RebuildDateTime,$INFO[System.Date(yyyy-mm-dd)]_$INFO[System.Time(hh:mm:ss)])</onload>
     <include>Action_BuildShortcuts_OnUnLoad</include>
     <controls>
 
@@ -53,6 +52,7 @@
                                     <property name="mode">$INFO[Skin.String(HomeSwitcher.1101.Mode)]</property>
                                     <onclick condition="String.IsEmpty(Container(30000).ListItem.Property(enabled))">Skin.SetString($INFO[Container(30000).ListItem.Property(rename),,.Toggle],true)</onclick>
                                     <onclick condition="String.IsEqual(Container(30000).ListItem.Property(enabled),true)">Skin.Reset($INFO[Container(30000).ListItem.Property(rename),,.Toggle])</onclick>
+                                    <onclick>Skin.SetString(Shortcuts.RebuildDateTime,$INFO[System.Date(yyyy-mm-dd)]_$INFO[System.Time(hh:mm:ss)])</onclick>
                                 </item>
                                 <item id="2">
                                     <label>$INFO[Skin.String(HomeSwitcher.1102.Name)]</label>
@@ -64,6 +64,7 @@
                                     <property name="mode">$INFO[Skin.String(HomeSwitcher.1102.Mode)]</property>
                                     <onclick condition="String.IsEmpty(Container(30000).ListItem.Property(enabled))">Skin.SetString($INFO[Container(30000).ListItem.Property(rename),,.Toggle],true)</onclick>
                                     <onclick condition="String.IsEqual(Container(30000).ListItem.Property(enabled),true)">Skin.Reset($INFO[Container(30000).ListItem.Property(rename),,.Toggle])</onclick>
+                                    <onclick>Skin.SetString(Shortcuts.RebuildDateTime,$INFO[System.Date(yyyy-mm-dd)]_$INFO[System.Time(hh:mm:ss)])</onclick>
                                 </item>
                                 <item id="3">
                                     <label>$INFO[Skin.String(HomeSwitcher.1103.Name)]</label>
@@ -75,6 +76,7 @@
                                     <property name="mode">$INFO[Skin.String(HomeSwitcher.1103.Mode)]</property>
                                     <onclick condition="String.IsEmpty(Container(30000).ListItem.Property(enabled))">Skin.SetString($INFO[Container(30000).ListItem.Property(rename),,.Toggle],true)</onclick>
                                     <onclick condition="String.IsEqual(Container(30000).ListItem.Property(enabled),true)">Skin.Reset($INFO[Container(30000).ListItem.Property(rename),,.Toggle])</onclick>
+                                    <onclick>Skin.SetString(Shortcuts.RebuildDateTime,$INFO[System.Date(yyyy-mm-dd)]_$INFO[System.Time(hh:mm:ss)])</onclick>
                                 </item>
                                 <item id="4">
                                     <label>$INFO[Skin.String(HomeSwitcher.1104.Name)]</label>
@@ -86,6 +88,7 @@
                                     <property name="mode">$INFO[Skin.String(HomeSwitcher.1104.Mode)]</property>
                                     <onclick condition="String.IsEmpty(Container(30000).ListItem.Property(enabled))">Skin.SetString($INFO[Container(30000).ListItem.Property(rename),,.Toggle],true)</onclick>
                                     <onclick condition="String.IsEqual(Container(30000).ListItem.Property(enabled),true)">Skin.Reset($INFO[Container(30000).ListItem.Property(rename),,.Toggle])</onclick>
+                                    <onclick>Skin.SetString(Shortcuts.RebuildDateTime,$INFO[System.Date(yyyy-mm-dd)]_$INFO[System.Time(hh:mm:ss)])</onclick>
                                 </item>
                                 <item id="5">
                                     <label>$LOCALIZE[137]</label>
@@ -94,6 +97,7 @@
                                     <property name="editmenu">menu=search</property>
                                     <property name="enabled">$VAR[Action_SearchEnabled]</property>
                                     <onclick>Skin.ToggleSetting(HomeSwitcher.DisableSearch)</onclick>
+                                    <onclick>Skin.SetString(Shortcuts.RebuildDateTime,$INFO[System.Date(yyyy-mm-dd)]_$INFO[System.Time(hh:mm:ss)])</onclick>
                                     <visible>!Skin.HasSetting(HomeSwitcher.Vertical)</visible>
                                 </item>
                                 <item id="8">
