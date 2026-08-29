@@ -1,11 +1,7 @@
 {
     "infolabels": {
         "listitem_trailer": "Container.ListItem.Trailer",
-        "tmdbhelper_trailer": "Window(Home).Property(TMDbHelper.ListItem.Trailer)",
-        "listitem_title": "Container.ListItem.Title",
-        "tmdbhelper_title": "Window(Home).Property(TMDbHelper.ListItem.Title)",
-        "listitem_tvshowtitle": "Container.ListItem.TVShowTitle",
-        "tmdbhelper_tvshowtitle": "Window(Home).Property(TMDbHelper.ListItem.TVShowTitle)"
+        "tmdbhelper_trailer": "Window(Home).Property(TMDbHelper.ListItem.Trailer)"
     },
     "values": {
         "trailer": [
@@ -14,26 +10,9 @@
                 "value": "{listitem_trailer}"
             },
             "{tmdbhelper_trailer}"
-        ],
-        "title": [
-            {
-                "rules": ["!String.IsEmpty(Container.ListItem.TVShowtitle)"],
-                "value": "{listitem_tvshowtitle}"
-            },
-            {
-                "rules": ["!String.IsEmpty(Container.ListItem.Title)"],
-                "value": "{listitem_title}"
-            },
-            {
-                "rules": ["!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.TVShowTitle))"],
-                "value": "{tmdbhelper_tvshowtitle}"
-            },
-            "{tmdbhelper_title}"
         ]
     },
     "actions": [
-        "SetProperty(PlayTrailerTitle,\"{title}\",Home)",
-        "SetProperty(PlayTrailer,\"{trailer}\",Home)",
-        "ActivateWindow(1123)"
+        "PlayMedia(\"{trailer}\")"
     ]
 }

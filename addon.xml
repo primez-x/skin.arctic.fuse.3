@@ -1,4 +1,4 @@
-<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.2.68">
+<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.2.69">
     <requires>
         <import addon="xbmc.gui" version="5.17.0" />
         <import addon="xbmc.python" version="3.0.0" />
@@ -35,7 +35,10 @@
         <license>Creative Commons Attribution Non-Commercial Share-Alike 4.0</license>
         <forum />
         <source>https://github.com/primez-x/skin.arctic.fuse.3</source>
-        <news>v3.2.53
+        <news>v3.2.69
+- Play trailers with Kodi's normal fullscreen trailer playback flow.
+
+v3.2.53
 - Keep TMDb Helper Watchlist detail dialogs open and switch Add/Remove state immediately while PKC verifies Plex in the background.
 - Use PKC's native per-item Plex Watchlist state for the button label and icon instead of relying on the current listing.
 - Replace the detail action glyphs with focused PNG states for Play, Add to Watchlist, and Remove from Watchlist.

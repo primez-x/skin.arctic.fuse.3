@@ -1802,17 +1802,13 @@ msgctxt "#31482"
 msgid "Trailers"
 msgstr "Treilerid"
 
-#: /1080i/Custom_1123_Dialog_Trailer.xml
-msgctxt "#31483"
-msgid "Replay"
-msgstr "Esita uuesti"
-
 #: /1080i/Includes_Labels.xml
 msgctxt "#31484"
 msgid "Pause"
 msgstr "Paus"
 
-#: /1080i/Custom_1123_Dialog_Trailer.xml
+#: /1080i/Includes_ButtonMenu.xml
+#: /1080i/Includes_Labels.xml
 msgctxt "#31485"
 msgid "Stop"
 msgstr "Peata"

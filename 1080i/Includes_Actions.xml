@@ -306,11 +306,8 @@
     </variable>
 
     <include name="Action_PlayTrailer_OnClick">
-        <onclick condition="String.IsEmpty($PARAM[trailer]) + !String.IsEmpty($PARAM[trailer_fallback])">SetProperty(PlayTrailer,$ESCINFO[$PARAM[trailer_fallback]],Home)</onclick>
-        <onclick condition="!String.IsEmpty($PARAM[trailer])">SetProperty(PlayTrailer,$ESCINFO[$PARAM[trailer]],Home)</onclick>
-        <onclick condition="!String.IsEmpty($PARAM[trailer]) | !String.IsEmpty($PARAM[trailer_fallback])">SetProperty(PlayTrailerTitle,$PARAM[title],Home)</onclick>
-        <onclick condition="!String.IsEmpty($PARAM[trailer]) | !String.IsEmpty($PARAM[trailer_fallback])">SetProperty(PlayTrailerItems,$PARAM[items],Home)</onclick>
-        <onclick condition="!String.IsEmpty($PARAM[trailer]) | !String.IsEmpty($PARAM[trailer_fallback])">ActivateWindow(1123)</onclick>
+        <onclick condition="String.IsEmpty($PARAM[trailer]) + !String.IsEmpty($PARAM[trailer_fallback])">PlayMedia($ESCINFO[$PARAM[trailer_fallback]],False)</onclick>
+        <onclick condition="!String.IsEmpty($PARAM[trailer])">PlayMedia($ESCINFO[$PARAM[trailer]],False)</onclick>
     </include>
 
     <include name="Action_Scheme_Onclick_Bright">

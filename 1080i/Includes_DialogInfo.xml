@@ -753,7 +753,6 @@
             <include content="Action_PlayTrailer_OnClick">
                 <param name="trailer">Container(5014).ListItem.FileNameAndPath</param>
                 <param name="trailer_fallback" />
-                <param name="title">$INFO[Container(5014).ListItem.Label]</param>
             </include>
         </include>
 
@@ -1114,7 +1113,6 @@
             <include content="Action_PlayTrailer_OnClick">
                 <param name="trailer">Container(5002).ListItem.FileNameAndPath</param>
                 <param name="trailer_fallback" />
-                <param name="title">$INFO[Container(5002).ListItem.Label]</param>
             </include>
 
             <content target="videos">$VAR[Path_Youtube_Query,plugin://plugin.video.youtube/kodion/search/query/?q=,&amp;search_type=notvalid]</content>
@@ -1363,8 +1361,6 @@
             <include content="Action_PlayTrailer_OnClick">
                 <param name="trailer">ListItem.Trailer</param>
                 <param name="trailer_fallback">Window(Home).Property(TMDbHelper.ListItem.Trailer)</param>
-                <param name="title">$VAR[Label_Title]</param>
-                <param name="items">$VAR[Path_VideoInfo_Trailers]</param>
             </include>
             <visible>!String.IsEmpty(ListItem.Trailer) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Trailer))</visible>
         </item>
