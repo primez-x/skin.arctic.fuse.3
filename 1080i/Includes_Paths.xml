@@ -103,6 +103,11 @@
         <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_Type),tv)">plugin://plugin.video.themoviedb.helper/?info=seasons&amp;nextpage=false&amp;cacheonly=true&amp;tmdb_type=tv&amp;tmdb_id=$INFO[Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID)]</value>
     </variable>
 
+    <variable name="Path_VideoInfo_OnlineEpisodes">
+        <value condition="String.IsEmpty(Container(5018).ListItem.FolderPath)">special://skin/extras/playlists/Null.xsp</value>
+        <value>$INFO[Container(5018).ListItem.FolderPath]</value>
+    </variable>
+
     <variable name="Path_VideoInfo_OnlineFlatSeasons">
         <value condition="String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID))">special://skin/extras/playlists/Null.xsp</value>
         <value condition="String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_Type))">special://skin/extras/playlists/Null.xsp</value>
