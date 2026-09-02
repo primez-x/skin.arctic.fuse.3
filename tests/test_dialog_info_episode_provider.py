@@ -22,6 +22,8 @@ class DialogInfoEpisodeProviderTests(unittest.TestCase):
             "String.IsEmpty(Container(5018).ListItem.FolderPath)",
         )
         self.assertEqual(values[1].text, EPISODE_PATH)
+        self.assertIsNone(values[1].get("condition"))
+        ET.parse(SKIN_ROOT / "extras" / "playlists" / "Null.xsp")
 
     def test_episode_widget_uses_the_guarded_path_variable(self):
         dialog_info = ET.parse(
