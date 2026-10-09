@@ -165,43 +165,10 @@
     <expression name="View_Scrollbar_Horizontal_Expression">[$EXP[View_Mode_Rows_Expression] | $EXP[View_Mode_Comb_Flix_Expression]]</expression>
     <expression name="View_Scrollbar_Vertical_Flix_Expression">[$EXP[View_Mode_List_Flix_Expression]]</expression>
     <expression name="View_Scrollbar_Vertical_Full_Expression">[$EXP[View_Mode_List_Full_Expression] | $EXP[View_Mode_Comb_Full_Expression] | $EXP[View_Mode_Comb_Tall_Expression]]</expression>
-    <expression name="View_Scrollbar_Vertical_Wall_Expression">[$EXP[View_Mode_Wall_Expression] + !Control.IsVisible(515)]</expression>
+    <expression name="View_Scrollbar_Vertical_Wall_Expression">[$EXP[View_Mode_Wall_Expression] + [!Control.IsVisible(515) | !$EXP[Exp_IsAlphabetStrip]]]</expression>
+    <expression name="View_AlphabetStrip_Vertical_Expression">[Control.IsVisible(515) + $EXP[Exp_IsAlphabetStrip]]</expression>
     <expression name="View_AlphabetStrip_IsNonAlpha">[!String.IsEqual(ListItem.SortLetter,A) + !String.IsEqual(ListItem.SortLetter,B) + !String.IsEqual(ListItem.SortLetter,C) + !String.IsEqual(ListItem.SortLetter,D) + !String.IsEqual(ListItem.SortLetter,E) + !String.IsEqual(ListItem.SortLetter,F) + !String.IsEqual(ListItem.SortLetter,G) + !String.IsEqual(ListItem.SortLetter,H) + !String.IsEqual(ListItem.SortLetter,I) + !String.IsEqual(ListItem.SortLetter,J) + !String.IsEqual(ListItem.SortLetter,K) + !String.IsEqual(ListItem.SortLetter,L) + !String.IsEqual(ListItem.SortLetter,M) + !String.IsEqual(ListItem.SortLetter,N) + !String.IsEqual(ListItem.SortLetter,O) + !String.IsEqual(ListItem.SortLetter,P) + !String.IsEqual(ListItem.SortLetter,Q) + !String.IsEqual(ListItem.SortLetter,R) + !String.IsEqual(ListItem.SortLetter,S) + !String.IsEqual(ListItem.SortLetter,T) + !String.IsEqual(ListItem.SortLetter,U) + !String.IsEqual(ListItem.SortLetter,V) + !String.IsEqual(ListItem.SortLetter,W) + !String.IsEqual(ListItem.SortLetter,X) + !String.IsEqual(ListItem.SortLetter,Y) + !String.IsEqual(ListItem.SortLetter,Z)]</expression>
 
-    <include name="Action_PosterWall_Alphabet_NextNonAlpha">
-        <definition>
-            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="Control.IsVisible(515) + $EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-        </definition>
-    </include>
 
     <include name="View_AlphabetStrip_Vertical_Letter">
         <param name="visible">false</param>
@@ -460,13 +427,30 @@
             <onup>SetFocus($VAR[Action_View_ContainerID])</onup>
             <onup>Action(PrevLetter)</onup>
             <onup>SetFocus(611)</onup>
-            <ondown>SetFocus($VAR[Action_View_ContainerID])</ondown>
-            <ondown>Action(NextLetter)</ondown>
-            <include>Action_PosterWall_Alphabet_NextNonAlpha</include>
-            <ondown>SetFocus(611)</ondown>
+            <!-- Vertical A-Z strip (view 515): Down from a non-alpha (#) item jumps to the first alpha section via 613/614 loop -->
+            <ondown condition="!$EXP[View_AlphabetStrip_Vertical_Expression] | !$EXP[View_AlphabetStrip_IsNonAlpha]">SetFocus($VAR[Action_View_ContainerID])</ondown>
+            <ondown condition="!$EXP[View_AlphabetStrip_Vertical_Expression] | !$EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
+            <ondown condition="!$EXP[View_AlphabetStrip_Vertical_Expression] | !$EXP[View_AlphabetStrip_IsNonAlpha]">SetFocus(611)</ondown>
+            <ondown condition="$EXP[View_AlphabetStrip_Vertical_Expression] + $EXP[View_AlphabetStrip_IsNonAlpha]">SetFocus(613)</ondown>
             <onfocus condition="!$EXP[Exp_IsAlphabetStrip] + $EXP[View_Scrollbar_Vertical_Full_Expression]">SetFocus(64)</onfocus>
             <onfocus condition="!$EXP[Exp_IsAlphabetStrip] + $EXP[View_Scrollbar_Vertical_Flix_Expression]">SetFocus(65)</onfocus>
             <onfocus condition="!$EXP[Exp_IsAlphabetStrip] + $EXP[View_Scrollbar_Vertical_Wall_Expression]">SetFocus(66)</onfocus>
+        </include>
+        <!-- NextLetter only advances one letter group (each digit/symbol is its own group), and action
+             conditions are evaluated before any action runs, so loop through 613/614 instead: 613 jumps one
+             group, 614 re-evaluates and either jumps again or returns to 611. The stored previous letter stops
+             the loop if NextLetter can no longer move (e.g. no alpha items in the list). -->
+        <include content="Object_Hidden_Button">
+            <param name="id">613</param>
+            <onfocus>SetProperty(View_AlphabetStrip_PrevLetter,$INFO[ListItem.SortLetter])</onfocus>
+            <onfocus>SetFocus($VAR[Action_View_ContainerID])</onfocus>
+            <onfocus>Action(NextLetter)</onfocus>
+            <onfocus>SetFocus(614)</onfocus>
+        </include>
+        <include content="Object_Hidden_Button">
+            <param name="id">614</param>
+            <onfocus condition="$EXP[View_AlphabetStrip_IsNonAlpha] + !String.IsEqual(ListItem.SortLetter,Window.Property(View_AlphabetStrip_PrevLetter))">SetFocus(613)</onfocus>
+            <onfocus condition="!$EXP[View_AlphabetStrip_IsNonAlpha] | String.IsEqual(ListItem.SortLetter,Window.Property(View_AlphabetStrip_PrevLetter))">SetFocus(611)</onfocus>
         </include>
         <control type="group">
             <centerright>40</centerright>
@@ -542,7 +526,7 @@
             <top>100</top>
             <width>54</width>
             <height>900</height>
-            <visible>Control.IsVisible(515)</visible>
+            <visible>$EXP[View_AlphabetStrip_Vertical_Expression]</visible>
             <control type="image">
                 <width>54</width>
                 <height>900</height>
@@ -584,6 +568,37 @@
                 <include content="View_AlphabetStrip_Vertical_Letter"><param name="label">Z</param><param name="visible">String.IsEqual(ListItem.SortLetter,Z)</param></include>
             </control>
         </control>
+    </include>
+
+    <!-- Standalone vertical scrollbar (same look as the View_Scrollbar_Strip ones) for windows without the view strip -->
+    <include name="View_Furniture_Scrollbar_V">
+        <param name="id">65</param>
+        <param name="height">350</param>
+        <param name="visible">true</param>
+        <param name="onleft">50</param>
+        <definition>
+            <control type="group">
+                <centerright>40</centerright>
+                <width>scrollbar_w</width>
+                <bottom>view_top</bottom>
+                <height>$PARAM[height]</height>
+                <visible allowhiddenfocus="true">[$PARAM[visible]] + Control.HasFocus($PARAM[id])</visible>
+                <control type="image">
+                    <width>1</width>
+                    <centerleft>50%</centerleft>
+                    <texture colordiffuse="main_fg_12">common/white.png</texture>
+                </control>
+                <control type="scrollbar" id="$PARAM[id]">
+                    <orientation>vertical</orientation>
+                    <texturesliderbackground />
+                    <include>Texture_Scrollbar_SliderBar_V</include>
+                    <include>Texture_Scrollbar_V</include>
+                    <onleft>$PARAM[onleft]</onleft>
+                    <onback>$PARAM[onleft]</onback>
+                    <showonepage>true</showonepage>
+                </control>
+            </control>
+        </definition>
     </include>
 
     <include name="View_Main">
