@@ -53,10 +53,10 @@
     <onload condition="System.AddonIsEnabled(plugin.video.plexkodiconnect) + String.IsEmpty(ListItem.DBID) + String.IsEmpty(ListItem.Property(ratingKey)) + String.IsEmpty(ListItem.UniqueID(tmdb)) + !String.IsEmpty(ListItem.Property(tmdb_id)) + String.IsEqual(ListItem.DBTYPE,tvshow)">RunPlugin(plugin://plugin.video.plexkodiconnect/?mode=watchlist_status_tmdb&amp;tmdb_id=$INFO[ListItem.Property(tmdb_id)]&amp;tmdb_type=tvshow)</onload>
 
     <!-- Title+year search resolver: resolves via Plex Discover search without waiting for TMDb Helper. -->
-    <onload condition="System.AddonIsEnabled(plugin.video.plexkodiconnect) + StringIsEmpty(ListItem.DBID) + StringIsEmpty(ListItem.Property(ratingKey)) + StringIsEmpty(ListItem.UniqueID(tmdb)) + StringIsEmpty(ListItem.Property(tmdb_id)) + !String.IsEmpty(ListItem.Label) + [String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,tvshow)]">RunPlugin(plugin://plugin.video.plexkodiconnect/?mode=watchlist_status_search&amp;plex_type=$INFO[ListItem.DBTYPE])</onload>
+    <onload condition="System.AddonIsEnabled(plugin.video.plexkodiconnect) + String.IsEmpty(ListItem.DBID) + String.IsEmpty(ListItem.Property(ratingKey)) + String.IsEmpty(ListItem.UniqueID(tmdb)) + String.IsEmpty(ListItem.Property(tmdb_id)) + !String.IsEmpty(ListItem.Label) + [String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,tvshow)]">RunPlugin(plugin://plugin.video.plexkodiconnect/?mode=watchlist_status_search&amp;plex_type=$INFO[ListItem.DBTYPE])</onload>
 
     <!-- TMDb Helper monitor fallback: only when no title is available at onload either. -->
-    <onload condition="System.AddonIsEnabled(plugin.video.plexkodiconnect) + StringIsEmpty(ListItem.DBID) + StringIsEmpty(ListItem.Property(ratingKey)) + StringIsEmpty(ListItem.UniqueID(tmdb)) + StringIsEmpty(ListItem.Property(tmdb_id)) + StringIsEmpty(ListItem.Label) + [String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,tvshow)]">RunPlugin(plugin://plugin.video.plexkodiconnect/?mode=watchlist_status_monitor)</onload>
+    <onload condition="System.AddonIsEnabled(plugin.video.plexkodiconnect) + String.IsEmpty(ListItem.DBID) + String.IsEmpty(ListItem.Property(ratingKey)) + String.IsEmpty(ListItem.UniqueID(tmdb)) + String.IsEmpty(ListItem.Property(tmdb_id)) + String.IsEmpty(ListItem.Label) + [String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,tvshow)]">RunPlugin(plugin://plugin.video.plexkodiconnect/?mode=watchlist_status_monitor)</onload>
 
     <controls>
 
