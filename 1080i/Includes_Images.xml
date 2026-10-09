@@ -230,6 +230,7 @@
         <value condition="Skin.String(Background.DialogImage,Blush)">special://skin/extras/backgrounds/dialogs/blush_blur.png</value>
         <value condition="Skin.String(Background.DialogImage,Coal)">special://skin/extras/backgrounds/dialogs/coal_blur.png</value>
         <value condition="Skin.String(Background.DialogImage,Chalk)">special://skin/extras/backgrounds/dialogs/chalk_blur.png</value>
+        <value condition="Skin.String(Background.DialogImage,Onyx)">special://skin/extras/backgrounds/dialogs/onyx_blur.png</value>
         <value>special://skin/extras/backgrounds/dialogs/classic_blur.png</value>
     </variable>
 
@@ -446,8 +447,8 @@
     </variable>
 
     <variable name="Image_CombinedStudio">
-        <value condition="!String.IsEmpty(Container.ListItem.Studio)">$INFO[Container.ListItem.Studio,resource://resource.images.studios.coloured/,.png]</value>
-        <value condition="!String.IsEmpty(ListItem.Studio)">$INFO[ListItem.Studio,resource://resource.images.studios.coloured/,.png]</value>
+        <value condition="!String.IsEmpty(ListItem.Studio) + !String.Contains(ListItem.Studio,/)">$INFO[ListItem.Studio,resource://resource.images.studios.coloured/,.png]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.base_first_studio))">$INFO[Window(Home).Property(TMDbHelper.ListItem.base_first_studio),resource://resource.images.studios.coloured/,.png]</value>
         <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Network.1.Name))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Network.1.Name),resource://resource.images.studios.coloured/,.png]</value>
         <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Studio.1.Name))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Studio.1.Name),resource://resource.images.studios.coloured/,.png]</value>
     </variable>
