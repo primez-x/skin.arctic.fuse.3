@@ -1,4 +1,4 @@
-<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.2.69">
+<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.2.70">
     <requires>
         <import addon="xbmc.gui" version="5.17.0" />
         <import addon="xbmc.python" version="3.0.0" />
@@ -35,7 +35,13 @@
         <license>Creative Commons Attribution Non-Commercial Share-Alike 4.0</license>
         <forum />
         <source>https://github.com/primez-x/skin.arctic.fuse.3</source>
-        <news>v3.2.69
+        <news>v3.2.70
+- Fix Down on the Wall Poster - Details A-Z rail from a non-alpha (#) item so it lands on the first letter section instead of skipping to the end.
+- Only show the Wall Poster - Details A-Z rail for alphabetical sorts and fall back to the standard wall scrollbar otherwise.
+- Fix the missing main-menu highlight texture, settings info line, Settings hub onload and window-change animation conditions.
+- Remove dangling control references in Favourites, PVR guide, PVR channel guide and video info windows.
+
+v3.2.69
 - Play trailers with Kodi's normal fullscreen trailer playback flow.
 
 v3.2.53
