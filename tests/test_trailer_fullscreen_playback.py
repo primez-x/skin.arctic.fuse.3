@@ -198,12 +198,16 @@ class TrailerFullscreenPlaybackTests(unittest.TestCase):
 
     def test_addon_version_and_news_identify_fullscreen_trailer_playback(self):
         addon = ET.parse(SKIN_ROOT / "addon.xml").getroot()
-        self.assertEqual(addon.get("version"), "3.2.69")
+        version = tuple(int(part) for part in addon.get("version").split("."))
+        self.assertGreaterEqual(version, (3, 2, 69))
 
         news = addon.find("./extension[@point='xbmc.addon.metadata']/news")
         self.assertIsNotNone(news)
-        self.assertTrue((news.text or "").lstrip().startswith("v3.2.69"))
-        self.assertIn("fullscreen trailer playback", (news.text or "").lower())
+        news_text = news.text or ""
+        self.assertTrue(news_text.lstrip().startswith("v" + addon.get("version")))
+        self.assertIn("\nv3.2.69\n", "\n" + news_text)
+        entry = news_text.split("v3.2.69", 1)[1].split("\n\nv", 1)[0]
+        self.assertIn("fullscreen trailer playback", entry.lower())
 
 
 if __name__ == "__main__":
