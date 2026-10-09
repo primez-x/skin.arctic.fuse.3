@@ -1,4 +1,4 @@
-<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.2.72">
+<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.2.73">
     <requires>
         <import addon="xbmc.gui" version="5.17.0" />
         <import addon="xbmc.python" version="3.0.0" />
@@ -35,7 +35,17 @@
         <license>Creative Commons Attribution Non-Commercial Share-Alike 4.0</license>
         <forum />
         <source>https://github.com/primez-x/skin.arctic.fuse.3</source>
-        <news>v3.2.72
+        <news>v3.2.73
+- Merge 51 upstream Arctic Fuse fixes (hub preload cycling, OSD progress line, translations).
+- Fix empty icon selector with stock script.skinvariables.
+- Stop the post-update recovery from closing dialogs and jumping to Home unless the window is actually broken (never during playback).
+- Keep the Spotify "Next" overlay visible when focusing Next in the music OSD.
+- Watchlist Add/Remove for items without a Plex or TMDb ID (needs PlexKodiConnect 3.12.58).
+- Fix library TV shows in combined side panels showing specials/empty after a PKC sync.
+- Drop the always-empty "Plex: Trending Trailers" widget preset.
+- Poster wall details: no stray leading dot when Premiered is missing.
+
+v3.2.72
 - Fix missing default background blur image (purle_blur typo).
 - Use dialog styling for colour-picker settings in dialogs.
 

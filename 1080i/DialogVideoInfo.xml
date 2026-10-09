@@ -22,7 +22,7 @@
     <onload>ClearProperty(PKC.Watchlist.Detail.TMDbType,Home)</onload>
     <onload>ClearProperty(PKC.Watchlist.Detail.RatingKey,Home)</onload>
     <onload>ClearProperty(PKC.Watchlist.Detail.MonitorRevision,Home)</onload>
-    <onload>SetProperty(PKC.Watchlist.Detail.Context.Label,$INFO[ListItem.Label],Home)</onload>
+    <onload>SetProperty(PKC.Watchlist.Detail.Context.Label,$ESCINFO[ListItem.Label],Home)</onload>
     <onload>SetProperty(PKC.Watchlist.Detail.Context.DBType,$INFO[ListItem.DBTYPE],Home)</onload>
     <onload>SetProperty(PKC.Watchlist.Detail.Context.Year,$INFO[ListItem.Year],Home)</onload>
 

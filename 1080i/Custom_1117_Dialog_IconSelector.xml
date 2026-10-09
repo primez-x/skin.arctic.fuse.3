@@ -8,6 +8,12 @@
     <onunload>ClearProperty(setting,1117)</onunload>
     <controls>
 
+        <!-- Stock script.skinvariables get_container_labels reads icons from a container, not a dirpath -->
+        <include content="Object_Hidden_List">
+            <param name="id">451</param>
+            <content>special://skin/extras/icons/</content>
+        </include>
+
         <include>Part_Dim_Overlay</include>
 
         <control type="group">
@@ -254,7 +260,7 @@
                         <onleft>8100</onleft>
                         <onright>61</onright>
                         <pagecontrol>61</pagecontrol>
-                        <content>plugin://script.skinvariables/?info=get_container_labels&amp;dirpath=special://skin/extras/icons/&amp;reload=1$VAR[Path_IconSelector_Filter]</content>
+                        <content>plugin://script.skinvariables/?info=get_container_labels&amp;containers=451&amp;infolabel=Label&amp;thumb=PicturePath&amp;reload=$INFO[Container(451).NumItems]$VAR[Path_IconSelector_Filter]</content>
                         <onclick condition="!String.IsEmpty(Window.Property(url))">RunPlugin($INFO[Window.Property(url),,&amp;func=do_icon]$INFO[Container(450).ListItem.Icon,&amp;&amp;value::,])</onclick>
                         <onclick condition="String.IsEmpty(Window.Property(url)) + !String.IsEmpty(Window.Property(setting))">Skin.SetString($INFO[Window.Property(setting)],$INFO[Container(450).ListItem.Icon])</onclick>
                         <onclick>Close</onclick>
