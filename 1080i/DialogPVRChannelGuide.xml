@@ -89,6 +89,5 @@
                 </control>
             </control>
         </control>
-        <include condition="Window.IsMedia">DialogPlotFake</include>
     </controls>
 </window>

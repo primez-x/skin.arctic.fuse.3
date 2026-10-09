@@ -55,6 +55,11 @@
                 </control>
             </include>
 
+            <!-- List onright targets 611 (shared view navigation); redirect it to the scrollbar -->
+            <include content="Object_Hidden_Button">
+                <param name="id">611</param>
+                <onfocus>SetFocus(65)</onfocus>
+            </include>
             <include content="View_Furniture_Scrollbar_V">
                 <param name="id">65</param>
                 <param name="height">585</param>

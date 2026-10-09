@@ -105,7 +105,6 @@
 
                 <onup>8000</onup>
                 <onback>8000</onback>
-                <ondown>330</ondown>
 
                 <include condition="!String.IsEqual(ListItem.Property(tmdb_type),person)">DialogInfo_VideoWidgets</include>
                 <include condition="String.IsEqual(ListItem.Property(tmdb_type),person)">DialogInfo_PersonWidgets</include>

@@ -2090,33 +2090,34 @@
                         <param name="selected">$PARAM[selected]</param>
                     </include>
                 </control>
-                <control type="label">
-                    <top>$PARAM[item_h]</top>
-                    <width>$PARAM[item_w]</width>
-                    <height>40</height>
-                    <font>font_mini</font>
-                    <label>$INFO[$PARAM[listitem].Label]</label>
-                    <align>center</align>
-                    <aligny>top</aligny>
-                    <scroll>false</scroll>
-                    <textcolor>main_fg_70</textcolor>
-                    <visible>$PARAM[show_wall_label]</visible>
-                    <visible>![$PARAM[selected]]</visible>
-                </control>
-                <control type="label">
-                    <top>$PARAM[item_h]</top>
-                    <width>$PARAM[item_w]</width>
-                    <height>40</height>
-                    <font>font_mini</font>
-                    <label>$INFO[$PARAM[listitem].Label]</label>
-                    <align>center</align>
-                    <aligny>top</aligny>
-                    <scroll>true</scroll>
-                    <textcolor>main_fg_70</textcolor>
-                    <include>Color_SelectedText</include>
-                    <visible>$PARAM[show_wall_label]</visible>
-                    <visible>$PARAM[selected]</visible>
-                </control>
+                <include content="Object_Control" condition="$PARAM[show_wall_label]">
+                    <param name="control">group</param>
+                    <control type="label">
+                        <top>$PARAM[item_h]</top>
+                        <width>$PARAM[item_w]</width>
+                        <height>40</height>
+                        <font>font_mini</font>
+                        <label>$INFO[$PARAM[listitem].Label]</label>
+                        <align>center</align>
+                        <aligny>top</aligny>
+                        <scroll>false</scroll>
+                        <textcolor>main_fg_70</textcolor>
+                        <visible>![$PARAM[selected]]</visible>
+                    </control>
+                    <control type="label">
+                        <top>$PARAM[item_h]</top>
+                        <width>$PARAM[item_w]</width>
+                        <height>40</height>
+                        <font>font_mini</font>
+                        <label>$INFO[$PARAM[listitem].Label]</label>
+                        <align>center</align>
+                        <aligny>top</aligny>
+                        <scroll>true</scroll>
+                        <textcolor>main_fg_70</textcolor>
+                        <include>Color_SelectedText</include>
+                        <visible>$PARAM[selected]</visible>
+                    </control>
+                </include>
                 <control type="group">
                     <visible>String.IsEqual($PARAM[listitem].DBType,actor) | String.IsEqual($PARAM[listitem].DBType,video) | $PARAM[detailed]</visible>
                     <include content="Layout_Labels">
