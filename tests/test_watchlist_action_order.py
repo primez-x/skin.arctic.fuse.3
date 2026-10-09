@@ -19,6 +19,10 @@ class WatchlistActionOrderTests(unittest.TestCase):
             "!1080i/script-skinvariables-generator-includes-.xml",
             (SKIN_ROOT / ".gitignore").read_text(encoding="utf-8"),
         )
+        if not (SKIN_ROOT / ".git").exists():
+            # A source archive (e.g. the repository publish) only contains
+            # tracked files, so the is_file() check above already proves it
+            return
         subprocess.run(
             [
                 "git",
