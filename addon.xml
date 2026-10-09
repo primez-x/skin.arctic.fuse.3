@@ -1,4 +1,4 @@
-<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.2.71">
+<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.2.72">
     <requires>
         <import addon="xbmc.gui" version="5.17.0" />
         <import addon="xbmc.python" version="3.0.0" />
@@ -35,7 +35,11 @@
         <license>Creative Commons Attribution Non-Commercial Share-Alike 4.0</license>
         <forum />
         <source>https://github.com/primez-x/skin.arctic.fuse.3</source>
-        <news>v3.2.71
+        <news>v3.2.72
+- Fix missing default background blur image (purle_blur typo).
+- Use dialog styling for colour-picker settings in dialogs.
+
+v3.2.71
 - Add Claude Code project settings (not packaged).
 
 v3.2.70
