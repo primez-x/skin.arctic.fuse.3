@@ -452,7 +452,7 @@
         <definition>
             <control type="group">
                 <visible>!String.IsEmpty(Window(Home).Property(NextTrack.IsVisible))</visible>
-                <right>80</right>
+                <right>view_pad</right>
                 <bottom>140</bottom>
                 <width>520</width>
                 <height>180</height>

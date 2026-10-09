@@ -7,7 +7,7 @@
     <expression name="Exp_TMDbHelper_IsData">[Skin.HasSetting(TMDbHelper.EnableData)]</expression>
     <expression name="Exp_TMDbHelper_IsBlur">[Skin.HasSetting(TMDbHelper.EnableBlur)]</expression>
     <expression name="Exp_TMDbHelper_IsCrop">[Skin.HasSetting(TMDbHelper.EnableCrop)]</expression>
-    <expression name="Exp_PlexWatchlist_Target">[System.AddonIsEnabled(plugin.video.plexkodiconnect) + String.IsEmpty(ListItem.DBID) + [String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,tvshow)] + !String.IsEmpty(Window(Home).Property(PKC.Watchlist.Detail.Identity)) + [!String.IsEmpty(ListItem.Property(ratingKey)) | !String.IsEmpty(ListItem.UniqueID(tmdb)) | !String.IsEmpty(ListItem.Property(tmdb_id)) | [String.IsEmpty(ListItem.Property(ratingKey)) + String.IsEmpty(ListItem.UniqueID(tmdb)) + String.IsEmpty(ListItem.Property(tmdb_id)) + !String.IsEmpty(Window(Home).Property(PKC.Watchlist.Detail.TMDbId)) + [String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.TMDbType),movie) | String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.TMDbType),tv)]]]]</expression>
+    <expression name="Exp_PlexWatchlist_Target">[System.AddonIsEnabled(plugin.video.plexkodiconnect) + String.IsEmpty(ListItem.DBID) + [String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,tvshow)] + !String.IsEmpty(Window(Home).Property(PKC.Watchlist.Detail.Identity)) + [!String.IsEmpty(ListItem.Property(ratingKey)) | !String.IsEmpty(ListItem.UniqueID(tmdb)) | !String.IsEmpty(ListItem.Property(tmdb_id)) | [String.IsEmpty(ListItem.Property(ratingKey)) + String.IsEmpty(ListItem.UniqueID(tmdb)) + String.IsEmpty(ListItem.Property(tmdb_id)) + [[!String.IsEmpty(Window(Home).Property(PKC.Watchlist.Detail.TMDbId)) + [String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.TMDbType),movie) | String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.TMDbType),tv)]] | [String.StartsWith(Window(Home).Property(PKC.Watchlist.Detail.Identity),search.) + !String.IsEmpty(Window(Home).Property(PKC.Watchlist.Detail.RatingKey))]]]]]</expression>
     <expression name="Exp_PlexWatchlist_EffectivePresent">[$EXP[Exp_PlexWatchlist_Target] + [String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.OptimisticState),present) | [String.IsEmpty(Window(Home).Property(PKC.Watchlist.Detail.OptimisticState)) + [String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.State),present) | [String.IsEqual(ListItem.Property(LISTINGKEY),watchlist) + !String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.State),absent)]]]]]</expression>
     <expression name="Exp_PlexWatchlist_EffectiveAbsent">[$EXP[Exp_PlexWatchlist_Target] + !$EXP[Exp_PlexWatchlist_EffectivePresent]]</expression>
 
@@ -137,7 +137,7 @@
 
     <expression name="Exp_OSD_QuickInfo">[$EXP[Exp_OSD_PVRChannelSwitch] | Window.IsActive(fullscreeninfo) | $EXP[Exp_OSD_DelayInfo]]</expression>
 
-    <expression name="Exp_OSD_HideControls">[Window.IsActive(1140) | Window.IsActive(1141) | Window.IsActive(1142) | Window.IsActive(1154) | Window.IsActive(videobookmarks) | Window.IsActive(pvrosdguide) | Window.IsActive(pvrosdchannels) | Window.IsActive(script-upnext-stillwatching.xml) | Window.IsActive(script-upnext-upnext.xml)]</expression>
+    <expression name="Exp_OSD_HideControls">[Window.IsActive(1140) | Window.IsActive(1141) | Window.IsActive(1142) | Window.IsActive(videobookmarks) | Window.IsActive(pvrosdguide) | Window.IsActive(pvrosdchannels) | Window.IsActive(script-upnext-stillwatching.xml) | Window.IsActive(script-upnext-upnext.xml)]</expression>
 
     <!-- ==== -->
     <!-- Misc -->

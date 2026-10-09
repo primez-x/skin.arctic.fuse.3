@@ -248,7 +248,7 @@ class WatchlistActionOrderTests(unittest.TestCase):
             for onclick in preflight.findall("onclick")
             if "mode=watchlist_" in (onclick.text or "")
         ]
-        self.assertEqual(len(watchlist_actions), 8)
+        self.assertEqual(len(watchlist_actions), 10)
         for onclick in watchlist_actions:
             mode = (onclick.text or "").split("mode=", 1)[1].split("&", 1)[0]
             condition = onclick.get("condition", "")
@@ -276,7 +276,7 @@ class WatchlistActionOrderTests(unittest.TestCase):
             if "mode=watchlist_" in (onclick.text or "")
         ]
 
-        self.assertEqual(len(watchlist_values), 8)
+        self.assertEqual(len(watchlist_values), 10)
         self.assertTrue(
             all(
                 (

@@ -66,6 +66,10 @@ def _needs_window_recovery():
     return window_id in INVALID_WINDOW_IDS or dialog_id in INVALID_WINDOW_IDS
 
 
+def _is_playing():
+    return xbmc.getCondVisibility("Player.HasMedia | Window.IsActive(fullscreenvideo)")
+
+
 def _run_recovery(monitor):
     _log("Running post-update skin reload recovery.")
     for _ in range(3):
@@ -96,7 +100,11 @@ def main():
     if monitor.waitForAbort(RECOVERY_DELAY_SECONDS):
         return
 
-    _run_recovery(monitor)
+    # A version change alone is not a reason to reset the GUI: auto-updates
+    # land in the background, often mid-playback or during startup windows.
+    # Only recover when the skin reload actually left an invalid window.
+    if _needs_window_recovery() and not _is_playing():
+        _run_recovery(monitor)
     _write_recovered_version(version)
 
 
