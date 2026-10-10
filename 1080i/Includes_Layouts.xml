@@ -1916,8 +1916,30 @@
         </definition>
     </include>
 
+    <!-- Item backing. In a dynamic (single-copy) focused layout the drop shadow becomes its own image so it
+         can hide while the row has focus, matching the selected look (Object_SelectBox draws its own shadow). -->
+    <include name="Layout_ItemBack">
+        <param name="selected">false</param>
+        <param name="focus_dynamic">false</param>
+        <param name="focus_condition">false</param>
+        <definition>
+            <include content="Object_Shadow_40" condition="$PARAM[focus_dynamic]">
+                <param name="colordiffuse">$PARAM[shadow_colordiffuse]</param>
+                <include content="Object_Visible_Unfocused">
+                    <param name="focus_condition">$PARAM[focus_condition]</param>
+                </include>
+            </include>
+            <include content="Object_ItemBack">
+                <param name="selected">[$PARAM[selected] | $PARAM[focus_dynamic]]</param>
+                <param name="shadow_colordiffuse">$PARAM[shadow_colordiffuse]</param>
+            </include>
+        </definition>
+    </include>
+
     <include name="Layout_Card">
         <param name="selected">false</param>
+        <param name="focus_dynamic">false</param>
+        <param name="focus_condition">false</param>
         <param name="diffuse">diffuse/card_w731_h310.png</param>
         <param name="textcolor">main_fg</param>
         <param name="listitem">ListItem</param>
@@ -1927,8 +1949,10 @@
                 <width>$PARAM[item_w]</width>
                 <height>$PARAM[item_h]</height>
                 <control type="group">
-                    <include content="Object_ItemBack">
+                    <include content="Layout_ItemBack">
                         <param name="selected">$PARAM[selected]</param>
+                        <param name="focus_dynamic">$PARAM[focus_dynamic]</param>
+                        <param name="focus_condition">$PARAM[focus_condition]</param>
                         <param name="shadow_colordiffuse">$PARAM[shadow_colordiffuse]</param>
                     </include>
 
@@ -1938,6 +1962,8 @@
                         <param name="listitem">$PARAM[listitem]</param>
                         <param name="aspectratio">scale</param>
                         <param name="selected">$PARAM[selected]</param>
+                        <param name="focus_dynamic">$PARAM[focus_dynamic]</param>
+                        <param name="focus_condition">$PARAM[focus_condition]</param>
                     </include>
 
                     <include content="Object_ClearLogo_WithShadow">
@@ -1955,10 +1981,16 @@
                     <include condition="!$PARAM[selected]" content="Object_Indicator">
                         <param name="affix">$PARAM[affix]</param>
                         <param name="listitem">$PARAM[listitem]</param>
+                        <include content="Object_Visible_Unfocused" condition="$PARAM[focus_dynamic]">
+                            <param name="focus_condition">$PARAM[focus_condition]</param>
+                        </include>
                     </include>
-                    <include content="Object_SelectBox" condition="$PARAM[selected]">
+                    <include content="Object_SelectBox" condition="[$PARAM[selected] | $PARAM[focus_dynamic]]">
                         <param name="indicator">true</param>
                         <param name="focusbounce">false</param>
+                        <include content="Object_Visible_Focused" condition="$PARAM[focus_dynamic]">
+                            <param name="focus_condition">$PARAM[focus_condition]</param>
+                        </include>
                     </include>
                 </control>
             </control>
@@ -1967,6 +1999,8 @@
 
     <include name="Layout_Banner">
         <param name="selected">false</param>
+        <param name="focus_dynamic">false</param>
+        <param name="focus_condition">false</param>
         <param name="diffuse">diffuse/banner_w1640_h310.png</param>
         <param name="listitem">ListItem</param>
         <definition>
@@ -1974,8 +2008,10 @@
                 <width>$PARAM[item_w]</width>
                 <height>$PARAM[item_h]</height>
                 <control type="group">
-                    <include content="Object_ItemBack">
+                    <include content="Layout_ItemBack">
                         <param name="selected">$PARAM[selected]</param>
+                        <param name="focus_dynamic">$PARAM[focus_dynamic]</param>
+                        <param name="focus_condition">$PARAM[focus_condition]</param>
                         <param name="shadow_colordiffuse">$PARAM[shadow_colordiffuse]</param>
                     </include>
                     <include content="Object_Layout_Image_Rectangle">
@@ -1984,6 +2020,8 @@
                         <param name="listitem">$PARAM[listitem]</param>
                         <param name="aspectratio">scale</param>
                         <param name="selected">$PARAM[selected]</param>
+                        <param name="focus_dynamic">$PARAM[focus_dynamic]</param>
+                        <param name="focus_condition">$PARAM[focus_condition]</param>
                     </include>
                     <control type="image">
                         <texture background="true" diffuse="$PARAM[diffuse]">$VAR[Image_Clearlogo$PARAM[affix]]</texture>
@@ -1999,10 +2037,16 @@
                     <include condition="!$PARAM[selected]" content="Object_Indicator">
                         <param name="affix">$PARAM[affix]</param>
                         <param name="listitem">$PARAM[listitem]</param>
+                        <include content="Object_Visible_Unfocused" condition="$PARAM[focus_dynamic]">
+                            <param name="focus_condition">$PARAM[focus_condition]</param>
+                        </include>
                     </include>
-                    <include content="Object_SelectBox" condition="$PARAM[selected]">
+                    <include content="Object_SelectBox" condition="[$PARAM[selected] | $PARAM[focus_dynamic]]">
                         <param name="indicator">true</param>
                         <param name="focusbounce">false</param>
+                        <include content="Object_Visible_Focused" condition="$PARAM[focus_dynamic]">
+                            <param name="focus_condition">$PARAM[focus_condition]</param>
+                        </include>
                     </include>
                 </control>
             </control>
@@ -2011,6 +2055,8 @@
 
     <include name="Layout_Gallery">
         <param name="selected">false</param>
+        <param name="focus_dynamic">false</param>
+        <param name="focus_condition">false</param>
         <param name="diffuse">diffuse/landscape_w1140_h680.png</param>
         <param name="listitem">ListItem</param>
         <definition>
@@ -2031,9 +2077,12 @@
                     </control>
                 </control>
                 <control type="group">
-                    <include content="Object_SelectBox" condition="$PARAM[selected]">
+                    <include content="Object_SelectBox" condition="[$PARAM[selected] | $PARAM[focus_dynamic]]">
                         <param name="indicator">false</param>
                         <param name="focusbounce">false</param>
+                        <include content="Object_Visible_Focused" condition="$PARAM[focus_dynamic]">
+                            <param name="focus_condition">$PARAM[focus_condition]</param>
+                        </include>
                     </include>
                 </control>
             </control>
@@ -2043,6 +2092,8 @@
     <include name="Layout_Poster">
         <param name="detailed">false</param>
         <param name="selected">false</param>
+        <param name="focus_dynamic">false</param>
+        <param name="focus_condition">false</param>
         <param name="indicator">true</param>
         <param name="diffuse">diffuse/poster_w217_h310.png</param>
         <param name="icon">$VAR[Image_Poster]</param>
@@ -2061,13 +2112,18 @@
                 <control type="group">
                     <width>$PARAM[item_w]</width>
                     <height>$PARAM[item_h]</height>
-                    <include content="Object_ItemBack">
+                    <include content="Layout_ItemBack">
                         <param name="selected">$PARAM[selected]</param>
+                        <param name="focus_dynamic">$PARAM[focus_dynamic]</param>
+                        <param name="focus_condition">$PARAM[focus_condition]</param>
                         <param name="shadow_colordiffuse">$PARAM[shadow_colordiffuse]</param>
                     </include>
-                    <include content="Object_Control" condition="$PARAM[selected]">
+                    <include content="Object_Control" condition="[$PARAM[selected] | $PARAM[focus_dynamic]]">
                         <param name="control">image</param>
                         <include>Texture_Box_Highlight_V</include>
+                        <include content="Object_Visible_Focused" condition="$PARAM[focus_dynamic]">
+                            <param name="focus_condition">$PARAM[focus_condition]</param>
+                        </include>
                     </include>
                     <control type="textbox">
                         <textcolor>main_fg_70</textcolor>
@@ -2088,6 +2144,8 @@
                         <param name="listitem">$PARAM[listitem]</param>
                         <param name="aspectratio">scale</param>
                         <param name="selected">$PARAM[selected]</param>
+                        <param name="focus_dynamic">$PARAM[focus_dynamic]</param>
+                        <param name="focus_condition">$PARAM[focus_condition]</param>
                     </include>
                 </control>
                 <include content="Object_Control" condition="$PARAM[show_wall_label]">
@@ -2102,7 +2160,12 @@
                         <aligny>top</aligny>
                         <scroll>false</scroll>
                         <textcolor>main_fg_70</textcolor>
-                        <visible>![$PARAM[selected]]</visible>
+                        <include content="Object_Visible_Unfocused" condition="!$PARAM[focus_dynamic]">
+                            <param name="focus_condition">$PARAM[selected]</param>
+                        </include>
+                        <include content="Object_Visible_Unfocused" condition="$PARAM[focus_dynamic]">
+                            <param name="focus_condition">$PARAM[focus_condition]</param>
+                        </include>
                     </control>
                     <control type="label">
                         <top>$PARAM[item_h]</top>
@@ -2115,7 +2178,12 @@
                         <scroll>true</scroll>
                         <textcolor>main_fg_70</textcolor>
                         <include>Color_SelectedText</include>
-                        <visible>$PARAM[selected]</visible>
+                        <include content="Object_Visible_Focused" condition="!$PARAM[focus_dynamic]">
+                            <param name="focus_condition">$PARAM[selected]</param>
+                        </include>
+                        <include content="Object_Visible_Focused" condition="$PARAM[focus_dynamic]">
+                            <param name="focus_condition">$PARAM[focus_condition]</param>
+                        </include>
                     </control>
                 </include>
                 <control type="group">
@@ -2149,8 +2217,11 @@
                         <param name="top">$PARAM[indicator_top]</param>
                         <param name="right">$PARAM[indicator_right]</param>
                         <param name="use_top">$PARAM[indicator_use_top]</param>
+                        <include content="Object_Visible_Unfocused" condition="$PARAM[focus_dynamic]">
+                            <param name="focus_condition">$PARAM[focus_condition]</param>
+                        </include>
                     </include>
-                    <include content="Object_SelectBox" condition="$PARAM[selected]">
+                    <include content="Object_SelectBox" condition="[$PARAM[selected] | $PARAM[focus_dynamic]]">
                         <param name="affix">$PARAM[affix]</param>
                         <param name="listitem">$PARAM[listitem]</param>
                         <param name="indicator">$PARAM[indicator]</param>
@@ -2159,6 +2230,9 @@
                         <param name="indicator_top">$PARAM[indicator_top]</param>
                         <param name="indicator_right">$PARAM[indicator_right]</param>
                         <param name="indicator_use_top">$PARAM[indicator_use_top]</param>
+                        <include content="Object_Visible_Focused" condition="$PARAM[focus_dynamic]">
+                            <param name="focus_condition">$PARAM[focus_condition]</param>
+                        </include>
                     </include>
                 </control>
 
@@ -2268,6 +2342,8 @@
     <include name="Layout_Square">
         <param name="diffuse">diffuse/square_w217_h217.png</param>
         <param name="selected">false</param>
+        <param name="focus_dynamic">false</param>
+        <param name="focus_condition">false</param>
         <param name="detailed">false</param>
         <param name="variation">false</param>
         <param name="icon">$VAR[Image_Square]</param>
@@ -2282,17 +2358,24 @@
                 <height>$PARAM[item_h]</height>
                 <control type="group">
                     <height>$PARAM[item_h]</height>
-                    <include content="Object_ItemBack">
+                    <include content="Layout_ItemBack">
                         <param name="selected">$PARAM[selected]</param>
+                        <param name="focus_dynamic">$PARAM[focus_dynamic]</param>
+                        <param name="focus_condition">$PARAM[focus_condition]</param>
                         <param name="shadow_colordiffuse">$PARAM[shadow_colordiffuse]</param>
                     </include>
-                    <include content="Object_Control" condition="$PARAM[selected]">
+                    <include content="Object_Control" condition="[$PARAM[selected] | $PARAM[focus_dynamic]]">
                         <param name="control">image</param>
                         <include>Texture_Box_Highlight_V</include>
+                        <include content="Object_Visible_Focused" condition="$PARAM[focus_dynamic]">
+                            <param name="focus_condition">$PARAM[focus_condition]</param>
+                        </include>
                     </include>
 
                     <include content="Object_Layout_Image_Icon">
                         <param name="selected">$PARAM[selected]</param>
+                        <param name="focus_dynamic">$PARAM[focus_dynamic]</param>
+                        <param name="focus_condition">$PARAM[focus_condition]</param>
                         <param name="diffuse">$PARAM[diffuse]</param>
                         <param name="icon">$PARAM[icon]</param>
                         <param name="listitem">$PARAM[listitem]</param>
@@ -2305,12 +2388,18 @@
                     <include content="Object_Indicator" condition="!$PARAM[selected] + ![$PARAM[detailed]]">
                         <param name="affix">$PARAM[affix]</param>
                         <param name="listitem">$PARAM[listitem]</param>
+                        <include content="Object_Visible_Unfocused" condition="$PARAM[focus_dynamic]">
+                            <param name="focus_condition">$PARAM[focus_condition]</param>
+                        </include>
                     </include>
-                    <include content="Object_SelectBox" condition="$PARAM[selected]">
+                    <include content="Object_SelectBox" condition="[$PARAM[selected] | $PARAM[focus_dynamic]]">
                         <param name="affix">$PARAM[affix]</param>
                         <param name="indicator">![$PARAM[detailed]]</param>
                         <param name="focusbounce">true</param>
                         <param name="listitem">$PARAM[listitem]</param>
+                        <include content="Object_Visible_Focused" condition="$PARAM[focus_dynamic]">
+                            <param name="focus_condition">$PARAM[focus_condition]</param>
+                        </include>
                     </include>
                 </control>
                 <include content="Layout_Labels" condition="![$PARAM[variation]]">
@@ -2328,6 +2417,8 @@
     <include name="Layout_Circle">
         <param name="diffuse">circle_200</param>
         <param name="selected">false</param>
+        <param name="focus_dynamic">false</param>
+        <param name="focus_condition">false</param>
         <param name="detailed">false</param>
         <param name="variation">false</param>
         <param name="icon">$VAR[Image_Circle]</param>
@@ -2352,14 +2443,19 @@
                     </control>
                     <include>Object_Circle_200_Outline</include>
 
-                    <include content="Object_Control" condition="$PARAM[selected]">
+                    <include content="Object_Control" condition="[$PARAM[selected] | $PARAM[focus_dynamic]]">
                         <param name="control">image</param>
                         <bordersize>-6</bordersize>
                         <include>Texture_Circle_Highlight_V</include>
+                        <include content="Object_Visible_Focused" condition="$PARAM[focus_dynamic]">
+                            <param name="focus_condition">$PARAM[focus_condition]</param>
+                        </include>
                     </include>
 
                     <include content="Object_Layout_Image_Icon">
                         <param name="selected">$PARAM[selected]</param>
+                        <param name="focus_dynamic">$PARAM[focus_dynamic]</param>
+                        <param name="focus_condition">$PARAM[focus_condition]</param>
                         <param name="diffuse">diffuse/circle/$PARAM[diffuse].png</param>
                         <param name="include_discart">true</param>
                         <param name="icon">$PARAM[icon]</param>
@@ -2378,6 +2474,8 @@
                             <param name="affix">$PARAM[affix]</param>
                             <param name="listitem">$PARAM[listitem]</param>
                             <param name="selected">$PARAM[selected]</param>
+                            <param name="focus_dynamic">$PARAM[focus_dynamic]</param>
+                            <param name="focus_condition">$PARAM[focus_condition]</param>
                             <param name="shadow">false</param>
                         </include>
                     </control>
@@ -2482,6 +2580,8 @@
     <include name="Layout_Landscape">
         <param name="detailed">false</param>
         <param name="selected">false</param>
+        <param name="focus_dynamic">false</param>
+        <param name="focus_condition">false</param>
         <param name="icon">$VAR[Image_Landscape]</param>
         <param name="textcolor">main_fg</param>
         <param name="diffuse">diffuse/landscape_w410_h231.png</param>
@@ -2494,14 +2594,19 @@
                 <width>$PARAM[item_w]</width>
                 <height>$PARAM[item_h]</height>
 
-                <include content="Object_ItemBack">
+                <include content="Layout_ItemBack">
                     <param name="selected">$PARAM[selected]</param>
+                    <param name="focus_dynamic">$PARAM[focus_dynamic]</param>
+                    <param name="focus_condition">$PARAM[focus_condition]</param>
                     <param name="shadow_colordiffuse">$PARAM[shadow_colordiffuse]</param>
                 </include>
 
-                <include content="Object_Control" condition="$PARAM[selected]">
+                <include content="Object_Control" condition="[$PARAM[selected] | $PARAM[focus_dynamic]]">
                     <param name="control">image</param>
                     <include>Texture_Box_Highlight_V</include>
+                    <include content="Object_Visible_Focused" condition="$PARAM[focus_dynamic]">
+                        <param name="focus_condition">$PARAM[focus_condition]</param>
+                    </include>
                 </include>
 
                 <include content="Object_Layout_Image_Rectangle" condition="![$PARAM[detailed]]">
@@ -2509,6 +2614,8 @@
                     <param name="icon">$PARAM[icon]</param>
                     <param name="listitem">$PARAM[listitem]</param>
                     <param name="selected">$PARAM[selected]</param>
+                    <param name="focus_dynamic">$PARAM[focus_dynamic]</param>
+                    <param name="focus_condition">$PARAM[focus_condition]</param>
                     <param name="aspectratio">keep</param>
                 </include>
 
@@ -2517,6 +2624,8 @@
                     <param name="icon">$PARAM[icon]</param>
                     <param name="listitem">$PARAM[listitem]</param>
                     <param name="selected">$PARAM[selected]</param>
+                    <param name="focus_dynamic">$PARAM[focus_dynamic]</param>
+                    <param name="focus_condition">$PARAM[focus_condition]</param>
                     <param name="aspectratio">scale</param>
                 </include>
 
@@ -2533,6 +2642,9 @@
                 <include content="Object_Indicator" condition="!$PARAM[selected]">
                     <param name="affix">$PARAM[affix]</param>
                     <param name="listitem">$PARAM[listitem]</param>
+                    <include content="Object_Visible_Unfocused" condition="$PARAM[focus_dynamic]">
+                        <param name="focus_condition">$PARAM[focus_condition]</param>
+                    </include>
                 </include>
 
                 <include content="Object_ContentBanner" condition="$PARAM[indicator]">
@@ -2552,11 +2664,14 @@
                     <param name="use_label2">$PARAM[use_label2]</param>
                 </include>
 
-                <include content="Object_SelectBox" condition="$PARAM[selected]">
+                <include content="Object_SelectBox" condition="[$PARAM[selected] | $PARAM[focus_dynamic]]">
                     <param name="affix">$PARAM[affix]</param>
                     <param name="indicator">true</param>
                     <param name="focusbounce">true</param>
                     <param name="listitem">$PARAM[listitem]</param>
+                    <include content="Object_Visible_Focused" condition="$PARAM[focus_dynamic]">
+                        <param name="focus_condition">$PARAM[focus_condition]</param>
+                    </include>
                 </include>
             </control>
         </definition>

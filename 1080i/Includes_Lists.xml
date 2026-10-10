@@ -303,6 +303,7 @@
         <param name="itemlayout_w">view_card_itemlayout_w</param>
         <param name="itemlayout_h">view_poster_itemlayout_h</param>
         <param name="itemlayout_include">Layout_Card</param>
+        <param name="focusedlayout_dynamic">true</param>
         <param name="hidden_button_enabled">false</param>
         <param name="hidden_button">List_Widget_Row_HiddenButton</param>
         <definition>
@@ -335,7 +336,23 @@
                         <right>-$PARAM[offset_x]</right>
                         <top>$PARAM[offset_y]</top>
                         <bottom>-$PARAM[offset_y]</bottom>
-                        <control type="group">
+                        <include content="$PARAM[itemlayout_include]" condition="$PARAM[focusedlayout_dynamic]">
+                            <param name="selected">false</param>
+                            <param name="focus_dynamic">true</param>
+                            <param name="focus_condition">[Control.HasFocus($PARAM[id]) | $PARAM[altfocus]]</param>
+                            <param name="item_w">$PARAM[item_w]</param>
+                            <param name="item_h">$PARAM[item_h]</param>
+                            <param name="misc">$PARAM[misc]</param>
+                            <param name="id">$PARAM[id]</param>
+                            <param name="detailed">$PARAM[detailed]</param>
+                            <param name="indicator">$PARAM[indicator]</param>
+                            <param name="variation">$PARAM[variation]</param>
+                            <param name="diffuse">$PARAM[diffuse]</param>
+                            <param name="icon">$PARAM[icon]</param>
+                            <param name="textcolor">$PARAM[textcolor]</param>
+                            <param name="shadow_colordiffuse">$PARAM[shadow_colordiffuse]</param>
+                        </include>
+                        <include content="List_Core_Crossfade_Group" condition="!$PARAM[focusedlayout_dynamic]">
                             <animation effect="fade" start="100" end="0" condition="[Control.HasFocus($PARAM[id]) | $PARAM[altfocus]]">Conditional</animation>
                             <include content="$PARAM[itemlayout_include]">
                                 <param name="selected">false</param>
@@ -351,8 +368,8 @@
                                 <param name="textcolor">$PARAM[textcolor]</param>
                                 <param name="shadow_colordiffuse">$PARAM[shadow_colordiffuse]</param>
                             </include>
-                        </control>
-                        <control type="group">
+                        </include>
+                        <include content="List_Core_Crossfade_Group" condition="!$PARAM[focusedlayout_dynamic]">
                             <animation effect="fade" start="100" end="0" condition="![Control.HasFocus($PARAM[id]) | $PARAM[altfocus]]">Conditional</animation>
                             <include content="$PARAM[itemlayout_include]">
                                 <param name="selected">true</param>
@@ -368,7 +385,7 @@
                                 <param name="textcolor">$PARAM[textcolor]</param>
                                 <param name="shadow_colordiffuse">$PARAM[shadow_colordiffuse]</param>
                             </include>
-                        </control>
+                        </include>
                     </control>
                 </focusedlayout>
             </include>
@@ -376,6 +393,7 @@
     </include>
 
     <include name="List_Banner_Row">
+        <param name="focusedlayout_dynamic">true</param>
         <param name="orientation">horizontal</param>
         <param name="control">fixedlist</param>
         <definition>
@@ -388,6 +406,7 @@
                 <param name="itemlayout_w">view_banner_itemlayout_w</param>
                 <param name="itemlayout_h">view_poster_itemlayout_h</param>
                 <param name="itemlayout_include">Layout_Banner</param>
+                <param name="focusedlayout_dynamic">$PARAM[focusedlayout_dynamic]</param>
                 <param name="offset_y">$PARAM[offset_y]</param>
                 <param name="detailed">$PARAM[detailed]</param>
                 <param name="hidden_button_enabled">$PARAM[hidden_button_enabled]</param>
@@ -399,6 +418,7 @@
     </include>
 
     <include name="List_Gallery_Row">
+        <param name="focusedlayout_dynamic">true</param>
         <definition>
             <include content="List_Core">
                 <param name="orientation">horizontal</param>
@@ -409,6 +429,7 @@
                 <param name="itemlayout_w">view_banner_itemlayout_w</param>
                 <param name="itemlayout_h">790</param>
                 <param name="itemlayout_include">Layout_Gallery</param>
+                <param name="focusedlayout_dynamic">$PARAM[focusedlayout_dynamic]</param>
                 <param name="offset_y">$PARAM[offset_y]</param>
                 <param name="detailed">$PARAM[detailed]</param>
                 <param name="hidden_button_enabled">$PARAM[hidden_button_enabled]</param>
@@ -420,6 +441,7 @@
     </include>
 
     <include name="List_Poster_Row">
+        <param name="focusedlayout_dynamic">true</param>
         <param name="focusedlayout_special">false</param>
         <param name="control">fixedlist</param>
         <param name="orientation">horizontal</param>
@@ -443,6 +465,7 @@
                 <param name="itemlayout_w">$PARAM[itemlayout_w]</param>
                 <param name="itemlayout_h">$PARAM[itemlayout_h]</param>
                 <param name="itemlayout_include">Layout_Poster</param>
+                <param name="focusedlayout_dynamic">$PARAM[focusedlayout_dynamic]</param>
                 <param name="focusedlayout_special">$PARAM[focusedlayout_special]</param>
                 <param name="offset_y">$PARAM[offset_y]</param>
                 <param name="offset_x">$PARAM[offset_x]</param>
@@ -462,6 +485,7 @@
     </include>
 
     <include name="List_Landscape_Row">
+        <param name="focusedlayout_dynamic">true</param>
         <param name="item_w">view_landscape_item_w</param>
         <param name="item_h">view_landscape_item_h</param>
         <param name="itemlayout_w">view_landscape_itemlayout_w</param>
@@ -478,6 +502,7 @@
                 <param name="itemlayout_w">$PARAM[itemlayout_w]</param>
                 <param name="itemlayout_h">$PARAM[itemlayout_h]</param>
                 <param name="itemlayout_include">Layout_Landscape</param>
+                <param name="focusedlayout_dynamic">$PARAM[focusedlayout_dynamic]</param>
                 <param name="icon">$PARAM[icon]</param>
                 <param name="textcolor">$PARAM[textcolor]</param>
                 <param name="offset_x">$PARAM[offset_x]</param>
@@ -493,6 +518,7 @@
     </include>
 
     <include name="List_Board_Row">
+        <param name="focusedlayout_dynamic">true</param>
         <param name="item_w">view_board_item_w</param>
         <param name="item_h">view_poster_item_h</param>
         <param name="itemlayout_w">view_board_itemlayout_w</param>
@@ -509,6 +535,7 @@
                 <param name="itemlayout_w">$PARAM[itemlayout_w]</param>
                 <param name="itemlayout_h">$PARAM[itemlayout_h]</param>
                 <param name="itemlayout_include">Layout_Landscape</param>
+                <param name="focusedlayout_dynamic">$PARAM[focusedlayout_dynamic]</param>
                 <param name="diffuse">diffuse/landscape_w560_h310.png</param>
                 <param name="detailed">true</param>
                 <param name="variation">false</param>
@@ -526,6 +553,7 @@
     </include>
 
     <include name="List_Circle_Row">
+        <param name="focusedlayout_dynamic">true</param>
         <param name="item_w">view_poster_item_h</param>  <!-- Circle matches height but has slightly wider spacing for 5 item -->
         <param name="item_h">view_poster_item_h</param>
         <param name="itemlayout_w">view_circle_itemlayout_w</param>
@@ -546,6 +574,7 @@
                 <param name="offset_y">$PARAM[offset_y]</param>
                 <param name="variation">true</param>
                 <param name="itemlayout_include">Layout_Circle</param>
+                <param name="focusedlayout_dynamic">$PARAM[focusedlayout_dynamic]</param>
                 <param name="hidden_button_enabled">$PARAM[hidden_button_enabled]</param>
                 <param name="hidden_button">$PARAM[hidden_button]</param>
                 <include condition="$PARAM[use_movement]">List_Card_Row_Movement</include>
@@ -555,6 +584,7 @@
     </include>
     
     <include name="List_Square_Row">
+        <param name="focusedlayout_dynamic">true</param>
         <param name="item_w">view_poster_item_w</param>
         <param name="item_h">view_poster_item_w</param>
         <param name="itemlayout_w">view_poster_itemlayout_w</param>
@@ -575,6 +605,7 @@
                 <param name="offset_y">$PARAM[offset_y]</param>
                 <param name="variation">$PARAM[variation]</param>
                 <param name="itemlayout_include">Layout_Square</param>
+                <param name="focusedlayout_dynamic">$PARAM[focusedlayout_dynamic]</param>
                 <param name="hidden_button_enabled">$PARAM[hidden_button_enabled]</param>
                 <param name="hidden_button">$PARAM[hidden_button]</param>
                 <include condition="$PARAM[use_movement]">List_Poster_Row_Movement</include>
@@ -778,6 +809,12 @@
         </definition>
     </include>
 
+    <include name="List_Core_Crossfade_Group">
+        <control type="group">
+            <nested />
+        </control>
+    </include>
+
     <include name="List_Core">
         <param name="orientation">horizontal</param>
         <param name="control">list</param>
@@ -794,6 +831,7 @@
         <param name="item_h" />
         <param name="itemlayout_include" />
         <param name="focusedlayout_special">false</param>
+        <param name="focusedlayout_dynamic">false</param>
         <param name="altfocus">false</param>
         <param name="detailed">false</param>
         <param name="indicator">true</param>
@@ -857,7 +895,34 @@
                         <right>-$PARAM[offset_x]</right>
                         <top>$PARAM[offset_y]</top>
                         <bottom>-$PARAM[offset_y]</bottom>
-                        <control type="group">
+                        <!-- Single copy: only the parts that differ between the plain and the highlighted look are gated on row focus (see Layout_Landscape) -->
+                        <include content="$PARAM[itemlayout_include]" condition="$PARAM[focusedlayout_dynamic]">
+                            <param name="focusedlayout">true</param>
+                            <param name="selected">false</param>
+                            <param name="focus_dynamic">true</param>
+                            <param name="focus_condition">[Control.HasFocus($PARAM[id]) | $PARAM[altfocus]]</param>
+                            <param name="item_w">$PARAM[item_w]</param>
+                            <param name="item_h">$PARAM[item_h]</param>
+                            <param name="misc">$PARAM[misc]</param>
+                            <param name="id">$PARAM[id]</param>
+                            <param name="itemlayout_h">$PARAM[itemlayout_h]</param>
+                            <param name="detailed">$PARAM[detailed]</param>
+                            <param name="indicator">$PARAM[indicator]</param>
+                            <param name="variation">$PARAM[variation]</param>
+                            <param name="diffuse">$PARAM[diffuse]</param>
+                            <param name="icon">$PARAM[icon]</param>
+                            <param name="textcolor">$PARAM[textcolor]</param>
+                            <param name="shadow_colordiffuse">$PARAM[shadow_colordiffuse]</param>
+                            <param name="include_detailed_labels">$PARAM[include_detailed_labels]</param>
+                            <param name="use_label2">$PARAM[use_label2]</param>
+                            <param name="show_wall_label">$PARAM[show_wall_label]</param>
+                            <param name="indicator_centerbottom">$PARAM[indicator_centerbottom]</param>
+                            <param name="indicator_top">$PARAM[indicator_top]</param>
+                            <param name="indicator_right">$PARAM[indicator_right]</param>
+                            <param name="indicator_use_top">$PARAM[indicator_use_top]</param>
+                        </include>
+                        <!-- Classic two-copy cross-fade for layouts without dynamic support -->
+                        <include content="List_Core_Crossfade_Group" condition="!$PARAM[focusedlayout_dynamic]">
                             <animation effect="fade" start="100" end="0" condition="[Control.HasFocus($PARAM[id]) | $PARAM[altfocus]]">Conditional</animation>
                             <include content="$PARAM[itemlayout_include]">
                                 <param name="focusedlayout">true</param>
@@ -882,8 +947,8 @@
                                 <param name="indicator_right">$PARAM[indicator_right]</param>
                                 <param name="indicator_use_top">$PARAM[indicator_use_top]</param>
                             </include>
-                        </control>
-                        <control type="group">
+                        </include>
+                        <include content="List_Core_Crossfade_Group" condition="!$PARAM[focusedlayout_dynamic]">
                             <animation effect="fade" start="100" end="0" condition="![Control.HasFocus($PARAM[id]) | $PARAM[altfocus]]">Conditional</animation>
                             <include content="$PARAM[itemlayout_include]">
                                 <param name="focusedlayout">true</param>
@@ -908,7 +973,7 @@
                                 <param name="indicator_right">$PARAM[indicator_right]</param>
                                 <param name="indicator_use_top">$PARAM[indicator_use_top]</param>
                             </include>
-                        </control>
+                        </include>
                     </control>
                 </include>
             </control>
