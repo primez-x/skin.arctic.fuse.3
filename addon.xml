@@ -1,4 +1,4 @@
-<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.2.75">
+<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.2.76">
     <requires>
         <import addon="xbmc.gui" version="5.17.0" />
         <import addon="xbmc.python" version="3.0.0" />
@@ -35,7 +35,10 @@
         <license>Creative Commons Attribution Non-Commercial Share-Alike 4.0</license>
         <forum />
         <source>https://github.com/primez-x/skin.arctic.fuse.3</source>
-        <news>v3.2.75
+        <news>v3.2.76
+- Watchlist button on Discover items shows "Remove from Watchlist" immediately when the item is already in your Watchlist (uses PlexKodiConnect's hint until it confirms).
+
+v3.2.75
 - Add publish rule checks (pre-push hook and CI workflow); nothing in the add-on changes.
 
 v3.2.74
