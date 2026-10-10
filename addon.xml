@@ -1,4 +1,4 @@
-<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.3.0">
+<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.3.1">
     <requires>
         <import addon="xbmc.gui" version="5.17.0" />
         <import addon="xbmc.python" version="3.0.0" />
@@ -35,7 +35,10 @@
         <license>Creative Commons Attribution Non-Commercial Share-Alike 4.0</license>
         <forum />
         <source>https://github.com/primez-x/skin.arctic.fuse.3</source>
-        <news>v3.3.0
+        <news>v3.3.1
+- The "Add to Watchlist" / "Remove from Watchlist" button labels can now be translated.
+
+v3.3.0
 - Home and hub widget rows past the third now load as you approach them, so the first rows (and other windows) appear faster; rows not reached yet show a spinner.
 - Returning to Home no longer re-runs the shortcut build script unless shortcuts, the skin user or the skin version changed.
 - Standard widget mode shares one info panel across rows (about half the controls on Home); it is empty while the top bar has focus.
