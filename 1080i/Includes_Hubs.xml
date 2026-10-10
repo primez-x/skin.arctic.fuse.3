@@ -280,12 +280,18 @@
         Standard mode: one info panel for all widget rows instead of one per row.
         Container.ListItem follows the focused container of this window, so the
         panel tracks whichever row in grouplist 602 has focus (and keeps it while
-        a dialog is open over the hub). It is empty while focus is outside the rows.
+        a dialog is open over the hub). While focus is outside the rows (main
+        menu) a second panel shows the first row's item; focusing the menu points
+        TMDbHelper.WidgetContainer back at that row (see Home_Control).
     -->
     <include name="Hub_Standard_Info">
         <include content="Hub_Combined_Info_Panels">
             <param name="container">Container.</param>
             <param name="visible">[!$EXP[Exp_InfoDialogs] + ControlGroup(602).HasFocus() + Integer.IsGreaterOrEqual(Window.Property(TMDBHelper.WidgetContainer),501)]</param>
+        </include>
+        <include content="Hub_Combined_Info_Panels">
+            <param name="container">Container(501).</param>
+            <param name="visible">[!$EXP[Exp_InfoDialogs] + !ControlGroup(602).HasFocus() + Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),501)]</param>
         </include>
     </include>
 

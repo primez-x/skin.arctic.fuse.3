@@ -104,6 +104,21 @@ class StandardInfoPanelTests(unittest.TestCase):
         )
         self.assertNotIn("Mode),Standard)\">skinvariables-$PARAM[window]widgets-combined-info", text)
 
+    def test_menu_focus_still_shows_the_first_rows_item(self):
+        hubs = includes("Includes_Hubs.xml")
+        panels = hubs["Hub_Standard_Info"].findall("include")
+        fallback = [
+            panel for panel in panels
+            if panel.findtext("param[@name='container']") == "Container(501)."
+        ]
+        self.assertEqual(1, len(fallback))
+        visible = fallback[0].findtext("param[@name='visible']")
+        self.assertIn("!ControlGroup(602).HasFocus()", visible)
+        self.assertIn("Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),501)", visible)
+
+        home = (SKIN_ROOT / "1080i" / "Includes_Home.xml").read_text(encoding="utf-8")
+        self.assertIn(">SetProperty(TMDbHelper.WidgetContainer,501)</onfocus>", home)
+
 
 class PosterWallGenreTests(unittest.TestCase):
     def test_genre_is_a_static_label(self):

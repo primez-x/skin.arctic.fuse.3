@@ -255,6 +255,8 @@
                 <ondown condition="Skin.HasSetting(HomeSwitcher.Vertical)">$INFO[Container(399).ListItem(1).Property(action)]</ondown>
 
                 <onfocus>SetProperty(HomeSwitcher.IsVisible,True,Home)</onfocus>
+                <!-- Standard mode shows the first row's item while the menu has focus (Hub_Standard_Info) -->
+                <onfocus condition="String.IsEqual(Skin.String(HomeSwitcher.$PARAM[window].Mode),Standard) + Integer.IsGreater(Window.Property(TMDBHelper.WidgetContainer),501) + Integer.IsLess(Window.Property(TMDBHelper.WidgetContainer),600)">SetProperty(TMDbHelper.WidgetContainer,501)</onfocus>
                 <onfocus condition="$PARAM[overlay]">SetProperty(InfoPanel.FullSwitch,Wall,Home)</onfocus>
                 <onfocus condition="![$PARAM[overlay]]">ClearProperty(InfoPanel.FullSwitch,Home)</onfocus>
                 <onfocus condition="$PARAM[overlay]">SetProperty(Background.ShowOverlay,True,Home)</onfocus>
