@@ -1,4 +1,4 @@
-<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.3.2">
+<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.3.3">
     <requires>
         <import addon="xbmc.gui" version="5.17.0" />
         <import addon="xbmc.python" version="3.0.0" />
@@ -35,7 +35,10 @@
         <license>Creative Commons Attribution Non-Commercial Share-Alike 4.0</license>
         <forum />
         <source>https://github.com/primez-x/skin.arctic.fuse.3</source>
-        <news>v3.3.2
+        <news>v3.3.3
+- The publish checks run the skin's tests again; nothing in the skin changes.
+
+v3.3.2
 - Lighter widget rows: the focused item of each row is drawn once instead of twice (same look), roughly halving its per-frame work.
 
 v3.3.1
