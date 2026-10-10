@@ -16,14 +16,19 @@
 
     <onfocus>ClearProperty(HomeSwitcher.IsVisible,Home)</onfocus>
     <onfocus>ClearProperty(InfoPanel.FullSwitch,Home)</onfocus>
+    <onfocus condition="{widget_lazy_raise}">SetProperty(Widgets.Reached,{item_x},{widget_lazy_window})</onfocus>
 
     <description>{description}</description>
+
+    <include content="Widget_Lazy_Placeholder" condition="{widget_lazy}">
+        <param name="reached">{widget_lazy_reached}</param>
+    </include>
 
     <include content="Widget_NoResults">
         <param name="id">{widget_id}</param>
     </include>
 
-    <content sortby="{widget_sortby}" sortorder="{widget_sortorder}" target="{widget_target}" limit="{widget_limit}" browse="$VAR[Defs_BrowseLimitedLists]">{widget_path}</content>
+    <content sortby="{widget_sortby}" sortorder="{widget_sortorder}" target="{widget_target}" limit="{widget_limit}" browse="$VAR[Defs_BrowseLimitedLists]">{widget_content_path}</content>
 
     <include content="Defs_AutoScroll" condition="{widget_isautoscroll}">
         <param name="condition">[!Control.HasFocus({widget_id}) | System.IdleTime(3)]</param>

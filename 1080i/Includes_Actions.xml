@@ -206,8 +206,20 @@
         <value condition="Window.IsVisible(videoplaylist)">videoplaylist</value>
     </variable>
 
+    <!--
+        Home runs the shortcut template build only when something it depends on has
+        changed since the last check in this Kodi session: the rebuild marker
+        (bumped by the shortcut editor), the skin user, or the skin version. An
+        empty marker keeps the old run-on-every-load behaviour. All conditions are
+        evaluated before the actions run, so the build and the bookkeeping fire
+        together.
+    -->
+    <expression name="Exp_Shortcuts_BuildNeeded">String.IsEmpty(Skin.String(Shortcuts.RebuildDateTime)) | !String.IsEqual(Window(Home).Property(Shortcuts.Checked),Skin.String(Shortcuts.RebuildDateTime)) | !String.IsEqual(Window(Home).Property(Shortcuts.Checked.SkinUser),Skin.String(SkinVariables.SkinUser)) | !String.IsEqual(Window(Home).Property(Shortcuts.Checked.Version),System.AddonVersion(skin.arctic.fuse.3))</expression>
     <include name="Action_BuildShortcuts_OnLoad">
-        <onload>runscript(script.skinvariables,"run_executebuiltin=special://skin/shortcuts/skinvariables-build-templates.json",use_rules)</onload>
+        <onload condition="$EXP[Exp_Shortcuts_BuildNeeded]">runscript(script.skinvariables,"run_executebuiltin=special://skin/shortcuts/skinvariables-build-templates.json",use_rules)</onload>
+        <onload condition="$EXP[Exp_Shortcuts_BuildNeeded]">SetProperty(Shortcuts.Checked,$INFO[Skin.String(Shortcuts.RebuildDateTime)],Home)</onload>
+        <onload condition="$EXP[Exp_Shortcuts_BuildNeeded]">SetProperty(Shortcuts.Checked.SkinUser,$INFO[Skin.String(SkinVariables.SkinUser)],Home)</onload>
+        <onload condition="$EXP[Exp_Shortcuts_BuildNeeded]">SetProperty(Shortcuts.Checked.Version,$INFO[System.AddonVersion(skin.arctic.fuse.3)],Home)</onload>
     </include>
     <include name="Action_BuildShortcuts_OnUnLoad">
         <onload>CancelAlarm(rebuild_shortcuts,true)</onload>

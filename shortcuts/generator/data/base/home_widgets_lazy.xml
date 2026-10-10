@@ -1,0 +1,17 @@
+<contents>
+    <template>generator/data/parts/widgets_lazy_paths.xmltemplate</template>
+    <value name="comments">Lazy Widget Paths</value>
+    <value name="lazy_paths">
+        <items menu="{item}">
+            <item>
+                <template>generator/data/parts/widgets_lazy_path.xmltemplate</template>
+                <datafile>generator/data/setup/widgets_row.xml</datafile>
+                <datafile>generator/data/setup/widgets_lazy.xml</datafile>
+                <condition>{item_disabled}!=True</condition>
+                <condition>{item_x}!=0</condition>
+                <condition>{item_x}!=1</condition>
+                <condition>{item_x}!=2</condition>
+            </item>
+        </items>
+    </value>
+</contents>
