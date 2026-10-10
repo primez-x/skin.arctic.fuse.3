@@ -1,0 +1,35 @@
+<contents>
+    <!--
+        Lazy widget rows (Standard mode). Kodi starts a directory fetch for every
+        container with a content path when the window loads, visible or not, and
+        runs only a few of those jobs at once. The first three rows always get
+        their path; every later row gets it through $VAR[Widget_Lazy_Path_*] once
+        the window property Widgets.Reached (the highest row index focused so far)
+        is at least its index minus two. Focusing row N therefore loads rows up to
+        N + 2 before the user can move down to them.
+    -->
+    <value name="widget_lazy_window">{window_id}</value>
+    <value name="widget_lazy_threshold">$MATH[{item_x} - 2]</value>
+    <value name="widget_lazy_reached">Integer.IsGreaterOrEqual(Window({widget_lazy_window}).Property(Widgets.Reached),{widget_lazy_threshold})</value>
+    <value name="widget_lazy_raise">!Integer.IsGreaterOrEqual(Window({widget_lazy_window}).Property(Widgets.Reached),{item_x})</value>
+    <rules name="widget_lazy">
+        <rule>
+            <condition>{item_x}==0||{item_x}==1||{item_x}==2</condition>
+            <value>False</value>
+        </rule>
+        <rule>
+            <condition>True</condition>
+            <value>True</value>
+        </rule>
+    </rules>
+    <rules name="widget_content_path">
+        <rule>
+            <condition>{widget_lazy}==True</condition>
+            <value>$VAR[Widget_Lazy_Path_{item}_{widget_id}]</value>
+        </rule>
+        <rule>
+            <condition>True</condition>
+            <value>{widget_path}</value>
+        </rule>
+    </rules>
+</contents>

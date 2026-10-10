@@ -1,0 +1,3 @@
+<variable name="Widget_Lazy_Path_{item}_{widget_id}">
+    <value condition="{widget_lazy_reached}">{widget_path}</value>
+</variable>

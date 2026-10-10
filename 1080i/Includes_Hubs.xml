@@ -11,6 +11,7 @@
     </include>
 
     <include name="Hub_Onload">
+        <param name="lazy_reset">true</param>
         <definition>
 
             <include>Action_Blur_Onload</include>
@@ -36,6 +37,11 @@
             <onload condition="String.IsEmpty(Window(1106).Property(TMDbHelper.WidgetContainer))">SetProperty(TMDbHelper.WidgetContainer,501,1106)</onload>
             <onload condition="String.IsEmpty(Window(1107).Property(TMDbHelper.WidgetContainer))">SetProperty(TMDbHelper.WidgetContainer,501,1107)</onload>
             <onload condition="String.IsEmpty(Window(1108).Property(TMDbHelper.WidgetContainer))">SetProperty(TMDbHelper.WidgetContainer,501,1108)</onload>
+
+            <!-- Lazy widget rows: hubs rebuild their controls on every visit, so start
+                 the next visit from the top again. Home stays in memory with its rows
+                 loaded and keeps its Widgets.Reached for the session. -->
+            <onunload condition="$PARAM[lazy_reset]">ClearProperty(Widgets.Reached,$PARAM[window_id])</onunload>
 
             <menucontrol>300</menucontrol>
 
@@ -264,38 +270,60 @@
     </include>
 
     <include name="Hub_Combined_Info">
-        <control type="group">
-            <animation effect="fade" start="0" end="100" delay="399" time="1" condition="!$EXP[Hub_Spotlight_Visible_Expression]">Conditional</animation>
-            <animation effect="fade" start="100" end="0" condition="$EXP[Hub_Spotlight_Visible_Expression]">Conditional</animation>
+        <include content="Hub_Combined_Info_Panels">
+            <param name="container">Container($PARAM[id]).</param>
+            <param name="visible">[!$EXP[Exp_InfoDialogs] + Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),$PARAM[id])]</param>
+        </include>
+    </include>
+
+    <!--
+        Standard mode: one info panel for all widget rows instead of one per row.
+        Container.ListItem follows the focused container of this window, so the
+        panel tracks whichever row in grouplist 602 has focus (and keeps it while
+        a dialog is open over the hub). It is empty while focus is outside the rows.
+    -->
+    <include name="Hub_Standard_Info">
+        <include content="Hub_Combined_Info_Panels">
+            <param name="container">Container.</param>
+            <param name="visible">[!$EXP[Exp_InfoDialogs] + ControlGroup(602).HasFocus() + Integer.IsGreaterOrEqual(Window.Property(TMDBHelper.WidgetContainer),501)]</param>
+        </include>
+    </include>
+
+    <include name="Hub_Combined_Info_Panels">
+        <definition>
             <control type="group">
-                <include>Home_Slide_Animation</include>
-                <include>Info_Panel_Dimensions</include>
+                <animation effect="fade" start="0" end="100" delay="399" time="1" condition="!$EXP[Hub_Spotlight_Visible_Expression]">Conditional</animation>
+                <animation effect="fade" start="100" end="0" condition="$EXP[Hub_Spotlight_Visible_Expression]">Conditional</animation>
                 <control type="group">
-                    <top>200</top>
+                    <include>Home_Slide_Animation</include>
+                    <include>Info_Panel_Dimensions</include>
+                    <control type="group">
+                        <top>200</top>
+                        <include content="Info_Panel">
+                            <param name="visible">$PARAM[visible]</param>
+                            <param name="visible_line">false</param>
+                            <param name="visible_plot">false</param>
+                            <param name="visible_meta">false</param>
+                            <param name="include_details">false</param>
+                            <param name="container">$PARAM[container]</param>
+                        </include>
+                    </control>
+                </control>
+                <control type="group">
+                    <visible>!$EXP[Exp_Hubs_SlideInfo]</visible>
+                    <include>Info_Panel_Dimensions</include>
+                    <include>Home_Info_Animation</include>
                     <include content="Info_Panel">
-                        <param name="visible">[!$EXP[Exp_InfoDialogs] + Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),$PARAM[id])]</param>
-                        <param name="visible_line">false</param>
-                        <param name="visible_plot">false</param>
-                        <param name="visible_meta">false</param>
-                        <param name="include_details">false</param>
-                        <param name="container">Container($PARAM[id]).</param>
+                        <param name="visible">$PARAM[visible]</param>
+                        <param name="visible_line">true</param>
+                        <param name="visible_plot">true</param>
+                        <param name="visible_meta">true</param>
+                        <param name="include_title">false</param>
+                        <param name="container">$PARAM[container]</param>
                     </include>
                 </control>
             </control>
-            <control type="group">
-                <visible>!$EXP[Exp_Hubs_SlideInfo]</visible>
-                <include>Info_Panel_Dimensions</include>
-                <include>Home_Info_Animation</include>
-                <include content="Info_Panel">
-                    <param name="visible">[!$EXP[Exp_InfoDialogs] + Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),$PARAM[id])]</param>
-                    <param name="visible_line">true</param>
-                    <param name="visible_plot">true</param>
-                    <param name="visible_meta">true</param>
-                    <param name="include_title">false</param>
-                    <param name="container">Container($PARAM[id]).</param>
-                </include>
-            </control>
-        </control>
+        </definition>
     </include>
 
 
@@ -789,7 +817,8 @@
 
                         <!-- Info Panels -->
                         <include condition="String.IsEqual(Skin.String(HomeSwitcher.$PARAM[window].Mode),Wall)">skinvariables-$PARAM[window]widgets-wall-info</include>
-                        <include condition="String.IsEqual(Skin.String(HomeSwitcher.$PARAM[window].Mode),Combined) | String.IsEqual(Skin.String(HomeSwitcher.$PARAM[window].Mode),Standard)">skinvariables-$PARAM[window]widgets-combined-info</include>
+                        <include condition="String.IsEqual(Skin.String(HomeSwitcher.$PARAM[window].Mode),Combined)">skinvariables-$PARAM[window]widgets-combined-info</include>
+                        <include condition="String.IsEqual(Skin.String(HomeSwitcher.$PARAM[window].Mode),Standard)">Hub_Standard_Info</include>
                         <include condition="!String.IsEmpty(Skin.String(HomeSwitcher.$PARAM[window].Spotlight.Target))">Hub_Spotlight_Info</include>
                     </control>
                     <include content="Hub_VertMenu" condition="Skin.HasSetting(HomeSwitcher.Vertical)">

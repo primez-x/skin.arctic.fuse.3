@@ -553,7 +553,7 @@
                 <param name="altvisible">$PARAM[altvisible]</param>
                 <param name="detailed">$PARAM[detailed]</param>
                 <param name="busy_isupdating">$PARAM[busy_isupdating]</param>
-                <param name="busy_visible">[Integer.IsEqual(Container($PARAM[id]).NumItems,0) | [Integer.IsEqual(Container($PARAM[id]).NumItems,1) + String.IsEqual(Container($PARAM[id]).ListItemAbsolute(0).Label,$LOCALIZE[31046]) + Container($PARAM[id]).IsUpdating]]</param>
+                <param name="busy_visible">[Integer.IsEqual(Container($PARAM[id]).NumItems,0) | [Integer.IsEqual(Container($PARAM[id]).NumItems,1) + String.IsEqual(Container($PARAM[id]).ListItemAbsolute(0).Label,$LOCALIZE[31046]) + Container($PARAM[id]).IsUpdating] | String.IsEqual(Container($PARAM[id]).ListItemAbsolute(0).Property(widget_lazy),true)]</param>
                 <param name="widgetfade_include">$PARAM[widgetfade_include]</param>
                 <param name="widgetfade_disable">$PARAM[widgetfade_disable]</param>
                 <param name="widget_hideartwork">$PARAM[widget_hideartwork]</param>
@@ -627,5 +627,22 @@
         <include content="_Widget_NoResults" condition="!Skin.HasSetting(Widgets.DisableNoResultsItem) + !Window.IsVisible(1105)">
             <param name="id">$PARAM[id]</param>
         </include>
+    </include>
+
+    <!--
+        Lazy widget row placeholder (generated Standard-mode rows past the third).
+        Until the row is near the focused row its content path is empty, so this
+        item keeps the row laid out and focusable; focusing it raises
+        Widgets.Reached, which hides the item and gives the row its real path.
+        Widget_Row shows the busy spinner while it is the first item.
+    -->
+    <include name="Widget_Lazy_Placeholder">
+        <content>
+            <item>
+                <label />
+                <property name="widget_lazy">true</property>
+                <visible>![$PARAM[reached]]</visible>
+            </item>
+        </content>
     </include>
 </includes>

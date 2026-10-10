@@ -70,6 +70,52 @@ class ShortcutRebuildMarkerTests(unittest.TestCase):
             element.text or "" for element in editor.findall("onunload")
         ))
 
+    def test_home_builds_shortcuts_only_when_marker_changed(self):
+        actions = ET.parse(SKIN_ROOT / "1080i" / "Includes_Actions.xml").getroot()
+        include = next(
+            element for element in actions.findall("include")
+            if element.get("name") == "Action_BuildShortcuts_OnLoad"
+        )
+        expression = next(
+            element.text or "" for element in actions.findall("expression")
+            if element.get("name") == "Exp_Shortcuts_BuildNeeded"
+        )
+        onloads = include.findall("onload")
+        home = ET.parse(SKIN_ROOT / "1080i" / "Home.xml").getroot()
+
+        self.assertIn(
+            "Action_BuildShortcuts_OnLoad",
+            [element.text for element in home.findall("include")],
+        )
+        self.assertTrue(onloads)
+        self.assertTrue(
+            all(
+                element.get("condition") == "$EXP[Exp_Shortcuts_BuildNeeded]"
+                for element in onloads
+            )
+        )
+        self.assertIn(
+            "skinvariables-build-templates.json", onloads[0].text or ""
+        )
+        self.assertIn(
+            "!String.IsEqual(Window(Home).Property(Shortcuts.Checked),"
+            "Skin.String(Shortcuts.RebuildDateTime))",
+            expression,
+        )
+        # An unset marker must not suppress the build.
+        self.assertIn(
+            "String.IsEmpty(Skin.String(Shortcuts.RebuildDateTime))", expression
+        )
+        # Every property the check compares is recorded after the build.
+        setters = "\n".join(element.text or "" for element in onloads[1:])
+        for prop, value in (
+            ("Shortcuts.Checked", "Skin.String(Shortcuts.RebuildDateTime)"),
+            ("Shortcuts.Checked.SkinUser", "Skin.String(SkinVariables.SkinUser)"),
+            ("Shortcuts.Checked.Version", "System.AddonVersion(skin.arctic.fuse.3)"),
+        ):
+            self.assertIn(f"Window(Home).Property({prop}),{value})", expression)
+            self.assertIn(f"SetProperty({prop},$INFO[{value}],Home)", setters)
+
 
 if __name__ == "__main__":
     unittest.main()
