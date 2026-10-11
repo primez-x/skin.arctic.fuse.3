@@ -2100,6 +2100,7 @@
         <param name="listitem">ListItem</param>
         <param name="itemlayout_h">view_poster_itemlayout_h</param>
         <param name="show_wall_label">false</param>
+        <param name="show_labels">false</param>
         <param name="indicator_centerbottom">0</param>
         <param name="indicator_top">0</param>
         <param name="indicator_right">25</param>
@@ -2150,8 +2151,6 @@
                 </control>
                 <include content="Object_Control" condition="$PARAM[show_wall_label]">
                     <param name="control">group</param>
-                    <!-- Cast and detailed tiles already overlay their labels on the poster -->
-                    <visible>!String.IsEqual($PARAM[listitem].DBType,actor) + !String.IsEqual($PARAM[listitem].DBType,video) + ![$PARAM[detailed]]</visible>
                     <control type="label">
                         <top>$PARAM[item_h]</top>
                         <width>$PARAM[item_w]</width>
@@ -2187,6 +2186,20 @@
                             <param name="focus_condition">$PARAM[focus_condition]</param>
                         </include>
                     </control>
+                </include>
+                <!-- Widget rows: the same labels as landscape rows (title; Detailed adds a subtitle).
+                     Cast and detailed tiles overlay their labels on the poster instead. -->
+                <include content="Object_Control" condition="$PARAM[show_labels]">
+                    <param name="control">group</param>
+                    <visible>!String.IsEqual($PARAM[listitem].DBType,actor) + !String.IsEqual($PARAM[listitem].DBType,video) + ![$PARAM[detailed]]</visible>
+                    <include content="Layout_Labels">
+                        <param name="top">10</param>
+                        <param name="item_h">$PARAM[item_h]</param>
+                        <param name="affix">$PARAM[affix]</param>
+                        <param name="listitem">$PARAM[listitem]</param>
+                        <param name="textcolor">main_fg</param>
+                        <param name="use_label2">false</param>
+                    </include>
                 </include>
                 <control type="group">
                     <visible>String.IsEqual($PARAM[listitem].DBType,actor) | String.IsEqual($PARAM[listitem].DBType,video) | $PARAM[detailed]</visible>

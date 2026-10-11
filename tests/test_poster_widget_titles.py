@@ -11,39 +11,59 @@ def _include(file_name, name):
     return root.find(f"./include[@name='{name}']")
 
 
-class PosterWidgetTitleTests(unittest.TestCase):
-    def test_widgets_follow_the_text_labels_setting(self):
+class PosterWidgetLabelTests(unittest.TestCase):
+    """Poster widget rows label their items like landscape rows: the title in
+    Simple text mode, title and subtitle in Detailed (Layout_Labels)."""
+
+    def test_widget_rows_ask_for_labels(self):
         content = _include("Includes_Widgets.xml", "Widget_Content")
+        row = next(n for n in content.iter("include") if n.get("content") == "$PARAM[include]")
+        self.assertEqual("true", row.findtext("param[@name='show_labels']"))
+
+    def test_poster_rows_get_one_rhythm_step_more_space(self):
+        content = _include("Includes_Widgets.xml", "Widget_Content")
+        spacers = [
+            c for c in content.find("definition").findall("control")
+            if c.get("type") == "group" and c.findtext("height") == "view_bar"
+        ]
+        self.assertEqual(1, len(spacers))
+        visible = spacers[0].findtext("visible")
+        self.assertTrue(visible.startswith("String.IsEqual($PARAM[include],List_Poster_Row) + $PARAM[visible]"))
+        self.assertIsNone(spacers[0].get("id"))
+
+    def test_lists_forward_the_switch_to_the_layout(self):
+        core = _include("Includes_Lists.xml", "List_Core")
+        self.assertEqual("false", core.findtext("param[@name='show_labels']"))
+        forwarded = [
+            n for n in core.iter("include")
+            if n.get("content") == "$PARAM[itemlayout_include]"
+        ]
+        self.assertEqual(4, len(forwarded))
+        for node in forwarded:
+            self.assertEqual("$PARAM[show_labels]", node.findtext("param[@name='show_labels']"))
+        row = _include("Includes_Lists.xml", "List_Poster_Row")
+        self.assertEqual("false", row.findtext("param[@name='show_labels']"))
+        self.assertEqual(
+            "$PARAM[show_labels]",
+            row.find(".//include[@content='List_Core']").findtext("param[@name='show_labels']"),
+        )
+
+    def test_poster_layout_uses_the_shared_label_block(self):
+        layout = _include("Includes_Layouts.xml", "Layout_Poster")
+        self.assertEqual("false", layout.findtext("param[@name='show_labels']"))
+        block = layout.find(".//include[@condition='$PARAM[show_labels]']")
+        self.assertIn("![$PARAM[detailed]]", block.findtext("visible"))
+        self.assertIn("!String.IsEqual($PARAM[listitem].DBType,actor)", block.findtext("visible"))
+        labels = block.find("include[@content='Layout_Labels']")
+        self.assertEqual("10", labels.findtext("param[@name='top']"))
+        # Layout_Labels switches between title and title + subtitle on Text labels.
+        shared = _include("Includes_Layouts.xml", "Layout_Labels")
         self.assertEqual(
             "Skin.HasSetting(View.UseDetailedListLabels)",
-            content.findtext("param[@name='show_wall_label']"),
+            shared.findtext("param[@name='include_detailed_labels']"),
         )
-        row = next(
-            node for node in content.iter("include") if node.get("content") == "$PARAM[include]"
-        )
-        self.assertEqual("$PARAM[show_wall_label]", row.findtext("param[@name='show_wall_label']"))
-
-    def test_poster_row_passes_the_title_switch_to_its_layout(self):
-        row = _include("Includes_Lists.xml", "List_Poster_Row")
-        self.assertEqual("false", row.findtext("param[@name='show_wall_label']"))
-        core = row.find(".//include[@content='List_Core']")
-        self.assertEqual("$PARAM[show_wall_label]", core.findtext("param[@name='show_wall_label']"))
-
-    def test_title_sits_in_the_cell_gap_and_skips_overlaid_tiles(self):
-        layout = _include("Includes_Layouts.xml", "Layout_Poster")
-        titles = layout.find(".//include[@condition='$PARAM[show_wall_label]']")
-        visible = titles.findtext("visible")
-        self.assertIn("!String.IsEqual($PARAM[listitem].DBType,actor)", visible)
-        self.assertIn("![$PARAM[detailed]]", visible)
-        labels = titles.findall("control")
-        self.assertEqual(2, len(labels))
-        for label in labels:
-            self.assertEqual("$PARAM[item_h]", label.findtext("top"))
-            self.assertEqual("40", label.findtext("height"))
-        # The 40px label must fit between the poster and the cell edge.
-        constants = ET.parse(SKIN_ROOT / "1080i" / "Includes_Constants.xml").getroot()
-        value = {c.get("name"): float(c.text) for c in constants.findall("constant") if c.text and c.text.lstrip("-").replace(".", "").isdigit()}
-        self.assertGreaterEqual(value["view_poster_itemlayout_h"] - value["view_poster_item_h"], 40)
+        # The poster wall keeps its own centred title.
+        self.assertIsNotNone(layout.find(".//include[@condition='$PARAM[show_wall_label]']"))
 
 
 if __name__ == "__main__":

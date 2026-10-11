@@ -59,8 +59,6 @@
         <param name="widgetfade_disable">false</param>
         <param name="widget_hideartwork">false</param>
         <param name="widget_showoverlay">false</param>
-        <!-- Poster rows: a title line under each poster when Text labels is Detailed -->
-        <param name="show_wall_label">Skin.HasSetting(View.UseDetailedListLabels)</param>
         <definition>
             <include content="Widget_Label">
                 <param name="groupid">$PARAM[groupid]</param>
@@ -85,7 +83,8 @@
                 <param name="id">$PARAM[id]</param>
                 <param name="icon">$PARAM[icon]</param>
                 <param name="detailed">$PARAM[detailed]</param>
-                <param name="show_wall_label">$PARAM[show_wall_label]</param>
+                <!-- Poster rows label their items like landscape rows (title; Detailed adds a subtitle) -->
+                <param name="show_labels">true</param>
                 <param name="item_h">$PARAM[item_h]</param>
                 <param name="itemlayout_h">$PARAM[itemlayout_h]</param>
                 <param name="item_w">$PARAM[item_w]</param>
@@ -120,6 +119,11 @@
                     <param name="condition">$PARAM[conditional_fade]</param>
                 </include>
             </include>
+            <!-- Poster labels sit below the cell: one rhythm step more row space (a grouplist only counts visible controls) -->
+            <control type="group">
+                <height>view_bar</height>
+                <visible>String.IsEqual($PARAM[include],List_Poster_Row) + $PARAM[visible] + [Container($PARAM[id]).IsUpdating | !Integer.IsEqual(Container($PARAM[id]).NumItems,0) | $PARAM[altvisible]]</visible>
+            </control>
         </definition>
     </include>
 
