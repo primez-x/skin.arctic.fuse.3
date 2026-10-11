@@ -4,7 +4,7 @@
     <controls>
         <control type="group">
             <include>OSD_HideControls</include>
-            <visible>!String.IsEmpty(Window(Home).Property(Spotify.NextTrackAvailable))</visible>
+            <visible>$EXP[Exp_OSD_MusicNext_Available]</visible>
 
             <control type="group">
                 <top>view_pad</top>
@@ -27,14 +27,8 @@
                     <control type="group">
                         <include>Object_ItemBack</include>
                         <control type="image">
-                            <texture background="true" diffuse="diffuse/square_w217_h217.png">$INFO[Window(Home).Property(Spotify.NextTrackThumb)]</texture>
+                            <texture background="true" diffuse="diffuse/square_w217_h217.png">$VAR[Image_OSD_MusicNext_Art]</texture>
                             <aspectratio scalediffuse="false">scale</aspectratio>
-                            <visible>!String.IsEmpty(Window(Home).Property(Spotify.NextTrackThumb))</visible>
-                        </control>
-                        <control type="image">
-                            <texture background="true" diffuse="diffuse/square_w217_h217.png">$INFO[Window(Home).Property(Spotify.NextTrackFanart)]</texture>
-                            <aspectratio scalediffuse="false">scale</aspectratio>
-                            <visible>String.IsEmpty(Window(Home).Property(Spotify.NextTrackThumb)) + !String.IsEmpty(Window(Home).Property(Spotify.NextTrackFanart))</visible>
                         </control>
                     </control>
                 </control>
@@ -48,7 +42,7 @@
                     <control type="label">
                         <right>40</right>
                         <textcolor>panel_fg_90</textcolor>
-                        <label>$LOCALIZE[31196]$INFO[Window(Home).Property(Spotify.NextTrackTitle), - ,]</label>
+                        <label>$LOCALIZE[31196]$VAR[Label_OSD_MusicNext_Title]</label>
                         <height>40</height>
                         <font>font_main_bold</font>
                         <align>right</align>
@@ -56,7 +50,7 @@
                     <control type="label">
                         <right>40</right>
                         <textcolor>panel_fg_70</textcolor>
-                        <label>$INFO[Window(Home).Property(Spotify.NextTrackArtist)]$INFO[Window(Home).Property(Spotify.NextTrackAlbum), [COLOR=panel_fg_30]•[/COLOR] ,]</label>
+                        <label>$VAR[Label_OSD_MusicNext_Artist]</label>
                         <height>40</height>
                         <align>right</align>
                     </control>

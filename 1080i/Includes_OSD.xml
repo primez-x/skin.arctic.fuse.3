@@ -1252,5 +1252,22 @@
             </control>
         </definition>
     </include>
+    <!-- Next-track preview on the music OSD (Custom 1154): SpotifyKodiConnect publishes the
+         next Spotify track; any other music (library, Plex) comes from the play queue. -->
+    <expression name="Exp_OSD_MusicNext_Available">[!String.IsEmpty(Window(Home).Property(Spotify.NextTrackAvailable)) | !String.IsEmpty(MusicPlayer.offset(1).Title)]</expression>
+    <variable name="Image_OSD_MusicNext_Art">
+        <value condition="!String.IsEmpty(Window(Home).Property(Spotify.NextTrackAvailable)) + !String.IsEmpty(Window(Home).Property(Spotify.NextTrackThumb))">$INFO[Window(Home).Property(Spotify.NextTrackThumb)]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(Spotify.NextTrackAvailable))">$INFO[Window(Home).Property(Spotify.NextTrackFanart)]</value>
+        <value>$INFO[MusicPlayer.offset(1).Cover]</value>
+    </variable>
+    <variable name="Label_OSD_MusicNext_Title">
+        <value condition="!String.IsEmpty(Window(Home).Property(Spotify.NextTrackAvailable))">$INFO[Window(Home).Property(Spotify.NextTrackTitle), - ,]</value>
+        <value>$INFO[MusicPlayer.offset(1).Title, - ,]</value>
+    </variable>
+    <variable name="Label_OSD_MusicNext_Artist">
+        <value condition="!String.IsEmpty(Window(Home).Property(Spotify.NextTrackAvailable))">$INFO[Window(Home).Property(Spotify.NextTrackArtist)]$INFO[Window(Home).Property(Spotify.NextTrackAlbum), [COLOR=panel_fg_30]•[/COLOR] ,]</value>
+        <value>$INFO[MusicPlayer.offset(1).Artist]$INFO[MusicPlayer.offset(1).Album, [COLOR=panel_fg_30]•[/COLOR] ,]</value>
+    </variable>
+
 </includes>
 
