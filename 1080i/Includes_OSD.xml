@@ -604,10 +604,12 @@
                     <param name="override">true</param>
                 </include>
 
+                <!-- Plot hidden: the episode / tagline header alone, styled like the Info_Plot plotline header -->
                 <control type="label">
-                    <label>$INFO[VideoPlayer.Season,,x]$INFO[VideoPlayer.Episode,,. ]$INFO[VideoPlayer.Title]</label>
+                    <label>$VAR[Label_OSD_Plot_Episode_Number,,. ]$INFO[VideoPlayer.Title]</label>
                     <height>40</height>
-                    <colordiffuse>panel_fg_70</colordiffuse>
+                    <font>font_main_bold</font>
+                    <textcolor>panel_fg_90</textcolor>
                     <left>40</left>
                     <width>info_panel_w</width>
                     <visible>![$PARAM[plot_visible]]</visible>
@@ -618,7 +620,8 @@
                 <control type="label">
                     <label>$INFO[VideoPlayer.Tagline]</label>
                     <height>40</height>
-                    <colordiffuse>panel_fg_70</colordiffuse>
+                    <font>font_main_bold</font>
+                    <textcolor>panel_fg_90</textcolor>
                     <left>40</left>
                     <width>info_panel_w</width>
                     <visible>![$PARAM[plot_visible]]</visible>
@@ -1035,35 +1038,35 @@
 
 
 
+    <!-- Music OSD title (Custom_1151): the shared Info_Title + Info_Line blocks in the
+         Info_Panel grouplist idiom; 20 spacer + title 140 + line 80 fill the 240px group -->
     <include name="OSD_TitleDetails">
         <control type="grouplist">
+            <top>-20</top>
+            <left>-40</left>
+            <hitrect x="0" y="0" w="0" h="0" />
             <orientation>vertical</orientation>
-            <align>bottom</align>
-            <control type="label">
-                <width>$PARAM[top_logo_width]</width>
-                <height>90</height>
-                <label>$INFO[$PARAM[listitem].Title]</label>
-                <font>font_title_midi</font>
-                <wrapmultiline>false</wrapmultiline>
-                <aligny>top</aligny>
-                <textcolor>panel_fg_100</textcolor>
-                <scroll>true</scroll>
-            </control>
-            <control type="group">
-                <height>40</height>
-                <control type="label">
-                    <width>$PARAM[top_logo_width]</width>
-                    <label>$PARAM[sub_label]</label>
-                    <textcolor>panel_fg_70</textcolor>
-                    <font>font_main</font>
-                    <height>40</height>
-                    <aligny>center</aligny>
-                    <scroll>true</scroll>
-                </control>
-            </control>
-            <control type="group">
+            <itemgap>0</itemgap>
+            <control type="group" description="Avoid grouplist chop with spacer">
                 <height>20</height>
             </control>
+            <include content="Info_Title">
+                <param name="colordiffuse">panel_fg</param>
+                <param name="container" />
+                <param name="listitem">$PARAM[listitem]</param>
+                <param name="width">$PARAM[top_logo_width]</param>
+                <param name="use_logo">false</param>
+                <param name="include_artist">false</param>
+                <param name="wrapmultiline">false</param>
+            </include>
+            <include content="Info_Line">
+                <param name="colordiffuse">panel_fg</param>
+                <param name="container" />
+                <param name="listitem">$PARAM[listitem]</param>
+                <param name="music">true</param>
+                <param name="show_artist">true</param>
+                <param name="leading_divider">[!Skin.HasSetting(InfoTags.DisableStarRating) + [!String.IsEmpty($PARAM[listitem].Rating) | !String.IsEmpty($PARAM[listitem].UserRating)]]</param>
+            </include>
         </control>
     </include>
 
@@ -1252,6 +1255,103 @@
             </control>
         </definition>
     </include>
+    <!--
+        Object_NextItem: the shared next-item overlay (video Custom_1143, music Custom_1154).
+        An art tile in a top corner and, beside it, three lines vertically centred on the tile:
+        the "Up Next" header (font_tiny_bold, panel_fg_50, as Furniture_NextTrack), the title
+        (font_main_bold, panel_fg_90) and a subline (font_main, panel_fg_70).
+          shape:  landscape (video) or square (album art), with the matching diffuse
+          corner: left (art at the left edge, text left-aligned to its right) or
+                  right (art at the right edge, text right-aligned to its left)
+        The caller's <visible> and <animation> go in the nested content.
+    -->
+    <include name="Object_NextItem">
+        <param name="shape">landscape</param>
+        <param name="corner">left</param>
+        <param name="header">$LOCALIZE[31196]</param>
+        <definition>
+            <control type="group">
+                <top>view_pad</top>
+                <include>Object_NextItem_Corner_$PARAM[corner]</include>
+                <height>view_landscape_item_h</height>
+                <nested />
+                <control type="group">
+                    <include>Object_NextItem_Tile_$PARAM[corner]</include>
+                    <include>Object_NextItem_Width_$PARAM[shape]</include>
+                    <height>view_landscape_item_h</height>
+                    <include>Object_ItemBack</include>
+                    <include content="Object_NextItem_Art_$PARAM[shape]">
+                        <param name="art">$PARAM[art]</param>
+                    </include>
+                </control>
+                <control type="grouplist">
+                    <include>Object_NextItem_Text_$PARAM[corner]_$PARAM[shape]</include>
+                    <width>640</width>
+                    <height>view_landscape_item_h</height>
+                    <hitrect x="0" y="0" w="0" h="0" />
+                    <orientation>vertical</orientation>
+                    <itemgap>0</itemgap>
+                    <aligny>center</aligny>
+                    <include content="Object_NextItem_Label">
+                        <param name="corner">$PARAM[corner]</param>
+                        <param name="label">$PARAM[header]</param>
+                        <param name="font">font_tiny_bold</param>
+                        <param name="textcolor">panel_fg_50</param>
+                        <param name="height">28</param>
+                    </include>
+                    <include content="Object_NextItem_Label">
+                        <param name="corner">$PARAM[corner]</param>
+                        <param name="label">$PARAM[title]</param>
+                        <param name="font">font_main_bold</param>
+                        <param name="textcolor">panel_fg_90</param>
+                        <param name="height">40</param>
+                    </include>
+                    <include content="Object_NextItem_Label">
+                        <param name="corner">$PARAM[corner]</param>
+                        <param name="label">$PARAM[subtitle]</param>
+                        <param name="font">font_main</param>
+                        <param name="textcolor">panel_fg_70</param>
+                        <param name="height">40</param>
+                    </include>
+                </control>
+            </control>
+        </definition>
+    </include>
+    <include name="Object_NextItem_Label">
+        <control type="label">
+            <include>Object_NextItem_Label_$PARAM[corner]</include>
+            <width>600</width>
+            <height>$PARAM[height]</height>
+            <font>$PARAM[font]</font>
+            <textcolor>$PARAM[textcolor]</textcolor>
+            <label>$PARAM[label]</label>
+        </control>
+    </include>
+    <include name="Object_NextItem_Corner_left"><left>view_pad</left></include>
+    <include name="Object_NextItem_Corner_right"><right>view_pad</right><width>850</width></include>
+    <include name="Object_NextItem_Tile_left"><left>0</left></include>
+    <include name="Object_NextItem_Tile_right"><right>0</right></include>
+    <include name="Object_NextItem_Width_landscape"><width>view_landscape_item_w</width></include>
+    <include name="Object_NextItem_Width_square"><width>view_landscape_item_h</width></include>
+    <include name="Object_NextItem_Text_left_landscape"><left>view_landscape_item_w</left></include>
+    <include name="Object_NextItem_Text_left_square"><left>view_landscape_item_h</left></include>
+    <include name="Object_NextItem_Text_right_landscape"><right>view_landscape_item_w</right></include>
+    <include name="Object_NextItem_Text_right_square"><right>view_landscape_item_h</right></include>
+    <include name="Object_NextItem_Label_left"><left>40</left><align>left</align></include>
+    <include name="Object_NextItem_Label_right"><left>0</left><align>right</align></include>
+    <include name="Object_NextItem_Art_landscape">
+        <control type="image">
+            <texture background="true" diffuse="diffuse/landscape_w410_h231.png">$PARAM[art]</texture>
+            <aspectratio scalediffuse="false">keep</aspectratio>
+        </control>
+    </include>
+    <include name="Object_NextItem_Art_square">
+        <control type="image">
+            <texture background="true" diffuse="diffuse/square_w217_h217.png">$PARAM[art]</texture>
+            <aspectratio scalediffuse="false">scale</aspectratio>
+        </control>
+    </include>
+
     <!-- Next-track preview on the music OSD (Custom 1154): SpotifyKodiConnect publishes the
          next Spotify track; any other music (library, Plex) comes from the play queue. -->
     <expression name="Exp_OSD_MusicNext_Available">[!String.IsEmpty(Window(Home).Property(Spotify.NextTrackAvailable)) | !String.IsEmpty(MusicPlayer.offset(1).Title)]</expression>
@@ -1261,8 +1361,8 @@
         <value>$INFO[MusicPlayer.offset(1).Cover]</value>
     </variable>
     <variable name="Label_OSD_MusicNext_Title">
-        <value condition="!String.IsEmpty(Window(Home).Property(Spotify.NextTrackAvailable))">$INFO[Window(Home).Property(Spotify.NextTrackTitle), - ,]</value>
-        <value>$INFO[MusicPlayer.offset(1).Title, - ,]</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(Spotify.NextTrackAvailable))">$INFO[Window(Home).Property(Spotify.NextTrackTitle)]</value>
+        <value>$INFO[MusicPlayer.offset(1).Title]</value>
     </variable>
     <variable name="Label_OSD_MusicNext_Artist">
         <value condition="!String.IsEmpty(Window(Home).Property(Spotify.NextTrackAvailable))">$INFO[Window(Home).Property(Spotify.NextTrackArtist)]$INFO[Window(Home).Property(Spotify.NextTrackAlbum), [COLOR=panel_fg_30]•[/COLOR] ,]</value>

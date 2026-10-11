@@ -1136,7 +1136,7 @@
         <onload>SetProperty(Data05.Label,$LOCALIZE[568],1126)</onload>
         <onload>SetProperty(Data05.Label2,$INFO[ListItem.LastPlayed]$INFO[ListItem.Playcount,$COMMA , $LOCALIZE[31096]],1126)</onload>
         <onload>SetProperty(Data06.Label,$LOCALIZE[31207],1126)</onload>
-        <onload>SetProperty(Data06.Label2,$INFO[ListItem.VideoCodec]$VAR[Label_ListItem_VideoQuality, • ,]$INFO[ListItem.HdrType, • ,]$INFO[ListItem.VideoAspect, • ,]$INFO[ListItem.AudioCodec, • ,]$VAR[Label_ListItem_AudioChannels, • ,],1126)</onload>
+        <onload>SetProperty(Data06.Label2,$VAR[Label_ListItem_StreamDetails],1126)</onload>
 
         <onload>SetProperty(Data11.Label,DBID,1126)</onload>
         <onload>SetProperty(Data11.Label2,$INFO[ListItem.DBID],1126)</onload>
@@ -1662,7 +1662,7 @@
                     <!-- Episodes -->
                     <include content="Object_InfoCircle_Detail">
                         <param name="id">04</param>
-                        <param name="name">$INFO[ListItem.Property(watchedepisodes),$LOCALIZE[16102] , $LOCALIZE[1443] ]$INFO[ListItem.Property(totalepisodes)] $LOCALIZE[20453]</param>
+                        <param name="name">$INFO[ListItem.Property(totalepisodes),, $LOCALIZE[20453]]$INFO[ListItem.Property(watchedepisodes), • , [LOWERCASE]$LOCALIZE[16102][/LOWERCASE]]</param>
                         <param name="role">$LOCALIZE[20360]</param>
                         <param name="icon">special://skin/extras/icons/photo-film.png</param>
                         <param name="shot">$INFO[ListItem.Art(poster)]</param>
@@ -1677,7 +1677,7 @@
                         <param name="icon">special://skin/extras/icons/photo-film.png</param>
                         <param name="fallback_role">$LOCALIZE[31207]</param>
                         <param name="shot">$INFO[ListItem.Art(poster)]</param>
-                        <param name="name">$INFO[ListItem.VideoCodec]$VAR[Label_ListItem_VideoQuality, • ,]$INFO[ListItem.VideoAspect, • ,]$INFO[ListItem.AudioCodec, • ,]$VAR[Label_ListItem_AudioChannels, • ,]</param>
+                        <param name="name">$VAR[Label_ListItem_StreamDetails]</param>
                         <visible>!String.IsEmpty(ListItem.VideoCodec)</visible>
                     </include>
 

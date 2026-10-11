@@ -138,15 +138,20 @@ class PosterWallGenreTests(unittest.TestCase):
     def test_genre_is_a_static_label(self):
         details = includes("Includes_Views_Wall.xml")["View_Poster_Wall_Details"]
         genre = [
-            control for control in details.iter("control")
-            if control.findtext("label") == "$INFO[ListItem.Genre]"
+            node for node in details.iter("include")
+            if node.findtext("param[@name='label']") == "$INFO[ListItem.Genre]"
         ]
 
+        # The genre is an Info_Line_Label (font_main, _70, a static label) in the
+        # Info_Line horizontal-grouplist idiom, capped at the panel width.
         self.assertEqual(len(genre), 1)
-        self.assertEqual(genre[0].get("type"), "label")
-        self.assertEqual(genre[0].findtext("font"), "font_main")
-        self.assertEqual(genre[0].findtext("textcolor"), "main_fg_70")
-
+        self.assertEqual(genre[0].get("content"), "Info_Line_Label")
+        self.assertEqual(genre[0].findtext("param[@name='colordiffuse']"), "main_fg")
+        self.assertEqual(genre[0].findtext("param[@name='max_width']"), "view_poster_wall_details_w")
+        label = includes("Includes_Info.xml")["Info_Line_Label"].find("definition/control")
+        self.assertEqual(label.get("type"), "label")
+        self.assertEqual(label.findtext("font"), "font_main")
+        self.assertEqual(label.findtext("textcolor"), "$PARAM[colordiffuse]_70")
 
 if __name__ == "__main__":
     unittest.main()

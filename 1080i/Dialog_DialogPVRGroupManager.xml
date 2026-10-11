@@ -98,7 +98,7 @@
                                 <include content="Part_HeadText">
                                     <param name="id">9999</param>
                                     <param name="label">$LOCALIZE[19141]: $INFO[Container(13).ListItem.Label]</param>
-                                    <param name="right">constant_dialog_pad</param>
+                                    <param name="right">view_bar</param>
                                 </include>
                                 <include content="Part_ItemPage">
                                     <param name="id">12</param>
@@ -136,7 +136,7 @@
                                 <include content="Part_HeadText">
                                     <param name="id">9999</param>
                                     <param name="label">$LOCALIZE[31599]</param>
-                                    <param name="right">constant_dialog_pad</param>
+                                    <param name="right">view_bar</param>
                                 </include>
                                 <include content="Part_ItemPage">
                                     <param name="id">11</param>

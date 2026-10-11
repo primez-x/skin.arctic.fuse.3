@@ -17,14 +17,25 @@ Two spacing mechanisms, both mandatory:
 
 **A. Master padding = `view_pad` (80).** Every content margin, info-panel left edge,
 furniture-bar inset, and dialog bound uses the constant `view_pad` (`Includes_Constants.xml`).
-`view_bar` (40) is exactly half. Never hard-code `80`/`40` — use the constants. `view_pad` is
-**never** overridden by aspect-ratio variants.
+`view_bar` (40) is exactly half. Never hard-code `80`/`40` — use the constants (`-view_pad` /
+`-view_bar` exist for negated uses such as List_Core's `-$PARAM[offset_y]`). There are no
+aliases: `view_offx` and `constant_dialog_pad` were folded into `view_pad` / `view_bar`.
+`view_pad` is **never** overridden by aspect-ratio variants.
 
 **B. Grid rhythm via paired `itemlayout_*` / `item_*` constants, not `<itemgap>`.**
 Every grid view defines `view_<type>_itemlayout_w/h` (the cell) and `view_<type>_item_w/h`
 (the visible item). The difference **is the gap**. For every view type this gap is **40** in
-both axes — the skin's canonical inter-item rhythm. `poster_wall` is the one exception
-(28×45) to fit extra columns. `<itemgap>` is only for stacking controls inside one column.
+both axes — the skin's canonical inter-item rhythm. Two exceptions:
+- `poster_wall` (View 515, 28×45 before labels) to fit extra columns beside the detail panel;
+- **Circle** (`view_circle_itemlayout_w` 360 − item 310 = **50** horizontally) so five circles
+  span the row; the vertical gap is still 40.
+`<itemgap>` is only for stacking controls inside one column.
+
+**Labels below the tile add one rhythm step.** Tall tiles (Poster, Card, Circle, Banner, Board:
+`item_h` = `view_poster_item_h`) leave only the 40px gap, so when labels are drawn below them the
+row/cell grows by `view_bar`: widget rows through `Widget_LabelsBelow_Spacer`, wall views through
+`view_poster_labelled_itemlayout_h` (390) and View 515 through
+`view_poster_wall_labelled_itemlayout_h` (370). Landscape and Square cells already fit labels.
 
 Canonical gap vocabulary (from real `<itemgap>` usage): `0, 8, 10, 12, 15, 20, 25, 37, 40, 80`.
 - `10` — tight inline rows (info badge lines, keyboard keys)
@@ -59,6 +70,16 @@ inside a vertical `grouplist` (`itemgap=0`, `top=-20`, `left=-40`, 20px spacer),
   or `•` baked into a `$INFO` concatenation.
 - **`Info_Line` already contains Premiered + MPAA + Duration for movies.** Do not add a second
   meta line for the same fields. (Movies show *Premiered*, not *Year*, by skin convention.)
+- **"•" joins the parts of one compound value**, never separate meta items: stream details
+  (`Label_ListItem_StreamDetails`: video codec • quality • HDR • aspect • audio codec • channels),
+  channel identity (`Label_Channel`: name • number), artist • album, episodes • watched,
+  rating • date on review tiles. Build such a join so a bullet only ever *prefixes* a field that is
+  present (`$INFO[a]$INFO[b, • ,]`, with value conditions when `a` can be empty) — never a
+  trailing `$INFO[a,, • ]`, which leaves a stray bullet when the next field is empty.
+- **Shared labels:** durations use `Label_Duration` ("1 hr 45 mins"; `Label_Duration_Compact`
+  "1h 45m" for narrow columns — `Info_Line` renders the same strings inline because its
+  listitem is a parameter), episode numbers are zero-padded (`Label_Plot_Episode_Number*`,
+  `Label_Episode_Number*`, `Label_OSD_Plot_Episode_Number`), "Ends at" is string 31600.
 
 ### 1.3 Labeling style (the system that was violated)
 
@@ -82,7 +103,30 @@ inside a vertical `grouplist` (`itemgap=0`, `top=-20`, `left=-40`, 20px spacer),
   **Never** use `font_hint_bold` + `main_fg_50` for metadata *values* like genre/studio — that
   reads as uppercase micro-chrome and is inconsistent with how metadata appears elsewhere.
 
-### 1.4 Layout / component patterns
+### 1.4 Tile labels (one label system)
+
+- **Every tile style labels its tiles with `Layout_Labels`** (`Includes_Layouts.xml`) under the
+  tile: Poster, Card, Circle, Banner, Board, Landscape, Square. Text labels drives it: Simple =
+  title (`font_mini`, `_70`), Detailed = title (`_90`) + subline (`_70`), Off
+  (`View.HideWidgetLabels`) = none. `use_label2` shows Label2 as its own `_70` subline.
+- Rows pass `show_labels` / `hide_labels` / `labels_align` through `List_*_Row` → `List_Core` →
+  the `Layout_*` include. Widget rows (`Widget_Content`), row views (`View_Row_Include`), wall
+  views (`View_Wall_Include` → `View_Wall_Panel`) and View 515 all set them; list views keep their
+  own list text. `labels_align` is `left` except Circle and the poster walls (512/515): `center`.
+- Cast/crew tiles (DBType actor/video, a `role`, or a `detailed` row) overlay their labels on
+  the poster instead; the row spacer uses the same rule row-wide (see 1.1).
+- Loading placeholders (`Widget_Busy_BlankItem`) draw their label bars below the tile and follow
+  the same setting (Off none, Simple one, Detailed two).
+
+### 1.5 Overlays
+
+- **Next-item overlays share `Object_NextItem`** (`Includes_OSD.xml`): video `Custom_1143`
+  (`shape=landscape`, `corner=left`) and music `Custom_1154` (`shape=square`, `corner=right`).
+  Header "Up Next" `font_tiny_bold` `panel_fg_50`, title `font_main_bold` `panel_fg_90`, subline
+  `font_main` `panel_fg_70`, vertically centred on the tile (`aligny` on the grouplist, `align`
+  on each label). `Furniture_NextTrack` uses the same header/title roles. No literal " - " joins.
+
+### 1.6 Layout / component patterns
 
 - **Reusable building blocks live in `Includes_Info.xml` (`Info_*`) and `Includes_Objects.xml`
   (`Object_*`).** `Includes_Layouts.xml` (`Layout_*`) are *item-layout* templates for
@@ -101,9 +145,10 @@ inside a vertical `grouplist` (`itemgap=0`, `top=-20`, `left=-40`, 20px spacer),
 - Views are `<include name="View_<id>_<Name>">` blocks, one per view ID. Wall views: 510 Square,
   511 Landscape, 512 Poster, 513 Circle, 514 Board, **515 Poster-Details** (this fork).
 - Standard wall views (510–514) share `<include content="View_Wall_Include">` (`Includes_Views_Wall.xml`),
-  which wraps the grid `panel` (id, `orientation=vertical`, `top=290`, `bottom=-40`, `pagecontrol=66`).
+  which picks the cell height (`labels_below` + Text labels) and includes `View_Wall_Panel`, the
+  grid `panel` (id, `orientation=vertical`, `top=290`, `bottom=-view_bar`, `pagecontrol=66`).
 - **View 515 is intentionally not a `View_Wall_Include` consumer** — it renders a persistent
-  left detail panel beside the grid, so it inlines the `List_Poster_Row` grid with
+  left detail panel beside the grid, so it inlines the `List_Poster_Row` grid (`View_515_Grid`) with
   `left=view_poster_wall_grid_l` (680) / `right=view_poster_wall_grid_r` (100) and overlays
   `View_Poster_Wall_Details`. This is a known, justified deviation.
 - **Registration** (`Includes_Views.xml`): the view's `$EXP[Exp_View_<id>]` must be added to
@@ -113,7 +158,11 @@ inside a vertical `grouplist` (`itemgap=0`, `top=-20`, `left=-40`, 20px spacer),
   `Control.IsVisible(<id>)`. `viewtype label="$LOCALIZE[<id>]">wrap` sets the viewtype name.
 - **Constants for this view** (`Includes_Constants.xml`):
   `view_poster_wall_details_w=540`, `view_poster_wall_grid_l=680`, `view_poster_wall_grid_r=100`,
-  `view_poster_wall_item_w=200`, `_item_h=285`, `_itemlayout_w=228`, `_itemlayout_h=330`.
+  `view_poster_wall_item_w=200`, `_item_h=285`, `_itemlayout_w=228`, `_itemlayout_h=330`
+  (`_labelled_itemlayout_h=370` while Text labels is on), `_offset_x=14`, `_offset_y=18`,
+  `_indicator_inset=18`. Its tiles use `Layout_Labels` (centred); there is no separate wall label.
+  The detail panel is `Info_Title` (`use_logo=false`) + two `Info_Line`s + genre as an
+  `Info_Line_Label` + `Info_Plot` (`plotline_height` for the plotline/episode-header branch).
 - **Strings** (`language/resource.language.en_gb/strings.po`): msgctxt `31558` = view label.
 
 ---

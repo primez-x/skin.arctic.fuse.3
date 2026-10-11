@@ -17,7 +17,7 @@
             <control type="group">
                 <include>Info_Panel_Dimensions</include>
                 <include content="Info_Panel">
-                    <param name="details">false</param>
+                    <param name="include_details">false</param>
                 </include>
             </control>
 

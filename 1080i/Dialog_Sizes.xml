@@ -10,7 +10,6 @@
     <constant name="constant_group_large_w">560</constant>
     <constant name="constant_grouplist_pad">20</constant>
     <constant name="constant_dialog_header_right">120</constant>
-    <constant name="constant_dialog_pad">40</constant>
     <constant name="constant_dialog_top">120</constant>
     <constant name="-constant_dialog_top">-120</constant>
     <constant name="constant_addonsettings_category_w">280</constant>
@@ -23,10 +22,10 @@
     </include>
 
     <include name="Size_Dialog_Pad">
-        <left>constant_dialog_pad</left>
-        <right>constant_dialog_pad</right>
-        <top>constant_dialog_pad</top>
-        <bottom>constant_dialog_pad</bottom>
+        <left>view_bar</left>
+        <right>view_bar</right>
+        <top>view_bar</top>
+        <bottom>view_bar</bottom>
     </include>
 
     <include name="Size_LeftGroup_Large">

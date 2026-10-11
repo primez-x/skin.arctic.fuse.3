@@ -550,6 +550,7 @@
     </variable>
 
     <variable name="Image_Card_Fanart">
+        <value condition="!String.IsEmpty(ListItem.Property(override_card))">$INFO[ListItem.Property(override_card)]</value>
         <value condition="!String.IsEmpty(ListItem.Art(fanart1)) + !String.IsEqual(ListItem.Art(fanart1),ListItem.Art(fanart))">$INFO[ListItem.Art(fanart1)]</value>
         <value condition="!String.IsEmpty(ListItem.Art(tvshow.fanart1)) + !String.IsEqual(ListItem.Art(tvshow.fanart1),ListItem.Art(tvshow.fanart))">$INFO[ListItem.Art(tvshow.fanart1)]</value>
         <value condition="!String.IsEmpty(ListItem.Art(artist.fanart1)) + !String.IsEqual(ListItem.Art(artist.fanart1),ListItem.Art(artist.fanart))">$INFO[ListItem.Art(artist.fanart1)]</value>

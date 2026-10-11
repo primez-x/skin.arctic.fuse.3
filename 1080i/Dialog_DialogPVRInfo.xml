@@ -76,7 +76,7 @@
                                             <orientation>vertical</orientation>
                                             <include content="Part_AddonDetails">
                                                 <param name="icon">special://skin/extras/icons/list-ul.png</param>
-                                                <param name="label">$INFO[ListItem.ChannelName]$INFO[ListItem.ChannelNumberLabel, (Ch.,)]</param>
+                                                <param name="label">$VAR[Label_Channel]</param>
                                             </include>
                                             <include content="Part_AddonDetails">
                                                 <param name="icon">special://skin/extras/icons/calendar.png</param>

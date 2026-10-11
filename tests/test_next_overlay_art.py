@@ -9,18 +9,17 @@ SKIN_ROOT = Path(__file__).resolve().parents[1]
 class NextOverlayArtTests(unittest.TestCase):
     def test_music_next_overlay_shows_square_rounded_album_art(self):
         root = ET.parse(SKIN_ROOT / "1080i" / "Custom_1154_OSD_NextOverlay_Music.xml").getroot()
-        images = [
-            image for image in root.iter("control")
-            if image.get("type") == "image" and "Image_OSD_MusicNext_Art" in (image.findtext("texture") or "")
-        ]
-        self.assertEqual(1, len(images))
-        for image in images:
-            self.assertEqual("diffuse/square_w217_h217.png", image.find("texture").get("diffuse"))
-            self.assertEqual("scale", image.findtext("aspectratio"))
-        tile = next(
-            group for group in root.iter("control")
-            if group.get("type") == "group" and group.findtext("width") == "view_landscape_item_h"
-        )
+        overlay = root.find(".//include[@content='Object_NextItem']")
+        self.assertEqual("square", overlay.findtext("param[@name='shape']"))
+        self.assertEqual("$VAR[Image_OSD_MusicNext_Art]", overlay.findtext("param[@name='art']"))
+        osd = ET.parse(SKIN_ROOT / "1080i" / "Includes_OSD.xml").getroot()
+        image = osd.find("./include[@name='Object_NextItem_Art_square']/control")
+        self.assertEqual("image", image.get("type"))
+        self.assertEqual("diffuse/square_w217_h217.png", image.find("texture").get("diffuse"))
+        self.assertEqual("scale", image.findtext("aspectratio"))
+        # A square tile as tall as the video overlay's landscape one
+        self.assertEqual("view_landscape_item_h", osd.findtext("./include[@name='Object_NextItem_Width_square']/width"))
+        tile = osd.find("./include[@name='Object_NextItem']/definition/control/control")
         self.assertEqual("view_landscape_item_h", tile.findtext("height"))
 
     def test_music_next_preview_covers_any_music_source(self):
@@ -45,6 +44,9 @@ class NextOverlayArtTests(unittest.TestCase):
     def test_video_next_overlay_stays_landscape(self):
         text = (SKIN_ROOT / "1080i" / "Custom_1143_OSD_NextOverlay.xml").read_text(encoding="utf-8")
         self.assertNotIn("square_w217_h217", text)
+        root = ET.parse(SKIN_ROOT / "1080i" / "Custom_1143_OSD_NextOverlay.xml").getroot()
+        overlay = root.find(".//include[@content='Object_NextItem']")
+        self.assertEqual("landscape", overlay.findtext("param[@name='shape']"))
 
 
 if __name__ == "__main__":

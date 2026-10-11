@@ -59,6 +59,7 @@
     </variable>
 
     <variable name="Image_Circle" containers="450">
+        <value condition="!String.IsEmpty({listitem}.Property(override_circle))">$INFO[{listitem}.Property(override_circle)]</value>
         <value condition="String.IsEqual({listitem}.DBType,studio) | String.IsEqual({listitem}.Property(DBType),studio)">$INFO[{listitem}.Label,resource://resource.images.studios.white/,.png]</value>
         <value condition="String.IsEqual({listitem}.DBType,country) | String.IsEqual({listitem}.Property(DBType),country)">$INFO[{listitem}.Label,resource://resource.images.moviecountryicons.maps/,.png]</value>
         <value condition="String.IsEqual({listitem}.DBType,genre) | String.IsEqual({listitem}.Property(DBType),genre)">$INFO[{listitem}.Label,genres/,.png]</value>
@@ -97,6 +98,7 @@
     </variable>
 
     <variable name="Image_Banner" containers="450">
+        <value condition="!String.IsEmpty({listitem}.Property(override_banner))">$INFO[{listitem}.Property(override_banner)]</value>
         <value condition="!String.IsEmpty({listitem}.Art(banner))">$INFO[{listitem}.Art(banner)]</value>
         <value condition="!String.IsEmpty({listitem}.Art(season.banner))">$INFO[{listitem}.Art(season.banner)]</value>
         <value condition="!String.IsEmpty({listitem}.Art(tvshow.banner))">$INFO[{listitem}.Art(tvshow.banner)]</value>

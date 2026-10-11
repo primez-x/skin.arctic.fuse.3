@@ -70,8 +70,12 @@
                 <visible>Control.IsVisible($PARAM[id])</visible>
                 <control type="group">
 
+                    <!-- Rows label their tiles like widget rows (Layout_Labels; Text labels Off hides them).
+                         The row sits at view_row with room below the cell, so no spacer is needed. -->
                     <include content="$PARAM[include]">
                         <param name="id">$PARAM[id]</param>
+                        <param name="show_labels">true</param>
+                        <param name="hide_labels">Skin.HasSetting(View.HideWidgetLabels)</param>
                         <top>view_row</top>
                         <include content="Action_View_Movement_OnUp">
                             <param name="id">$PARAM[id]</param>

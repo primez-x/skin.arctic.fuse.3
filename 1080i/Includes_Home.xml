@@ -662,7 +662,7 @@
                 <width>560</width>
                 <height>80</height>
                 <control type="group">
-                    <left>80</left>
+                    <left>view_pad</left>
                     <control type="label">
                         <font>font_main_bold</font>
                         <textcolor>main_fg_30</textcolor>

@@ -102,6 +102,7 @@
         <value condition="!String.IsEmpty(ListItem.Icon)">$INFO[ListItem.Icon]</value>
     </variable>
     <variable name="Image_Circle_C450">
+        <value condition="!String.IsEmpty(Container(450).ListItem.Property(override_circle))">$INFO[Container(450).ListItem.Property(override_circle)]</value>
         <value condition="String.IsEqual(Container(450).ListItem.DBType,studio) | String.IsEqual(Container(450).ListItem.Property(DBType),studio)">$INFO[Container(450).ListItem.Label,resource://resource.images.studios.white/,.png]</value>
         <value condition="String.IsEqual(Container(450).ListItem.DBType,country) | String.IsEqual(Container(450).ListItem.Property(DBType),country)">$INFO[Container(450).ListItem.Label,resource://resource.images.moviecountryicons.maps/,.png]</value>
         <value condition="String.IsEqual(Container(450).ListItem.DBType,genre) | String.IsEqual(Container(450).ListItem.Property(DBType),genre)">$INFO[Container(450).ListItem.Label,genres/,.png]</value>
@@ -115,6 +116,7 @@
         <value condition="!String.IsEmpty(Container(450).ListItem.Icon)">$INFO[Container(450).ListItem.Icon]</value>
     </variable>
     <variable name="Image_Circle">
+        <value condition="!String.IsEmpty(ListItem.Property(override_circle))">$INFO[ListItem.Property(override_circle)]</value>
         <value condition="String.IsEqual(ListItem.DBType,studio) | String.IsEqual(ListItem.Property(DBType),studio)">$INFO[ListItem.Label,resource://resource.images.studios.white/,.png]</value>
         <value condition="String.IsEqual(ListItem.DBType,country) | String.IsEqual(ListItem.Property(DBType),country)">$INFO[ListItem.Label,resource://resource.images.moviecountryicons.maps/,.png]</value>
         <value condition="String.IsEqual(ListItem.DBType,genre) | String.IsEqual(ListItem.Property(DBType),genre)">$INFO[ListItem.Label,genres/,.png]</value>
@@ -191,6 +193,7 @@
         <value condition="!String.IsEmpty(Container.ListItem.Art(artist.clearlogo))">$INFO[Container.ListItem.Art(artist.clearlogo)]</value>
     </variable>
     <variable name="Image_Banner_C450">
+        <value condition="!String.IsEmpty(Container(450).ListItem.Property(override_banner))">$INFO[Container(450).ListItem.Property(override_banner)]</value>
         <value condition="!String.IsEmpty(Container(450).ListItem.Art(banner))">$INFO[Container(450).ListItem.Art(banner)]</value>
         <value condition="!String.IsEmpty(Container(450).ListItem.Art(season.banner))">$INFO[Container(450).ListItem.Art(season.banner)]</value>
         <value condition="!String.IsEmpty(Container(450).ListItem.Art(tvshow.banner))">$INFO[Container(450).ListItem.Art(tvshow.banner)]</value>
@@ -198,6 +201,7 @@
         <value condition="!String.IsEmpty(Container(450).ListItem.Art(tvshow.fanart))">$INFO[Container(450).ListItem.Art(tvshow.fanart)]</value>
     </variable>
     <variable name="Image_Banner">
+        <value condition="!String.IsEmpty(ListItem.Property(override_banner))">$INFO[ListItem.Property(override_banner)]</value>
         <value condition="!String.IsEmpty(ListItem.Art(banner))">$INFO[ListItem.Art(banner)]</value>
         <value condition="!String.IsEmpty(ListItem.Art(season.banner))">$INFO[ListItem.Art(season.banner)]</value>
         <value condition="!String.IsEmpty(ListItem.Art(tvshow.banner))">$INFO[ListItem.Art(tvshow.banner)]</value>

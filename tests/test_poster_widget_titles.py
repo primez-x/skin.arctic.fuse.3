@@ -23,14 +23,18 @@ class PosterWidgetLabelTests(unittest.TestCase):
     def test_poster_rows_get_one_rhythm_step_more_space(self):
         content = _include("Includes_Widgets.xml", "Widget_Content")
         spacers = [
-            c for c in content.find("definition").findall("control")
-            if c.get("type") == "group" and c.findtext("height") == "view_bar"
+            c for c in content.find("definition").findall("include")
+            if c.get("content") == "Widget_LabelsBelow_Spacer"
         ]
         self.assertEqual(1, len(spacers))
-        visible = spacers[0].findtext("visible")
-        self.assertTrue(visible.startswith("String.IsEqual($PARAM[include],List_Poster_Row) + "))
-        self.assertIn("+ $PARAM[visible] +", visible)
-        self.assertIsNone(spacers[0].get("id"))
+        self.assertEqual("$PARAM[detailed]", spacers[0].findtext("param[@name='detailed']"))
+        self.assertTrue(spacers[0].findtext("param[@name='visible']").startswith("$PARAM[visible] + "))
+        spacer = _include("Includes_Widgets.xml", "Widget_LabelsBelow_Spacer").find("definition/control")
+        self.assertEqual("view_bar", spacer.findtext("height"))
+        self.assertIsNone(spacer.get("id"))
+        visible = spacer.findtext("visible")
+        self.assertIn("String.IsEqual($PARAM[include],List_Poster_Row)", visible)
+        self.assertIn("+ $PARAM[visible]", visible)
 
     def test_lists_forward_the_switch_to_the_layout(self):
         core = _include("Includes_Lists.xml", "List_Core")
@@ -63,8 +67,9 @@ class PosterWidgetLabelTests(unittest.TestCase):
             "Skin.HasSetting(View.UseDetailedListLabels)",
             shared.findtext("param[@name='include_detailed_labels']"),
         )
-        # The poster wall keeps its own centred title.
-        self.assertIsNotNone(layout.find(".//include[@condition='$PARAM[show_wall_label]']"))
+        # The poster wall uses the same block (centred): its own wall label is retired.
+        self.assertIsNone(layout.find(".//include[@condition='$PARAM[show_wall_label]']"))
+        self.assertEqual("$PARAM[labels_align]", labels.findtext("param[@name='align']"))
 
 
 if __name__ == "__main__":
@@ -87,9 +92,7 @@ class TextLabelsOffTests(unittest.TestCase):
         content = _include("Includes_Widgets.xml", "Widget_Content")
         row = next(n for n in content.iter("include") if n.get("content") == "$PARAM[include]")
         self.assertEqual("Skin.HasSetting(View.HideWidgetLabels)", row.findtext("param[@name='hide_labels']"))
-        spacer = next(
-            c for c in content.find("definition").findall("control") if c.findtext("height") == "view_bar"
-        )
+        spacer = _include("Includes_Widgets.xml", "Widget_LabelsBelow_Spacer").find("definition/control")
         self.assertIn("!Skin.HasSetting(View.HideWidgetLabels)", spacer.findtext("visible"))
         for row_name in ("List_Poster_Row", "List_Landscape_Row", "List_Board_Row", "List_Square_Row"):
             row = _include("Includes_Lists.xml", row_name)

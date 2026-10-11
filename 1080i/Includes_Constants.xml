@@ -3,6 +3,7 @@
 
     <!-- Basic View Constants -->
     <constant name="view_pad">80</constant>
+    <constant name="-view_pad">-80</constant>
     <constant name="view_top">180</constant>
     <constant name="view_row">510</constant>
 
@@ -23,9 +24,8 @@
 
     <constant name="view_line_top">0</constant>
 
-    <constant name="view_offx">80</constant>
-    <constant name="-view_offx">-80</constant>
     <constant name="view_bar">40</constant>
+    <constant name="-view_bar">-40</constant>
     <constant name="view_list">20</constant>
     <constant name="view_osd_l">240</constant>  <!-- 80 -->
     <constant name="view_osd_r">240</constant>  <!-- 360 -->
@@ -105,12 +105,23 @@
     <constant name="view_poster_item_w">217.14</constant>
     <constant name="-view_poster_item_w">-217.14</constant>
     <constant name="view_poster_movement">6</constant>
+    <!-- Wall cells with labels below the tile: one rhythm step (view_bar) taller -->
+    <constant name="view_poster_labelled_itemlayout_h">390</constant>
+    <constant name="-view_poster_labelled_itemlayout_h">-390</constant>
 
     <constant name="view_poster_wall_details_w">540</constant>
     <constant name="view_poster_wall_grid_l">680</constant>
     <constant name="view_poster_wall_grid_r">100</constant>
     <constant name="view_poster_wall_itemlayout_h">330</constant>
     <constant name="-view_poster_wall_itemlayout_h">-330</constant>
+    <constant name="view_poster_wall_labelled_itemlayout_h">370</constant>
+    <constant name="-view_poster_wall_labelled_itemlayout_h">-370</constant>
+    <constant name="view_poster_wall_offset_x">14</constant>
+    <constant name="-view_poster_wall_offset_x">-14</constant>
+    <constant name="view_poster_wall_offset_y">18</constant>
+    <constant name="-view_poster_wall_offset_y">-18</constant>
+    <constant name="view_poster_wall_indicator_inset">18</constant>
+    <constant name="-view_poster_wall_indicator_inset">-18</constant>
     <constant name="view_poster_wall_item_h">285</constant>
     <constant name="-view_poster_wall_item_h">-285</constant>
     <constant name="view_poster_wall_itemlayout_w">228</constant>
@@ -174,7 +185,7 @@
     <constant name="-view_button_offset_x">-40</constant>
 
     <!-- View Info -->
-    <constant name="info_plot_w">720</constant>
+    <constant name="info_plot_w">800</constant>
     <constant name="info_panel_w">1120</constant>
     <constant name="info_title_w">640</constant>
     <constant name="info_title_h">140</constant>
@@ -187,6 +198,7 @@
     <constant name="hub_spotlight_mini_t">260</constant>
     <constant name="hub_spotlight_t">460</constant>
     <constant name="hub_spotlight_h">40</constant>
+    <constant name="hub_combined_title_t">200</constant>  <!-- Combined hub: title-only Info_Panel offset -->
     <constant name="hub_categorieswidget_t">-60</constant>
     <constant name="hub_categorieswidget_h">320</constant>
     <constant name="hub_submenuwidget_t">1300</constant>

@@ -115,8 +115,8 @@
         <definition>
             <control type="grouplist">
                 <height>20</height>
-                <left>constant_dialog_pad</left>
-                <right>constant_dialog_pad</right>
+                <left>view_bar</left>
+                <right>view_bar</right>
                 <centertop>constant_dialog_top</centertop>
                 <orientation>horizontal</orientation>
                 <itemgap>20</itemgap>
@@ -155,8 +155,8 @@
         <param name="id">1</param>
         <param name="textcolor">dialog_fg_90</param>
         <param name="visible">true</param>
-        <param name="left">constant_dialog_pad</param>
-        <param name="top">constant_dialog_pad</param>
+        <param name="left">view_bar</param>
+        <param name="top">view_bar</param>
         <param name="right">constant_dialog_header_right</param>
         <definition>
             <control type="group">
@@ -611,8 +611,8 @@
                     <param name="transparency">$PARAM[transparency]</param>
                 </include>
                 <control type="group">
-                    <right>80</right>
-                    <left>80</left>
+                    <right>view_pad</right>
+                    <left>view_pad</left>
                     <include content="Object_Control" condition="$PARAM[topline]">
                         <param name="control">image</param>
                         <top>160</top>
@@ -622,7 +622,7 @@
                     </include>
                     <include content="Object_Control" condition="$PARAM[subline]">
                         <param name="control">image</param>
-                        <bottom>80</bottom>
+                        <bottom>view_pad</bottom>
                         <height>1</height>
                         <texture colordiffuse="$VAR[Color_DialogBorder]">common/white.png</texture>
                         <right>$PARAM[lines_right]</right>

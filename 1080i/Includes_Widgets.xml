@@ -59,6 +59,8 @@
         <param name="widgetfade_disable">false</param>
         <param name="widget_hideartwork">false</param>
         <param name="widget_showoverlay">false</param>
+        <!-- Row-level: detailed rows (cast and crew in the info dialog) overlay their labels on the tile -->
+        <param name="detailed">false</param>
         <definition>
             <include content="Widget_Label">
                 <param name="groupid">$PARAM[groupid]</param>
@@ -121,10 +123,36 @@
                     <param name="condition">$PARAM[conditional_fade]</param>
                 </include>
             </include>
-            <!-- Poster labels sit below the cell: one rhythm step more row space (a grouplist only counts visible controls) -->
+            <include content="Widget_LabelsBelow_Spacer">
+                <param name="id">$PARAM[id]</param>
+                <param name="include">$PARAM[include]</param>
+                <param name="detailed">$PARAM[detailed]</param>
+                <param name="visible">$PARAM[visible] + [Container($PARAM[id]).IsUpdating | !Integer.IsEqual(Container($PARAM[id]).NumItems,0) | $PARAM[altvisible]]</param>
+            </include>
+        </definition>
+    </include>
+
+    <!--
+        Labels below the tile need one rhythm step (view_bar) more row space on the tall
+        tile styles, whose item_h (view_poster_item_h, 310) leaves only the 40px gap in
+        view_poster_itemlayout_h (350). Landscape and Square tiles are shorter and already
+        have room for the labels in their cell, so they never get the spacer.
+        labels_below is a row-level rule, because the spacer sits outside the list:
+          - the row style draws labels below the tile (Poster, Card, Circle, Banner, Board);
+          - Text labels is not Off;
+          - the row is not detailed (detailed rows overlay their labels on the tile);
+          - for Poster and Card rows, the row's first item is not cast or crew
+            (DBType actor/video or a role), whose tiles overlay their labels. A row holds
+            one kind of item, so the first item stands for the row; ListItemAbsolute(0)
+            does not move with focus, so the row height never jumps while scrolling.
+        A grouplist only counts visible controls, so a hidden spacer takes no space.
+    -->
+    <include name="Widget_LabelsBelow_Spacer">
+        <param name="detailed">false</param>
+        <definition>
             <control type="group">
                 <height>view_bar</height>
-                <visible>String.IsEqual($PARAM[include],List_Poster_Row) + !Skin.HasSetting(View.HideWidgetLabels) + $PARAM[visible] + [Container($PARAM[id]).IsUpdating | !Integer.IsEqual(Container($PARAM[id]).NumItems,0) | $PARAM[altvisible]]</visible>
+                <visible>[[[String.IsEqual($PARAM[include],List_Poster_Row) | String.IsEqual($PARAM[include],List_Card_Row)] + !String.IsEqual(Container($PARAM[id]).ListItemAbsolute(0).DBType,actor) + !String.IsEqual(Container($PARAM[id]).ListItemAbsolute(0).DBType,video) + String.IsEmpty(Container($PARAM[id]).ListItemAbsolute(0).Property(role))] | String.IsEqual($PARAM[include],List_Circle_Row) | String.IsEqual($PARAM[include],List_Banner_Row) | String.IsEqual($PARAM[include],List_Board_Row)] + ![$PARAM[detailed]] + !Skin.HasSetting(View.HideWidgetLabels) + $PARAM[visible]</visible>
             </control>
         </definition>
     </include>
@@ -145,50 +173,7 @@
         </definition>
     </include>
 
-    <include name="Widget_Busy_Spinner_Images">
-        <control type="image" description="Back">
-            <aspectratio align="center" aligny="center">keep</aspectratio>
-            <texture>dialog/loading-back.png</texture>
-            <colordiffuse>main_fg_90</colordiffuse>
-        </control>
-        <include content="Object_BusySpinner_Image">
-            <param name="spinspinner">$PARAM[busy_visible]</param>
-        </include>
-        <control type="image">
-            <texture colordiffuse="main_fg_70">special://skin/extras/icons/kodi.png</texture>
-            <aspectratio>keep</aspectratio>
-            <bordersize>30</bordersize>
-        </control>
-    </include>
 
-    <include name="Widget_Busy_Spinner">
-        <control type="group">
-            <nested />
-            <top>80</top>
-            <include>Widget_Busy_Spinner_Height__$PARAM[include]</include>
-            <control type="group">
-                <left>0</left>
-                <centertop>50%</centertop>
-                <height>100</height>
-
-                <control type="group">
-                    <width>100</width>
-                    <include>Widget_Busy_Spinner_Images</include>
-                </control>
-                <control type="group">
-                    <left>100</left>
-                    <centertop>50%</centertop>
-                    <height>80</height>
-                    <include content="Object_InfoCircle_Text_Top">
-                        <label>$LOCALIZE[31023]</label>
-                    </include>
-                    <include content="Object_InfoCircle_Text_Sub">
-                        <label>$PARAM[label]</label>
-                    </include>
-                </control>
-            </control>
-        </control>
-    </include>
 
     <include name="Widget_Busy_BlankItem_ItemBack_Circle">
         <control type="image">
@@ -228,13 +213,15 @@
                             <param name="colordiffuse">$PARAM[colordiffuse]</param>
                         </include>
                     </control>
+                    <!-- Label bars below the tile follow Text labels: Off none, Simple one, Detailed two -->
                     <control type="group">
-                        <bottom>0</bottom>
+                        <top>$PARAM[item_h]</top>
                         <height>80</height>
                         <control type="group">
                             <top>20</top>
                             <height>24</height>
                             <width>85%</width>
+                            <visible>!Skin.HasSetting(View.HideWidgetLabels)</visible>
                             <include content="Object_Control" condition="$PARAM[first_row]">
                                 <param name="control">image</param>
                                 <include content="Dimension_Padding">
@@ -249,6 +236,7 @@
                             <bottom>0</bottom>
                             <height>24</height>
                             <width>70%</width>
+                            <visible>Skin.HasSetting(View.UseDetailedListLabels) + !Skin.HasSetting(View.HideWidgetLabels)</visible>
                             <include content="Object_Control" condition="$PARAM[second_row]">
                                 <param name="control">image</param>
                                 <include content="Dimension_Padding">
@@ -303,8 +291,6 @@
             <param name="item_h">view_poster_item_h</param>
             <param name="itemlayout_w">view_poster_itemlayout_w</param>
             <param name="itemlayout_h">view_poster_itemlayout_h</param>
-            <param name="second_row">false</param>
-            <param name="first_row">false</param>
             <param name="colordiffuse">$PARAM[colordiffuse]</param>
         </include>
     </include>
@@ -315,8 +301,6 @@
             <param name="item_h">view_poster_item_h</param>
             <param name="itemlayout_w">view_banner_itemlayout_w</param>
             <param name="itemlayout_h">view_poster_itemlayout_h</param>
-            <param name="second_row">false</param>
-            <param name="first_row">false</param>
             <param name="colordiffuse">$PARAM[colordiffuse]</param>
         </include>
     </include>
@@ -327,8 +311,6 @@
             <param name="item_h">view_poster_item_h</param>
             <param name="itemlayout_w">view_card_itemlayout_w</param>
             <param name="itemlayout_h">view_poster_itemlayout_h</param>
-            <param name="second_row">false</param>
-            <param name="first_row">false</param>
             <param name="colordiffuse">$PARAM[colordiffuse]</param>
         </include>
     </include>
@@ -339,8 +321,6 @@
             <param name="item_h">view_poster_item_h</param>
             <param name="itemlayout_w">view_circle_itemlayout_w</param>
             <param name="itemlayout_h">view_poster_itemlayout_h</param>
-            <param name="second_row">false</param>
-            <param name="first_row">false</param>
             <param name="colordiffuse">$PARAM[colordiffuse]</param>
             <param name="circle">true</param>
         </include>
@@ -352,8 +332,6 @@
             <param name="item_h">view_poster_item_h</param>
             <param name="itemlayout_w">view_board_itemlayout_w</param>
             <param name="itemlayout_h">view_poster_itemlayout_h</param>
-            <param name="second_row">false</param>
-            <param name="first_row">false</param>
             <param name="colordiffuse">$PARAM[colordiffuse]</param>
         </include>
     </include>
@@ -460,42 +438,6 @@
         <include>Widget_Busy_BlankItem_Reviews</include>
     </include>
 
-    <include name="Widget_Busy_Spinner_Height__List_Banner_Row">
-        <height>view_poster_item_h</height>
-    </include>
-    <include name="Widget_Busy_Spinner_Height__List_Poster_Row">
-        <height>view_poster_item_h</height>
-    </include>
-    <include name="Widget_Busy_Spinner_Height__List_Board_Row">
-        <height>view_poster_item_h</height>
-    </include>
-    <include name="Widget_Busy_Spinner_Height__List_Placard_Row">
-        <height>view_poster_item_h</height>
-    </include>
-    <include name="Widget_Busy_Spinner_Height__List_Card_Row">
-        <height>view_poster_item_h</height>
-    </include>
-    <include name="Widget_Busy_Spinner_Height__List_Circle_Row">
-        <height>view_poster_item_h</height>
-    </include>
-    <include name="Widget_Busy_Spinner_Height__List_Corflute_Row">
-        <height>view_poster_item_h</height>
-    </include>
-    <include name="Widget_Busy_Spinner_Height__List_Landscape_Row">
-        <height>view_landscape_item_h</height>
-    </include>
-    <include name="Widget_Busy_Spinner_Height__List_Square_Row">
-        <height>view_poster_item_w</height>
-    </include>
-    <include name="Widget_Busy_Spinner_Height__List_Overview_Row">
-        <height>view_poster_item_w</height>
-    </include>
-    <include name="Widget_Busy_Spinner_Height__List_Reviews_Row">
-        <height>390</height>
-    </include>
-    <include name="Widget_Busy_Spinner_Height__List_Gallery_Row">
-        <height>660</height>
-    </include>
 
     <include name="Widget_Busy">
         <control type="group">
@@ -627,6 +569,9 @@
                 <property name="override_square">fallback/no-results-square.png</property>
                 <property name="override_poster">fallback/no-results-poster.png</property>
                 <property name="override_landscape">fallback/no-results-landscape.png</property>
+                <property name="override_circle">fallback/no-results-square.png</property>
+                <property name="override_card">fallback/no-results-landscape.png</property>
+                <property name="override_banner">fallback/no-results-landscape.png</property>
                 <visible>Integer.IsEqual(Container($PARAM[id]).NumItems,0) | [Integer.IsEqual(Container($PARAM[id]).NumItems,1) + String.IsEqual(Container($PARAM[id]).ListItemAbsolute(0).Label,$LOCALIZE[31046])]</visible>
             </item>
         </content>

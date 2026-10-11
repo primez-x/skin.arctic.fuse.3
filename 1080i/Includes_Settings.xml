@@ -157,7 +157,7 @@
                 <include>Settings_Box</include>
                 <nested />
                 <left>460</left>
-                <right>80</right>
+                <right>view_pad</right>
                 <bottom>160</bottom>
                 <top>160</top>
             </control>
@@ -170,7 +170,7 @@
         <definition>
             <control type="group">
                 <left>460</left>
-                <right>80</right>
+                <right>view_pad</right>
                 <include content="Part_InfoText">
                     <param name="id">$PARAM[id]</param>
                     <param name="label">$VAR[Label_Settings_InfoText]</param>

@@ -112,10 +112,10 @@
                     <param name="id">$PARAM[id]</param>
                     <param name="control">panel</param>
                     <param name="orientation">vertical</param>
-                    <param name="offset_y">40</param>
+                    <param name="offset_y">view_bar</param>
                     <preloaditems>0</preloaditems>
                     <top>290</top>
-                    <bottom>-40</bottom>
+                    <bottom>-view_bar</bottom>
                     <onup>601</onup>
                     <include>$PARAM[include_action]</include>
                     <include>Hub_Grouplist_OnLeftRight</include>
@@ -345,7 +345,7 @@
                     <include>Home_Slide_Animation</include>
                     <include>Info_Panel_Dimensions</include>
                     <control type="group">
-                        <top>200</top>
+                        <top>hub_combined_title_t</top>
                         <include content="Info_Panel">
                             <param name="visible">$PARAM[visible]</param>
                             <param name="visible_line">false</param>

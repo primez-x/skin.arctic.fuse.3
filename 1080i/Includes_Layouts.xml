@@ -1944,6 +1944,10 @@
         <param name="textcolor">main_fg</param>
         <param name="listitem">ListItem</param>
         <param name="affix" />
+        <param name="detailed">false</param>
+        <param name="show_labels">false</param>
+        <param name="hide_labels">false</param>
+        <param name="labels_align">left</param>
         <definition>
             <control type="group">
                 <width>$PARAM[item_w]</width>
@@ -1970,6 +1974,20 @@
                         <param name="diffuse">$PARAM[diffuse]</param>
                     </include>
                 </control>
+
+                <!-- Labels below the card; the same per-item rule as the posters either side of it -->
+                <include content="Object_Control" condition="$PARAM[show_labels] + ![$PARAM[hide_labels]]">
+                    <param name="control">group</param>
+                    <visible>!String.IsEqual($PARAM[listitem].DBType,actor) + !String.IsEqual($PARAM[listitem].DBType,video) + String.IsEmpty($PARAM[listitem].Property(role)) + ![$PARAM[detailed]]</visible>
+                    <include content="Layout_Labels">
+                        <param name="top">10</param>
+                        <param name="item_h">$PARAM[item_h]</param>
+                        <param name="affix">$PARAM[affix]</param>
+                        <param name="listitem">$PARAM[listitem]</param>
+                        <param name="textcolor">$PARAM[textcolor]</param>
+                        <param name="align">$PARAM[labels_align]</param>
+                    </include>
+                </include>
 
                 <control type="group">
                     <include content="Object_ContentBanner" condition="$PARAM[indicator]">
@@ -2003,6 +2021,10 @@
         <param name="focus_condition">false</param>
         <param name="diffuse">diffuse/banner_w1640_h310.png</param>
         <param name="listitem">ListItem</param>
+        <param name="textcolor">main_fg</param>
+        <param name="show_labels">false</param>
+        <param name="hide_labels">false</param>
+        <param name="labels_align">left</param>
         <definition>
             <control type="group">
                 <width>$PARAM[item_w]</width>
@@ -2033,6 +2055,14 @@
                         <param name="listitem">$PARAM[listitem]</param>
                     </include>
                 </control>
+                <include content="Layout_Labels" condition="$PARAM[show_labels] + ![$PARAM[hide_labels]]">
+                    <param name="top">10</param>
+                    <param name="item_h">$PARAM[item_h]</param>
+                    <param name="affix">$PARAM[affix]</param>
+                    <param name="listitem">$PARAM[listitem]</param>
+                    <param name="textcolor">$PARAM[textcolor]</param>
+                    <param name="align">$PARAM[labels_align]</param>
+                </include>
                 <control type="group">
                     <include condition="!$PARAM[selected]" content="Object_Indicator">
                         <param name="affix">$PARAM[affix]</param>
@@ -2099,8 +2129,10 @@
         <param name="icon">$VAR[Image_Poster]</param>
         <param name="listitem">ListItem</param>
         <param name="itemlayout_h">view_poster_itemlayout_h</param>
-        <param name="show_wall_label">false</param>
+        <param name="textcolor">main_fg</param>
+        <param name="progress">Progress</param>
         <param name="show_labels">false</param>
+        <param name="labels_align">left</param>
         <param name="indicator_centerbottom">0</param>
         <param name="indicator_top">0</param>
         <param name="indicator_right">25</param>
@@ -2149,61 +2181,27 @@
                         <param name="focus_dynamic">$PARAM[focus_dynamic]</param>
                         <param name="focus_condition">$PARAM[focus_condition]</param>
                     </include>
+                    <include content="Object_ProgressLine">
+                        <param name="progress">$PARAM[listitem].$PARAM[progress]</param>
+                    </include>
                 </control>
-                <include content="Object_Control" condition="$PARAM[show_wall_label]">
-                    <param name="control">group</param>
-                    <control type="label">
-                        <top>$PARAM[item_h]</top>
-                        <width>$PARAM[item_w]</width>
-                        <height>40</height>
-                        <font>font_mini</font>
-                        <label>$INFO[$PARAM[listitem].Label]</label>
-                        <align>center</align>
-                        <aligny>top</aligny>
-                        <scroll>false</scroll>
-                        <textcolor>main_fg_70</textcolor>
-                        <include content="Object_Visible_Unfocused" condition="!$PARAM[focus_dynamic]">
-                            <param name="focus_condition">$PARAM[selected]</param>
-                        </include>
-                        <include content="Object_Visible_Unfocused" condition="$PARAM[focus_dynamic]">
-                            <param name="focus_condition">$PARAM[focus_condition]</param>
-                        </include>
-                    </control>
-                    <control type="label">
-                        <top>$PARAM[item_h]</top>
-                        <width>$PARAM[item_w]</width>
-                        <height>40</height>
-                        <font>font_mini</font>
-                        <label>$INFO[$PARAM[listitem].Label]</label>
-                        <align>center</align>
-                        <aligny>top</aligny>
-                        <scroll>true</scroll>
-                        <textcolor>main_fg_70</textcolor>
-                        <include>Color_SelectedText</include>
-                        <include content="Object_Visible_Focused" condition="!$PARAM[focus_dynamic]">
-                            <param name="focus_condition">$PARAM[selected]</param>
-                        </include>
-                        <include content="Object_Visible_Focused" condition="$PARAM[focus_dynamic]">
-                            <param name="focus_condition">$PARAM[focus_condition]</param>
-                        </include>
-                    </control>
-                </include>
-                <!-- Widget rows: the same labels as landscape rows (title; Detailed adds a subtitle).
-                     Cast and detailed tiles overlay their labels on the poster instead. -->
+                <!-- Labels below the tile (title; Detailed adds a subtitle), as on every tile style.
+                     Cast, crew (role) and detailed tiles overlay their labels on the poster instead. -->
                 <include content="Object_Control" condition="$PARAM[show_labels] + ![$PARAM[hide_labels]]">
                     <param name="control">group</param>
-                    <visible>!String.IsEqual($PARAM[listitem].DBType,actor) + !String.IsEqual($PARAM[listitem].DBType,video) + ![$PARAM[detailed]]</visible>
+                    <visible>!String.IsEqual($PARAM[listitem].DBType,actor) + !String.IsEqual($PARAM[listitem].DBType,video) + String.IsEmpty($PARAM[listitem].Property(role)) + ![$PARAM[detailed]]</visible>
                     <include content="Layout_Labels">
                         <param name="top">10</param>
                         <param name="item_h">$PARAM[item_h]</param>
                         <param name="affix">$PARAM[affix]</param>
                         <param name="listitem">$PARAM[listitem]</param>
-                        <param name="textcolor">main_fg</param>
+                        <param name="textcolor">$PARAM[textcolor]</param>
+                        <param name="align">$PARAM[labels_align]</param>
                         <param name="use_label2">false</param>
                     </include>
                 </include>
                 <control type="group">
-                    <visible>String.IsEqual($PARAM[listitem].DBType,actor) | String.IsEqual($PARAM[listitem].DBType,video) | $PARAM[detailed]</visible>
+                    <visible>String.IsEqual($PARAM[listitem].DBType,actor) | String.IsEqual($PARAM[listitem].DBType,video) | !String.IsEmpty($PARAM[listitem].Property(role)) | $PARAM[detailed]</visible>
                     <include content="Layout_Labels">
                         <param name="top">-85</param>
                         <param name="left">20</param>
@@ -2280,14 +2278,14 @@
                         <include content="Object_InfoCircle" condition="$PARAM[selected]">
                             <param name="icon">$PARAM[icon]</param>
                             <param name="role">$INFO[ListItem.Label]</param>
-                            <param name="name">$INFO[ListItem.Rating,, - ]$INFO[ListItem.Premiered]$INFO[ListItem.Property(sublabel)]</param>
+                            <param name="name">$VAR[Label_Reviews_Sub]</param>
                             <param name="textcolor_top">$VAR[ColorSelected]</param>
                             <param name="textcolor_sub">$VAR[ColorSelected]</param>
                         </include>
                         <include content="Object_InfoCircle" condition="!$PARAM[selected]">
                             <param name="icon">$PARAM[icon]</param>
                             <param name="role">$INFO[ListItem.Label]</param>
-                            <param name="name">$INFO[ListItem.Rating,, - ]$INFO[ListItem.Premiered]$INFO[ListItem.Property(sublabel)]</param>
+                            <param name="name">$VAR[Label_Reviews_Sub]</param>
                         </include>
                     </control>
                 </control>
@@ -2369,6 +2367,7 @@
         <param name="misc">-20</param>
         <param name="affix" />
         <param name="hide_labels">false</param>
+        <param name="labels_align">left</param>
         <definition>
             <control type="group">
                 <width>$PARAM[item_w]</width>
@@ -2425,6 +2424,7 @@
                     <param name="affix">$PARAM[affix]</param>
                     <param name="listitem">$PARAM[listitem]</param>
                     <param name="textcolor">$PARAM[textcolor]</param>
+                    <param name="align">$PARAM[labels_align]</param>
                     <param name="use_label2">$PARAM[use_label2]</param>
                 </include>
             </control>
@@ -2444,6 +2444,9 @@
         <param name="textcolor">main_fg</param>
         <param name="misc">-20</param>
         <param name="affix" />
+        <param name="show_labels">false</param>
+        <param name="hide_labels">false</param>
+        <param name="labels_align">center</param>
         <definition>
             <control type="group">
                 <width>$PARAM[item_w]</width>
@@ -2498,6 +2501,15 @@
                     </control>
                 </control>
 
+                <!-- Labels below the circle, centred under it -->
+                <include content="Layout_Labels" condition="$PARAM[show_labels] + ![$PARAM[hide_labels]]">
+                    <param name="top">10</param>
+                    <param name="item_h">$PARAM[item_h]</param>
+                    <param name="affix">$PARAM[affix]</param>
+                    <param name="listitem">$PARAM[listitem]</param>
+                    <param name="textcolor">$PARAM[textcolor]</param>
+                    <param name="align">$PARAM[labels_align]</param>
+                </include>
             </control>
         </definition>
     </include>
@@ -2508,6 +2520,7 @@
         <param name="include_detailed_labels">Skin.HasSetting(View.UseDetailedListLabels)</param>
         <param name="use_label">false</param>
         <param name="use_label2">false</param>
+        <param name="align">left</param>
         <param name="aligny">top</param>
         <param name="textbox_offset_y">7</param>
         <definition>
@@ -2525,52 +2538,56 @@
                     <right>$PARAM[right]</right>
                     <height>80</height>
 
-                    <include content="Object_Control" condition="![$PARAM[include_detailed_labels]] + ![$PARAM[use_label]]">
+                    <!-- Simple: the title (wraps to a second line when long) -->
+                    <include content="Object_Control" condition="![$PARAM[include_detailed_labels]] + ![$PARAM[use_label2]] + ![$PARAM[use_label]]">
                         <param name="control">textbox</param>
                         <top>$PARAM[textbox_offset_y]</top>
                         <bottom>$PARAM[textbox_offset_y]</bottom>
                         <aligny>$PARAM[aligny]</aligny>
                         <font>font_mini</font>
-                        <include content="Object_Label" condition="$PARAM[use_label2]">
-                            <param name="label">$INFO[$PARAM[listitem].Label]$INFO[$PARAM[listitem].Label2, - ,]</param>
-                        </include>
                         <label>$INFO[$PARAM[listitem].Label]</label>
-                        <align>left</align>
+                        <align>$PARAM[align]</align>
                         <include condition="$PARAM[selected]">Color_SelectedText</include>
                         <textcolor>main_fg_70</textcolor>
                     </include>
-                    <include content="Object_Control" condition="![$PARAM[include_detailed_labels]] + $PARAM[use_label]">
+                    <include content="Object_Control" condition="![$PARAM[include_detailed_labels]] + ![$PARAM[use_label2]] + $PARAM[use_label]">
                         <param name="control">label</param>
                         <top>$PARAM[textbox_offset_y]</top>
                         <bottom>$PARAM[textbox_offset_y]</bottom>
                         <aligny>$PARAM[aligny]</aligny>
                         <font>font_mini</font>
-                        <include content="Object_Label" condition="$PARAM[use_label2]">
-                            <param name="label">$INFO[$PARAM[listitem].Label]$INFO[$PARAM[listitem].Label2, - ,]</param>
-                        </include>
                         <label>$INFO[$PARAM[listitem].Label]</label>
-                        <align>left</align>
+                        <align>$PARAM[align]</align>
                         <include condition="$PARAM[selected]">Color_SelectedText</include>
                         <textcolor>main_fg_70</textcolor>
                     </include>
 
-                    <include content="Object_InfoCircle_Text_Top" condition="$PARAM[include_detailed_labels]">
+                    <!-- Detailed (or use_label2): the title, then a _70 subline -->
+                    <include content="Object_InfoCircle_Text_Top" condition="[$PARAM[include_detailed_labels] | $PARAM[use_label2]]">
                         <label>$INFO[$PARAM[listitem].Label]</label>
                         <include condition="$PARAM[selected]">Color_SelectedText</include>
                         <textcolor>$PARAM[textcolor]_90</textcolor>
-                        <align>left</align>
+                        <align>$PARAM[align]</align>
                         <selectedcolor>$PARAM[textcolor]_90</selectedcolor>
                     </include>
 
                     <control type="group">
-                        <include content="Object_InfoCircle_Text_Sub" condition="$PARAM[include_detailed_labels]">
+                        <!-- use_label2: Label2 is its own subline, never joined to the title -->
+                        <include content="Object_InfoCircle_Text_Sub" condition="$PARAM[use_label2]">
+                            <label>$INFO[$PARAM[listitem].Label2]</label>
+                            <include condition="$PARAM[selected]">Color_SelectedText</include>
+                            <textcolor>$PARAM[textcolor]_70</textcolor>
+                            <selectedcolor>$PARAM[textcolor]_70</selectedcolor>
+                            <align>$PARAM[align]</align>
+                        </include>
+                        <include content="Object_InfoCircle_Text_Sub" condition="$PARAM[include_detailed_labels] + ![$PARAM[use_label2]]">
                             <label>$VAR[Label_Landscape_Lower$PARAM[affix]]</label>
                             <include condition="$PARAM[selected]">Color_SelectedText</include>
                             <textcolor>$PARAM[textcolor]_70</textcolor>
                             <selectedcolor>$PARAM[textcolor]_70</selectedcolor>
-                            <align>left</align>
+                            <align>$PARAM[align]</align>
                         </include>
-                        <include content="Object_InfoCircle_Text_Sub" condition="$PARAM[include_detailed_labels]">
+                        <include content="Object_InfoCircle_Text_Sub" condition="$PARAM[include_detailed_labels] + ![$PARAM[use_label2]]">
                             <label>$INFO[$PARAM[listitem].StartTime]$INFO[$PARAM[listitem].EndTime, - ,]</label>
                             <include condition="$PARAM[selected]">Color_SelectedText</include>
                             <textcolor>$PARAM[textcolor]_70</textcolor>
@@ -2579,7 +2596,7 @@
                             <visible>!String.IsEmpty($PARAM[listitem].ChannelNumberLabel)</visible>
                             <visible>ListItem.InProgress</visible>
                         </include>
-                        <include content="Object_InfoCircle_Text_Sub" condition="$PARAM[include_detailed_labels]">
+                        <include content="Object_InfoCircle_Text_Sub" condition="$PARAM[include_detailed_labels] + ![$PARAM[use_label2]]">
                             <label>$INFO[$PARAM[listitem].Date]</label>
                             <include condition="$PARAM[selected]">Color_SelectedText</include>
                             <textcolor>$PARAM[textcolor]_70</textcolor>
@@ -2605,7 +2622,9 @@
         <param name="listitem">ListItem</param>
         <param name="progress">Progress</param>
         <param name="affix" />
+        <param name="show_labels">false</param>
         <param name="hide_labels">false</param>
+        <param name="labels_align">left</param>
         <definition>
             <control type="group">
 
@@ -2673,12 +2692,14 @@
                     <param name="listitem">$PARAM[listitem]</param>
                 </include>
 
-                <include content="Layout_Labels" condition="![$PARAM[detailed]] + ![$PARAM[hide_labels]]">
+                <!-- Detailed (scaled art) rows skip the labels unless the row asks for them (Board) -->
+                <include content="Layout_Labels" condition="[![$PARAM[detailed]] | $PARAM[show_labels]] + ![$PARAM[hide_labels]]">
                     <param name="top">10</param>
                     <param name="item_h">$PARAM[item_h]</param>
                     <param name="affix">$PARAM[affix]</param>
                     <param name="listitem">$PARAM[listitem]</param>
                     <param name="textcolor">$PARAM[textcolor]</param>
+                    <param name="align">$PARAM[labels_align]</param>
                     <param name="use_label2">$PARAM[use_label2]</param>
                 </include>
 

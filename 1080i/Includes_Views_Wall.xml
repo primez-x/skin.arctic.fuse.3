@@ -27,50 +27,65 @@
             <param name="id">512</param>
             <param name="include">List_Poster_Row</param>
             <param name="viewtype_label">$LOCALIZE[31554]</param>
+            <param name="labels_below">true</param>
+            <param name="labels_align">center</param>
             <param name="visible">$EXP[Exp_View_512]</param>
         </include>
     </include>
 
-    <!-- Poster Wall Details -->
+    <!-- Poster Wall Details: the persistent detail panel beside a narrower poster grid.
+         Labels below the tiles (Layout_Labels, centred) make each cell one rhythm step taller
+         (view_poster_wall_labelled_itemlayout_h, 370) unless Text labels is Off. -->
     <include name="View_515_Poster_Wall_Details">
         <control type="group">
             <visible>Control.IsVisible(515)</visible>
             <include>View_Poster_Wall_Details</include>
             <control type="group">
-                <include content="List_Poster_Row">
-                    <param name="id">515</param>
-                    <param name="control">panel</param>
-                    <param name="orientation">vertical</param>
-                    <param name="item_w">view_poster_wall_item_w</param>
-                    <param name="item_h">view_poster_wall_item_h</param>
-                    <param name="itemlayout_w">view_poster_wall_itemlayout_w</param>
+                <include content="View_515_Grid" condition="!Skin.HasSetting(View.HideWidgetLabels)">
+                    <param name="itemlayout_h">view_poster_wall_labelled_itemlayout_h</param>
+                </include>
+                <include content="View_515_Grid" condition="Skin.HasSetting(View.HideWidgetLabels)">
                     <param name="itemlayout_h">view_poster_wall_itemlayout_h</param>
-                    <param name="offset_x">14</param>
-                    <param name="offset_y">18</param>
-                    <param name="show_wall_label">true</param>
-                    <param name="indicator_top">-18</param>
-                    <param name="indicator_right">-18</param>
-                    <param name="indicator_use_top">true</param>
-                    <preloaditems>0</preloaditems>
-                    <top>52</top>
-                    <bottom>-20</bottom>
-                    <left>view_poster_wall_grid_l</left>
-                    <right>view_poster_wall_grid_r</right>
-                    <onright>611</onright>
-                    <onleft>ActivateWindow(1171)</onleft>
-                    <pagecontrol>66</pagecontrol>
-                    <include content="Action_View_Movement_OnBack">
-                        <param name="id">515</param>
-                        <param name="onback">True</param>
-                    </include>
-                    <visible>$EXP[Exp_View_515]</visible>
-                    <viewtype label="$LOCALIZE[31558]">wrap</viewtype>
-                    <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
-                    <onfocus>SetProperty(Background.ShowOverlay,True,Home)</onfocus>
-                    <onfocus>SetProperty(InfoPanel.FullSwitch,Wall,Home)</onfocus>
                 </include>
             </control>
         </control>
+    </include>
+
+    <include name="View_515_Grid">
+        <include content="List_Poster_Row">
+            <param name="id">515</param>
+            <param name="control">panel</param>
+            <param name="orientation">vertical</param>
+            <param name="item_w">view_poster_wall_item_w</param>
+            <param name="item_h">view_poster_wall_item_h</param>
+            <param name="itemlayout_w">view_poster_wall_itemlayout_w</param>
+            <param name="itemlayout_h">$PARAM[itemlayout_h]</param>
+            <param name="offset_x">view_poster_wall_offset_x</param>
+            <param name="offset_y">view_poster_wall_offset_y</param>
+            <param name="show_labels">true</param>
+            <param name="hide_labels">Skin.HasSetting(View.HideWidgetLabels)</param>
+            <param name="labels_align">center</param>
+            <param name="indicator_top">-view_poster_wall_indicator_inset</param>
+            <param name="indicator_right">-view_poster_wall_indicator_inset</param>
+            <param name="indicator_use_top">true</param>
+            <preloaditems>0</preloaditems>
+            <top>52</top>
+            <bottom>-20</bottom>
+            <left>view_poster_wall_grid_l</left>
+            <right>view_poster_wall_grid_r</right>
+            <onright>611</onright>
+            <onleft>ActivateWindow(1171)</onleft>
+            <pagecontrol>66</pagecontrol>
+            <include content="Action_View_Movement_OnBack">
+                <param name="id">515</param>
+                <param name="onback">True</param>
+            </include>
+            <visible>$EXP[Exp_View_515]</visible>
+            <viewtype label="$LOCALIZE[31558]">wrap</viewtype>
+            <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
+            <onfocus>SetProperty(Background.ShowOverlay,True,Home)</onfocus>
+            <onfocus>SetProperty(InfoPanel.FullSwitch,Wall,Home)</onfocus>
+        </include>
     </include>
 
     <!-- Circle Wall -->
@@ -79,6 +94,7 @@
             <param name="id">513</param>
             <param name="include">List_Circle_Row</param>
             <param name="viewtype_label">$LOCALIZE[31557]</param>
+            <param name="labels_below">true</param>
             <param name="visible">[$EXP[Exp_View_513]]</param>
         </include>
     </include>
@@ -89,42 +105,74 @@
             <param name="id">514</param>
             <param name="include">List_Board_Row</param>
             <param name="viewtype_label">$LOCALIZE[31101]</param>
+            <param name="labels_below">true</param>
             <param name="visible">$EXP[Exp_View_514]</param>
         </include>
     </include>
 
-    <!-- Wall Template View -->
+    <!-- Wall Template View
+         Every wall labels its tiles with Layout_Labels and follows Text labels (Off hides them).
+         labels_below: the tile fills the 350 cell but for the 40px gap (Poster, Circle, Board),
+         so the cell grows by one rhythm step (view_poster_labelled_itemlayout_h, 390) while
+         labels are on. Square and Landscape tiles are shorter and already fit their labels. -->
     <include name="View_Wall_Include">
         <param name="overlay">true</param>
+        <param name="labels_below">false</param>
+        <param name="labels_align">left</param>
         <definition>
             <control type="group">
                 <visible>Control.IsVisible($PARAM[id])</visible>
                 <control type="group">
-                    <include content="$PARAM[include]">
+                    <include content="View_Wall_Panel" condition="$PARAM[labels_below] + !Skin.HasSetting(View.HideWidgetLabels)">
                         <param name="id">$PARAM[id]</param>
-                        <param name="control">panel</param>
-                        <param name="orientation">vertical</param>
-                        <param name="offset_y">40</param>
-                        <preloaditems>0</preloaditems>
-                        <top>290</top>
-                        <bottom>-40</bottom>
-                        <onright>611</onright>
-                        <onleft>ActivateWindow(1171)</onleft>
-                        <pagecontrol>66</pagecontrol>
-                        <include content="Action_View_Movement_OnBack">
-                            <param name="id">$PARAM[id]</param>
-                            <param name="onback">True</param>
-                        </include>
-                        <visible>$PARAM[visible]</visible>
-                        <viewtype label="$PARAM[viewtype_label]">wrap</viewtype>
-                        <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
-                        <onfocus condition="![$PARAM[overlay]]">ClearProperty(Background.ShowOverlay,Home)</onfocus>
-                        <onfocus condition="$PARAM[overlay]">SetProperty(Background.ShowOverlay,True,Home)</onfocus>
-                        <onfocus>SetProperty(InfoPanel.FullSwitch,Wall,Home)</onfocus>
+                        <param name="include">$PARAM[include]</param>
+                        <param name="itemlayout_h">view_poster_labelled_itemlayout_h</param>
+                        <param name="labels_align">$PARAM[labels_align]</param>
+                        <param name="visible">$PARAM[visible]</param>
+                        <param name="viewtype_label">$PARAM[viewtype_label]</param>
+                        <param name="overlay">$PARAM[overlay]</param>
+                    </include>
+                    <include content="View_Wall_Panel" condition="![$PARAM[labels_below]] | Skin.HasSetting(View.HideWidgetLabels)">
+                        <param name="id">$PARAM[id]</param>
+                        <param name="include">$PARAM[include]</param>
+                        <param name="itemlayout_h">view_poster_itemlayout_h</param>
+                        <param name="labels_align">$PARAM[labels_align]</param>
+                        <param name="visible">$PARAM[visible]</param>
+                        <param name="viewtype_label">$PARAM[viewtype_label]</param>
+                        <param name="overlay">$PARAM[overlay]</param>
                     </include>
                 </control>
             </control>
         </definition>
+    </include>
+
+    <include name="View_Wall_Panel">
+        <include content="$PARAM[include]">
+            <param name="id">$PARAM[id]</param>
+            <param name="control">panel</param>
+            <param name="orientation">vertical</param>
+            <param name="offset_y">view_bar</param>
+            <param name="itemlayout_h">$PARAM[itemlayout_h]</param>
+            <param name="show_labels">true</param>
+            <param name="hide_labels">Skin.HasSetting(View.HideWidgetLabels)</param>
+            <param name="labels_align">$PARAM[labels_align]</param>
+            <preloaditems>0</preloaditems>
+            <top>290</top>
+            <bottom>-view_bar</bottom>
+            <onright>611</onright>
+            <onleft>ActivateWindow(1171)</onleft>
+            <pagecontrol>66</pagecontrol>
+            <include content="Action_View_Movement_OnBack">
+                <param name="id">$PARAM[id]</param>
+                <param name="onback">True</param>
+            </include>
+            <visible>$PARAM[visible]</visible>
+            <viewtype label="$PARAM[viewtype_label]">wrap</viewtype>
+            <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
+            <onfocus condition="![$PARAM[overlay]]">ClearProperty(Background.ShowOverlay,Home)</onfocus>
+            <onfocus condition="$PARAM[overlay]">SetProperty(Background.ShowOverlay,True,Home)</onfocus>
+            <onfocus>SetProperty(InfoPanel.FullSwitch,Wall,Home)</onfocus>
+        </include>
     </include>
 
     <include name="View_Poster_Wall_Details">
@@ -138,7 +186,8 @@
 
             <!-- Composed from the canonical Info_* blocks (same components as Info_Panel /
                  View_Row_Info), re-laid-out for the narrow side panel. The vertical grouplist
-                 mirrors Info_Panel exactly so spacing/typography stay consistent skin-wide. -->
+                 mirrors Info_Panel exactly so spacing/typography stay consistent skin-wide.
+                 Height budget (920): title 140 + quality 56 + meta 56 + genre 56 + plot 440 = 748. -->
             <control type="grouplist">
                 <top>-20</top>
                 <left>-40</left>
@@ -150,50 +199,14 @@
                     <height>20</height>
                 </control>
 
-                <!-- Title: plain text (TVShowTitle -> Artist -> Title -> Label).
-                     No clearlogo chain — text title always visible in this side panel. -->
-                <control type="group">
-                    <left>40</left>
-                    <width>view_poster_wall_details_w</width>
-                    <height>info_title_h</height>
-                    <control type="label">
-                        <wrapmultiline>true</wrapmultiline>
-                        <label>$INFO[ListItem.TVShowTitle]</label>
-                        <font>font_title_midi</font>
-                        <aligny>center</aligny>
-                        <textcolor>main_fg_100</textcolor>
-                        <visible>!String.IsEmpty(ListItem.TVShowTitle)</visible>
-                    </control>
-                    <control type="label">
-                        <wrapmultiline>true</wrapmultiline>
-                        <label>$INFO[ListItem.Artist]</label>
-                        <font>font_title_midi</font>
-                        <aligny>center</aligny>
-                        <textcolor>main_fg_100</textcolor>
-                        <visible>String.IsEmpty(ListItem.TVShowTitle)</visible>
-                        <visible>!String.IsEmpty(ListItem.Artist)</visible>
-                    </control>
-                    <control type="label">
-                        <wrapmultiline>true</wrapmultiline>
-                        <label>$INFO[ListItem.Title]</label>
-                        <font>font_title_midi</font>
-                        <aligny>center</aligny>
-                        <textcolor>main_fg_100</textcolor>
-                        <visible>String.IsEmpty(ListItem.TVShowTitle)</visible>
-                        <visible>String.IsEmpty(ListItem.Artist)</visible>
-                        <visible>!String.IsEmpty(ListItem.Title)</visible>
-                    </control>
-                    <control type="label">
-                        <wrapmultiline>true</wrapmultiline>
-                        <label>$INFO[ListItem.Label]</label>
-                        <font>font_title_midi</font>
-                        <aligny>center</aligny>
-                        <textcolor>main_fg_100</textcolor>
-                        <visible>String.IsEmpty(ListItem.TVShowTitle)</visible>
-                        <visible>String.IsEmpty(ListItem.Artist)</visible>
-                        <visible>String.IsEmpty(ListItem.Title)</visible>
-                    </control>
-                </control>
+                <!-- Title: text only (TVShowTitle -> Artist -> Title -> Label), no clearlogo,
+                     so the title is always readable in this side panel -->
+                <include content="Info_Title">
+                    <param name="colordiffuse">main_fg</param>
+                    <param name="listitem">ListItem</param>
+                    <param name="width">view_poster_wall_details_w</param>
+                    <param name="use_logo">false</param>
+                </include>
 
                 <!-- Row 1: quality pills (resolution / HDR / audio) + star rating. -->
                 <include content="Info_Line">
@@ -215,42 +228,43 @@
                     <param name="top">-16</param>
                 </include>
 
-                <!-- Spacer: breathing room between meta labels and genre row -->
-                <control type="group" description="Spacer: meta -> genre">
-                    <height>8</height>
-                </control>
-
-                <!-- Genre: bare value, one static line like the Info_Line meta
-                     labels; a long list is truncated with an ellipsis. Not a
-                     fadelabel: one wider than the panel scrolls forever and keeps
-                     the GPU redrawing while the user rests on an item. -->
-                <control type="label">
+                <!-- Row 3: genre, a bare Info_Line_Label in the Info_Line horizontal-grouplist
+                     idiom (font_main, _70). A static label (no fadelabel), capped at the panel
+                     width, so a long genre list never scrolls and keeps the GPU redrawing. -->
+                <control type="group">
+                    <left>40</left>
+                    <width>view_poster_wall_details_w</width>
+                    <height>56</height>
                     <visible>!String.IsEmpty(ListItem.Genre)</visible>
-                    <left>40</left>
-                    <width>view_poster_wall_details_w</width>
-                    <height>36</height>
-                    <label>$INFO[ListItem.Genre]</label>
-                    <textcolor>main_fg_70</textcolor>
-                    <font>font_main</font>
-                    <aligny>center</aligny>
+                    <control type="grouplist">
+                        <hitrect x="0" y="0" w="0" h="0" />
+                        <orientation>horizontal</orientation>
+                        <itemgap>10</itemgap>
+                        <left>-20</left>
+                        <control type="group" description="Avoid grouplist chop with spacer">
+                            <left>-10</left>
+                            <width>20</width>
+                        </control>
+                        <include content="Info_Line_Label">
+                            <param name="colordiffuse">main_fg</param>
+                            <param name="show_divider">false</param>
+                            <param name="label">$INFO[ListItem.Genre]</param>
+                            <param name="max_width">view_poster_wall_details_w</param>
+                            <param name="visible">!String.IsEmpty(ListItem.Genre)</param>
+                        </include>
+                    </control>
                 </control>
 
-                <!-- Spacer: breathing room between genre row and plot -->
-                <control type="group" description="Spacer: genre -> plot">
-                    <height>20</height>
-                </control>
-
-                <!-- Plot textbox: wraps to fill available vertical space,
-                     scrolls in-container when text overflows. -->
-                <control type="textbox">
-                    <left>40</left>
-                    <width>view_poster_wall_details_w</width>
-                    <height>440</height>
-                    <label>$INFO[ListItem.Plot]</label>
-                    <textcolor>main_fg_70</textcolor>
-                    <font>font_main_plot</font>
-                    <aligny>top</aligny>
-                </control>
+                <!-- Plot: Info_Plot (plotline / episode header included), textbox so a long
+                     plot scrolls inside its bound -->
+                <include content="Info_Plot">
+                    <param name="colordiffuse">main_fg</param>
+                    <param name="listitem">ListItem</param>
+                    <param name="width">view_poster_wall_details_w</param>
+                    <param name="height">440</param>
+                    <param name="plotline_height">400</param>
+                    <param name="use_textbox">true</param>
+                </include>
             </control>
         </control>
     </include>

@@ -312,65 +312,6 @@
         </control>
     </include>
 
-    <include name="Object_BusySpinner">
-        <param name="colordiffuse">main_fg</param>
-        <param name="label">$LOCALIZE[31023]</param>
-        <param name="haslabel">true</param>
-        <param name="hasspinner">true</param>
-        <param name="hasprogress">false</param>
-        <param name="texture">dialog/loading-back.png</param>
-        <param name="size">100</param>
-        <param name="icon">special://skin/extras/icons/kodi.png</param>
-        <param name="progress">Control.GetLabel(32)</param>
-        <param name="progress_id">32</param>
-        <param name="spinprogress">false</param>
-        <param name="spinspinner">true</param>
-        <definition>
-            <control type="group">
-                <nested />
-                <centerleft>50%</centerleft>
-                <centertop>50%</centertop>
-                <width>$PARAM[size]</width>
-                <height>$PARAM[size]</height>
-                <control type="image" description="Back">
-                    <aspectratio align="center" aligny="center">keep</aspectratio>
-                    <texture>$PARAM[texture]</texture>
-                    <colordiffuse>$PARAM[colordiffuse]_90</colordiffuse>
-                </control>
-                <control type="image" description="Icon">
-                    <bordersize>30</bordersize>
-                    <aspectratio align="center" aligny="center">keep</aspectratio>
-                    <texture>$PARAM[icon]</texture>
-                    <colordiffuse>$PARAM[colordiffuse]_70</colordiffuse>
-                    <animation effect="fade" start="0" end="100" time="200" delay="1200" reversible="true">Visible</animation>
-                    <animation effect="fade" start="100" end="0" time="200" delay="400" reversible="true">Hidden</animation>
-                </control>
-                <include content="Object_BusySpinner_Image" condition="$PARAM[hasspinner]">
-                    <param name="spinspinner">$PARAM[spinspinner]</param>
-                </include>
-                <include content="Object_Control" condition="$PARAM[hasprogress]">
-                    <param name="control">group</param>
-                    <description>Busy animation</description>
-                    <animation effect="rotate" condition="$PARAM[spinprogress]" start="0" end="360" loop="true" time="2000" center="auto">Conditional</animation>
-                    <control type="image">
-                        <texture colordiffuse="$VAR[ColorHighlight]" flipx="true" flipy="true">$INFO[$PARAM[progress],progress/circle/p,.png]</texture>
-                        <aspectratio align="center" aligny="center">keep</aspectratio>
-                    </control>
-                </include>
-
-                <include content="Object_Control" condition="$PARAM[haslabel]">
-                    <param name="control">label</param>
-                    <bottom>-40</bottom>
-                    <height>40</height>
-                    <width>600</width>
-                    <centerleft>50%</centerleft>
-                    <align>center</align>
-                    <label>$PARAM[label]</label>
-                    <textcolor>$PARAM[colordiffuse]_70</textcolor>
-                </include>
-            </control>
-        </definition>
-    </include>
 
     <include name="Object_BigPoster">
         <param name="icon">$VAR[Image_Poster]</param>
@@ -1905,47 +1846,6 @@
         </definition>
     </include>
 
-    <include name="Object_FakeSpinner">
-        <param name="colordiffuse">main_bg</param>
-        <definition>
-            <control type="group" id="$PARAM[groupid]">
-                <nested />
-                <top>-80</top>
-                <height>80</height>
-                <control type="group">
-                    <right>40</right>
-                    <height>30</height>
-                    <centertop>50%</centertop>
-                    <control type="image">
-                        <right>0</right>
-                        <width>30</width>
-                        <texture flipy="true" colordiffuse="$PARAM[colordiffuse]_30">buttons/triangle-down.png</texture>
-                        <visible>!Control.HasFocus($PARAM[id]) | !String.IsEmpty(Window.Property(FakeSpinner_$PARAM[id]))</visible>
-                    </control>
-                    <control type="image">
-                        <right>30</right>
-                        <width>30</width>
-                        <texture flipy="false" colordiffuse="$PARAM[colordiffuse]_30">buttons/triangle-down.png</texture>
-                        <visible>!Control.HasFocus($PARAM[id]) | String.IsEmpty(Window.Property(FakeSpinner_$PARAM[id]))</visible>
-                    </control>
-                    <control type="image">
-                        <right>0</right>
-                        <width>30</width>
-                        <texture flipy="true" colordiffuse="$VAR[ColorSelected]">buttons/triangle-down.png</texture>
-                        <visible>Control.HasFocus($PARAM[id])</visible>
-                        <visible>String.IsEmpty(Window.Property(FakeSpinner_$PARAM[id]))</visible>
-                    </control>
-                    <control type="image">
-                        <right>30</right>
-                        <width>30</width>
-                        <texture flipy="false" colordiffuse="$VAR[ColorSelected]">buttons/triangle-down.png</texture>
-                        <visible>Control.HasFocus($PARAM[id])</visible>
-                        <visible>!String.IsEmpty(Window.Property(FakeSpinner_$PARAM[id]))</visible>
-                    </control>
-                </control>
-            </control>
-        </definition>
-    </include>
 
     <include name="Object_FakeDropDown">
         <param name="colordiffuse">main_bg</param>

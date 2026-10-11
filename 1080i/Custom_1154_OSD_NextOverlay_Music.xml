@@ -6,11 +6,13 @@
             <include>OSD_HideControls</include>
             <visible>$EXP[Exp_OSD_MusicNext_Available]</visible>
 
-            <control type="group">
-                <top>view_pad</top>
-                <right>view_pad</right>
-                <width>850</width>
-                <align>right</align>
+            <!-- Album art is square: a square tile as tall as the video overlay's landscape one -->
+            <include content="Object_NextItem">
+                <param name="shape">square</param>
+                <param name="corner">right</param>
+                <param name="art">$VAR[Image_OSD_MusicNext_Art]</param>
+                <param name="title">$VAR[Label_OSD_MusicNext_Title]</param>
+                <param name="subtitle">$VAR[Label_OSD_MusicNext_Artist]</param>
                 <animation type="WindowOpen" reversible="true">
                     <effect type="fade" start="0" end="100" time="300" delay="600" />
                     <effect type="slide" start="48,0" end="0" center="auto" tween="back" easing="out" time="400" delay="600" />
@@ -19,43 +21,7 @@
                     <effect type="fade" start="0" end="100" time="300" delay="600" />
                     <effect type="slide" start="48,0" end="0" center="auto" tween="back" easing="out" time="400" delay="600" />
                 </animation>
-                <!-- Album art is square: a square tile as tall as the video overlay's landscape one -->
-                <control type="group">
-                    <right>0</right>
-                    <height>view_landscape_item_h</height>
-                    <width>view_landscape_item_h</width>
-                    <control type="group">
-                        <include>Object_ItemBack</include>
-                        <control type="image">
-                            <texture background="true" diffuse="diffuse/square_w217_h217.png">$VAR[Image_OSD_MusicNext_Art]</texture>
-                            <aspectratio scalediffuse="false">scale</aspectratio>
-                        </control>
-                    </control>
-                </control>
-                <control type="grouplist">
-                    <right>view_landscape_item_h</right>
-                    <width>400</width>
-                    <height>view_landscape_item_h</height>
-                    <align>right</align>
-                    <aligny>center</aligny>
-                    <orientation>vertical</orientation>
-                    <control type="label">
-                        <right>40</right>
-                        <textcolor>panel_fg_90</textcolor>
-                        <label>$LOCALIZE[31196]$VAR[Label_OSD_MusicNext_Title]</label>
-                        <height>40</height>
-                        <font>font_main_bold</font>
-                        <align>right</align>
-                    </control>
-                    <control type="label">
-                        <right>40</right>
-                        <textcolor>panel_fg_70</textcolor>
-                        <label>$VAR[Label_OSD_MusicNext_Artist]</label>
-                        <height>40</height>
-                        <align>right</align>
-                    </control>
-                </control>
-            </control>
+            </include>
             <control type="group">
                 <left>view_pad</left>
                 <right>view_pad</right>

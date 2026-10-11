@@ -94,7 +94,7 @@
                 <progresstexture border="160,40,60,40">$PARAM[progresstexture]</progresstexture>
                 <!-- <top>-20</top> -->
                 <top>-20</top>
-                <bottom>80</bottom>
+                <bottom>view_pad</bottom>
                 <!-- <left>-160</left> -->
                 <!-- <right>-40</right> -->
                 <orientation>horizontal</orientation>
@@ -105,7 +105,7 @@
     <include name="View_PVR_ProgrammePanel">
         <control type="group">
             <include>Settings_Box</include>
-            <bottom>80</bottom>
+            <bottom>view_pad</bottom>
             <top>40</top>
             <left>380</left>
         </control>
@@ -116,7 +116,7 @@
             <right>0</right>
             <width>400</width>
             <include>Settings_Box</include>
-            <bottom>80</bottom>
+            <bottom>view_pad</bottom>
             <top>40</top>
 
             <control type="grouplist">
@@ -185,7 +185,7 @@
             <right>0</right>
             <width>464</width>
             <include>Settings_Box</include>
-            <bottom>80</bottom>
+            <bottom>view_pad</bottom>
             <top>40</top>
             <control type="grouplist">
                 <orientation>vertical</orientation>

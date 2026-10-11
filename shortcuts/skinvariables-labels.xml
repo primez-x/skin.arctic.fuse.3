@@ -17,6 +17,14 @@
         <value>$INFO[{listitem}.Season]$INFO[{listitem}.Episode,x0,]</value>
     </variable>
 
+    <!-- Zero-padded episode number (1x05) for items without an episode DBType (PVR, plugins) -->
+    <variable name="Label_Episode_Number" containers="450" null_id="True">
+        <value condition="String.IsEmpty({listitem}.Episode)" />
+        <value condition="String.IsEmpty({listitem}.Season)">$INFO[{listitem}.Episode]</value>
+        <value condition="!Integer.IsLess({listitem}.Episode,10)">$INFO[{listitem}.Season]$INFO[{listitem}.Episode,x,]</value>
+        <value>$INFO[{listitem}.Season]$INFO[{listitem}.Episode,x0,]</value>
+    </variable>
+
     <variable name="Label_Plot_Episode_Number_LIA" containers="450" start="0" end="50">
         <value condition="!String.IsEqual({listitemabsolute}.DBType,episode) | String.IsEmpty({listitemabsolute}.Season) | String.IsEmpty({listitemabsolute}.Episode)" />
         <value condition="!Integer.IsLess({listitemabsolute}.Episode,10)">$INFO[{listitemabsolute}.Season]$INFO[{listitemabsolute}.Episode,x,]</value>
