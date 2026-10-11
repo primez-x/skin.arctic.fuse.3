@@ -2150,6 +2150,8 @@
                 </control>
                 <include content="Object_Control" condition="$PARAM[show_wall_label]">
                     <param name="control">group</param>
+                    <!-- Cast and detailed tiles already overlay their labels on the poster -->
+                    <visible>!String.IsEqual($PARAM[listitem].DBType,actor) + !String.IsEqual($PARAM[listitem].DBType,video) + ![$PARAM[detailed]]</visible>
                     <control type="label">
                         <top>$PARAM[item_h]</top>
                         <width>$PARAM[item_w]</width>

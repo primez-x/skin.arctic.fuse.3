@@ -59,6 +59,8 @@
         <param name="widgetfade_disable">false</param>
         <param name="widget_hideartwork">false</param>
         <param name="widget_showoverlay">false</param>
+        <!-- Poster rows: a title line under each poster when Text labels is Detailed -->
+        <param name="show_wall_label">Skin.HasSetting(View.UseDetailedListLabels)</param>
         <definition>
             <include content="Widget_Label">
                 <param name="groupid">$PARAM[groupid]</param>
@@ -83,6 +85,7 @@
                 <param name="id">$PARAM[id]</param>
                 <param name="icon">$PARAM[icon]</param>
                 <param name="detailed">$PARAM[detailed]</param>
+                <param name="show_wall_label">$PARAM[show_wall_label]</param>
                 <param name="item_h">$PARAM[item_h]</param>
                 <param name="itemlayout_h">$PARAM[itemlayout_h]</param>
                 <param name="item_w">$PARAM[item_w]</param>
