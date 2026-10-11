@@ -13,6 +13,7 @@
         ]
     },
     "actions": [
-        "PlayMedia(\"{trailer}\")"
+        "PlayMedia(\"{trailer}\")",
+        "Dialog.Close(all,true)"
     ]
 }

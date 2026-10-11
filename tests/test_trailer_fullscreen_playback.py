@@ -49,12 +49,13 @@ class TrailerFullscreenPlaybackTests(unittest.TestCase):
         action = _action_include()
         onclicks = action.findall("onclick")
 
-        self.assertEqual(len(onclicks), 2)
+        self.assertEqual(len(onclicks), 3)
         self.assertEqual(
             [onclick.get("condition") for onclick in onclicks],
             [
                 "String.IsEmpty($PARAM[trailer]) + !String.IsEmpty($PARAM[trailer_fallback])",
                 "!String.IsEmpty($PARAM[trailer])",
+                "!String.IsEmpty($PARAM[trailer]) | !String.IsEmpty($PARAM[trailer_fallback])",
             ],
         )
         self.assertEqual(
@@ -62,10 +63,19 @@ class TrailerFullscreenPlaybackTests(unittest.TestCase):
             [
                 "PlayMedia($ESCINFO[$PARAM[trailer_fallback]],False)",
                 "PlayMedia($ESCINFO[$PARAM[trailer]],False)",
+                "Dialog.Close(all,true)",
             ],
         )
-        self.assertTrue(all("$ESCINFO[" in (onclick.text or "") for onclick in onclicks))
-        self.assertTrue(all(",1)" not in (onclick.text or "") for onclick in onclicks))
+        plays = onclicks[:2]
+        self.assertTrue(all("$ESCINFO[" in (onclick.text or "") for onclick in plays))
+        self.assertTrue(all(",1)" not in (onclick.text or "") for onclick in plays))
+
+    def test_info_dialog_closes_only_after_the_trailer_is_resolved(self):
+        # Actions run in order and resolve their infolabels when they run: closing the
+        # info dialog first would lose ListItem.Trailer, leaving it open blocks fullscreen.
+        texts = [onclick.text for onclick in _action_include().findall("onclick")]
+        self.assertEqual(texts[-1], "Dialog.Close(all,true)")
+        self.assertTrue(all(text.startswith("PlayMedia(") for text in texts[:-1]))
 
     def test_action_callers_pass_only_supported_trailer_parameters(self):
         callers = []
@@ -108,7 +118,9 @@ class TrailerFullscreenPlaybackTests(unittest.TestCase):
                 ]
             },
         )
-        self.assertEqual(shortcut["actions"], ['PlayMedia("{trailer}")'])
+        self.assertEqual(
+            shortcut["actions"], ['PlayMedia("{trailer}")', "Dialog.Close(all,true)"]
+        )
 
         trailer = "https://example.test/trailer?part=one,two&quote=%22inside%22"
         rendered = _render_builtin(shortcut["actions"][0], trailer=trailer)

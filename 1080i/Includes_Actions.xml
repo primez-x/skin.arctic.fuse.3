@@ -324,6 +324,8 @@
     <include name="Action_PlayTrailer_OnClick">
         <onclick condition="String.IsEmpty($PARAM[trailer]) + !String.IsEmpty($PARAM[trailer_fallback])">PlayMedia($ESCINFO[$PARAM[trailer_fallback]],False)</onclick>
         <onclick condition="!String.IsEmpty($PARAM[trailer])">PlayMedia($ESCINFO[$PARAM[trailer]],False)</onclick>
+        <!-- After PlayMedia has resolved the trailer: an open info dialog would block the fullscreen switch -->
+        <onclick condition="!String.IsEmpty($PARAM[trailer]) | !String.IsEmpty($PARAM[trailer_fallback])">Dialog.Close(all,true)</onclick>
     </include>
 
     <include name="Action_Scheme_Onclick_Bright">
