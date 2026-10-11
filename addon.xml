@@ -1,4 +1,4 @@
-<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.8.1">
+<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.8.2">
     <requires>
         <import addon="xbmc.gui" version="5.17.0" />
         <import addon="xbmc.python" version="3.0.0" />
@@ -35,7 +35,10 @@
         <license>Creative Commons Attribution Non-Commercial Share-Alike 4.0</license>
         <forum />
         <source>https://github.com/primez-x/skin.arctic.fuse.3</source>
-        <news>v3.8.1
+        <news>v3.8.2
+- Row views (poster, circle and board rows, such as Sets) no longer draw the "N items" footer over the second line of the first tile's title: with titles on, the tiles get a little smaller, as on the walls.
+
+v3.8.1
 - Wall and Combined widget layouts load widgets as you reach them: the selected widget and its neighbours load first, the rest when you move to them, so opening a hub no longer starts every widget's add-on at once. Widgets that turn out empty still drop out of the widget selector.
 - Wall-mode widgets show titles under their tiles like the library walls and follow Text labels (Off, Simple, Detailed); their loading placeholders match.
 - Poster, circle and board walls keep whole rows with titles on: the tiles get a little smaller instead of the rows getting taller, so the second row's titles are no longer cut off at the bottom. Circle wall titles are centred.

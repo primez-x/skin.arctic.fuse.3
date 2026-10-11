@@ -172,10 +172,10 @@
         selects an expression instead: $EXP[Exp_LabelsBelow__$PARAM[include]]. A name with no
         expression resolves to an empty condition, which an include condition treats as false.
         Use them in include conditions only, and negate only the Exp_Wall_* ones, which are
-        defined for every row include a wall can use.
+        defined for every row include a wall or row view (500-505) can use.
           Exp_LabelsBelow__            tall tiles that draw their labels below the tile
           Exp_LabelsBelow_CastCheck__  of those, the ones whose cast/crew tiles overlay labels
-          Exp_Wall_TallTile__          wall row includes whose tile gives view_bar to its labels
+          Exp_Wall_TallTile__          wall and row view includes whose tile gives view_bar to its labels
           Exp_Wall_CentredLabels__     wall row includes with centred labels (Poster, Circle)
     -->
     <expression name="Exp_LabelsBelow__List_Poster_Row">true</expression>
@@ -190,6 +190,7 @@
     <expression name="Exp_Wall_TallTile__List_Board_Row">true</expression>
     <expression name="Exp_Wall_TallTile__List_Landscape_Row">false</expression>
     <expression name="Exp_Wall_TallTile__List_Square_Row">false</expression>
+    <expression name="Exp_Wall_TallTile__List_Card_Row">false</expression>
     <expression name="Exp_Wall_CentredLabels__List_Poster_Row">true</expression>
     <expression name="Exp_Wall_CentredLabels__List_Circle_Row">true</expression>
     <expression name="Exp_Wall_CentredLabels__List_Board_Row">false</expression>

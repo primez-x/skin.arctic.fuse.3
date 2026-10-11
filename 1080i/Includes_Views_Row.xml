@@ -69,40 +69,59 @@
             <control type="group">
                 <visible>Control.IsVisible($PARAM[id])</visible>
                 <control type="group">
-
                     <!-- Rows label their tiles like widget rows (Layout_Labels; Text labels Off hides them).
-                         The row sits at view_row with room below the cell, so no spacer is needed. -->
-                    <include content="$PARAM[include]">
+                         A tall tile's labels would end at 990, under the footer bar (960-1000), so with
+                         labels on the tile gives view_bar of its height to them, as on the walls. -->
+                    <include content="View_Row_List" condition="$EXP[Exp_Wall_TallTile__$PARAM[include]] + !Skin.HasSetting(View.HideWidgetLabels)">
                         <param name="id">$PARAM[id]</param>
-                        <param name="show_labels">true</param>
-                        <param name="hide_labels">Skin.HasSetting(View.HideWidgetLabels)</param>
-                        <top>view_row</top>
-                        <include content="Action_View_Movement_OnUp">
-                            <param name="id">$PARAM[id]</param>
-                        </include>
-                        <include content="Action_View_Movement_OnBack">
-                            <param name="id">$PARAM[id]</param>
-                            <param name="onback">[Integer.IsEqual(Container($PARAM[id]).CurrentItem,1)]</param>
-                        </include>
-                        <include content="Action_View_Movement_OnDown">
-                            <param name="id">$PARAM[id]</param>
-                        </include>
-                        <pagecontrol>60</pagecontrol>
-                        <visible>$PARAM[visible]</visible>
-                        <viewtype label="$PARAM[viewtype_label]">wrap</viewtype>
-                        <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
-                        <onfocus>ClearProperty(Background.ShowOverlay,Home)</onfocus>
-                        <onfocus>ClearProperty(InfoPanel.FullSwitch,Home)</onfocus>
-
-                        <include content="Object_HitRect">
-                            <param name="x">view_pad</param>
-                            <param name="y">586</param>
-                            <param name="w">1640</param>
-                            <param name="h">view_poster_item_h</param>
-                        </include>
+                        <param name="include">$PARAM[include]</param>
+                        <param name="item_w">view_wall_labelled_item_w__$PARAM[include]</param>
+                        <param name="item_h">view_poster_labelled_item_h</param>
+                        <param name="viewtype_label">$PARAM[viewtype_label]</param>
+                        <param name="visible">$PARAM[visible]</param>
+                    </include>
+                    <include content="View_Row_List" condition="![$EXP[Exp_Wall_TallTile__$PARAM[include]]] | Skin.HasSetting(View.HideWidgetLabels)">
+                        <param name="id">$PARAM[id]</param>
+                        <param name="include">$PARAM[include]</param>
+                        <param name="viewtype_label">$PARAM[viewtype_label]</param>
+                        <param name="visible">$PARAM[visible]</param>
                     </include>
                 </control>
             </control>
         </definition>
+    </include>
+
+    <include name="View_Row_List">
+        <include content="$PARAM[include]">
+            <param name="id">$PARAM[id]</param>
+            <param name="item_w">$PARAM[item_w]</param>
+            <param name="item_h">$PARAM[item_h]</param>
+            <param name="show_labels">true</param>
+            <param name="hide_labels">Skin.HasSetting(View.HideWidgetLabels)</param>
+            <top>view_row</top>
+            <include content="Action_View_Movement_OnUp">
+                <param name="id">$PARAM[id]</param>
+            </include>
+            <include content="Action_View_Movement_OnBack">
+                <param name="id">$PARAM[id]</param>
+                <param name="onback">[Integer.IsEqual(Container($PARAM[id]).CurrentItem,1)]</param>
+            </include>
+            <include content="Action_View_Movement_OnDown">
+                <param name="id">$PARAM[id]</param>
+            </include>
+            <pagecontrol>60</pagecontrol>
+            <visible>$PARAM[visible]</visible>
+            <viewtype label="$PARAM[viewtype_label]">wrap</viewtype>
+            <onfocus>ClearProperty(TMDbHelper.WidgetContainer)</onfocus>
+            <onfocus>ClearProperty(Background.ShowOverlay,Home)</onfocus>
+            <onfocus>ClearProperty(InfoPanel.FullSwitch,Home)</onfocus>
+
+            <include content="Object_HitRect">
+                <param name="x">view_pad</param>
+                <param name="y">586</param>
+                <param name="w">1640</param>
+                <param name="h">view_poster_item_h</param>
+            </include>
+        </include>
     </include>
 </includes>

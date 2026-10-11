@@ -37,8 +37,9 @@ both axes — the skin's canonical inter-item rhythm. Two exceptions:
 `Widget_LabelsBelow_Spacer`. Walls cannot grow (a taller cell pushes the next row's labels off
 the screen), so there the **tile gives `view_bar` of its height to the labels** and keeps its
 aspect ratio; cell, columns and rows per screen are the same with Text labels on and Off:
-library walls 512–514 and hub walls (`view_poster_labelled_item_h` 270, width
-`view_wall_labelled_item_w__<row include>`), View 515 (`view_poster_wall_labelled_item_h` 245 ×
+library walls 512–514, hub walls and row views 500–505 (`view_poster_labelled_item_h` 270, width
+`view_wall_labelled_item_w__<row include>`; in a row view a full-height tile's labels end at 990,
+inside the item-count footer bar at 960–1000), View 515 (`view_poster_wall_labelled_item_h` 245 ×
 `_item_w` 171.93). Landscape and Square cells already fit labels.
 
 Canonical gap vocabulary (from real `<itemgap>` usage): `0, 8, 10, 12, 15, 20, 25, 37, 40, 80`.

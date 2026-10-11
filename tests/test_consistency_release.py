@@ -148,13 +148,26 @@ class ViewLabelTests(unittest.TestCase):
 
     def test_walls_and_rows_pass_the_label_params(self):
         panel = _include("Includes_Views_Wall.xml", "View_Wall_Panel")
-        row = _include("Includes_Views_Row.xml", "View_Row_Include")
+        row = _include("Includes_Views_Row.xml", "View_Row_List")
         grid = _include("Includes_Views_Wall.xml", "View_515_Grid")
         for node in (panel, row, grid):
             call = next(n for n in node.iter("include") if n.get("content") in ("$PARAM[include]", "List_Poster_Row"))
             self.assertEqual("true", call.findtext("param[@name='show_labels']"))
             self.assertEqual("Skin.HasSetting(View.HideWidgetLabels)", call.findtext("param[@name='hide_labels']"))
         self.assertEqual("center", grid.findtext(".//param[@name='labels_align']"))
+
+    def test_row_view_labels_clear_the_footer(self):
+        # The label block under a tall row view tile ended at 990, inside the item-count
+        # footer bar (960-1000), so two-line titles ran into it.
+        constants = _constants()
+        pad, bar = float(constants["view_pad"]), float(constants["view_bar"])
+        labelled = _include("Includes_Views_Row.xml", "View_Row_Include").find(
+            ".//include[@content='View_Row_List'][@condition]")
+        self.assertIn("Exp_Wall_TallTile__", labelled.get("condition"))
+        self.assertEqual("view_poster_labelled_item_h", labelled.findtext("param[@name='item_h']"))
+        labels_end = (float(constants["view_row"]) + pad
+                      + float(constants["view_poster_labelled_item_h"]) + 10 + 80)
+        self.assertLessEqual(labels_end, 1080 - pad - bar)
 
     def test_tall_wall_tiles_give_one_rhythm_step_to_their_labels(self):
         # Taller cells (3.8.0: 390) pushed the second wall row's labels below the screen;
