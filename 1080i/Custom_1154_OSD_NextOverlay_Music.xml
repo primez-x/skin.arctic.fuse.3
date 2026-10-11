@@ -19,26 +19,27 @@
                     <effect type="fade" start="0" end="100" time="300" delay="600" />
                     <effect type="slide" start="48,0" end="0" center="auto" tween="back" easing="out" time="400" delay="600" />
                 </animation>
+                <!-- Album art is square: a square tile as tall as the video overlay's landscape one -->
                 <control type="group">
                     <right>0</right>
                     <height>view_landscape_item_h</height>
-                    <width>view_landscape_item_w</width>
+                    <width>view_landscape_item_h</width>
                     <control type="group">
                         <include>Object_ItemBack</include>
                         <control type="image">
-                            <texture background="true" diffuse="diffuse/landscape_w410_h231.png">$INFO[Window(Home).Property(Spotify.NextTrackThumb)]</texture>
-                            <aspectratio scalediffuse="false">keep</aspectratio>
+                            <texture background="true" diffuse="diffuse/square_w217_h217.png">$INFO[Window(Home).Property(Spotify.NextTrackThumb)]</texture>
+                            <aspectratio scalediffuse="false">scale</aspectratio>
                             <visible>!String.IsEmpty(Window(Home).Property(Spotify.NextTrackThumb))</visible>
                         </control>
                         <control type="image">
-                            <texture background="true" diffuse="diffuse/landscape_w410_h231.png">$INFO[Window(Home).Property(Spotify.NextTrackFanart)]</texture>
-                            <aspectratio scalediffuse="false">keep</aspectratio>
+                            <texture background="true" diffuse="diffuse/square_w217_h217.png">$INFO[Window(Home).Property(Spotify.NextTrackFanart)]</texture>
+                            <aspectratio scalediffuse="false">scale</aspectratio>
                             <visible>String.IsEmpty(Window(Home).Property(Spotify.NextTrackThumb)) + !String.IsEmpty(Window(Home).Property(Spotify.NextTrackFanart))</visible>
                         </control>
                     </control>
                 </control>
                 <control type="grouplist">
-                    <right>view_landscape_item_w</right>
+                    <right>view_landscape_item_h</right>
                     <width>400</width>
                     <height>view_landscape_item_h</height>
                     <align>right</align>
