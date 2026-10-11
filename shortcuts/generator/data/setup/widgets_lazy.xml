@@ -8,6 +8,18 @@
         is at least its index minus two. Focusing row N therefore loads rows up to
         N + 2 before the user can move down to them.
     -->
+    <!--
+        Lazy widgets (Wall and Combined modes). Only the widget selected in the
+        widget selector (601) is on screen, so a widget gets its path through
+        $VAR[Widget_Lazy_Selector_Path_*] while it or one of its two neighbours
+        in the selector is selected (NoWrap: the selector does not wrap, so the
+        last widget is not a neighbour of the first). Once it has items it keeps
+        its path: real items (first item not the placeholder) or the
+        Widget_Lazy_Empty marker that stands in for a widget that loaded empty.
+        The marker keeps the empty widget out of the selector without it ever
+        becoming unreached again, which would otherwise reload it in a loop.
+    -->
+    <value name="widget_lazy_selector_reached">String.IsEqual(Container(601).ListItemNoWrap(-1).Property(guid),{widget_guid}) | String.IsEqual(Container(601).ListItem.Property(guid),{widget_guid}) | String.IsEqual(Container(601).ListItemNoWrap(1).Property(guid),{widget_guid}) | [Integer.IsGreater(Container({widget_id}).NumItems,0) + !String.IsEqual(Container({widget_id}).ListItemAbsolute(0).Property(widget_lazy),true)]</value>
     <value name="widget_lazy_window">{window_id}</value>
     <value name="widget_lazy_threshold">$MATH[{item_x} - 2]</value>
     <value name="widget_lazy_reached">Integer.IsGreaterOrEqual(Window({widget_lazy_window}).Property(Widgets.Reached),{widget_lazy_threshold})</value>

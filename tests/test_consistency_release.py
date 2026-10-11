@@ -38,27 +38,47 @@ SHORT_ROWS = ("List_Landscape_Row", "List_Square_Row")
 
 class LabelsBelowSpacerTests(unittest.TestCase):
     def setUp(self):
-        self.visible = _include("Includes_Widgets.xml", "Widget_LabelsBelow_Spacer").findtext(
-            "definition/control/visible"
-        )
+        self.spacer = _include("Includes_Widgets.xml", "Widget_LabelsBelow_Spacer").find("definition/include")
+        self.visible = self.spacer.findtext("visible")
+        self.expressions = {
+            e.get("name"): e.text for e in _root("Includes_Widgets.xml").findall("expression")
+        }
 
     def test_spacer_only_for_tall_tiles_with_labels_below(self):
+        # String.IsEqual(List_Poster_Row,List_Poster_Row) is false in Kodi (the first
+        # argument is resolved as an info label), so the row include is matched through an
+        # expression name in the include condition when the window loads.
+        self.assertEqual("$EXP[Exp_LabelsBelow__$PARAM[include]]", self.spacer.get("condition"))
         for row in TALL_ROWS:
-            self.assertIn(f"String.IsEqual($PARAM[include],{row})", self.visible, row)
+            self.assertEqual("true", self.expressions.get(f"Exp_LabelsBelow__{row}"), row)
         for row in SHORT_ROWS:
             # Landscape and Square cells already have room for their labels
-            self.assertNotIn(row, self.visible, row)
+            self.assertIsNone(self.expressions.get(f"Exp_LabelsBelow__{row}"), row)
+        self.assertNotIn("String.IsEqual($PARAM[include]", ET.tostring(
+            _include("Includes_Widgets.xml", "Widget_LabelsBelow_Spacer"), encoding="unicode"))
         self.assertIn("![$PARAM[detailed]]", self.visible)
         self.assertIn("!Skin.HasSetting(View.HideWidgetLabels)", self.visible)
 
+    def test_no_literal_include_comparisons_left(self):
+        for path in SKIN.glob("*.xml"):
+            self.assertIsNone(
+                re.search(r"String\.IsEqual\(\$PARAM\[include\],", path.read_text(encoding="utf-8")),
+                path.name,
+            )
+
     def test_cast_and_crew_rows_get_no_spacer(self):
+        check = self.spacer.find("include[@content='Widget_LabelsBelow_CastCheck']")
+        self.assertEqual("$EXP[Exp_LabelsBelow_CastCheck__$PARAM[include]]", check.get("condition"))
+        for row in ("List_Poster_Row", "List_Card_Row"):
+            self.assertEqual("true", self.expressions.get(f"Exp_LabelsBelow_CastCheck__{row}"), row)
+        rule = _include("Includes_Widgets.xml", "Widget_LabelsBelow_CastCheck").findtext("visible")
         first = "Container($PARAM[id]).ListItemAbsolute(0)"
         for check in (
             f"!String.IsEqual({first}.DBType,actor)",
             f"!String.IsEqual({first}.DBType,video)",
             f"String.IsEmpty({first}.Property(role))",
         ):
-            self.assertIn(check, self.visible)
+            self.assertIn(check, rule)
         # Info dialog cast/crew rows are detailed rows: no spacer for them either
         crew = _include("Includes_DialogInfo.xml", "DialogInfo_CrewWidget")
         self.assertEqual("true", crew.findtext(".//param[@name='detailed']"))
@@ -136,25 +156,41 @@ class ViewLabelTests(unittest.TestCase):
             self.assertEqual("Skin.HasSetting(View.HideWidgetLabels)", call.findtext("param[@name='hide_labels']"))
         self.assertEqual("center", grid.findtext(".//param[@name='labels_align']"))
 
-    def test_tall_walls_grow_by_one_rhythm_step(self):
+    def test_tall_wall_tiles_give_one_rhythm_step_to_their_labels(self):
+        # Taller cells (3.8.0: 390) pushed the second wall row's labels below the screen;
+        # the tile now gives view_bar of its height to the labels and the cell stays.
         constants = _constants()
-        self.assertEqual(
-            float(constants["view_poster_itemlayout_h"]) + float(constants["view_bar"]),
-            float(constants["view_poster_labelled_itemlayout_h"]),
-        )
-        self.assertEqual(
-            float(constants["view_poster_wall_itemlayout_h"]) + float(constants["view_bar"]),
-            float(constants["view_poster_wall_labelled_itemlayout_h"]),
-        )
-        for name in ("view_poster_labelled_itemlayout_h", "view_poster_wall_labelled_itemlayout_h",
+        bar = float(constants["view_bar"])
+        self.assertEqual(float(constants["view_poster_item_h"]) - bar, float(constants["view_poster_labelled_item_h"]))
+        self.assertEqual(float(constants["view_poster_wall_item_h"]) - bar,
+                         float(constants["view_poster_wall_labelled_item_h"]))
+        self.assertNotIn("view_poster_labelled_itemlayout_h", constants)
+        self.assertNotIn("view_poster_wall_labelled_itemlayout_h", constants)
+        # Widths keep each tile's aspect ratio
+        for row, width, height in (
+            ("List_Poster_Row", "view_poster_item_w", "view_poster_item_h"),
+            ("List_Circle_Row", "view_poster_item_h", "view_poster_item_h"),
+            ("List_Board_Row", "view_board_item_w", "view_poster_item_h"),
+        ):
+            ratio = float(constants[width]) / float(constants[height])
+            labelled = float(constants[f"view_wall_labelled_item_w__{row}"]) / float(constants["view_poster_labelled_item_h"])
+            self.assertAlmostEqual(ratio, labelled, places=3, msg=row)
+        ratio = float(constants["view_poster_wall_item_w"]) / float(constants["view_poster_wall_item_h"])
+        labelled = float(constants["view_poster_wall_labelled_item_w"]) / float(constants["view_poster_wall_labelled_item_h"])
+        self.assertAlmostEqual(ratio, labelled, places=3)
+        for name in ("view_poster_labelled_item_h", "view_poster_wall_labelled_item_h", "view_poster_wall_labelled_item_w",
                      "view_poster_wall_offset_x", "view_poster_wall_offset_y", "view_pad", "view_bar"):
             self.assertEqual("-" + constants[name], constants["-" + name], name)
         walls = _root("Includes_Views_Wall.xml")
         for view in ("View_512_Poster_Wall", "View_513_Circle_Wall", "View_514_Board_Wall"):
             self.assertEqual("true", walls.find(f"./include[@name='{view}']").findtext(".//param[@name='labels_below']"), view)
+        for view in ("View_512_Poster_Wall", "View_513_Circle_Wall"):
+            self.assertEqual("center", walls.find(f"./include[@name='{view}']").findtext(".//param[@name='labels_align']"), view)
         wall = _include("Includes_Views_Wall.xml", "View_Wall_Include")
         labelled = wall.find(".//include[@condition='$PARAM[labels_below] + !Skin.HasSetting(View.HideWidgetLabels)']")
-        self.assertEqual("view_poster_labelled_itemlayout_h", labelled.findtext("param[@name='itemlayout_h']"))
+        self.assertEqual("view_wall_labelled_item_w__$PARAM[include]", labelled.findtext("param[@name='item_w']"))
+        self.assertEqual("view_poster_labelled_item_h", labelled.findtext("param[@name='item_h']"))
+        self.assertIsNone(labelled.find("param[@name='itemlayout_h']"))
 
     def test_poster_wall_details_grid_uses_constants(self):
         grid = _include("Includes_Views_Wall.xml", "View_515_Grid")

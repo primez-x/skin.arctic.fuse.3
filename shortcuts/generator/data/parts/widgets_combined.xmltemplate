@@ -1,6 +1,8 @@
 <include content="Hub_Combined_Widget">
     <param name="id">{widget_id}</param>
-    <param name="content">{widget_path}</param>
+    <param name="content">$VAR[Widget_Lazy_Selector_Path_{item}_{widget_id}]</param>
+    <param name="lazy">true</param>
+    <param name="lazy_reached">{widget_lazy_selector_reached}</param>
     <param name="include">{widget_include}</param>
     <param name="target">{widget_target}</param>
     <param name="sortby">{widget_sortby}</param>

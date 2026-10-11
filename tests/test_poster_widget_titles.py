@@ -29,11 +29,15 @@ class PosterWidgetLabelTests(unittest.TestCase):
         self.assertEqual(1, len(spacers))
         self.assertEqual("$PARAM[detailed]", spacers[0].findtext("param[@name='detailed']"))
         self.assertTrue(spacers[0].findtext("param[@name='visible']").startswith("$PARAM[visible] + "))
-        spacer = _include("Includes_Widgets.xml", "Widget_LabelsBelow_Spacer").find("definition/control")
+        spacer = _include("Includes_Widgets.xml", "Widget_LabelsBelow_Spacer").find("definition/include")
+        # The tile style is matched when the window loads (String.IsEqual cannot compare
+        # two literals, so it was never true for the row include name).
+        self.assertEqual("$EXP[Exp_LabelsBelow__$PARAM[include]]", spacer.get("condition"))
+        self.assertEqual("group", spacer.findtext("param[@name='control']"))
         self.assertEqual("view_bar", spacer.findtext("height"))
-        self.assertIsNone(spacer.get("id"))
+        self.assertIsNone(spacer.find("param[@name='id']"))
         visible = spacer.findtext("visible")
-        self.assertIn("String.IsEqual($PARAM[include],List_Poster_Row)", visible)
+        self.assertNotIn("String.IsEqual($PARAM[include]", visible)
         self.assertIn("+ $PARAM[visible]", visible)
 
     def test_lists_forward_the_switch_to_the_layout(self):
@@ -92,7 +96,7 @@ class TextLabelsOffTests(unittest.TestCase):
         content = _include("Includes_Widgets.xml", "Widget_Content")
         row = next(n for n in content.iter("include") if n.get("content") == "$PARAM[include]")
         self.assertEqual("Skin.HasSetting(View.HideWidgetLabels)", row.findtext("param[@name='hide_labels']"))
-        spacer = _include("Includes_Widgets.xml", "Widget_LabelsBelow_Spacer").find("definition/control")
+        spacer = _include("Includes_Widgets.xml", "Widget_LabelsBelow_Spacer").find("definition/include")
         self.assertIn("!Skin.HasSetting(View.HideWidgetLabels)", spacer.findtext("visible"))
         for row_name in ("List_Poster_Row", "List_Landscape_Row", "List_Board_Row", "List_Square_Row"):
             row = _include("Includes_Lists.xml", row_name)

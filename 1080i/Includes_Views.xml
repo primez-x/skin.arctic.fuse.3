@@ -25,7 +25,8 @@
             <textcolor>main_fg_100</textcolor>
             <font>font_hint_bold</font>
             <width>auto</width>
-            <centertop>30</centertop>
+            <!-- Centred on the horizontal scrollbar (view_pad + scrollbar_w from the bottom) -->
+            <centertop>35</centertop>
             <height>40</height>
             <visible>$PARAM[visible]</visible>
         </control>
@@ -398,8 +399,13 @@
             <onright>SetFocus(610)</onright>
             <onfocus condition="!$EXP[Exp_IsAlphabetStrip]">SetFocus(60)</onfocus>
         </include>
+        <!-- Below the row views' tile labels: a tall row's label block ends at 990
+             (view_row 510 + view_pad 80 + tile 310 + 10 + 80), so the bar hangs from there to
+             the footer bar's bottom edge (view_pad from the screen bottom), starting on the
+             footer divider line it replaces while focused. The footer's page sublabel is
+             centred on it (View_Line_SubLabel). -->
         <control type="group">
-            <centerbottom>90</centerbottom>
+            <bottom>view_pad</bottom>
             <height>scrollbar_w</height>
             <left>view_pad</left>
             <width>640</width>

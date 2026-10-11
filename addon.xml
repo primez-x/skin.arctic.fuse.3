@@ -1,4 +1,4 @@
-<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.8.0">
+<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.8.1">
     <requires>
         <import addon="xbmc.gui" version="5.17.0" />
         <import addon="xbmc.python" version="3.0.0" />
@@ -35,7 +35,16 @@
         <license>Creative Commons Attribution Non-Commercial Share-Alike 4.0</license>
         <forum />
         <source>https://github.com/primez-x/skin.arctic.fuse.3</source>
-        <news>v3.8.0
+        <news>v3.8.1
+- Wall and Combined widget layouts load widgets as you reach them: the selected widget and its neighbours load first, the rest when you move to them, so opening a hub no longer starts every widget's add-on at once. Widgets that turn out empty still drop out of the widget selector.
+- Wall-mode widgets show titles under their tiles like the library walls and follow Text labels (Off, Simple, Detailed); their loading placeholders match.
+- Poster, circle and board walls keep whole rows with titles on: the tiles get a little smaller instead of the rows getting taller, so the second row's titles are no longer cut off at the bottom. Circle wall titles are centred.
+- Poster Wall Details shows three whole rows with titles on or off; the third row is no longer cut off.
+- Row views: the scrollbar sits below the tile titles instead of over them.
+- Widget rows and info dialog rows with titles under poster, card, circle, banner and board tiles now really get their extra row space.
+- The skin rebuilds its widget layouts once after this update; nothing to do.
+
+v3.8.0
 - Every widget style now shows titles under its tiles: circle, card, banner and board rows join poster, landscape and square. Skin settings, Text labels (Off, Simple, Detailed) applies to all of them, and loading placeholders follow it too.
 - Library views label their tiles the same way: poster, circle and board walls and rows, and the Poster Wall Details view (centred titles). Walls with titles under the tile get a little taller rows; Text labels Off restores the old spacing.
 - Cast and crew rows no longer leave an empty gap under the posters.

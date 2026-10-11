@@ -34,18 +34,21 @@
     </include>
 
     <!-- Poster Wall Details: the persistent detail panel beside a narrower poster grid.
-         Labels below the tiles (Layout_Labels, centred) make each cell one rhythm step taller
-         (view_poster_wall_labelled_itemlayout_h, 370) unless Text labels is Off. -->
+         Three whole rows of 330 cells (view_poster_wall_grid_h clips the fourth). Labels below
+         the tiles (Layout_Labels, centred) take view_bar of the tile height unless Text labels
+         is Off, so the rows stay the same: 200x285 tiles with labels Off, 171.93x245 with them. -->
     <include name="View_515_Poster_Wall_Details">
         <control type="group">
             <visible>Control.IsVisible(515)</visible>
             <include>View_Poster_Wall_Details</include>
             <control type="group">
                 <include content="View_515_Grid" condition="!Skin.HasSetting(View.HideWidgetLabels)">
-                    <param name="itemlayout_h">view_poster_wall_labelled_itemlayout_h</param>
+                    <param name="item_w">view_poster_wall_labelled_item_w</param>
+                    <param name="item_h">view_poster_wall_labelled_item_h</param>
                 </include>
                 <include content="View_515_Grid" condition="Skin.HasSetting(View.HideWidgetLabels)">
-                    <param name="itemlayout_h">view_poster_wall_itemlayout_h</param>
+                    <param name="item_w">view_poster_wall_item_w</param>
+                    <param name="item_h">view_poster_wall_item_h</param>
                 </include>
             </control>
         </control>
@@ -56,10 +59,10 @@
             <param name="id">515</param>
             <param name="control">panel</param>
             <param name="orientation">vertical</param>
-            <param name="item_w">view_poster_wall_item_w</param>
-            <param name="item_h">view_poster_wall_item_h</param>
+            <param name="item_w">$PARAM[item_w]</param>
+            <param name="item_h">$PARAM[item_h]</param>
             <param name="itemlayout_w">view_poster_wall_itemlayout_w</param>
-            <param name="itemlayout_h">$PARAM[itemlayout_h]</param>
+            <param name="itemlayout_h">view_poster_wall_itemlayout_h</param>
             <param name="offset_x">view_poster_wall_offset_x</param>
             <param name="offset_y">view_poster_wall_offset_y</param>
             <param name="show_labels">true</param>
@@ -69,8 +72,8 @@
             <param name="indicator_right">-view_poster_wall_indicator_inset</param>
             <param name="indicator_use_top">true</param>
             <preloaditems>0</preloaditems>
-            <top>52</top>
-            <bottom>-20</bottom>
+            <top>view_poster_wall_grid_t</top>
+            <height>view_poster_wall_grid_h</height>
             <left>view_poster_wall_grid_l</left>
             <right>view_poster_wall_grid_r</right>
             <onright>611</onright>
@@ -95,6 +98,7 @@
             <param name="include">List_Circle_Row</param>
             <param name="viewtype_label">$LOCALIZE[31557]</param>
             <param name="labels_below">true</param>
+            <param name="labels_align">center</param>
             <param name="visible">[$EXP[Exp_View_513]]</param>
         </include>
     </include>
@@ -113,8 +117,10 @@
     <!-- Wall Template View
          Every wall labels its tiles with Layout_Labels and follows Text labels (Off hides them).
          labels_below: the tile fills the 350 cell but for the 40px gap (Poster, Circle, Board),
-         so the cell grows by one rhythm step (view_poster_labelled_itemlayout_h, 390) while
-         labels are on. Square and Landscape tiles are shorter and already fit their labels. -->
+         so while labels are on the tile gives one rhythm step of its height to them
+         (view_poster_labelled_item_h, 270; width view_wall_labelled_item_w__<include> keeps the
+         aspect ratio). The cell and the rows per screen stay the same with labels on and Off.
+         Square and Landscape tiles are shorter and already fit their labels. -->
     <include name="View_Wall_Include">
         <param name="overlay">true</param>
         <param name="labels_below">false</param>
@@ -126,7 +132,8 @@
                     <include content="View_Wall_Panel" condition="$PARAM[labels_below] + !Skin.HasSetting(View.HideWidgetLabels)">
                         <param name="id">$PARAM[id]</param>
                         <param name="include">$PARAM[include]</param>
-                        <param name="itemlayout_h">view_poster_labelled_itemlayout_h</param>
+                        <param name="item_w">view_wall_labelled_item_w__$PARAM[include]</param>
+                        <param name="item_h">view_poster_labelled_item_h</param>
                         <param name="labels_align">$PARAM[labels_align]</param>
                         <param name="visible">$PARAM[visible]</param>
                         <param name="viewtype_label">$PARAM[viewtype_label]</param>
@@ -135,7 +142,6 @@
                     <include content="View_Wall_Panel" condition="![$PARAM[labels_below]] | Skin.HasSetting(View.HideWidgetLabels)">
                         <param name="id">$PARAM[id]</param>
                         <param name="include">$PARAM[include]</param>
-                        <param name="itemlayout_h">view_poster_itemlayout_h</param>
                         <param name="labels_align">$PARAM[labels_align]</param>
                         <param name="visible">$PARAM[visible]</param>
                         <param name="viewtype_label">$PARAM[viewtype_label]</param>
@@ -152,7 +158,8 @@
             <param name="control">panel</param>
             <param name="orientation">vertical</param>
             <param name="offset_y">view_bar</param>
-            <param name="itemlayout_h">$PARAM[itemlayout_h]</param>
+            <param name="item_w">$PARAM[item_w]</param>
+            <param name="item_h">$PARAM[item_h]</param>
             <param name="show_labels">true</param>
             <param name="hide_labels">Skin.HasSetting(View.HideWidgetLabels)</param>
             <param name="labels_align">$PARAM[labels_align]</param>

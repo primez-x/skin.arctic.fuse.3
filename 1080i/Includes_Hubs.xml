@@ -97,6 +97,19 @@
         </definition>
     </include>
 
+    <!--
+        Wall mode widget: a vertical panel of the selected widget (selector 601).
+        Labels: tiles are labelled with Layout_Labels like the library walls and follow Text
+        labels (Off / Simple / Detailed). Tall tiles (Poster, Circle, Board) give view_bar of
+        their height to the labels while labels are on (view_poster_labelled_item_h, width
+        view_wall_labelled_item_w__<include>), so the 350 cells, the two loading rows and the
+        rows per screen stay the same; Poster and Circle labels are centred like the library
+        poster and circle walls. The row include is matched through the Exp_Wall_* expressions
+        (Includes_Widgets.xml), which cover every wall row include.
+        Lazy loading (generated widgets, lazy=true): lazy_reached is the selector condition
+        from widgets_lazy.xml; until it holds the widget has no path and keeps one placeholder
+        item, so selector 601 (which hides widgets without items) keeps listing it.
+    -->
     <include name="Hub_Wall_Widget">
         <param name="target">videos</param>
         <param name="include">List_Poster_Row</param>
@@ -104,62 +117,139 @@
         <param name="allowhiddenfocus">true</param>
         <param name="home_switcher">false</param>
         <param name="include_action">Object_Null</param>
+        <param name="lazy">false</param>
+        <param name="lazy_reached">true</param>
         <definition>
             <control type="group">
                 <height>1080</height>
                 <visible allowhiddenfocus="$PARAM[allowhiddenfocus]">$PARAM[visible]</visible>
-                <include content="$PARAM[include]">
+                <include content="Hub_Wall_Grid" condition="$EXP[Exp_Wall_TallTile__$PARAM[include]] + $EXP[Exp_Wall_CentredLabels__$PARAM[include]] + !Skin.HasSetting(View.HideWidgetLabels)">
                     <param name="id">$PARAM[id]</param>
-                    <param name="control">panel</param>
-                    <param name="orientation">vertical</param>
-                    <param name="offset_y">view_bar</param>
-                    <preloaditems>0</preloaditems>
-                    <top>290</top>
-                    <bottom>-view_bar</bottom>
-                    <onup>601</onup>
-                    <include>$PARAM[include_action]</include>
-                    <include>Hub_Grouplist_OnLeftRight</include>
-                    <onback condition="$EXP[Exp_Navigation_OnParent] + !Player.HasMedia">SetFocus($PARAM[id],0,absolute)</onback>
-                    <include content="Action_Widget_OnBack">
-                        <param name="id">$PARAM[id]</param>
-                        <param name="grouplistid">500</param>
-                        <param name="refocus">SetFocus(601)</param>
-                        <param name="enable">!Player.HasMedia</param>
-                    </include>
-
-                    <onback condition="Player.HasMedia">SetProperty(FullscreenRefocus,SetFocus($PARAM[id]))</onback>
-                    <onback condition="Player.HasMedia">309</onback>
-
-                    <ondown>ActivateWindow(1180)</ondown>
-                    <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PARAM[id])</onfocus>
-                    <onfocus>SetProperty(Background.ShowOverlay,True,Home)</onfocus>
-                    <onfocus condition="![$PARAM[home_switcher]]">ClearProperty(HomeSwitcher.IsVisible,Home)</onfocus>
-                    <onfocus condition="$PARAM[home_switcher]">SetProperty(HomeSwitcher.IsVisible,True,Home)</onfocus>
-                    <onfocus>SetProperty(InfoPanel.FullSwitch,Wall,Home)</onfocus>
-                    <content sortby="$PARAM[sortby]" sortorder="$PARAM[sortorder]" target="$PARAM[target]" limit="$PARAM[limit]" browse="$VAR[Defs_BrowseLimitedLists]">$PARAM[content]</content>
-                </include>
-                <include content="Widget_Busy">
-                    <param name="visible">Container($PARAM[id]).IsUpdating + Integer.IsEqual(Container($PARAM[id]).NumItems)</param>
                     <param name="include">$PARAM[include]</param>
-                    <top>250</top>
-                    <left>view_pad</left>
+                    <param name="content">$PARAM[content]</param>
+                    <param name="target">$PARAM[target]</param>
+                    <param name="sortby">$PARAM[sortby]</param>
+                    <param name="sortorder">$PARAM[sortorder]</param>
+                    <param name="limit">$PARAM[limit]</param>
+                    <param name="home_switcher">$PARAM[home_switcher]</param>
+                    <param name="include_action">$PARAM[include_action]</param>
+                    <param name="lazy">$PARAM[lazy]</param>
+                    <param name="lazy_reached">$PARAM[lazy_reached]</param>
+                    <param name="item_w">view_wall_labelled_item_w__$PARAM[include]</param>
+                    <param name="item_h">view_poster_labelled_item_h</param>
+                    <param name="labels_align">center</param>
+                    <param name="busy_include">$PARAM[include]_Labelled</param>
                 </include>
-                <include content="Widget_Busy">
-                    <param name="visible">Container($PARAM[id]).IsUpdating + Integer.IsEqual(Container($PARAM[id]).NumItems)</param>
+                <include content="Hub_Wall_Grid" condition="$EXP[Exp_Wall_TallTile__$PARAM[include]] + ![$EXP[Exp_Wall_CentredLabels__$PARAM[include]]] + !Skin.HasSetting(View.HideWidgetLabels)">
+                    <param name="id">$PARAM[id]</param>
                     <param name="include">$PARAM[include]</param>
-                    <top>600</top>
-                    <left>view_pad</left>
+                    <param name="content">$PARAM[content]</param>
+                    <param name="target">$PARAM[target]</param>
+                    <param name="sortby">$PARAM[sortby]</param>
+                    <param name="sortorder">$PARAM[sortorder]</param>
+                    <param name="limit">$PARAM[limit]</param>
+                    <param name="home_switcher">$PARAM[home_switcher]</param>
+                    <param name="include_action">$PARAM[include_action]</param>
+                    <param name="lazy">$PARAM[lazy]</param>
+                    <param name="lazy_reached">$PARAM[lazy_reached]</param>
+                    <param name="item_w">view_wall_labelled_item_w__$PARAM[include]</param>
+                    <param name="item_h">view_poster_labelled_item_h</param>
+                    <param name="labels_align">left</param>
+                    <param name="busy_include">$PARAM[include]_Labelled</param>
+                </include>
+                <include content="Hub_Wall_Grid" condition="![$EXP[Exp_Wall_TallTile__$PARAM[include]]] | Skin.HasSetting(View.HideWidgetLabels)">
+                    <param name="id">$PARAM[id]</param>
+                    <param name="include">$PARAM[include]</param>
+                    <param name="content">$PARAM[content]</param>
+                    <param name="target">$PARAM[target]</param>
+                    <param name="sortby">$PARAM[sortby]</param>
+                    <param name="sortorder">$PARAM[sortorder]</param>
+                    <param name="limit">$PARAM[limit]</param>
+                    <param name="home_switcher">$PARAM[home_switcher]</param>
+                    <param name="include_action">$PARAM[include_action]</param>
+                    <param name="lazy">$PARAM[lazy]</param>
+                    <param name="lazy_reached">$PARAM[lazy_reached]</param>
+                    <param name="labels_align">left</param>
+                    <param name="busy_include">$PARAM[include]</param>
                 </include>
             </control>
         </definition>
     </include>
 
+    <include name="Hub_Wall_Grid">
+        <include content="$PARAM[include]">
+            <param name="id">$PARAM[id]</param>
+            <param name="control">panel</param>
+            <param name="orientation">vertical</param>
+            <param name="offset_y">view_bar</param>
+            <param name="item_w">$PARAM[item_w]</param>
+            <param name="item_h">$PARAM[item_h]</param>
+            <param name="show_labels">true</param>
+            <param name="hide_labels">Skin.HasSetting(View.HideWidgetLabels)</param>
+            <param name="labels_align">$PARAM[labels_align]</param>
+            <preloaditems>0</preloaditems>
+            <top>290</top>
+            <bottom>-view_bar</bottom>
+            <onup>601</onup>
+            <include>$PARAM[include_action]</include>
+            <include>Hub_Grouplist_OnLeftRight</include>
+            <onback condition="$EXP[Exp_Navigation_OnParent] + !Player.HasMedia">SetFocus($PARAM[id],0,absolute)</onback>
+            <include content="Action_Widget_OnBack">
+                <param name="id">$PARAM[id]</param>
+                <param name="grouplistid">500</param>
+                <param name="refocus">SetFocus(601)</param>
+                <param name="enable">!Player.HasMedia</param>
+            </include>
+
+            <onback condition="Player.HasMedia">SetProperty(FullscreenRefocus,SetFocus($PARAM[id]))</onback>
+            <onback condition="Player.HasMedia">309</onback>
+
+            <ondown>ActivateWindow(1180)</ondown>
+            <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PARAM[id])</onfocus>
+            <onfocus>SetProperty(Background.ShowOverlay,True,Home)</onfocus>
+            <onfocus condition="![$PARAM[home_switcher]]">ClearProperty(HomeSwitcher.IsVisible,Home)</onfocus>
+            <onfocus condition="$PARAM[home_switcher]">SetProperty(HomeSwitcher.IsVisible,True,Home)</onfocus>
+            <onfocus>SetProperty(InfoPanel.FullSwitch,Wall,Home)</onfocus>
+            <include content="Hub_Lazy_Items" condition="$PARAM[lazy]">
+                <param name="id">$PARAM[id]</param>
+                <param name="reached">$PARAM[lazy_reached]</param>
+            </include>
+            <content sortby="$PARAM[sortby]" sortorder="$PARAM[sortorder]" target="$PARAM[target]" limit="$PARAM[limit]" browse="$VAR[Defs_BrowseLimitedLists]">$PARAM[content]</content>
+        </include>
+        <include content="Widget_Busy">
+            <param name="visible">Container($PARAM[id]).IsUpdating + Integer.IsEqual(Container($PARAM[id]).NumItems)</param>
+            <param name="include">$PARAM[busy_include]</param>
+            <top>250</top>
+            <left>view_pad</left>
+        </include>
+        <include content="Widget_Busy">
+            <param name="visible">Container($PARAM[id]).IsUpdating + Integer.IsEqual(Container($PARAM[id]).NumItems)</param>
+            <param name="include">$PARAM[busy_include]</param>
+            <top>600</top>
+            <left>view_pad</left>
+        </include>
+    </include>
+
+    <!-- Lazy Wall / Combined widget items, before the widget's <content>: the placeholder
+         until the widget is reached, then the empty marker if it loads without items. -->
+    <include name="Hub_Lazy_Items">
+        <include content="Widget_Lazy_Placeholder">
+            <param name="reached">$PARAM[reached]</param>
+        </include>
+        <include content="Widget_Lazy_Empty">
+            <param name="id">$PARAM[id]</param>
+        </include>
+    </include>
+
+    <!-- Combined mode widget. Lazy loading as in Hub_Wall_Widget (generated widgets, lazy=true). -->
     <include name="Hub_Combined_Widget">
         <param name="target">videos</param>
         <param name="include">List_Poster_Row</param>
         <param name="visible">true</param>
         <param name="allowhiddenfocus">false</param>
         <param name="autoscroll">false</param>
+        <param name="lazy">false</param>
+        <param name="lazy_reached">true</param>
         <definition>
             <include content="$PARAM[include]">
                 <param name="id">$PARAM[id]</param>
@@ -181,6 +271,10 @@
                 <onfocus>ClearProperty(Background.ShowOverlay,Home)</onfocus>
                 <onfocus>ClearProperty(HomeSwitcher.IsVisible,Home)</onfocus>
                 <onfocus>ClearProperty(InfoPanel.FullSwitch,Home)</onfocus>
+                <include content="Hub_Lazy_Items" condition="$PARAM[lazy]">
+                    <param name="id">$PARAM[id]</param>
+                    <param name="reached">$PARAM[lazy_reached]</param>
+                </include>
                 <content sortby="$PARAM[sortby]" sortorder="$PARAM[sortorder]" target="$PARAM[target]" limit="$PARAM[limit]" browse="$VAR[Defs_BrowseLimitedLists]">$PARAM[content]</content>
                 <visible allowhiddenfocus="$PARAM[allowhiddenfocus]">$PARAM[visible]</visible>
 

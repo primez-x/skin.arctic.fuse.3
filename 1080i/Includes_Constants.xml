@@ -105,17 +105,32 @@
     <constant name="view_poster_item_w">217.14</constant>
     <constant name="-view_poster_item_w">-217.14</constant>
     <constant name="view_poster_movement">6</constant>
-    <!-- Wall cells with labels below the tile: one rhythm step (view_bar) taller -->
-    <constant name="view_poster_labelled_itemlayout_h">390</constant>
-    <constant name="-view_poster_labelled_itemlayout_h">-390</constant>
+    <!-- Walls with labels below a tall tile (Poster, Circle, Board): the tile gives one rhythm
+         step (view_bar) of its height to the labels and keeps its aspect ratio, so the cell
+         (view_poster_itemlayout_h) and the rows per screen are the same with Text labels on
+         and Off. Taller cells would push the second row's labels below the screen.
+         Width per row include (looked up as view_wall_labelled_item_w__<include>). -->
+    <constant name="view_poster_labelled_item_h">270</constant>
+    <constant name="-view_poster_labelled_item_h">-270</constant>
+    <constant name="view_wall_labelled_item_w__List_Poster_Row">189.12</constant>
+    <constant name="view_wall_labelled_item_w__List_Circle_Row">270</constant>
+    <constant name="view_wall_labelled_item_w__List_Board_Row">487.74</constant>
 
     <constant name="view_poster_wall_details_w">540</constant>
     <constant name="view_poster_wall_grid_l">680</constant>
     <constant name="view_poster_wall_grid_r">100</constant>
     <constant name="view_poster_wall_itemlayout_h">330</constant>
     <constant name="-view_poster_wall_itemlayout_h">-330</constant>
-    <constant name="view_poster_wall_labelled_itemlayout_h">370</constant>
-    <constant name="-view_poster_wall_labelled_itemlayout_h">-370</constant>
+    <!-- View 515 grid: starts at view_poster_wall_grid_t and is exactly three cells plus the
+         tile inset tall, so three whole rows show and the fourth row is clipped instead of
+         peeking in at the bottom (52 + 3 x 330 + 18 = 1060). With Text labels on the tile gives
+         view_bar of its height to the labels (245 + 45 gap + 40 labels = 330), as on the walls. -->
+    <constant name="view_poster_wall_grid_t">52</constant>
+    <constant name="view_poster_wall_grid_h">1008</constant>
+    <constant name="view_poster_wall_labelled_item_h">245</constant>
+    <constant name="-view_poster_wall_labelled_item_h">-245</constant>
+    <constant name="view_poster_wall_labelled_item_w">171.93</constant>
+    <constant name="-view_poster_wall_labelled_item_w">-171.93</constant>
     <constant name="view_poster_wall_offset_x">14</constant>
     <constant name="-view_poster_wall_offset_x">-14</constant>
     <constant name="view_poster_wall_offset_y">18</constant>

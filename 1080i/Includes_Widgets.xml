@@ -138,7 +138,8 @@
         view_poster_itemlayout_h (350). Landscape and Square tiles are shorter and already
         have room for the labels in their cell, so they never get the spacer.
         labels_below is a row-level rule, because the spacer sits outside the list:
-          - the row style draws labels below the tile (Poster, Card, Circle, Banner, Board);
+          - the row style draws labels below the tile (Poster, Card, Circle, Banner, Board:
+            Exp_LabelsBelow__<include>, decided at load, see below);
           - Text labels is not Off;
           - the row is not detailed (detailed rows overlay their labels on the tile);
           - for Poster and Card rows, the row's first item is not cast or crew
@@ -150,12 +151,50 @@
     <include name="Widget_LabelsBelow_Spacer">
         <param name="detailed">false</param>
         <definition>
-            <control type="group">
+            <include content="Object_Control" condition="$EXP[Exp_LabelsBelow__$PARAM[include]]">
+                <param name="control">group</param>
                 <height>view_bar</height>
-                <visible>[[[String.IsEqual($PARAM[include],List_Poster_Row) | String.IsEqual($PARAM[include],List_Card_Row)] + !String.IsEqual(Container($PARAM[id]).ListItemAbsolute(0).DBType,actor) + !String.IsEqual(Container($PARAM[id]).ListItemAbsolute(0).DBType,video) + String.IsEmpty(Container($PARAM[id]).ListItemAbsolute(0).Property(role))] | String.IsEqual($PARAM[include],List_Circle_Row) | String.IsEqual($PARAM[include],List_Banner_Row) | String.IsEqual($PARAM[include],List_Board_Row)] + ![$PARAM[detailed]] + !Skin.HasSetting(View.HideWidgetLabels) + $PARAM[visible]</visible>
-            </control>
+                <visible>![$PARAM[detailed]] + !Skin.HasSetting(View.HideWidgetLabels) + $PARAM[visible]</visible>
+                <include content="Widget_LabelsBelow_CastCheck" condition="$EXP[Exp_LabelsBelow_CastCheck__$PARAM[include]]">
+                    <param name="id">$PARAM[id]</param>
+                </include>
+            </include>
         </definition>
     </include>
+    <include name="Widget_LabelsBelow_CastCheck">
+        <visible>!String.IsEqual(Container($PARAM[id]).ListItemAbsolute(0).DBType,actor) + !String.IsEqual(Container($PARAM[id]).ListItemAbsolute(0).DBType,video) + String.IsEmpty(Container($PARAM[id]).ListItemAbsolute(0).Property(role))</visible>
+    </include>
+
+    <!--
+        Tile style of a row include, decided when the window loads. String.IsEqual cannot
+        compare two literals (its first argument is resolved as an info label, so
+        String.IsEqual(List_Poster_Row,List_Poster_Row) is false), so the row include name
+        selects an expression instead: $EXP[Exp_LabelsBelow__$PARAM[include]]. A name with no
+        expression resolves to an empty condition, which an include condition treats as false.
+        Use them in include conditions only, and negate only the Exp_Wall_* ones, which are
+        defined for every row include a wall can use.
+          Exp_LabelsBelow__            tall tiles that draw their labels below the tile
+          Exp_LabelsBelow_CastCheck__  of those, the ones whose cast/crew tiles overlay labels
+          Exp_Wall_TallTile__          wall row includes whose tile gives view_bar to its labels
+          Exp_Wall_CentredLabels__     wall row includes with centred labels (Poster, Circle)
+    -->
+    <expression name="Exp_LabelsBelow__List_Poster_Row">true</expression>
+    <expression name="Exp_LabelsBelow__List_Card_Row">true</expression>
+    <expression name="Exp_LabelsBelow__List_Circle_Row">true</expression>
+    <expression name="Exp_LabelsBelow__List_Banner_Row">true</expression>
+    <expression name="Exp_LabelsBelow__List_Board_Row">true</expression>
+    <expression name="Exp_LabelsBelow_CastCheck__List_Poster_Row">true</expression>
+    <expression name="Exp_LabelsBelow_CastCheck__List_Card_Row">true</expression>
+    <expression name="Exp_Wall_TallTile__List_Poster_Row">true</expression>
+    <expression name="Exp_Wall_TallTile__List_Circle_Row">true</expression>
+    <expression name="Exp_Wall_TallTile__List_Board_Row">true</expression>
+    <expression name="Exp_Wall_TallTile__List_Landscape_Row">false</expression>
+    <expression name="Exp_Wall_TallTile__List_Square_Row">false</expression>
+    <expression name="Exp_Wall_CentredLabels__List_Poster_Row">true</expression>
+    <expression name="Exp_Wall_CentredLabels__List_Circle_Row">true</expression>
+    <expression name="Exp_Wall_CentredLabels__List_Board_Row">false</expression>
+    <expression name="Exp_Wall_CentredLabels__List_Landscape_Row">false</expression>
+    <expression name="Exp_Wall_CentredLabels__List_Square_Row">false</expression>
 
     <include name="Widget_End_Bumper">
         <param name="id">5097</param>
@@ -396,6 +435,59 @@
         <include>Widget_Busy_BlankItem_Poster</include>
         <include>Widget_Busy_BlankItem_Poster</include>
     </include>
+    <!-- Hub walls with labels on: the tall tiles give view_bar of their height to the labels
+         (view_poster_labelled_item_h), so their loading placeholders do too -->
+    <include name="Widget_Busy_BlankItem_Poster_Labelled">
+        <include content="Widget_Busy_BlankItem">
+            <param name="item_w">view_wall_labelled_item_w__List_Poster_Row</param>
+            <param name="item_h">view_poster_labelled_item_h</param>
+            <param name="itemlayout_w">view_poster_itemlayout_w</param>
+            <param name="itemlayout_h">view_poster_itemlayout_h</param>
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+        </include>
+    </include>
+    <include name="Widget_Busy_BlankItem_Circle_Labelled">
+        <include content="Widget_Busy_BlankItem">
+            <param name="item_w">view_wall_labelled_item_w__List_Circle_Row</param>
+            <param name="item_h">view_poster_labelled_item_h</param>
+            <param name="itemlayout_w">view_circle_itemlayout_w</param>
+            <param name="itemlayout_h">view_poster_itemlayout_h</param>
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="circle">true</param>
+        </include>
+    </include>
+    <include name="Widget_Busy_BlankItem_Board_Labelled">
+        <include content="Widget_Busy_BlankItem">
+            <param name="item_w">view_wall_labelled_item_w__List_Board_Row</param>
+            <param name="item_h">view_poster_labelled_item_h</param>
+            <param name="itemlayout_w">view_board_itemlayout_w</param>
+            <param name="itemlayout_h">view_poster_itemlayout_h</param>
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+        </include>
+    </include>
+    <include name="Widget_Busy_BlankItems__List_Poster_Row_Labelled">
+        <include>Widget_Busy_BlankItem_Poster_Labelled</include>
+        <include>Widget_Busy_BlankItem_Poster_Labelled</include>
+        <include>Widget_Busy_BlankItem_Poster_Labelled</include>
+        <include>Widget_Busy_BlankItem_Poster_Labelled</include>
+        <include>Widget_Busy_BlankItem_Poster_Labelled</include>
+        <include>Widget_Busy_BlankItem_Poster_Labelled</include>
+        <include>Widget_Busy_BlankItem_Poster_Labelled</include>
+    </include>
+    <include name="Widget_Busy_BlankItems__List_Circle_Row_Labelled">
+        <include>Widget_Busy_BlankItem_Circle_Labelled</include>
+        <include>Widget_Busy_BlankItem_Circle_Labelled</include>
+        <include>Widget_Busy_BlankItem_Circle_Labelled</include>
+        <include>Widget_Busy_BlankItem_Circle_Labelled</include>
+        <include>Widget_Busy_BlankItem_Circle_Labelled</include>
+        <include>Widget_Busy_BlankItem_Circle_Labelled</include>
+        <include>Widget_Busy_BlankItem_Circle_Labelled</include>
+    </include>
+    <include name="Widget_Busy_BlankItems__List_Board_Row_Labelled">
+        <include>Widget_Busy_BlankItem_Board_Labelled</include>
+        <include>Widget_Busy_BlankItem_Board_Labelled</include>
+        <include>Widget_Busy_BlankItem_Board_Labelled</include>
+    </include>
     <include name="Widget_Busy_BlankItems__List_Square_Row">
         <include>Widget_Busy_BlankItem_Square</include>
         <include>Widget_Busy_BlankItem_Square</include>
@@ -596,6 +688,27 @@
                 <label />
                 <property name="widget_lazy">true</property>
                 <visible>![$PARAM[reached]]</visible>
+            </item>
+        </content>
+    </include>
+
+    <!--
+        Lazy widget empty marker (generated Wall and Combined widgets). The selector (601)
+        hides a widget without items, which also stops it being a neighbour of the selected
+        widget; without a marker an empty widget would then lose its path, get the
+        placeholder back, reappear in the selector next to the selected widget, load again
+        and drop out again, in a loop. This item stands in for "loaded and empty": it shows
+        when the widget has finished loading with no items and then keeps itself (it is the
+        only item), so the widget stays reached and keeps its path, and the selector item
+        hides on it (widgets_selector.xmltemplate). Real items replace it; it never shows
+        while the widget is loading, so the busy placeholders still do.
+    -->
+    <include name="Widget_Lazy_Empty">
+        <content>
+            <item>
+                <label />
+                <property name="widget_lazy_empty">true</property>
+                <visible>!Container($PARAM[id]).IsUpdating + [Integer.IsEqual(Container($PARAM[id]).NumItems,0) | [Integer.IsEqual(Container($PARAM[id]).NumItems,1) + String.IsEqual(Container($PARAM[id]).ListItemAbsolute(0).Property(widget_lazy_empty),true)]]</visible>
             </item>
         </content>
     </include>

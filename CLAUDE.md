@@ -26,16 +26,20 @@ aliases: `view_offx` and `constant_dialog_pad` were folded into `view_pad` / `vi
 Every grid view defines `view_<type>_itemlayout_w/h` (the cell) and `view_<type>_item_w/h`
 (the visible item). The difference **is the gap**. For every view type this gap is **40** in
 both axes — the skin's canonical inter-item rhythm. Two exceptions:
-- `poster_wall` (View 515, 28×45 before labels) to fit extra columns beside the detail panel;
+- `poster_wall` (View 515, 28×45 with Text labels Off) to fit extra columns beside the detail panel;
 - **Circle** (`view_circle_itemlayout_w` 360 − item 310 = **50** horizontally) so five circles
   span the row; the vertical gap is still 40.
 `<itemgap>` is only for stacking controls inside one column.
 
 **Labels below the tile add one rhythm step.** Tall tiles (Poster, Card, Circle, Banner, Board:
-`item_h` = `view_poster_item_h`) leave only the 40px gap, so when labels are drawn below them the
-row/cell grows by `view_bar`: widget rows through `Widget_LabelsBelow_Spacer`, wall views through
-`view_poster_labelled_itemlayout_h` (390) and View 515 through
-`view_poster_wall_labelled_itemlayout_h` (370). Landscape and Square cells already fit labels.
+`item_h` = `view_poster_item_h`) leave only the 40px gap, so labels drawn below them need
+`view_bar` more. Widget rows (one row per widget, scrolled in a grouplist) grow by it through
+`Widget_LabelsBelow_Spacer`. Walls cannot grow (a taller cell pushes the next row's labels off
+the screen), so there the **tile gives `view_bar` of its height to the labels** and keeps its
+aspect ratio; cell, columns and rows per screen are the same with Text labels on and Off:
+library walls 512–514 and hub walls (`view_poster_labelled_item_h` 270, width
+`view_wall_labelled_item_w__<row include>`), View 515 (`view_poster_wall_labelled_item_h` 245 ×
+`_item_w` 171.93). Landscape and Square cells already fit labels.
 
 Canonical gap vocabulary (from real `<itemgap>` usage): `0, 8, 10, 12, 15, 20, 25, 37, 40, 80`.
 - `10` — tight inline rows (info badge lines, keyboard keys)
@@ -116,9 +120,32 @@ inside a vertical `grouplist` (`itemgap=0`, `top=-20`, `left=-40`, 20px spacer),
 - Cast/crew tiles (DBType actor/video, a `role`, or a `detailed` row) overlay their labels on
   the poster instead; the row spacer uses the same rule row-wide (see 1.1).
 - Loading placeholders (`Widget_Busy_BlankItem`) draw their label bars below the tile and follow
-  the same setting (Off none, Simple one, Detailed two).
+  the same setting (Off none, Simple one, Detailed two). Hub walls with labels on use the
+  `Widget_Busy_BlankItems__<row>_Labelled` sets, sized like their labelled tiles.
+- Hub walls (`Hub_Wall_Widget` → `Hub_Wall_Grid`) label like the library walls: Poster and Circle
+  centred, Board/Landscape/Square left.
+- **A row include is matched by expression name, never `String.IsEqual`.** Kodi resolves the
+  first argument of `String.IsEqual` as an info label, so `String.IsEqual(List_Poster_Row,List_Poster_Row)`
+  is false. Use `$EXP[Exp_<family>__$PARAM[include]]` in an include `condition` (an undefined
+  expression is an empty condition, i.e. false); the families live in `Includes_Widgets.xml`
+  (`Exp_LabelsBelow__`, `Exp_LabelsBelow_CastCheck__`, `Exp_Wall_TallTile__`,
+  `Exp_Wall_CentredLabels__`). Negate only families defined for every include they can see.
 
-### 1.5 Overlays
+### 1.5 Lazy widgets
+
+- **Standard mode:** rows after the third get their path through `$VAR[Widget_Lazy_Path_*]` once
+  `Widgets.Reached` (highest row index focused) is at least their index − 2.
+- **Wall and Combined modes:** every generated widget gets its path through
+  `$VAR[Widget_Lazy_Selector_Path_*]` while it or a neighbour (`ListItemNoWrap(±1)`) is selected in
+  selector 601, and keeps it once loaded (`widget_lazy_selector_reached`, `setup/widgets_lazy.xml`).
+  Until then `Widget_Lazy_Placeholder` keeps one item so 601 still lists it; a widget that loads
+  empty shows `Widget_Lazy_Empty`, a self-sustaining marker that keeps it reached and hides it from
+  601 (without it the empty widget would drop out, lose its path, come back and reload in a loop).
+- **Generator changes need a rebuild:** script.skinvariables only rebuilds the generated includes
+  when `shortcuts/skinvariables-generator.json` (or the profile / build marker) changes, not its
+  data files, so bump its `buildv` with any change under `shortcuts/generator/`.
+
+### 1.6 Overlays
 
 - **Next-item overlays share `Object_NextItem`** (`Includes_OSD.xml`): video `Custom_1143`
   (`shape=landscape`, `corner=left`) and music `Custom_1154` (`shape=square`, `corner=right`).
@@ -126,7 +153,7 @@ inside a vertical `grouplist` (`itemgap=0`, `top=-20`, `left=-40`, 20px spacer),
   `font_main` `panel_fg_70`, vertically centred on the tile (`aligny` on the grouplist, `align`
   on each label). `Furniture_NextTrack` uses the same header/title roles. No literal " - " joins.
 
-### 1.6 Layout / component patterns
+### 1.7 Layout / component patterns
 
 - **Reusable building blocks live in `Includes_Info.xml` (`Info_*`) and `Includes_Objects.xml`
   (`Object_*`).** `Includes_Layouts.xml` (`Layout_*`) are *item-layout* templates for
@@ -145,7 +172,7 @@ inside a vertical `grouplist` (`itemgap=0`, `top=-20`, `left=-40`, 20px spacer),
 - Views are `<include name="View_<id>_<Name>">` blocks, one per view ID. Wall views: 510 Square,
   511 Landscape, 512 Poster, 513 Circle, 514 Board, **515 Poster-Details** (this fork).
 - Standard wall views (510–514) share `<include content="View_Wall_Include">` (`Includes_Views_Wall.xml`),
-  which picks the cell height (`labels_below` + Text labels) and includes `View_Wall_Panel`, the
+  which picks the tile size (`labels_below` + Text labels) and includes `View_Wall_Panel`, the
   grid `panel` (id, `orientation=vertical`, `top=290`, `bottom=-view_bar`, `pagecontrol=66`).
 - **View 515 is intentionally not a `View_Wall_Include` consumer** — it renders a persistent
   left detail panel beside the grid, so it inlines the `List_Poster_Row` grid (`View_515_Grid`) with
@@ -158,9 +185,10 @@ inside a vertical `grouplist` (`itemgap=0`, `top=-20`, `left=-40`, 20px spacer),
   `Control.IsVisible(<id>)`. `viewtype label="$LOCALIZE[<id>]">wrap` sets the viewtype name.
 - **Constants for this view** (`Includes_Constants.xml`):
   `view_poster_wall_details_w=540`, `view_poster_wall_grid_l=680`, `view_poster_wall_grid_r=100`,
-  `view_poster_wall_item_w=200`, `_item_h=285`, `_itemlayout_w=228`, `_itemlayout_h=330`
-  (`_labelled_itemlayout_h=370` while Text labels is on), `_offset_x=14`, `_offset_y=18`,
-  `_indicator_inset=18`. Its tiles use `Layout_Labels` (centred); there is no separate wall label.
+  `view_poster_wall_item_w=200`, `_item_h=285` (`_labelled_item_w=171.93`, `_labelled_item_h=245`
+  while Text labels is on), `_itemlayout_w=228`, `_itemlayout_h=330`, `_offset_x=14`,
+  `_offset_y=18`, `_indicator_inset=18`, `_grid_t=52`, `_grid_h=1008` (3 cells + the 18 inset:
+  three whole rows, the fourth is clipped). Its tiles use `Layout_Labels` (centred); there is no separate wall label.
   The detail panel is `Info_Title` (`use_logo=false`) + two `Info_Line`s + genre as an
   `Info_Line_Label` + `Info_Plot` (`plotline_height` for the plotline/episode-header branch).
 - **Strings** (`language/resource.language.en_gb/strings.po`): msgctxt `31558` = view label.

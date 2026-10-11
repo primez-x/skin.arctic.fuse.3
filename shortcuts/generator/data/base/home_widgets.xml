@@ -41,5 +41,8 @@
         <item>
             <datafile>generator/data/base/home_widgets_lazy.xml</datafile>
         </item>
+        <item>
+            <datafile>generator/data/base/home_widgets_lazy_selector.xml</datafile>
+        </item>
     </items>
 </contents>

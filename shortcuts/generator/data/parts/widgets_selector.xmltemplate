@@ -5,5 +5,5 @@
     <property name="show_overlay">{show_overlay}</property>
     <property name="hide_overlay">{hide_overlay}</property>
     <onclick>ActivateWindow({widget_target},{widget_path},return)</onclick>
-    <visible>!Integer.IsEqual(Container({widget_id}).NumItems,0) | Container({widget_id}).IsUpdating</visible>
+    <visible>[!Integer.IsEqual(Container({widget_id}).NumItems,0) + !String.IsEqual(Container({widget_id}).ListItemAbsolute(0).Property(widget_lazy_empty),true)] | Container({widget_id}).IsUpdating</visible>
 </item>
