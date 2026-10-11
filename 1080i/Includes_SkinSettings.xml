@@ -225,8 +225,12 @@
             <param name="id">003</param>
             <param name="slevel">1</param>
             <label>$LOCALIZE[31292]</label>
-            <label2>$VAR[Label_Settings_TextViewMode]</label2>
-            <onclick>Skin.ToggleSetting(View.UseDetailedListLabels)</onclick>
+            <label2>$VAR[Label_Settings_TextLabels]</label2>
+            <!-- Simple -> Detailed -> Off (no labels under widgets; lists stay Simple) -> Simple -->
+            <onclick condition="!Skin.HasSetting(View.UseDetailedListLabels) + !Skin.HasSetting(View.HideWidgetLabels)">Skin.SetBool(View.UseDetailedListLabels)</onclick>
+            <onclick condition="Skin.HasSetting(View.UseDetailedListLabels)">Skin.Reset(View.UseDetailedListLabels)</onclick>
+            <onclick condition="Skin.HasSetting(View.UseDetailedListLabels)">Skin.SetBool(View.HideWidgetLabels)</onclick>
+            <onclick condition="Skin.HasSetting(View.HideWidgetLabels)">Skin.Reset(View.HideWidgetLabels)</onclick>
         </include>
 
         <include content="Settings_Button" description="CustomDialog Indicators">
@@ -1259,6 +1263,11 @@
         <value condition="Skin.String(Idle.ReturnToPlayer,Off)">$LOCALIZE[31623]</value>
         <value condition="!String.IsEmpty(Skin.String(Idle.ReturnToPlayer))">$INFO[Skin.String(Idle.ReturnToPlayer),,s]</value>
         <value>60s</value>
+    </variable>
+
+    <variable name="Label_Settings_TextLabels">
+        <value condition="Skin.HasSetting(View.HideWidgetLabels)">$LOCALIZE[31623]</value>
+        <value>$VAR[Label_Settings_TextViewMode]</value>
     </variable>
 
 </includes>

@@ -85,6 +85,8 @@
                 <param name="detailed">$PARAM[detailed]</param>
                 <!-- Poster rows label their items like landscape rows (title; Detailed adds a subtitle) -->
                 <param name="show_labels">true</param>
+                <!-- Text labels: Off hides the labels under every widget row -->
+                <param name="hide_labels">Skin.HasSetting(View.HideWidgetLabels)</param>
                 <param name="item_h">$PARAM[item_h]</param>
                 <param name="itemlayout_h">$PARAM[itemlayout_h]</param>
                 <param name="item_w">$PARAM[item_w]</param>
@@ -122,7 +124,7 @@
             <!-- Poster labels sit below the cell: one rhythm step more row space (a grouplist only counts visible controls) -->
             <control type="group">
                 <height>view_bar</height>
-                <visible>String.IsEqual($PARAM[include],List_Poster_Row) + $PARAM[visible] + [Container($PARAM[id]).IsUpdating | !Integer.IsEqual(Container($PARAM[id]).NumItems,0) | $PARAM[altvisible]]</visible>
+                <visible>String.IsEqual($PARAM[include],List_Poster_Row) + !Skin.HasSetting(View.HideWidgetLabels) + $PARAM[visible] + [Container($PARAM[id]).IsUpdating | !Integer.IsEqual(Container($PARAM[id]).NumItems,0) | $PARAM[altvisible]]</visible>
             </control>
         </definition>
     </include>

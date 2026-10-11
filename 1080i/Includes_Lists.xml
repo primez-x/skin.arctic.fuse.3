@@ -456,8 +456,10 @@
         <param name="indicator_top">0</param>
         <param name="indicator_right">25</param>
         <param name="indicator_use_top">false</param>
+        <param name="hide_labels">false</param>
         <definition>
             <include content="List_Core">
+                <param name="hide_labels">$PARAM[hide_labels]</param>
                 <param name="orientation">$PARAM[orientation]</param>
                 <param name="control">$PARAM[control]</param>
                 <param name="id">$PARAM[id]</param>
@@ -494,8 +496,10 @@
         <param name="itemlayout_h">view_poster_itemlayout_h</param>
         <param name="control">fixedlist</param>
         <param name="orientation">horizontal</param>
+        <param name="hide_labels">false</param>
         <definition>
             <include content="List_Core">
+                <param name="hide_labels">$PARAM[hide_labels]</param>
                 <param name="orientation">$PARAM[orientation]</param>
                 <param name="control">$PARAM[control]</param>
                 <param name="id">$PARAM[id]</param>
@@ -527,8 +531,10 @@
         <param name="itemlayout_h">view_poster_itemlayout_h</param>
         <param name="orientation">horizontal</param>
         <param name="control">fixedlist</param>
+        <param name="hide_labels">false</param>
         <definition>
             <include content="List_Core">
+                <param name="hide_labels">$PARAM[hide_labels]</param>
                 <param name="orientation">$PARAM[orientation]</param>
                 <param name="control">$PARAM[control]</param>
                 <param name="id">$PARAM[id]</param>
@@ -594,8 +600,10 @@
         <param name="orientation">horizontal</param>
         <param name="use_movement">true</param>
         <param name="control">fixedlist</param>
+        <param name="hide_labels">false</param>
         <definition>
             <include content="List_Core">
+                <param name="hide_labels">$PARAM[hide_labels]</param>
                 <param name="orientation">$PARAM[orientation]</param>
                 <param name="control">$PARAM[control]</param>
                 <param name="id">$PARAM[id]</param>
@@ -841,6 +849,7 @@
         <param name="hidden_button">List_Widget_Row_HiddenButton</param>
         <param name="show_wall_label">false</param>
         <param name="show_labels">false</param>
+        <param name="hide_labels">false</param>
         <param name="indicator_centerbottom">0</param>
         <param name="indicator_top">0</param>
         <param name="indicator_right">25</param>
@@ -880,6 +889,7 @@
                             <param name="use_label2">$PARAM[use_label2]</param>
                             <param name="show_wall_label">$PARAM[show_wall_label]</param>
                             <param name="show_labels">$PARAM[show_labels]</param>
+                            <param name="hide_labels">$PARAM[hide_labels]</param>
                             <param name="indicator_centerbottom">$PARAM[indicator_centerbottom]</param>
                             <param name="indicator_top">$PARAM[indicator_top]</param>
                             <param name="indicator_right">$PARAM[indicator_right]</param>
@@ -921,6 +931,7 @@
                             <param name="use_label2">$PARAM[use_label2]</param>
                             <param name="show_wall_label">$PARAM[show_wall_label]</param>
                             <param name="show_labels">$PARAM[show_labels]</param>
+                            <param name="hide_labels">$PARAM[hide_labels]</param>
                             <param name="indicator_centerbottom">$PARAM[indicator_centerbottom]</param>
                             <param name="indicator_top">$PARAM[indicator_top]</param>
                             <param name="indicator_right">$PARAM[indicator_right]</param>
@@ -948,6 +959,7 @@
                                 <param name="use_label2">$PARAM[use_label2]</param>
                                 <param name="show_wall_label">$PARAM[show_wall_label]</param>
                                 <param name="show_labels">$PARAM[show_labels]</param>
+                                <param name="hide_labels">$PARAM[hide_labels]</param>
                                 <param name="indicator_centerbottom">$PARAM[indicator_centerbottom]</param>
                                 <param name="indicator_top">$PARAM[indicator_top]</param>
                                 <param name="indicator_right">$PARAM[indicator_right]</param>
@@ -975,6 +987,7 @@
                                 <param name="use_label2">$PARAM[use_label2]</param>
                                 <param name="show_wall_label">$PARAM[show_wall_label]</param>
                                 <param name="show_labels">$PARAM[show_labels]</param>
+                                <param name="hide_labels">$PARAM[hide_labels]</param>
                                 <param name="indicator_centerbottom">$PARAM[indicator_centerbottom]</param>
                                 <param name="indicator_top">$PARAM[indicator_top]</param>
                                 <param name="indicator_right">$PARAM[indicator_right]</param>
