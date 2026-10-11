@@ -104,19 +104,33 @@ class StandardInfoPanelTests(unittest.TestCase):
         )
         self.assertNotIn("Mode),Standard)\">skinvariables-$PARAM[window]widgets-combined-info", text)
 
-    def test_menu_focus_still_shows_the_first_rows_item(self):
+    def test_menu_focus_shows_the_first_row_that_has_items(self):
+        # Row ids are 501 + the widget's index, so a disabled, blank or empty
+        # first widget leaves 501 without items; the menu panel must skip it.
         hubs = includes("Includes_Hubs.xml")
-        panels = hubs["Hub_Standard_Info"].findall("include")
-        fallback = [
-            panel for panel in panels
-            if panel.findtext("param[@name='container']") == "Container(501)."
-        ]
-        self.assertEqual(1, len(fallback))
-        visible = fallback[0].findtext("param[@name='visible']")
-        self.assertIn("!ControlGroup(602).HasFocus()", visible)
-        self.assertIn("Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),501)", visible)
+        root = ET.parse(SKIN_ROOT / "1080i" / "Includes_Hubs.xml").getroot()
+        panels = hubs["Hub_Standard_Info"].findall("include")[1:]
+        rows = list(range(501, 509))
+        self.assertEqual(
+            [f"Container({n})." for n in rows],
+            [panel.findtext("param[@name='container']") for panel in panels],
+        )
+        for n, panel in zip(rows, panels):
+            visible = panel.findtext("param[@name='visible']")
+            self.assertIn("!ControlGroup(602).HasFocus()", visible)
+            self.assertIn(f"$EXP[Exp_Hub_FirstRow_{n}]", visible)
+            expression = root.find(f"./expression[@name='Exp_Hub_FirstRow_{n}']").text
+            self.assertIn(f"Integer.IsGreater(Container({n}).NumItems,0)", expression)
+            for earlier in range(501, n):
+                self.assertIn(f"!Integer.IsGreater(Container({earlier}).NumItems,0)", expression)
+            # A missing row must count as empty: IsEqual(...,0) is false for it.
+            self.assertNotIn("Integer.IsEqual(Container(", expression)
 
         home = (SKIN_ROOT / "1080i" / "Includes_Home.xml").read_text(encoding="utf-8")
+        for n in rows:
+            self.assertIn(
+                f"$EXP[Exp_Hub_FirstRow_{n}]\">SetProperty(TMDbHelper.WidgetContainer,{n})</onfocus>", home
+            )
         self.assertIn(">SetProperty(TMDbHelper.WidgetContainer,501)</onfocus>", home)
 
 

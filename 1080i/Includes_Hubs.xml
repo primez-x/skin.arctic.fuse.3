@@ -281,8 +281,9 @@
         Container.ListItem follows the focused container of this window, so the
         panel tracks whichever row in grouplist 602 has focus (and keeps it while
         a dialog is open over the hub). While focus is outside the rows (main
-        menu) a second panel shows the first row's item; focusing the menu points
-        TMDbHelper.WidgetContainer back at that row (see Home_Control).
+        menu) a second panel shows the item of the first row that has items;
+        focusing the menu points TMDbHelper.WidgetContainer at that row (see
+        Home_Control).
     -->
     <include name="Hub_Standard_Info">
         <include content="Hub_Combined_Info_Panels">
@@ -291,9 +292,49 @@
         </include>
         <include content="Hub_Combined_Info_Panels">
             <param name="container">Container(501).</param>
-            <param name="visible">[!$EXP[Exp_InfoDialogs] + !ControlGroup(602).HasFocus() + Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),501)]</param>
+            <param name="visible">[!$EXP[Exp_InfoDialogs] + !ControlGroup(602).HasFocus() + !Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301) + $EXP[Exp_Hub_FirstRow_501]]</param>
+        </include>
+        <include content="Hub_Combined_Info_Panels">
+            <param name="container">Container(502).</param>
+            <param name="visible">[!$EXP[Exp_InfoDialogs] + !ControlGroup(602).HasFocus() + !Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301) + $EXP[Exp_Hub_FirstRow_502]]</param>
+        </include>
+        <include content="Hub_Combined_Info_Panels">
+            <param name="container">Container(503).</param>
+            <param name="visible">[!$EXP[Exp_InfoDialogs] + !ControlGroup(602).HasFocus() + !Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301) + $EXP[Exp_Hub_FirstRow_503]]</param>
+        </include>
+        <include content="Hub_Combined_Info_Panels">
+            <param name="container">Container(504).</param>
+            <param name="visible">[!$EXP[Exp_InfoDialogs] + !ControlGroup(602).HasFocus() + !Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301) + $EXP[Exp_Hub_FirstRow_504]]</param>
+        </include>
+        <include content="Hub_Combined_Info_Panels">
+            <param name="container">Container(505).</param>
+            <param name="visible">[!$EXP[Exp_InfoDialogs] + !ControlGroup(602).HasFocus() + !Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301) + $EXP[Exp_Hub_FirstRow_505]]</param>
+        </include>
+        <include content="Hub_Combined_Info_Panels">
+            <param name="container">Container(506).</param>
+            <param name="visible">[!$EXP[Exp_InfoDialogs] + !ControlGroup(602).HasFocus() + !Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301) + $EXP[Exp_Hub_FirstRow_506]]</param>
+        </include>
+        <include content="Hub_Combined_Info_Panels">
+            <param name="container">Container(507).</param>
+            <param name="visible">[!$EXP[Exp_InfoDialogs] + !ControlGroup(602).HasFocus() + !Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301) + $EXP[Exp_Hub_FirstRow_507]]</param>
+        </include>
+        <include content="Hub_Combined_Info_Panels">
+            <param name="container">Container(508).</param>
+            <param name="visible">[!$EXP[Exp_InfoDialogs] + !ControlGroup(602).HasFocus() + !Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),301) + $EXP[Exp_Hub_FirstRow_508]]</param>
         </include>
     </include>
+
+    <!-- First widget row with items. Row ids follow the widget list (501 + index), so a
+         disabled, blank or empty first widget leaves 501 without items. A missing
+         row is "not greater than 0" too, which IsEqual(...,0) would not match. -->
+    <expression name="Exp_Hub_FirstRow_501">[Integer.IsGreater(Container(501).NumItems,0)]</expression>
+    <expression name="Exp_Hub_FirstRow_502">[!Integer.IsGreater(Container(501).NumItems,0) + Integer.IsGreater(Container(502).NumItems,0)]</expression>
+    <expression name="Exp_Hub_FirstRow_503">[!Integer.IsGreater(Container(501).NumItems,0) + !Integer.IsGreater(Container(502).NumItems,0) + Integer.IsGreater(Container(503).NumItems,0)]</expression>
+    <expression name="Exp_Hub_FirstRow_504">[!Integer.IsGreater(Container(501).NumItems,0) + !Integer.IsGreater(Container(502).NumItems,0) + !Integer.IsGreater(Container(503).NumItems,0) + Integer.IsGreater(Container(504).NumItems,0)]</expression>
+    <expression name="Exp_Hub_FirstRow_505">[!Integer.IsGreater(Container(501).NumItems,0) + !Integer.IsGreater(Container(502).NumItems,0) + !Integer.IsGreater(Container(503).NumItems,0) + !Integer.IsGreater(Container(504).NumItems,0) + Integer.IsGreater(Container(505).NumItems,0)]</expression>
+    <expression name="Exp_Hub_FirstRow_506">[!Integer.IsGreater(Container(501).NumItems,0) + !Integer.IsGreater(Container(502).NumItems,0) + !Integer.IsGreater(Container(503).NumItems,0) + !Integer.IsGreater(Container(504).NumItems,0) + !Integer.IsGreater(Container(505).NumItems,0) + Integer.IsGreater(Container(506).NumItems,0)]</expression>
+    <expression name="Exp_Hub_FirstRow_507">[!Integer.IsGreater(Container(501).NumItems,0) + !Integer.IsGreater(Container(502).NumItems,0) + !Integer.IsGreater(Container(503).NumItems,0) + !Integer.IsGreater(Container(504).NumItems,0) + !Integer.IsGreater(Container(505).NumItems,0) + !Integer.IsGreater(Container(506).NumItems,0) + Integer.IsGreater(Container(507).NumItems,0)]</expression>
+    <expression name="Exp_Hub_FirstRow_508">[!Integer.IsGreater(Container(501).NumItems,0) + !Integer.IsGreater(Container(502).NumItems,0) + !Integer.IsGreater(Container(503).NumItems,0) + !Integer.IsGreater(Container(504).NumItems,0) + !Integer.IsGreater(Container(505).NumItems,0) + !Integer.IsGreater(Container(506).NumItems,0) + !Integer.IsGreater(Container(507).NumItems,0) + Integer.IsGreater(Container(508).NumItems,0)]</expression>
 
     <include name="Hub_Combined_Info_Panels">
         <definition>
@@ -1016,7 +1057,7 @@
             <property name="widget_id">$NUMBER[501]</property>
             <property name="show_overlay">true</property>
             <onclick>ActivateWindow(1161)</onclick>
-            <visible>!Integer.IsEqual(Container(501).NumItems,0) | Container(501).IsUpdating</visible>
+            <visible>!!Integer.IsGreater(Container(501).NumItems,0) | Container(501).IsUpdating</visible>
         </item>
         <item>
             <label>$LOCALIZE[1036]</label>
@@ -1024,7 +1065,7 @@
             <property name="widget_id">$NUMBER[502]</property>
             <property name="show_overlay">true</property>
             <onclick>ActivateWindow(1160)</onclick>
-            <visible>!Integer.IsEqual(Container(502).NumItems,0) | Container(502).IsUpdating</visible>
+            <visible>!!Integer.IsGreater(Container(502).NumItems,0) | Container(502).IsUpdating</visible>
         </item>
         <item>
             <label>$LOCALIZE[5]</label>
@@ -1032,7 +1073,7 @@
             <property name="widget_id">$NUMBER[503]</property>
             <property name="show_overlay">true</property>
             <onclick>ActivateWindow(settings)</onclick>
-            <visible>!Integer.IsEqual(Container(503).NumItems,0) | Container(503).IsUpdating</visible>
+            <visible>!!Integer.IsGreater(Container(503).NumItems,0) | Container(503).IsUpdating</visible>
         </item>
     </include>
 
