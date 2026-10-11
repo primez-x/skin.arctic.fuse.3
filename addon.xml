@@ -1,4 +1,4 @@
-<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.7.0">
+<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.7.1">
     <requires>
         <import addon="xbmc.gui" version="5.17.0" />
         <import addon="xbmc.python" version="3.0.0" />
@@ -35,7 +35,10 @@
         <license>Creative Commons Attribution Non-Commercial Share-Alike 4.0</license>
         <forum />
         <source>https://github.com/primez-x/skin.arctic.fuse.3</source>
-        <news>v3.7.0
+        <news>v3.7.1
+- No changes to the skin; this release only updates the developer build guide.
+
+v3.7.0
 - Skin settings, Text labels now has a third choice, Off: no labels under any widget for an artwork-only look (poster rows also drop their extra label space). Simple shows titles and Detailed shows titles with a subtitle. Takes effect after Home or the hub reloads.
 
 v3.6.1
