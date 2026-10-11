@@ -1,9 +1,9 @@
 # skin.arctic.fuse.3 — Design Principles & Build Guide
 
 Reverse-engineered from the upstream skin (jurialmunkey/skin.arctic.fuse.3) on 2026-06-19.
-These are the rules the skin enforces. New views/panels must match them or the upstream
-maintainer will reject them (see rejected PR #285: "breaks spacing requirements, consistency
-in info displays, labeling style").
+This is an independent fork: upstream is not the reference and nothing here is meant for
+upstream PRs. The rules below are kept because they make the skin consistent, not to match
+upstream. Where upstream is inconsistent, fix it here in favour of the consistent pattern.
 
 Target runtime: **CoreELEC 21.3 (Kodi Omega)**. Resolution baseline **1080i** (`1080i/`).
 
@@ -162,6 +162,6 @@ Sourced from `Info_Panel` + `Includes_DialogInfo.xml`. When building any detail 
   `SetProperty(Background.ShowOverlay,True,Home)`, `SetProperty(InfoPanel.FullSwitch,Wall,Home)`.
 - **Validation:** `python3 -c "import xml.etree.ElementTree as ET; ET.parse('1080i/Includes_Views_Wall.xml')"`
   (Kodi resolves includes/constants at runtime; stdlib parse catches unclosed tags / bad nesting).
-- **Do not edit** upstream `Includes_Info.xml`, `Includes_Constants.xml`, `Includes_Font.xml`,
-  `Includes_Labels.xml`, `Includes_Objects.xml`, or `strings.po` in this fork unless unavoidable —
-  extend by *calling* existing includes, not by modifying them.
+- Upstream files (`Includes_Info.xml`, `Includes_Constants.xml`, `Includes_Font.xml`,
+  `Includes_Labels.xml`, `Includes_Objects.xml`, `strings.po`, …) may be edited freely.
+  Prefer extending shared includes over copying them, so a fix lands everywhere at once.
