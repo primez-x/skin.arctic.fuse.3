@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Next Track outside the music visualisation (which includes it itself). Modeless and
+     without focusable controls, so it never takes navigation or clicks. -->
+<window type="dialog" id="1155">
+    <visible>!String.IsEmpty(Window(Home).Property(NextTrack.IsVisible)) + !Window.IsActive(MusicVisualisation.xml) + !Window.IsActive(fullscreenvideo)</visible>
+    <controls>
+        <include>Furniture_NextTrack</include>
+    </controls>
+</window>
