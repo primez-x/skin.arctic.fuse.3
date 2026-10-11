@@ -1,4 +1,4 @@
-<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.7.1">
+<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.8.0">
     <requires>
         <import addon="xbmc.gui" version="5.17.0" />
         <import addon="xbmc.python" version="3.0.0" />
@@ -35,7 +35,15 @@
         <license>Creative Commons Attribution Non-Commercial Share-Alike 4.0</license>
         <forum />
         <source>https://github.com/primez-x/skin.arctic.fuse.3</source>
-        <news>v3.7.1
+        <news>v3.8.0
+- Every widget style now shows titles under its tiles: circle, card, banner and board rows join poster, landscape and square. Skin settings, Text labels (Off, Simple, Detailed) applies to all of them, and loading placeholders follow it too.
+- Library views label their tiles the same way: poster, circle and board walls and rows, and the Poster Wall Details view (centred titles). Walls with titles under the tile get a little taller rows; Text labels Off restores the old spacing.
+- Cast and crew rows no longer leave an empty gap under the posters.
+- Poster tiles show the watched-progress line like the other tile styles.
+- The Poster Wall Details side panel, the music OSD title and the next-item previews (video and music) now use the same title, info line and plot styles as the rest of the skin.
+- Up next previews: no more stray bullets or dashes, "Up next in 12s" on the Next Track overlay, and the video preview shows the premiere date instead of a raw rating.
+- Episode numbers are zero-padded everywhere (1x05), "Ends at" and the watched-episodes wording are the same everywhere, and channel, stream and duration details read the same in every dialog.
+
 - No changes to the skin; this release only updates the developer build guide.
 
 v3.7.0
