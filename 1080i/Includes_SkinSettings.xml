@@ -585,6 +585,20 @@
             <selected>!Skin.HasSetting(Background.DisableVideo)</selected>
             <onclick>Skin.ToggleSetting(Background.DisableVideo)</onclick>
         </include>
+        <include content="Settings_Button" description="Return to playback when idle">
+            <param name="dialog">false</param>
+            <param name="window">skinsettings</param>
+            <param name="baseid">$PARAM[baseid]</param>
+            <param name="id">017</param>
+            <param name="control">button</param>
+            <label>$LOCALIZE[31992]</label>
+            <label2>$VAR[Label_Setting_IdleReturnToPlayer]</label2>
+            <onclick condition="Skin.String(Idle.ReturnToPlayer,30)">Skin.Reset(Idle.ReturnToPlayer)</onclick>
+            <onclick condition="String.IsEmpty(Skin.String(Idle.ReturnToPlayer))">Skin.SetString(Idle.ReturnToPlayer,120)</onclick>
+            <onclick condition="Skin.String(Idle.ReturnToPlayer,120)">Skin.SetString(Idle.ReturnToPlayer,300)</onclick>
+            <onclick condition="Skin.String(Idle.ReturnToPlayer,300)">Skin.SetString(Idle.ReturnToPlayer,Off)</onclick>
+            <onclick condition="Skin.String(Idle.ReturnToPlayer,Off)">Skin.SetString(Idle.ReturnToPlayer,30)</onclick>
+        </include>
     </include>
 
     <!-- Details -->
@@ -1240,5 +1254,11 @@
             <visible>Container(10000).HasFocus($PARAM[baseid])</visible>
         </control>
     </include>
+
+    <variable name="Label_Setting_IdleReturnToPlayer">
+        <value condition="Skin.String(Idle.ReturnToPlayer,Off)">$LOCALIZE[31623]</value>
+        <value condition="!String.IsEmpty(Skin.String(Idle.ReturnToPlayer))">$INFO[Skin.String(Idle.ReturnToPlayer),,s]</value>
+        <value>60s</value>
+    </variable>
 
 </includes>

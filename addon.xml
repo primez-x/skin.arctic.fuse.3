@@ -1,4 +1,4 @@
-<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.4.0">
+<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.5.0">
     <requires>
         <import addon="xbmc.gui" version="5.17.0" />
         <import addon="xbmc.python" version="3.0.0" />
@@ -35,7 +35,10 @@
         <license>Creative Commons Attribution Non-Commercial Share-Alike 4.0</license>
         <forum />
         <source>https://github.com/primez-x/skin.arctic.fuse.3</source>
-        <news>v3.4.0
+        <news>v3.5.0
+- While music or a video plays, the menus now step aside after 60 seconds without input and bring the playback back to fullscreen, so a menu never stays on screen for hours (kinder to OLED screens). Change the delay or turn it off in Skin settings, Playback. It never interrupts typing, settings, questions or a running task.
+
+v3.4.0
 - Next Track now shows its upcoming-track overlay on every screen, not only the music visualisation. It is display only: menus, navigation and buttons keep working underneath it.
 - Fix trailers playing behind the info screen: starting a trailer now closes the info dialog so the trailer plays fullscreen on top.
 

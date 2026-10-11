@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Brings playing media back to fullscreen after a period without input, so a menu
+     never sits on screen for hours (and on OLEDs works as a screensaver). Opens modeless
+     through its visible condition and has no controls, so it never takes input. -->
+<window type="dialog" id="1156">
+    <visible>Player.HasMedia + !Player.HasGame + !Skin.String(Idle.ReturnToPlayer,Off) + $EXP[Exp_IdleReturnToPlayer_Due] + !$EXP[Exp_IdleReturnToPlayer_Blocked]</visible>
+    <!-- Modal dialogs (info, context menu) refuse the window switch, so close them first -->
+    <onload>Dialog.Close(all,true)</onload>
+    <onload condition="Player.HasVideo">ActivateWindow(fullscreenvideo)</onload>
+    <onload condition="!Player.HasVideo">ActivateWindow(visualisation)</onload>
+    <controls />
+</window>

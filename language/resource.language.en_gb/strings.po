@@ -2444,3 +2444,8 @@ msgstr ""
 msgctxt "#31991"
 msgid "Remove from Watchlist"
 msgstr ""
+
+#: /1080i/Includes_SkinSettings.xml
+msgctxt "#31992"
+msgid "Return to playback when idle"
+msgstr ""
