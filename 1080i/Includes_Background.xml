@@ -207,7 +207,9 @@
     </include>
 
     <include name="Background_Main_Overlay">
-        <include condition="System.HasAddon(resource.images.arctic.waves)">Background_BusyLoader</include>
+        <!-- resource:// only resolves enabled add-ons: a disabled (installed) one logged
+             "GetDirectory - Error getting resource://resource.images.arctic.waves/" on every busy dialog -->
+        <include condition="System.AddonIsEnabled(resource.images.arctic.waves)">Background_BusyLoader</include>
         <control type="image">
             <texture colordiffuse="$VAR[ColorBackground]">special://skin/extras/backgrounds/overlay/combined_flixart.png</texture>
         </control>
