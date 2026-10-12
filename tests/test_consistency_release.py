@@ -32,6 +32,125 @@ def _constants():
     return {c.get("name"): c.text for c in _root("Includes_Constants.xml").iter("constant")}
 
 
+# Geometry of a view, resolved the way Kodi expands includes: a <param> whose whole value is
+# an undefined $PARAM is dropped so the include's default applies; constants become numbers.
+_PARAM = re.compile(r"\$PARAM\[(\w+)\]")
+_ALL_INCLUDES = {}
+
+
+def _includes():
+    if not _ALL_INCLUDES:
+        for path in SKIN.glob("Includes*.xml"):
+            for node in ET.parse(path).getroot().findall("include"):
+                if node.get("name"):
+                    _ALL_INCLUDES.setdefault(node.get("name"), node)
+    return _ALL_INCLUDES
+
+
+def _number(value, constants):
+    value = value.strip()
+    return float(constants.get(value, value))
+
+
+def _resolve(text, params):
+    return _PARAM.sub(lambda m: params.get(m.group(1), ""), text or "")
+
+
+def _call_params(call, params):
+    """The params an include call passes, resolved against the caller's params."""
+    passed = {}
+    for param in call.findall("param"):
+        whole = _PARAM.fullmatch((param.text or "").strip())
+        if whole and whole.group(1) not in params:
+            continue
+        passed[param.get("name")] = _resolve(param.text, params)
+    return passed
+
+
+def _with_defaults(name, passed):
+    params = {p.get("name"): (p.text or "") for p in _includes()[name].findall("param")}
+    params.update(passed)
+    return params
+
+
+def _condition(text, params, labels_off):
+    expressions = {e.get("name"): e.text for e in _root("Includes_Widgets.xml").findall("expression")}
+    expr = re.sub(r"\$EXP\[(\w+)\]", lambda m: expressions.get(m.group(1), "false"), _resolve(text, params))
+    expr = expr.replace("Skin.HasSetting(View.HideWidgetLabels)", str(labels_off).lower())
+    expr = expr.replace("[", "(").replace("]", ")").replace("!", " not ").replace("+", " and ").replace("|", " or ")
+    return eval(expr.replace("true", "True").replace("false", "False"), {"__builtins__": {}})
+
+
+def _footer_top(constants):
+    bar = _include("Includes_Dimensions.xml", "Dimension_Bottombar")
+    furniture = _include("Includes_Dimensions.xml", "Dimension_Furniture")
+    return 1080 - _number(bar.findtext("bottom"), constants) - _number(furniture.findtext("height"), constants)
+
+
+def _labels_block(layout, params, labels_off):
+    """(top offset below the tile, height) of the label block a tile layout draws below
+    itself, or None when its condition hides it."""
+    definition = _includes()[layout].find("definition")
+    parents = {child: parent for parent in definition.iter() for child in parent}
+    for call in definition.iter("include"):
+        if call.get("content") != "Layout_Labels" or call.findtext("param[@name='top']") != "10":
+            continue
+        conditions = [call.get("condition")]
+        parent = parents.get(call)
+        if parent is not None and parent.tag == "include":
+            conditions.append(parent.get("condition"))
+        if all(_condition(c, params, labels_off) for c in conditions if c):
+            block = next(g for g in _includes()["Layout_Labels"].iter("control") if g.findtext("top") == "$PARAM[top]")
+            return 10, float(block.findtext("height"))
+        return None
+    return None
+
+
+def _row_calls(name, params, labels_off):
+    """The calls of the view's row include (List_*_Row) that the view template expands to."""
+    node = _includes()[name]
+    body = node.find("definition") if node.find("definition") is not None else node
+    for call in body.iter("include"):
+        if call.get("condition") and not _condition(call.get("condition"), params, labels_off):
+            continue
+        content = _resolve(call.get("content"), params)
+        if content == params.get("include"):
+            yield call, params
+        elif content.startswith("View_") and content in _includes():
+            yield from _row_calls(content, _with_defaults(content, _call_params(call, params)), labels_off)
+
+
+def _view_tile_bottoms(call, labels_off, constants):
+    """Yield (bottom, what) for each tile layout a row or combined view draws: the label
+    block's bottom when it is shown, the tile's otherwise."""
+    template = call.get("content")
+    for row_call, params in _row_calls(template, _with_defaults(template, _call_params(call, {})), labels_off):
+        top = _number(row_call.findtext("top"), constants)
+        row_name = params["include"]
+        row = _with_defaults(row_name, _call_params(row_call, params))
+        definition = _includes()[row_name].find("definition")
+        core = definition.find("include[@content='List_Core']")
+        core_params = _with_defaults("List_Core", _call_params(core, row))
+        layout = core_params["itemlayout_include"]
+        tiles = [(layout, _with_defaults(layout, _call_params_from(core_params)), core_params)]
+        for node in definition.iter("include"):
+            content = _resolve(node.get("content"), row)
+            if content.startswith("Layout_") and content in _includes():
+                tiles.append((content, _with_defaults(content, _call_params(node, row)), row))
+        for layout, layout_params, offsets in tiles:
+            tile_bottom = top + _number(offsets["offset_y"], constants) + _number(layout_params["item_h"], constants)
+            block = _labels_block(layout, layout_params, labels_off)
+            if block:
+                yield tile_bottom + block[0] + block[1], f"{row_name} {layout} labels"
+            else:
+                yield tile_bottom, f"{row_name} {layout} tile"
+
+
+def _call_params_from(params):
+    """List_Core passes its own params on to the item layout under the same names."""
+    return {k: v for k, v in params.items() if not _PARAM.fullmatch(v.strip())}
+
+
 TALL_ROWS = ("List_Poster_Row", "List_Card_Row", "List_Circle_Row", "List_Banner_Row", "List_Board_Row")
 SHORT_ROWS = ("List_Landscape_Row", "List_Square_Row")
 
@@ -156,18 +275,43 @@ class ViewLabelTests(unittest.TestCase):
             self.assertEqual("Skin.HasSetting(View.HideWidgetLabels)", call.findtext("param[@name='hide_labels']"))
         self.assertEqual("center", grid.findtext(".//param[@name='labels_align']"))
 
-    def test_row_view_labels_clear_the_footer(self):
+    def test_view_labels_clear_the_footer(self):
         # The label block under a tall row view tile ended at 990, inside the item-count
-        # footer bar (960-1000), so two-line titles ran into it.
+        # footer bar (960-1000), so two-line titles ran into it (3.8.2: View 502; 3.8.3: the
+        # Card row, View 505). Every view drawn under that footer is checked with Text labels
+        # on and Off, from the includes and constants Kodi resolves.
         constants = _constants()
-        pad, bar = float(constants["view_pad"]), float(constants["view_bar"])
-        labelled = _include("Includes_Views_Row.xml", "View_Row_Include").find(
-            ".//include[@content='View_Row_List'][@condition]")
-        self.assertIn("Exp_Wall_TallTile__", labelled.get("condition"))
-        self.assertEqual("view_poster_labelled_item_h", labelled.findtext("param[@name='item_h']"))
-        labels_end = (float(constants["view_row"]) + pad
-                      + float(constants["view_poster_labelled_item_h"]) + 10 + 80)
-        self.assertLessEqual(labels_end, 1080 - pad - bar)
+        footer_top = _footer_top(constants)
+        views = [(f"View_{i}", "Includes_Views_Row.xml", "View_Row_Include") for i in range(500, 506)]
+        views += [(f"View_{i}", "Includes_Views_Combined.xml", "View_Combined_Row") for i in range(520, 525)]
+        checked = set()
+        for prefix, file_name, template in views:
+            root = _root(file_name)
+            view = next(n for n in root.findall("include") if n.get("name").startswith(prefix + "_"))
+            call = view.find(f"include[@content='{template}']")
+            self.assertIsNotNone(call, view.get("name"))
+            for labels_off in (False, True):
+                for bottom, what in _view_tile_bottoms(call, labels_off, constants):
+                    checked.add(view.get("name"))
+                    with self.subTest(view=view.get("name"), labels_off=labels_off, what=what):
+                        self.assertLessEqual(bottom, footer_top)
+        self.assertEqual(11, len(checked))
+
+    def test_views_without_the_footer_are_exempt_by_rule(self):
+        # Walls (510-515) hide the item-count footer; list views end at Dimension_Info's bottom.
+        constants = _constants()
+        main = _include("Includes_Views.xml", "View_Main")
+        footer = next(g for g in main.iter("control") if g.find("include") is not None
+                      and g.find("include").text == "Furniture_Footer_Left")
+        self.assertEqual("!$EXP[View_Mode_Wall_Expression]", footer.findtext("visible"))
+        walls = next(e.text for e in _root("Includes_Views.xml").findall("expression")
+                     if e.get("name") == "View_Mode_Wall_Expression")
+        for view in range(510, 516):
+            self.assertIn(f"$EXP[Exp_View_{view}]", walls)
+        for view in list(range(500, 510)) + list(range(520, 529)) + [549]:
+            self.assertNotIn(f"$EXP[Exp_View_{view}]", walls)
+        info = _include("Includes_Dimensions.xml", "Dimension_Info")
+        self.assertLessEqual(1080 - _number(info.findtext("bottom"), constants), _footer_top(constants))
 
     def test_tall_wall_tiles_give_one_rhythm_step_to_their_labels(self):
         # Taller cells (3.8.0: 390) pushed the second wall row's labels below the screen;
@@ -184,6 +328,7 @@ class ViewLabelTests(unittest.TestCase):
             ("List_Poster_Row", "view_poster_item_w", "view_poster_item_h"),
             ("List_Circle_Row", "view_poster_item_h", "view_poster_item_h"),
             ("List_Board_Row", "view_board_item_w", "view_poster_item_h"),
+            ("List_Card_Row", "view_card_item_w", "view_poster_item_h"),
         ):
             ratio = float(constants[width]) / float(constants[height])
             labelled = float(constants[f"view_wall_labelled_item_w__{row}"]) / float(constants["view_poster_labelled_item_h"])

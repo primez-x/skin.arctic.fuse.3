@@ -1,4 +1,4 @@
-<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.8.2">
+<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.8.3">
     <requires>
         <import addon="xbmc.gui" version="5.17.0" />
         <import addon="xbmc.python" version="3.0.0" />
@@ -35,7 +35,10 @@
         <license>Creative Commons Attribution Non-Commercial Share-Alike 4.0</license>
         <forum />
         <source>https://github.com/primez-x/skin.arctic.fuse.3</source>
-        <news>v3.8.2
+        <news>v3.8.3
+- The card row view no longer draws the "N items" footer over the titles under its tiles: with titles on, the card and the posters beside it get a little smaller, as in the other row views.
+
+v3.8.2
 - Row views (poster, circle and board rows, such as Sets) no longer draw the "N items" footer over the second line of the first tile's title: with titles on, the tiles get a little smaller, as on the walls.
 
 v3.8.1

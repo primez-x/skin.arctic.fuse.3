@@ -190,12 +190,13 @@
     <expression name="Exp_Wall_TallTile__List_Board_Row">true</expression>
     <expression name="Exp_Wall_TallTile__List_Landscape_Row">false</expression>
     <expression name="Exp_Wall_TallTile__List_Square_Row">false</expression>
-    <expression name="Exp_Wall_TallTile__List_Card_Row">false</expression>
+    <expression name="Exp_Wall_TallTile__List_Card_Row">true</expression>
     <expression name="Exp_Wall_CentredLabels__List_Poster_Row">true</expression>
     <expression name="Exp_Wall_CentredLabels__List_Circle_Row">true</expression>
     <expression name="Exp_Wall_CentredLabels__List_Board_Row">false</expression>
     <expression name="Exp_Wall_CentredLabels__List_Landscape_Row">false</expression>
     <expression name="Exp_Wall_CentredLabels__List_Square_Row">false</expression>
+    <expression name="Exp_Wall_CentredLabels__List_Card_Row">false</expression>
 
     <include name="Widget_End_Bumper">
         <param name="id">5097</param>

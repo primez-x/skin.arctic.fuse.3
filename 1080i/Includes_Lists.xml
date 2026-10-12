@@ -300,6 +300,8 @@
         <param name="offset_y">view_pad</param>
         <param name="item_w">view_card_item_w</param>
         <param name="item_h">view_poster_item_h</param>
+        <!-- The posters either side of the focused card share its height (item_h) -->
+        <param name="poster_item_w">view_poster_item_w</param>
         <param name="itemlayout_w">view_card_itemlayout_w</param>
         <param name="itemlayout_h">view_poster_itemlayout_h</param>
         <param name="itemlayout_include">Layout_Card</param>
@@ -317,8 +319,8 @@
                 <param name="show_labels">$PARAM[show_labels]</param>
                 <param name="hide_labels">$PARAM[hide_labels]</param>
 
-                <param name="item_w">view_poster_item_w</param>
-                <param name="item_h">view_poster_item_h</param>
+                <param name="item_w">$PARAM[poster_item_w]</param>
+                <param name="item_h">$PARAM[item_h]</param>
                 <param name="itemlayout_w">view_poster_itemlayout_w</param>
                 <param name="itemlayout_h">view_poster_itemlayout_h</param>
                 <param name="itemlayout_include">Layout_Poster</param>

@@ -105,7 +105,8 @@
     <constant name="view_poster_item_w">217.14</constant>
     <constant name="-view_poster_item_w">-217.14</constant>
     <constant name="view_poster_movement">6</constant>
-    <!-- Walls with labels below a tall tile (Poster, Circle, Board): the tile gives one rhythm
+    <!-- Walls and row views with labels below a tall tile (Poster, Circle, Board; Card in the
+         row view, whose posters use the Poster width): the tile gives one rhythm
          step (view_bar) of its height to the labels and keeps its aspect ratio, so the cell
          (view_poster_itemlayout_h) and the rows per screen are the same with Text labels on
          and Off. Taller cells would push the second row's labels below the screen.
@@ -115,6 +116,7 @@
     <constant name="view_wall_labelled_item_w__List_Poster_Row">189.12</constant>
     <constant name="view_wall_labelled_item_w__List_Circle_Row">270</constant>
     <constant name="view_wall_labelled_item_w__List_Board_Row">487.74</constant>
+    <constant name="view_wall_labelled_item_w__List_Card_Row">637.04</constant>
 
     <constant name="view_poster_wall_details_w">540</constant>
     <constant name="view_poster_wall_grid_l">680</constant>
