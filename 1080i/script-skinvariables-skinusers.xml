@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<includes>
+    <!--
+        script.skinvariables writes this file when a skin user logs in, pointing at that
+        user's generated includes (shortcuts/skinvariables-skinusers.xmltemplate). An install
+        or update removes it, so this packaged stand-in points at the default stand-ins until
+        then; service.py restores the logged-in user's file after an update.
+    -->
+    <include file="script-skinvariables-generator-includes-.xml" />
+</includes>

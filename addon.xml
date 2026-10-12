@@ -1,4 +1,4 @@
-<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.8.5">
+<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.8.6">
     <requires>
         <import addon="xbmc.gui" version="5.17.0" />
         <import addon="xbmc.python" version="3.0.0" />
@@ -35,7 +35,13 @@
         <license>Creative Commons Attribution Non-Commercial Share-Alike 4.0</license>
         <forum />
         <source>https://github.com/primez-x/skin.arctic.fuse.3</source>
-        <news>v3.8.5
+        <news>v3.8.6
+- Card row view with titles on: the posters beside the card keep their shape, and the card keeps the usual gap to the next poster.
+- Combined widgets on hubs and in search follow Text labels (Off hides square and landscape titles), and their loading placeholders draw title bars only where the row has titles.
+- Skin users keep their menus and widgets after a skin update instead of losing them until the next login.
+- With the weather fanart pack installed but disabled, the weather screens no longer try to read it and log "GetDirectory - Error getting resource://...".
+
+v3.8.5
 - The first start after installing or updating the skin no longer logs "Skin has invalid include" and "GetDirectory - Error getting include": until the menus and widgets are built, the skin ships empty stand-ins for them.
 - With the Arctic Waves (or weather fanart) image pack installed but disabled, the busy animation and the start-up images no longer try to read it and log "GetDirectory - Error getting resource://...".
 

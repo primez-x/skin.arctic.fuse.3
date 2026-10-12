@@ -251,8 +251,11 @@
         <param name="lazy">false</param>
         <param name="lazy_reached">true</param>
         <definition>
+            <!-- As the combined row views: Text labels Off hides the Square and Landscape titles;
+                 tall tiles carry no titles here, so their placeholders draw no label bars -->
             <include content="$PARAM[include]">
                 <param name="id">$PARAM[id]</param>
+                <param name="hide_labels">Skin.HasSetting(View.HideWidgetLabels)</param>
                 <top>510</top>
                 <bottom>-40</bottom>
                 <onup>601</onup>
@@ -283,7 +286,14 @@
                 </include>
 
             </include>
-            <include content="Widget_Busy">
+            <include content="Widget_Busy" condition="$EXP[Exp_Wall_TallTile__$PARAM[include]]">
+                <param name="visible">Container($PARAM[id]).IsUpdating + Integer.IsEqual(Container($PARAM[id]).NumItems)</param>
+                <param name="include">$PARAM[include]_Unlabelled</param>
+                <top>510</top>
+                <left>view_pad</left>
+                <visible>$PARAM[visible]</visible>
+            </include>
+            <include content="Widget_Busy" condition="![$EXP[Exp_Wall_TallTile__$PARAM[include]]]">
                 <param name="visible">Container($PARAM[id]).IsUpdating + Integer.IsEqual(Container($PARAM[id]).NumItems)</param>
                 <param name="include">$PARAM[include]</param>
                 <top>510</top>

@@ -117,6 +117,9 @@
     <constant name="view_wall_labelled_item_w__List_Circle_Row">270</constant>
     <constant name="view_wall_labelled_item_w__List_Board_Row">487.74</constant>
     <constant name="view_wall_labelled_item_w__List_Card_Row">637.04</constant>
+    <!-- The labelled card row's focused cell keeps the 40px gap (637.04 + view_bar) -->
+    <constant name="view_card_labelled_itemlayout_w">677.04</constant>
+    <constant name="-view_card_labelled_itemlayout_w">-677.04</constant>
 
     <constant name="view_poster_wall_details_w">540</constant>
     <constant name="view_poster_wall_grid_l">680</constant>

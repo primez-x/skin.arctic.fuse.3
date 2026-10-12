@@ -153,13 +153,10 @@
                 <height>280</height>
                 <width>480</width>
                 <include content="Part_Box">
-                    <control type="multiimage">
-                        <timeperimage>20000</timeperimage>
-                        <randomize>true</randomize>
-                        <fadetime>400</fadetime>
-                        <aspectratio scalediffuse="false">scale</aspectratio>
-                        <imagepath diffuse="$PARAM[diffuse]">resource://resource.images.weatherfanart.multi/$PARAM[fanartcode]/</imagepath>
-                    </control>
+                    <include content="Weather_Fanart_Multiimage" condition="System.AddonIsEnabled(resource.images.weatherfanart.multi)">
+                        <param name="diffuse">$PARAM[diffuse]</param>
+                        <param name="fanartcode">$PARAM[fanartcode]</param>
+                    </include>
                     <control type="group">
                         <height>120</height>
                         <width>140</width>
@@ -1055,7 +1052,10 @@
         <item>
             <label>$INFO[Window(Weather).Property($PARAM[prefix].HighTemp),[B],°[/B]]$INFO[Window(Weather).Property($PARAM[prefix].LowTemp), ,°]</label>
             <icon>resource://resource.images.weathericons.white/$INFO[Window(weather).Property($PARAM[prefix].FanartCode),,.png]</icon>
-            <property name="Fanart">resource://resource.images.weatherfanart.multi/$INFO[Window(weather).Property($PARAM[prefix].FanartCode)]/</property>
+            <include content="Weather_Fanart_Property" condition="System.AddonIsEnabled(resource.images.weatherfanart.multi)">
+                <param name="name">Fanart</param>
+                <param name="fanartcode">$INFO[Window(weather).Property($PARAM[prefix].FanartCode)]</param>
+            </include>
             <property name="DayName">$INFO[Window(Weather).Property($PARAM[prefix].Title)]</property>
             <property name="Outlook">$INFO[Window(Weather).Property($PARAM[prefix].Outlook)]</property>
             <property name="RainChance">$INFO[Window(Weather).Property($PARAM[prefix].ChancePrecipitation)]</property>
@@ -1112,7 +1112,10 @@
         <item>
             <label>$INFO[Window(Weather).Property($PARAM[prefix].HighTemp),[B],°[/B]]$INFO[Window(Weather).Property($PARAM[prefix].LowTemp), ,°]</label>
             <icon>resource://resource.images.weathericons.white/$INFO[Window(weather).Property($PARAM[prefix].FanartCode),,.png]</icon>
-            <property name="Fanart">resource://resource.images.weatherfanart.multi/$INFO[Window(weather).Property($PARAM[prefix].FanartCode)]/</property>
+            <include content="Weather_Fanart_Property" condition="System.AddonIsEnabled(resource.images.weatherfanart.multi)">
+                <param name="name">Fanart</param>
+                <param name="fanartcode">$INFO[Window(weather).Property($PARAM[prefix].FanartCode)]</param>
+            </include>
             <property name="DayName">$INFO[Window(Weather).Property($PARAM[prefix].time)]</property>
             <property name="Outlook">$INFO[Window(Weather).Property($PARAM[prefix].outlook)]</property>
             <property name="RainChance">$INFO[Window(Weather).Property($PARAM[prefix].ChancePrecipitation)]</property>

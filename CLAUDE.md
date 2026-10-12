@@ -39,7 +39,8 @@ the screen), so there the **tile gives `view_bar` of its height to the labels** 
 aspect ratio; cell, columns and rows per screen are the same with Text labels on and Off:
 library walls 512–514, hub walls and row views 500–505 (`view_poster_labelled_item_h` 270, width
 `view_wall_labelled_item_w__<row include>`; in a row view a full-height tile's labels end at 990,
-inside the item-count footer bar at 960–1000), View 515 (`view_poster_wall_labelled_item_h` 245 ×
+inside the item-count footer bar at 960–1000; the card row's focused card keeps the 40px gap:
+`view_card_labelled_itemlayout_w` 677.04), View 515 (`view_poster_wall_labelled_item_h` 245 ×
 `_item_w` 171.93). Landscape and Square cells already fit labels.
 
 Canonical gap vocabulary (from real `<itemgap>` usage): `0, 8, 10, 12, 15, 20, 25, 37, 40, 80`.
@@ -118,8 +119,10 @@ inside a vertical `grouplist` (`itemgap=0`, `top=-20`, `left=-40`, 20px spacer),
   the `Layout_*` include. Widget rows (`Widget_Content`), row views (`View_Row_Include`), wall
   views (`View_Wall_Include` → `View_Wall_Panel`) and View 515 all set them; list views keep their
   own list text. `labels_align` is `left` except Circle and the poster walls (512/515): `center`.
-  Combined rows (520–524) pass only `hide_labels`: Square and Landscape label their tiles, the tall
-  tiles don't, so their loading placeholders use the `Widget_Busy_BlankItems__<row>_Unlabelled` sets.
+  Combined rows (520–524) and combined widgets (`Hub_Combined_Widget`) pass only `hide_labels`:
+  Square and Landscape label their tiles, the tall tiles don't, so their loading placeholders use
+  the `Widget_Busy_BlankItems__<row>_Unlabelled` sets. Every include with
+  `Exp_Wall_TallTile__<row>` true has `_Labelled` and `_Unlabelled` sets.
 - Cast/crew tiles (DBType actor/video, a `role`, or a `detailed` row) overlay their labels on
   the poster instead; the row spacer uses the same rule row-wide (see 1.1).
 - Loading placeholders (`Widget_Busy_BlankItem`) draw their label bars below the tile and follow
@@ -144,9 +147,18 @@ inside a vertical `grouplist` (`itemgap=0`, `top=-20`, `left=-40`, 20px spacer),
   Until then `Widget_Lazy_Placeholder` keeps one item so 601 still lists it; a widget that loads
   empty shows `Widget_Lazy_Empty`, a self-sustaining marker that keeps it reached and hides it from
   601 (without it the empty widget would drop out, lose its path, come back and reload in a loop).
-- **Generator changes need a rebuild:** script.skinvariables only rebuilds the generated includes
-  when `shortcuts/skinvariables-generator.json` (or the profile / build marker) changes, not its
-  data files, so bump its `buildv` with any change under `shortcuts/generator/`.
+- **Generator changes need a rebuild:** script.skinvariables (2.2.x, `update_xml`) rebuilds the
+  generated includes when a hash changes. The hash covers the call's arguments (build marker),
+  the text of `shortcuts/skinvariables-generator.json`, the profile name **and the current
+  content of the output file** (`script-skinvariables-generator-includes-<skin user>.xml`). The
+  data files under `shortcuts/generator/` are not in it, so bump the JSON's `buildv` with any
+  change there.
+- **Packaged stand-ins:** `script-skinvariables-generator-includes-.xml` ships an empty,
+  comment-only stub for every generated include the skin references, so the first load after an
+  install or update logs no invalid includes; it differs from the generated output, so that
+  hash changes and the includes are rebuilt. `script-skinvariables-skinusers.xml` ships pointing
+  at it; script.skinvariables rewrites it only at a skin-user login, so `service.py` restores the
+  logged-in user's version after an update.
 
 ### 1.6 Overlays
 

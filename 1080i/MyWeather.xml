@@ -18,7 +18,7 @@
                 <onright>ActivateWindow(1161)</onright>
                 <itemlayout />
                 <focusedlayout />
-                <content sortby="random" target="images">resource://resource.images.weatherfanart.multi/$INFO[Weather.FanartCode]/</content>
+                <include condition="System.AddonIsEnabled(resource.images.weatherfanart.multi)">Weather_Fanart_Content</include>
             </control>
 
             <control type="group">

@@ -467,6 +467,24 @@
             <param name="colordiffuse">$PARAM[colordiffuse]</param>
         </include>
     </include>
+    <!-- Card rows with labels on: the card and the posters beside it give view_bar of their
+         height to the labels, as in the card row view (View 505) -->
+    <include name="Widget_Busy_BlankItem_Card_Labelled">
+        <include content="Widget_Busy_BlankItem">
+            <param name="item_w">view_wall_labelled_item_w__List_Card_Row</param>
+            <param name="item_h">view_poster_labelled_item_h</param>
+            <param name="itemlayout_w">view_card_labelled_itemlayout_w</param>
+            <param name="itemlayout_h">view_poster_itemlayout_h</param>
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+        </include>
+    </include>
+    <include name="Widget_Busy_BlankItems__List_Card_Row_Labelled">
+        <include>Widget_Busy_BlankItem_Card_Labelled</include>
+        <include>Widget_Busy_BlankItem_Poster_Labelled</include>
+        <include>Widget_Busy_BlankItem_Poster_Labelled</include>
+        <include>Widget_Busy_BlankItem_Poster_Labelled</include>
+        <include>Widget_Busy_BlankItem_Poster_Labelled</include>
+    </include>
     <include name="Widget_Busy_BlankItems__List_Poster_Row_Labelled">
         <include>Widget_Busy_BlankItem_Poster_Labelled</include>
         <include>Widget_Busy_BlankItem_Poster_Labelled</include>
@@ -526,6 +544,17 @@
             <param name="second_row">false</param>
         </include>
     </include>
+    <include name="Widget_Busy_BlankItem_Card_Unlabelled">
+        <include content="Widget_Busy_BlankItem">
+            <param name="item_w">view_card_item_w</param>
+            <param name="item_h">view_poster_item_h</param>
+            <param name="itemlayout_w">view_card_itemlayout_w</param>
+            <param name="itemlayout_h">view_poster_itemlayout_h</param>
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="first_row">false</param>
+            <param name="second_row">false</param>
+        </include>
+    </include>
     <include name="Widget_Busy_BlankItems__List_Poster_Row_Unlabelled">
         <include>Widget_Busy_BlankItem_Poster_Unlabelled</include>
         <include>Widget_Busy_BlankItem_Poster_Unlabelled</include>
@@ -548,6 +577,13 @@
         <include>Widget_Busy_BlankItem_Board_Unlabelled</include>
         <include>Widget_Busy_BlankItem_Board_Unlabelled</include>
         <include>Widget_Busy_BlankItem_Board_Unlabelled</include>
+    </include>
+    <include name="Widget_Busy_BlankItems__List_Card_Row_Unlabelled">
+        <include>Widget_Busy_BlankItem_Card_Unlabelled</include>
+        <include>Widget_Busy_BlankItem_Poster_Unlabelled</include>
+        <include>Widget_Busy_BlankItem_Poster_Unlabelled</include>
+        <include>Widget_Busy_BlankItem_Poster_Unlabelled</include>
+        <include>Widget_Busy_BlankItem_Poster_Unlabelled</include>
     </include>
     <include name="Widget_Busy_BlankItems__List_Square_Row">
         <include>Widget_Busy_BlankItem_Square</include>

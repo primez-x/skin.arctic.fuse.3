@@ -167,14 +167,16 @@ def _busy_placeholders(call, labels_off, constants):
             top = _number(busy.findtext("top"), constants)
             grouplist = _includes()["Widget_Busy"].find("control/control")
             items = _includes()["Widget_Busy_BlankItems__" + _call_params(busy, inner)["include"]]
-            item = _includes()[items.find("include").text]
-            blank = _with_defaults("Widget_Busy_BlankItem", _call_params(
-                item.find("include[@content='Widget_Busy_BlankItem']"), {}))
             tile = _includes()["Widget_Busy_BlankItem"].find("definition/control/control")
-            bars = not labels_off and blank["first_row"] == "true"
-            bottom = (top + _number(grouplist.findtext("top"), constants) + _number(tile.findtext("top"), constants)
-                      + _number(blank["item_h"], constants) + (80 if bars else 0))
-            yield bottom, bars
+            bottoms, any_bars = [], False
+            for entry in items.findall("include"):  # every placeholder tile, e.g. card + posters
+                blank = _with_defaults("Widget_Busy_BlankItem", _call_params(
+                    _includes()[entry.text].find("include[@content='Widget_Busy_BlankItem']"), {}))
+                bars = not labels_off and blank["first_row"] == "true"
+                any_bars |= bars
+                bottoms.append(top + _number(grouplist.findtext("top"), constants) + _number(tile.findtext("top"), constants)
+                               + _number(blank["item_h"], constants) + (80 if bars else 0))
+            yield max(bottoms), any_bars
 
 
 def _call_params_from(params):
@@ -349,6 +351,68 @@ class ViewLabelTests(unittest.TestCase):
                     bottom, bars = busy[0]
                     self.assertEqual(labelled, bars)
                     self.assertLessEqual(bottom, footer_top)
+
+    def test_hub_combined_widget_placeholders_match_the_loaded_row(self):
+        # Hub_Combined_Widget (Combined widget mode, combined search) had the bugs fixed for
+        # views 520-524: no hide_labels, and label bars under tall tiles that carry none.
+        constants = _constants()
+        rules = ET.parse(SKIN_ROOT / "shortcuts/generator/data/setup/widgets_include_row.xml").getroot()
+        includes = {v.text for v in rules.iter("value") if (v.text or "").startswith("List_")}
+        for path in SKIN.glob("*.xml"):  # fixed calls, e.g. the combined search widget
+            for node in ET.parse(path).getroot().iter("include"):
+                if node.get("content") == "Hub_Combined_Widget":
+                    value = node.findtext("param[@name='include']") or ""
+                    if value.startswith("List_"):
+                        includes.add(value)
+        self.assertIn("List_Card_Row", includes)
+        for include in sorted(includes):
+            call = ET.fromstring(f'<include content="Hub_Combined_Widget"><param name="id">501</param>'
+                                 f'<param name="include">{include}</param></include>')
+            for labels_off in (False, True):
+                loaded = list(_view_tile_bottoms(call, labels_off, constants))
+                labelled = any(what.endswith(" labels") for _, what in loaded)
+                busy = list(_busy_placeholders(call, labels_off, constants))
+                with self.subTest(include=include, labels_off=labels_off):
+                    self.assertTrue(loaded)
+                    if labels_off:
+                        self.assertFalse(labelled)
+                    self.assertEqual(1, len(busy))
+                    self.assertEqual(labelled, busy[0][1])
+
+    def _card_row(self, labels_off):
+        """The card row view's resolved sizes: posters (List_Core), the focused card and
+        the focused card's cell width."""
+        constants = _constants()
+        call = _include("Includes_Views_Row.xml", "View_505_Card_Row").find("include[@content='View_Row_Include']")
+        params = _with_defaults("View_Row_Include", _call_params(call, {}))
+        (row_call, outer), = list(_row_calls("View_Row_Include", params, labels_off))
+        row = _with_defaults("List_Card_Row", _call_params(row_call, outer))
+        definition = _includes()["List_Card_Row"].find("definition")
+        core = _with_defaults("List_Core", _call_params(definition.find("include[@content='List_Core']"), row))
+        focused = definition.find(".//focusedlayout")
+        n = lambda v: _number(_resolve(v, row) if "$PARAM" in v else v, constants)
+        return {
+            "poster": (n(core["item_w"]), n(core["item_h"])),
+            "card": (n(row["item_w"]), n(row["item_h"])),
+            "card_cell_w": n(focused.get("width")),
+        }
+
+    def test_card_row_posters_keep_the_poster_aspect_ratio(self):
+        # With labels on the posters beside the card shrink to the labelled height, so their
+        # width must shrink with it (poster_item_w), not stay 217.14 wide.
+        constants = _constants()
+        ratio = float(constants["view_poster_item_w"]) / float(constants["view_poster_item_h"])
+        for labels_off in (False, True):
+            w, h = self._card_row(labels_off)["poster"]
+            self.assertAlmostEqual(ratio, w / h, places=3, msg=f"labels_off={labels_off}")
+
+    def test_card_row_focused_card_keeps_the_standard_gap(self):
+        # The focused card's cell is its width plus the canonical 40px gap (view_bar), also
+        # when the card shrinks for the labels.
+        bar = float(_constants()["view_bar"])
+        for labels_off in (False, True):
+            row = self._card_row(labels_off)
+            self.assertAlmostEqual(bar, row["card_cell_w"] - row["card"][0], places=2, msg=f"labels_off={labels_off}")
 
     def test_views_without_the_footer_are_exempt_by_rule(self):
         # Walls (510-515) hide the item-count footer; list views end at Dimension_Info's bottom.

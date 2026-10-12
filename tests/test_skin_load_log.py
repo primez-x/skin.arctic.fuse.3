@@ -95,25 +95,57 @@ class GeneratedIncludePlaceholderTests(unittest.TestCase):
 
 
 class ResourceImageAddonTests(unittest.TestCase):
-    def test_resource_paths_require_the_addon_enabled(self):
-        # resource:// only resolves enabled add-ons, so an installed but disabled one logged
-        # "GetDirectory - Error getting resource://resource.images.arctic.waves/" each time
-        # the busy dialog showed. System.HasAddon is true for disabled add-ons.
-        definitions = _definitions()
-        checked = 0
+    """resource:// resolves enabled add-ons only, and System.HasAddon is true for a disabled
+    one, so an unguarded directory path into an installed but disabled image pack logs
+    "GetDirectory - Error getting resource://<pack>/" whenever Kodi lists it (<content>,
+    <imagepath>, a variable value or param that feeds one). Every resource:// use in the
+    skin is enumerated; directory-form ones (the value ends in "/") must be guarded by
+    System.AddonIsEnabled(<pack>): a condition on the element or an ancestor, the <value>
+    condition of a variable, or, inside an include definition, on every call of that include.
+    File-form ones (icons, fonts, "$INFO[x,resource://pack/,.png]") are single textures."""
+
+    PATH = re.compile(r"resource://([\w.]+)/")
+
+    def _parents(self, root):
+        return {child: parent for parent in root.iter() for child in parent}
+
+    def _guarded(self, node, addon, parents, definitions, depth=0):
+        guard = f"System.AddonIsEnabled({addon})"
+        while node is not None:
+            if guard in (node.get("condition") or ""):
+                return True
+            if node.tag == "include" and node.get("name"):
+                calls = list(self._calls(node.get("name")))
+                return bool(calls) and depth < 6 and all(
+                    self._guarded(call, addon, call_parents, definitions, depth + 1)
+                    for call, call_parents in calls)
+            node = parents.get(node)
+        return False
+
+    def _calls(self, name):
         for path in _skin_files():
-            for node in ET.parse(path).getroot().iter():
-                condition = node.get("condition") or ""
-                for addon in re.findall(r"System\.(?:HasAddon|AddonIsEnabled)\((resource\.images\.[\w.]+)\)", condition):
-                    body = node.text or ""
-                    if body.strip() in definitions:
-                        body = ET.tostring(definitions[body.strip()], encoding="unicode")
-                    if f"resource://{addon}/" not in body:
-                        continue
-                    checked += 1
-                    with self.subTest(file=path.name, addon=addon):
-                        self.assertIn(f"System.AddonIsEnabled({addon})", condition)
-        self.assertGreaterEqual(checked, 2)
+            root = _tree(path)
+            parents = self._parents(root)
+            for node in root.iter("include"):
+                if node.get("content") == name or (node.text or "").strip() == name:
+                    yield node, parents
+
+    def test_every_resource_directory_path_requires_the_addon_enabled(self):
+        definitions = _definitions()
+        directories = 0
+        for path in _skin_files():
+            root = _tree(path)
+            parents = self._parents(root)
+            for node in root.iter():
+                for value in [node.text or "", *node.attrib.values()]:
+                    value = value.strip()
+                    for addon in self.PATH.findall(value):
+                        if not value.endswith("/"):
+                            continue
+                        directories += 1
+                        with self.subTest(file=path.name, tag=node.tag, value=value[:80]):
+                            self.assertTrue(self._guarded(node, addon, parents, definitions))
+        self.assertGreaterEqual(directories, 5)
 
 
 if __name__ == "__main__":

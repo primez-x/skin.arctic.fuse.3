@@ -223,7 +223,15 @@ class HubWallLabelTests(unittest.TestCase):
                 self.assertIn(self.expressions.get(family + include), ("true", "false"), family + include)
         for include in ("List_Poster_Row", "List_Circle_Row", "List_Board_Row"):
             self.assertEqual("true", self.expressions[f"Exp_Wall_TallTile__{include}"])
-            self.assertIsNotNone(_include("Includes_Widgets.xml", f"Widget_Busy_BlankItems__{include}_Labelled"))
+        # Every include whose tile gives view_bar to its labels picks _Labelled placeholders
+        # (hub walls) and _Unlabelled ones (combined rows, which do not label tall tiles).
+        tall = [name[len("Exp_Wall_TallTile__"):] for name, value in self.expressions.items()
+                if name.startswith("Exp_Wall_TallTile__") and value == "true"]
+        self.assertIn("List_Card_Row", tall)
+        busy = {n.get("name") for n in _root(SKIN / "Includes_Widgets.xml").findall("include")}
+        for include in tall:
+            for suffix in ("_Labelled", "_Unlabelled"):
+                self.assertIn(f"Widget_Busy_BlankItems__{include}{suffix}", busy)
             self.assertIn(f"view_wall_labelled_item_w__{include}", _constants())
 
     def test_grids_label_their_tiles_and_follow_text_labels(self):

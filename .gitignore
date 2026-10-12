@@ -1,6 +1,7 @@
 1080i/script-skinvariables-generator-includes*.xml
 !1080i/script-skinvariables-generator-includes-.xml
-1080i/script-skinvariables-skinusers.xml
+# Packaged stand-in until a skin user logs in (script.skinvariables then overwrites it)
+!1080i/script-skinvariables-skinusers.xml
 1080i/script-skinshortcuts-includes.xml
 *.xcf
 *~

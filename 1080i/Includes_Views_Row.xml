@@ -79,6 +79,7 @@
                         <param name="item_w">view_wall_labelled_item_w__$PARAM[include]</param>
                         <param name="item_h">view_poster_labelled_item_h</param>
                         <param name="poster_item_w">view_wall_labelled_item_w__List_Poster_Row</param>
+                        <param name="card_itemlayout_w">view_card_labelled_itemlayout_w</param>
                         <param name="viewtype_label">$PARAM[viewtype_label]</param>
                         <param name="visible">$PARAM[visible]</param>
                     </include>
@@ -99,6 +100,7 @@
             <param name="item_w">$PARAM[item_w]</param>
             <param name="item_h">$PARAM[item_h]</param>
             <param name="poster_item_w">$PARAM[poster_item_w]</param>
+            <param name="card_itemlayout_w">$PARAM[card_itemlayout_w]</param>
             <param name="show_labels">true</param>
             <param name="hide_labels">Skin.HasSetting(View.HideWidgetLabels)</param>
             <top>view_row</top>

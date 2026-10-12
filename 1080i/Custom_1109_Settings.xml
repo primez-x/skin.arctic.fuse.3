@@ -16,7 +16,7 @@
             <onfocus>SetFocus(601)</onfocus>
             <itemlayout />
             <focusedlayout />
-            <content sortby="random" target="images">resource://resource.images.weatherfanart.multi/$INFO[Weather.FanartCode]/</content>
+            <include condition="System.AddonIsEnabled(resource.images.weatherfanart.multi)">Weather_Fanart_Content</include>
         </control>
 
         <include>Hub_Window_Background</include>

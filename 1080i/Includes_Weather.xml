@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
+    <!-- Weather fanart comes from the optional resource.images.weatherfanart.multi pack. resource:// resolves enabled
+         add-ons only (System.HasAddon is also true for a disabled one), so every directory
+         path into it is included only while it is enabled; otherwise Kodi logs
+         "GetDirectory - Error getting resource://...". Call these with
+         condition="System.AddonIsEnabled(resource.images.weatherfanart.multi)". -->
+    <include name="Weather_Fanart_Content">
+        <content sortby="random" target="images">resource://resource.images.weatherfanart.multi/$INFO[Weather.FanartCode]/</content>
+    </include>
+    <include name="Weather_Fanart_Multiimage">
+        <control type="multiimage">
+            <timeperimage>20000</timeperimage>
+            <randomize>true</randomize>
+            <fadetime>400</fadetime>
+            <aspectratio scalediffuse="false">scale</aspectratio>
+            <imagepath diffuse="$PARAM[diffuse]">resource://resource.images.weatherfanart.multi/$PARAM[fanartcode]/</imagepath>
+        </control>
+    </include>
+    <include name="Weather_Fanart_Property">
+        <property name="$PARAM[name]">resource://resource.images.weatherfanart.multi/$PARAM[fanartcode]/</property>
+    </include>
     <include name="Weather_Details_HighLow_Layout">
         <param name="diffuse">diffuse/landscape_w480_h270.png</param>
         <param name="day">Day0</param>
@@ -21,13 +41,10 @@
                 <param name="shadow_colordiffuse">shadow_hard</param>
             </include>
 
-            <control type="multiimage">
-                <timeperimage>20000</timeperimage>
-                <randomize>true</randomize>
-                <fadetime>400</fadetime>
-                <aspectratio scalediffuse="false">scale</aspectratio>
-                <imagepath diffuse="$PARAM[diffuse]">$PARAM[imagepath]</imagepath>
-            </control>
+            <include content="Weather_Fanart_Multiimage" condition="System.AddonIsEnabled(resource.images.weatherfanart.multi)">
+                <param name="diffuse">$PARAM[diffuse]</param>
+                <param name="fanartcode">$PARAM[fanartcode]</param>
+            </include>
 
             <control type="group">
                 <control type="image">
@@ -98,7 +115,6 @@
                 <param name="hightemp">$INFO[Window(weather).Property($PARAM[day].HighTemp)]</param>
                 <param name="lowtemp">$INFO[Window(weather).Property($PARAM[day].LowTemp)]</param>
                 <param name="outlook">$INFO[Window(weather).Property($PARAM[day].Outlook)]</param>
-                <param name="imagepath">resource://resource.images.weatherfanart.multi/$INFO[Window(weather).Property($PARAM[day].FanartCode)]/</param>
             </include>
         </definition>
     </include>
@@ -113,7 +129,10 @@
             <property name="outlook">$INFO[Window(weather).Property($PARAM[day].Outlook)]</property>
             <property name="biography">$INFO[Window(weather).Property($PARAM[day].Outlook),,[CR]]$INFO[Window(weather).Property($PARAM[day].ChancePrecipitation),$LOCALIZE[31465]: ,]</property>
             <property name="fanart">resource://resource.images.weatherfanart.multi/$INFO[Window(weather).Property($PARAM[day].FanartCode)]/weather-$INFO[Window(weather).Property($PARAM[day].FanartCode)]-00.jpg</property>
-            <property name="imagepath">resource://resource.images.weatherfanart.multi/$INFO[Window(weather).Property($PARAM[day].FanartCode)]/</property>
+            <include content="Weather_Fanart_Property" condition="System.AddonIsEnabled(resource.images.weatherfanart.multi)">
+                <param name="name">imagepath</param>
+                <param name="fanartcode">$INFO[Window(weather).Property($PARAM[day].FanartCode)]</param>
+            </include>
             <property name="CustomInfo01">$LOCALIZE[8]</property>
             <property name="CustomInfo02">$INFO[Weather.Location]</property>
             <property name="is_weather">true</property>

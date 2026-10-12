@@ -44,6 +44,56 @@ def _write_recovered_version(version):
         handle.write(version)
 
 
+SKINUSERS_FILE = "script-skinvariables-skinusers.xml"
+SKINUSERS_TEMPLATE = "special://skin/shortcuts/skinvariables-skinusers.xmltemplate"
+GENERATED_STANDIN = "script-skinvariables-generator-includes-.xml"
+GENERATED_USER_FILE = "script-skinvariables-generator-includes-{slug}.xml"
+
+
+def _read(path):
+    try:
+        with open(path, "r", encoding="utf-8") as handle:
+            return handle.read()
+    except OSError:
+        return None
+
+
+def _restore_skin_user_includes():
+    """Point the skin-user include at the logged-in user's generated includes again.
+
+    Workaround: script.skinvariables writes script-skinvariables-skinusers.xml only when a
+    skin user logs in, and an install or update of the skin replaces 1080i/, so a logged-in
+    user would get the packaged stand-in (no menus or widgets) until the next login. This
+    rewrites it exactly as the login does and, if the user's generated file is missing,
+    seeds it with the default stand-ins so the include file exists; script.skinvariables
+    hashes that file's content, so it still regenerates it. The durable fix is for
+    script.skinvariables to rewrite the skin-user file in update_xml.
+    Returns True when a file was written."""
+    slug = xbmc.getInfoLabel("Skin.String(SkinVariables.SkinUser)")
+    if not slug:
+        return False
+    template = _read(xbmcvfs.translatePath(SKINUSERS_TEMPLATE))
+    if not template:
+        return False
+    folder = xbmcvfs.translatePath("special://skin/1080i/")
+    written = False
+    content = template.format(slug=slug)
+    target = os.path.join(folder, SKINUSERS_FILE)
+    if _read(target) != content:
+        with open(target, "w", encoding="utf-8") as handle:
+            handle.write(content)
+        written = True
+    user_file = os.path.join(folder, GENERATED_USER_FILE.format(slug=slug))
+    standin = _read(os.path.join(folder, GENERATED_STANDIN))
+    if not os.path.exists(user_file) and standin is not None:
+        with open(user_file, "w", encoding="utf-8") as handle:
+            handle.write(standin)
+        written = True
+    if written:
+        _log(f"Restored the skin user include for {slug}.")
+    return written
+
+
 def _current_window_ids():
     try:
         payload = json.dumps(
@@ -94,6 +144,11 @@ def main():
         return
 
     version_changed = previous_version != version
+    if version_changed:
+        # Before script.skinvariables regenerates and reloads the skin, so that reload
+        # picks the user's includes up (no reload of our own: a version change alone must not
+        # reset the GUI, see below)
+        _restore_skin_user_includes()
     if not version_changed and not _needs_window_recovery():
         return
 
