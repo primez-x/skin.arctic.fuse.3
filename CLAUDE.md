@@ -118,6 +118,8 @@ inside a vertical `grouplist` (`itemgap=0`, `top=-20`, `left=-40`, 20px spacer),
   the `Layout_*` include. Widget rows (`Widget_Content`), row views (`View_Row_Include`), wall
   views (`View_Wall_Include` → `View_Wall_Panel`) and View 515 all set them; list views keep their
   own list text. `labels_align` is `left` except Circle and the poster walls (512/515): `center`.
+  Combined rows (520–524) pass only `hide_labels`: Square and Landscape label their tiles, the tall
+  tiles don't, so their loading placeholders use the `Widget_Busy_BlankItems__<row>_Unlabelled` sets.
 - Cast/crew tiles (DBType actor/video, a `role`, or a `detailed` row) overlay their labels on
   the poster instead; the row spacer uses the same rule row-wide (see 1.1).
 - Loading placeholders (`Widget_Busy_BlankItem`) draw their label bars below the tile and follow

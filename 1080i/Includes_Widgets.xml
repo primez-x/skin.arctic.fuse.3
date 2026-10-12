@@ -172,7 +172,7 @@
         selects an expression instead: $EXP[Exp_LabelsBelow__$PARAM[include]]. A name with no
         expression resolves to an empty condition, which an include condition treats as false.
         Use them in include conditions only, and negate only the Exp_Wall_* ones, which are
-        defined for every row include a wall or row view (500-505) can use.
+        defined for every row include a wall, row view (500-505) or combined row (520-524) can use.
           Exp_LabelsBelow__            tall tiles that draw their labels below the tile
           Exp_LabelsBelow_CastCheck__  of those, the ones whose cast/crew tiles overlay labels
           Exp_Wall_TallTile__          wall and row view includes whose tile gives view_bar to its labels
@@ -489,6 +489,65 @@
         <include>Widget_Busy_BlankItem_Board_Labelled</include>
         <include>Widget_Busy_BlankItem_Board_Labelled</include>
         <include>Widget_Busy_BlankItem_Board_Labelled</include>
+    </include>
+    <!-- Combined rows label only Square and Landscape tiles, so the tall tiles' loading
+         placeholders draw no label bars there -->
+    <include name="Widget_Busy_BlankItem_Poster_Unlabelled">
+        <include content="Widget_Busy_BlankItem">
+            <param name="item_w">view_poster_item_w</param>
+            <param name="item_h">view_poster_item_h</param>
+            <param name="itemlayout_w">view_poster_itemlayout_w</param>
+            <param name="itemlayout_h">view_poster_itemlayout_h</param>
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="first_row">false</param>
+            <param name="second_row">false</param>
+        </include>
+    </include>
+    <include name="Widget_Busy_BlankItem_Circle_Unlabelled">
+        <include content="Widget_Busy_BlankItem">
+            <param name="item_w">view_poster_item_h</param>
+            <param name="item_h">view_poster_item_h</param>
+            <param name="itemlayout_w">view_circle_itemlayout_w</param>
+            <param name="itemlayout_h">view_poster_itemlayout_h</param>
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="circle">true</param>
+            <param name="first_row">false</param>
+            <param name="second_row">false</param>
+        </include>
+    </include>
+    <include name="Widget_Busy_BlankItem_Board_Unlabelled">
+        <include content="Widget_Busy_BlankItem">
+            <param name="item_w">view_board_item_w</param>
+            <param name="item_h">view_poster_item_h</param>
+            <param name="itemlayout_w">view_board_itemlayout_w</param>
+            <param name="itemlayout_h">view_poster_itemlayout_h</param>
+            <param name="colordiffuse">$PARAM[colordiffuse]</param>
+            <param name="first_row">false</param>
+            <param name="second_row">false</param>
+        </include>
+    </include>
+    <include name="Widget_Busy_BlankItems__List_Poster_Row_Unlabelled">
+        <include>Widget_Busy_BlankItem_Poster_Unlabelled</include>
+        <include>Widget_Busy_BlankItem_Poster_Unlabelled</include>
+        <include>Widget_Busy_BlankItem_Poster_Unlabelled</include>
+        <include>Widget_Busy_BlankItem_Poster_Unlabelled</include>
+        <include>Widget_Busy_BlankItem_Poster_Unlabelled</include>
+        <include>Widget_Busy_BlankItem_Poster_Unlabelled</include>
+        <include>Widget_Busy_BlankItem_Poster_Unlabelled</include>
+    </include>
+    <include name="Widget_Busy_BlankItems__List_Circle_Row_Unlabelled">
+        <include>Widget_Busy_BlankItem_Circle_Unlabelled</include>
+        <include>Widget_Busy_BlankItem_Circle_Unlabelled</include>
+        <include>Widget_Busy_BlankItem_Circle_Unlabelled</include>
+        <include>Widget_Busy_BlankItem_Circle_Unlabelled</include>
+        <include>Widget_Busy_BlankItem_Circle_Unlabelled</include>
+        <include>Widget_Busy_BlankItem_Circle_Unlabelled</include>
+        <include>Widget_Busy_BlankItem_Circle_Unlabelled</include>
+    </include>
+    <include name="Widget_Busy_BlankItems__List_Board_Row_Unlabelled">
+        <include>Widget_Busy_BlankItem_Board_Unlabelled</include>
+        <include>Widget_Busy_BlankItem_Board_Unlabelled</include>
+        <include>Widget_Busy_BlankItem_Board_Unlabelled</include>
     </include>
     <include name="Widget_Busy_BlankItems__List_Square_Row">
         <include>Widget_Busy_BlankItem_Square</include>

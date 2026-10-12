@@ -146,6 +146,37 @@ def _view_tile_bottoms(call, labels_off, constants):
                 yield tile_bottom, f"{row_name} {layout} tile"
 
 
+def _busy_placeholders(call, labels_off, constants):
+    """Yield (bottom, label bars shown) for the loading placeholder a view draws in place of
+    its row: Widget_Busy -> Widget_Busy_BlankItems__<include> -> Widget_Busy_BlankItem."""
+    template = call.get("content")
+    params = _with_defaults(template, _call_params(call, {}))
+    for name in (template, *(n.get("content") for n in _includes()[template].iter("include"))):
+        node = _includes().get(_resolve(name, params))
+        if node is None:
+            continue
+        inner = _with_defaults(node.get("name"), _call_params(call, {})) if node.get("name") == template else \
+            _with_defaults(node.get("name"), _call_params(next(
+                n for n in _includes()[template].iter("include") if n.get("content") == name), params))
+        body = node.find("definition") if node.find("definition") is not None else node
+        for busy in body.iter("include"):
+            if busy.get("content") != "Widget_Busy":
+                continue
+            if busy.get("condition") and not _condition(busy.get("condition"), inner, labels_off):
+                continue
+            top = _number(busy.findtext("top"), constants)
+            grouplist = _includes()["Widget_Busy"].find("control/control")
+            items = _includes()["Widget_Busy_BlankItems__" + _call_params(busy, inner)["include"]]
+            item = _includes()[items.find("include").text]
+            blank = _with_defaults("Widget_Busy_BlankItem", _call_params(
+                item.find("include[@content='Widget_Busy_BlankItem']"), {}))
+            tile = _includes()["Widget_Busy_BlankItem"].find("definition/control/control")
+            bars = not labels_off and blank["first_row"] == "true"
+            bottom = (top + _number(grouplist.findtext("top"), constants) + _number(tile.findtext("top"), constants)
+                      + _number(blank["item_h"], constants) + (80 if bars else 0))
+            yield bottom, bars
+
+
 def _call_params_from(params):
     """List_Core passes its own params on to the item layout under the same names."""
     return {k: v for k, v in params.items() if not _PARAM.fullmatch(v.strip())}
@@ -295,7 +326,29 @@ class ViewLabelTests(unittest.TestCase):
                     checked.add(view.get("name"))
                     with self.subTest(view=view.get("name"), labels_off=labels_off, what=what):
                         self.assertLessEqual(bottom, footer_top)
+                        if labels_off:  # Text labels Off hides the labels in every view
+                            self.assertTrue(what.endswith(" tile"), what)
         self.assertEqual(11, len(checked))
+
+    def test_combined_row_placeholders_match_the_loaded_row(self):
+        # The loading placeholders of the combined rows drew label bars under Poster, Circle
+        # and Board tiles, which the loaded rows label nowhere, and with Detailed labels the
+        # second bar sat at 956-980, inside the footer bar.
+        constants = _constants()
+        footer_top = _footer_top(constants)
+        root = _root("Includes_Views_Combined.xml")
+        for view_id in range(520, 525):
+            view = next(n for n in root.findall("include") if n.get("name").startswith(f"View_{view_id}_"))
+            call = view.find("include[@content='View_Combined_Row']")
+            for labels_off in (False, True):
+                loaded = list(_view_tile_bottoms(call, labels_off, constants))
+                labelled = any(what.endswith(" labels") for _, what in loaded)
+                busy = list(_busy_placeholders(call, labels_off, constants))
+                with self.subTest(view=view.get("name"), labels_off=labels_off):
+                    self.assertEqual(1, len(busy))
+                    bottom, bars = busy[0]
+                    self.assertEqual(labelled, bars)
+                    self.assertLessEqual(bottom, footer_top)
 
     def test_views_without_the_footer_are_exempt_by_rule(self):
         # Walls (510-515) hide the item-count footer; list views end at Dimension_Info's bottom.

@@ -86,6 +86,7 @@
 
                     <include content="$PARAM[include]">
                         <param name="id">53$PARAM[id]</param>
+                        <param name="hide_labels">Skin.HasSetting(View.HideWidgetLabels)</param>
                         <top>view_row</top>
                         <pagecontrol>60</pagecontrol>
 
@@ -126,7 +127,16 @@
 
                     </include>
 
-                    <include content="Widget_Busy">
+                    <!-- Loading placeholders draw label bars only where the row labels its tiles:
+                         Square and Landscape (Text labels Off hides both), not the tall tiles -->
+                    <include content="Widget_Busy" condition="$EXP[Exp_Wall_TallTile__$PARAM[include]]">
+                        <param name="label">$INFO[Container(52$PARAM[id]).ListItem.Label]</param>
+                        <param name="visible">Container(53$PARAM[id]).IsUpdating</param>
+                        <param name="include">$PARAM[include]_Unlabelled</param>
+                        <top>view_row</top>
+                        <left>view_pad</left>
+                    </include>
+                    <include content="Widget_Busy" condition="![$EXP[Exp_Wall_TallTile__$PARAM[include]]]">
                         <param name="label">$INFO[Container(52$PARAM[id]).ListItem.Label]</param>
                         <param name="visible">Container(53$PARAM[id]).IsUpdating</param>
                         <param name="include">$PARAM[include]</param>
