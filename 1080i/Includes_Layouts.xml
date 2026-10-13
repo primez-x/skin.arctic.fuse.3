@@ -2539,7 +2539,18 @@
                     <height>80</height>
 
                     <!-- Simple: the title (wraps to a second line when long) -->
-                    <include content="Object_Control" condition="![$PARAM[include_detailed_labels]] + ![$PARAM[use_label2]] + ![$PARAM[use_label]]">
+                    <include content="Object_Control" condition="![$PARAM[include_detailed_labels]] + ![$PARAM[use_label2]] + ![$PARAM[use_label]] + String.IsEqual(Skin.Font,Readable (Large Text))">
+                        <param name="control">textbox</param>
+                        <top>3</top>
+                        <bottom>3</bottom>
+                        <aligny>$PARAM[aligny]</aligny>
+                        <font>font_mini</font>
+                        <label>$INFO[$PARAM[listitem].Label]</label>
+                        <align>$PARAM[align]</align>
+                        <include condition="$PARAM[selected]">Color_SelectedText</include>
+                        <textcolor>main_fg_70</textcolor>
+                    </include>
+                    <include content="Object_Control" condition="![$PARAM[include_detailed_labels]] + ![$PARAM[use_label2]] + ![$PARAM[use_label]] + !String.IsEqual(Skin.Font,Readable (Large Text))">
                         <param name="control">textbox</param>
                         <top>$PARAM[textbox_offset_y]</top>
                         <bottom>$PARAM[textbox_offset_y]</bottom>

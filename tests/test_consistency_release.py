@@ -73,9 +73,12 @@ def _with_defaults(name, passed):
     return params
 
 
-def _condition(text, params, labels_off):
+def _condition(text, params, labels_off, skin_font=None):
     expressions = {e.get("name"): e.text for e in _root("Includes_Widgets.xml").findall("expression")}
     expr = re.sub(r"\$EXP\[(\w+)\]", lambda m: expressions.get(m.group(1), "false"), _resolve(text, params))
+    if skin_font is not None:
+        is_large_text = str(skin_font == "Readable (Large Text)").lower()
+        expr = expr.replace("String.IsEqual(Skin.Font,Readable (Large Text))", is_large_text)
     expr = expr.replace("Skin.HasSetting(View.HideWidgetLabels)", str(labels_off).lower())
     expr = expr.replace("[", "(").replace("]", ")").replace("!", " not ").replace("+", " and ").replace("|", " or ")
     return eval(expr.replace("true", "True").replace("false", "False"), {"__builtins__": {}})
@@ -104,6 +107,28 @@ def _labels_block(layout, params, labels_off):
             return 10, float(block.findtext("height"))
         return None
     return None
+
+
+def _layout_label_textbox_bounds(fontset):
+    labels = _include("Includes_Layouts.xml", "Layout_Labels")
+    params = {param.get("name"): param.text or "" for param in labels.findall("param")}
+    params.update(include_detailed_labels="false", use_label2="false", use_label="false")
+    box = next(group for group in labels.iter("control")
+               if group.findtext("top") == "$PARAM[top]")
+    box_height = _number(box.findtext("height"), {})
+    textboxes = [node for node in labels.iter("include")
+                 if node.get("content") == "Object_Control"
+                 and node.findtext("param[@name='control']") == "textbox"
+                 and "String.IsEqual(Skin.Font,Readable (Large Text))" in (node.get("condition") or "")]
+    selected = [node for node in textboxes
+                if _condition(node.get("condition"), params, False, fontset)]
+    if len(selected) != 1:
+        raise AssertionError(f"expected one wrapping textbox for {fontset}, found {len(selected)}")
+    text = selected[0]
+    top = _number(_resolve(text.findtext("top"), params), {})
+    bottom = _number(_resolve(text.findtext("bottom"), params), {})
+    default_inset = _number(params["textbox_offset_y"], {})
+    return box_height, top, bottom, default_inset
 
 
 def _row_calls(name, params, labels_off):
@@ -303,6 +328,18 @@ class LabelSystemTests(unittest.TestCase):
         text = ET.tostring(labels, encoding="unicode")
         self.assertNotIn("Label2, - ,", text)
         self.assertIn("$INFO[$PARAM[listitem].Label2]", text)
+
+    def test_wrapping_title_inset_tracks_the_selected_fontset(self):
+        default_box, default_top, default_bottom, default_inset = _layout_label_textbox_bounds("Default")
+        large_box, large_top, large_bottom, _ = _layout_label_textbox_bounds("Readable (Large Text)")
+        default_content = default_box - default_top - default_bottom
+        large_content = large_box - large_top - large_bottom
+        minimum_large_text_content_ratio = 0.9
+        self.assertEqual(default_box, large_box)
+        self.assertEqual(default_inset, default_top)
+        self.assertEqual(default_inset, default_bottom)
+        self.assertGreater(large_content, default_content)
+        self.assertGreaterEqual(large_content / large_box, minimum_large_text_content_ratio)
 
 
 class ViewLabelTests(unittest.TestCase):

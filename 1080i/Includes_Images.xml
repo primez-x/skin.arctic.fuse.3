@@ -82,14 +82,6 @@
         <value condition="String.IsEqual(Control.GetLabel(20),$LOCALIZE[10036])">resource://resource.images.arctic.fuse.3/extras/icons/settings-basic.png</value>
     </variable>
 
-    <variable name="Image_SkinSettings_Level">
-        <value condition="Integer.IsEqual(Skin.String(Skin.SettingsLevel),3)">resource://resource.images.arctic.fuse.3/extras/icons/settings-expert.png</value>
-        <value condition="Integer.IsEqual(Skin.String(Skin.SettingsLevel),2)">resource://resource.images.arctic.fuse.3/extras/icons/settings-advanced.png</value>
-        <value condition="Integer.IsEqual(Skin.String(Skin.SettingsLevel),1)">resource://resource.images.arctic.fuse.3/extras/icons/settings-standard.png</value>
-        <value>resource://resource.images.arctic.fuse.3/extras/icons/settings-basic.png</value>
-    </variable>
-
-
     <variable name="Image_Widget_Style">
         <value condition="String.IsEqual(ListItem.Property(widget_style),Landscape)">resource://resource.images.arctic.fuse.3/extras/icons/view-landscape.png</value>
         <value condition="String.IsEqual(ListItem.Property(widget_style),Square)">resource://resource.images.arctic.fuse.3/extras/icons/view-square.png</value>

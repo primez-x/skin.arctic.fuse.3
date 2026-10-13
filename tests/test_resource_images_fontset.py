@@ -102,8 +102,16 @@ class ResourceImageAndFontsetTests(unittest.TestCase):
         labels = ET.parse(SKIN_XML / "Includes_Labels.xml").getroot()
         variable = labels.find("./variable[@name='Label_SkinSettings_Level']")
         self.assertIsNotNone(variable)
-        for value in variable.findall("value"):
-            self.assertTrue((value.text or "").startswith("$LOCALIZE[31552]:"))
+        expected_labels = {
+            "Integer.IsEqual(Skin.String(Skin.SettingsLevel),3)": "$LOCALIZE[5]: $LOCALIZE[10039]",
+            "Integer.IsEqual(Skin.String(Skin.SettingsLevel),2)": "$LOCALIZE[5]: $LOCALIZE[10038]",
+            "Integer.IsEqual(Skin.String(Skin.SettingsLevel),1)": "$LOCALIZE[5]: $LOCALIZE[10037]",
+            None: "$LOCALIZE[5]: $LOCALIZE[10036]",
+        }
+        self.assertEqual(expected_labels, {
+            value.get("condition"): (value.text or "")
+            for value in variable.findall("value")
+        })
 
         settings = (SKIN_XML / "SkinSettings.xml").read_text(encoding="utf-8")
         self.assertIn("Skin.String(Skin.SettingsLevel)", settings)

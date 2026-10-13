@@ -65,22 +65,6 @@
                                 </item>
                             </content>
                         </include>
-                        <control type="group">
-                            <height>80</height>
-                            <width>80</width>
-                            <right>50</right>
-                            <bottom>80</bottom>
-                            <control type="image">
-                                <texture colordiffuse="main_fg_70">$VAR[Image_SkinSettings_Level]</texture>
-                                <bordersize>10</bordersize>
-                                <visible>!Container(10000).HasFocus(8)</visible>
-                            </control>
-                            <control type="image">
-                                <texture colordiffuse="$VAR[ColorSelected]">$VAR[Image_SkinSettings_Level]</texture>
-                                <bordersize>10</bordersize>
-                                <visible>Container(10000).HasFocus(8)</visible>
-                            </control>
-                        </control>
                     </include>
                 </include>
                 <include content="Settings_Right_Group">
