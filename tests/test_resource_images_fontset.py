@@ -1,3 +1,4 @@
+import hashlib
 import re
 import unittest
 import xml.etree.ElementTree as ET
@@ -40,6 +41,24 @@ class ResourceImageAndFontsetTests(unittest.TestCase):
             node.get("addon") for node in addon.findall("./requires/import")
         }
         self.assertIn(RESOURCE_ID, imported_ids)
+
+    def test_skinvariables_default_icons_remain_as_exact_skin_fallbacks(self):
+        expected_hashes = {
+            "icons/folder.png": "ca578815dd9205a4a7c2fd51619b72504eee0524ecef668b0e53978c3f62935d",
+            "icons/circle-plus.png": "b855a6eb916472ae4e8c72bcd209371fa2bd4c8605b7040d7866c4024ce4bc1f",
+            "icons/shapes.png": "087b812154509a73d3551ad3a3398bc0eb8c039a65f2a42712768eae85eddc09",
+        }
+        skin_images = {
+            path.relative_to(SKIN_ROOT / "extras").as_posix()
+            for path in (SKIN_ROOT / "extras").rglob("*")
+            if path.is_file() and path.suffix.lower() in {".jpg", ".png"}
+        }
+
+        self.assertEqual(set(expected_hashes), skin_images)
+        for relative, expected_hash in expected_hashes.items():
+            path = SKIN_ROOT / "extras" / relative
+            with self.subTest(path=relative):
+                self.assertEqual(expected_hash, hashlib.sha256(path.read_bytes()).hexdigest())
 
     def test_large_text_fontset_reuses_default_roles_and_keeps_default(self):
         fontsets = {
