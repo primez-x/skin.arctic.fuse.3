@@ -19,5 +19,31 @@
             <param name="plot_linespacing_tiny">1.11</param>
         </include>
     </fontset>
+
+    <fontset id="Readable (Large Text)" unicode="true">
+        <include content="Font_Default">
+            <param name="font_bold">resource://resource.font.robotocjksc/Inter-Unicode-Bold.ttf</param>
+            <param name="font_regular">resource://resource.font.robotocjksc/Inter-Unicode-Regular.ttf</param>
+            <param name="font_light">resource://resource.font.robotocjksc/Inter-Unicode-Regular.ttf</param>
+            <param name="style_light">light</param>
+
+            <param name="size_hint">18</param>
+            <param name="size_tiny">25</param>
+            <param name="size_mini">29</param>
+            <param name="size_main">34</param>
+            <param name="size_midi">38</param>
+            <param name="size_head">45</param>
+            <param name="size_huge">51</param>
+            <param name="size_main_x2">68</param>
+            <param name="size_huge_x2">102</param>
+            <param name="size_midi_x2">76</param>
+
+            <param name="plot_linespacing_head">1.03</param>
+            <param name="plot_linespacing_midi">1.45</param>
+            <param name="plot_linespacing_main">1.13</param>
+            <param name="plot_linespacing_mini">1.20</param>
+            <param name="plot_linespacing_tiny">1.11</param>
+        </include>
+    </fontset>
 </fonts>
 

@@ -105,7 +105,7 @@
             <param name="id">9001</param>
             <param name="groupid">9101</param>
             <label>$LOCALIZE[31032]</label>
-            <param name="icon">special://skin/extras/icons/circle-check.png</param>
+            <param name="icon">resource://resource.images.arctic.fuse.3/extras/icons/circle-check.png</param>
             <visible>Control.IsEnabled(413) + Control.IsVisible(413) + Control.IsVisible(450)</visible>
             <onclick>SendClick(413)</onclick>
         </include>
@@ -113,7 +113,7 @@
             <param name="id">9003</param>
             <param name="groupid">9103</param>
             <label>$LOCALIZE[119]</label>
-            <param name="icon">special://skin/extras/icons/circle-plus.png</param>
+            <param name="icon">resource://resource.images.arctic.fuse.3/extras/icons/circle-plus.png</param>
             <visible>Control.IsEnabled(415) + Control.IsVisible(415)</visible>
             <onclick>SendClick(415)</onclick>
         </include>
@@ -121,7 +121,7 @@
             <param name="id">9002</param>
             <param name="groupid">9102</param>
             <label>$LOCALIZE[15067]</label>
-            <param name="icon">special://skin/extras/icons/circle-xmark.png</param>
+            <param name="icon">resource://resource.images.arctic.fuse.3/extras/icons/circle-xmark.png</param>
             <visible>Control.IsEnabled(414) + Control.IsVisible(414)</visible>
             <onclick>SendClick(414)</onclick>
         </include>

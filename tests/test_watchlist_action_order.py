@@ -319,7 +319,10 @@ class WatchlistActionOrderTests(unittest.TestCase):
             "circle-xmark.png",
         ):
             self.assertIn(icon, images)
-            self.assertTrue((SKIN_ROOT / "extras" / "icons" / icon).is_file())
+            self.assertIn(
+                f"resource://resource.images.arctic.fuse.3/extras/icons/{icon}",
+                images,
+            )
         self.assertIn("Control.HasFocus(4001)", conditions)
         self.assertIn("PKC.Watchlist.Detail.OptimisticState", conditions)
         self.assertNotIn("circle-regular.png", images)

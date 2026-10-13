@@ -19,22 +19,22 @@
 
     <variable name="Image_Blur_Fallback">
         <value condition="!String.IsEmpty(Skin.String(Background.Image))">$INFO[Skin.String(Background.Image)]</value>
-        <value>special://skin/extras/backgrounds/blur/purple_blur.jpg</value>
+        <value>resource://resource.images.arctic.fuse.3/extras/backgrounds/blur/purple_blur.jpg</value>
     </variable>
 
     <variable name="Image_OSD_SkipPrev">
-        <value condition="!String.IsEmpty(Player.Chapter) + !String.IsEqual(Player.Chapter,00) + !String.IsEmpty(Player.ChapterCount) + !String.IsEqual(Player.ChapterCount,00) + !String.IsEqual(Player.Chapter,01)">special://skin/extras/icons/backward-fast.png</value>
-        <value condition="Integer.IsGreater(VideoPlayer.PlaylistPosition,1) + Integer.IsGreater(VideoPlayer.PlaylistLength,1)">special://skin/extras/icons/backward-step.png</value>
-        <value condition="Integer.IsLess(Player.Time(mins),10)">special://skin/extras/icons/backward-step.png</value>
-        <value>special://skin/extras/icons/backward-jump.png</value>
+        <value condition="!String.IsEmpty(Player.Chapter) + !String.IsEqual(Player.Chapter,00) + !String.IsEmpty(Player.ChapterCount) + !String.IsEqual(Player.ChapterCount,00) + !String.IsEqual(Player.Chapter,01)">resource://resource.images.arctic.fuse.3/extras/icons/backward-fast.png</value>
+        <value condition="Integer.IsGreater(VideoPlayer.PlaylistPosition,1) + Integer.IsGreater(VideoPlayer.PlaylistLength,1)">resource://resource.images.arctic.fuse.3/extras/icons/backward-step.png</value>
+        <value condition="Integer.IsLess(Player.Time(mins),10)">resource://resource.images.arctic.fuse.3/extras/icons/backward-step.png</value>
+        <value>resource://resource.images.arctic.fuse.3/extras/icons/backward-jump.png</value>
     </variable>
 
     <variable name="Image_OSD_SkipNext">
-        <value condition="!String.IsEmpty(Window(10000).Property(plugin.video.plexkodiconnect.skip_marker.available))">special://skin/extras/icons/forward-fast.png</value>
-        <value condition="!String.IsEmpty(Player.Chapter) + !String.IsEqual(Player.Chapter,00) + !String.IsEmpty(Player.ChapterCount) + !String.IsEqual(Player.ChapterCount,00) + !String.IsEqual(Player.Chapter,Player.ChapterCount)">special://skin/extras/icons/forward-fast.png</value>
-        <value condition="Integer.IsLess(VideoPlayer.PlaylistPosition,VideoPlayer.PlaylistLength)">special://skin/extras/icons/forward-step.png</value>
-        <value condition="Integer.IsLess(Player.TimeRemaining(mins),10)">special://skin/extras/icons/forward-step.png</value>
-        <value>special://skin/extras/icons/forward-jump.png</value>
+        <value condition="!String.IsEmpty(Window(10000).Property(plugin.video.plexkodiconnect.skip_marker.available))">resource://resource.images.arctic.fuse.3/extras/icons/forward-fast.png</value>
+        <value condition="!String.IsEmpty(Player.Chapter) + !String.IsEqual(Player.Chapter,00) + !String.IsEmpty(Player.ChapterCount) + !String.IsEqual(Player.ChapterCount,00) + !String.IsEqual(Player.Chapter,Player.ChapterCount)">resource://resource.images.arctic.fuse.3/extras/icons/forward-fast.png</value>
+        <value condition="Integer.IsLess(VideoPlayer.PlaylistPosition,VideoPlayer.PlaylistLength)">resource://resource.images.arctic.fuse.3/extras/icons/forward-step.png</value>
+        <value condition="Integer.IsLess(Player.TimeRemaining(mins),10)">resource://resource.images.arctic.fuse.3/extras/icons/forward-step.png</value>
+        <value>resource://resource.images.arctic.fuse.3/extras/icons/forward-jump.png</value>
     </variable>
 
     <variable name="Image_1114_Poster">
@@ -59,46 +59,46 @@
     </variable>
 
     <variable name="Image_VolumeIcon">
-        <value condition="Player.Muted">special://skin/extras/icons/volume-xmark.png</value>
-        <value>special://skin/extras/icons/volume-low.png</value>
+        <value condition="Player.Muted">resource://resource.images.arctic.fuse.3/extras/icons/volume-xmark.png</value>
+        <value>resource://resource.images.arctic.fuse.3/extras/icons/volume-low.png</value>
     </variable>
 
     <variable name="Image_Reviews">
         <value condition="!String.IsEmpty(ListItem.Property(special_icon))">$INFO[ListItem.Property(special_icon)]</value>
-        <value>special://skin/extras/icons/comment.png</value>
+        <value>resource://resource.images.arctic.fuse.3/extras/icons/comment.png</value>
     </variable>
 
     <variable name="Image_VideoOSD_PersonCredits">
-        <value condition="Skin.String(VideoOSD.PersonCredits.WidgetInfo,crew)">special://skin/extras/icons/clapperboard.png</value>
-        <value condition="Skin.String(VideoOSD.PersonCredits.WidgetInfo,both)">special://skin/extras/icons/video.png</value>
-        <value condition="Skin.String(VideoOSD.PersonCredits.WidgetInfo,films)">special://skin/extras/icons/film.png</value>
-        <value condition="Skin.String(VideoOSD.PersonCredits.WidgetInfo,shows)">special://skin/extras/icons/tv.png</value>
+        <value condition="Skin.String(VideoOSD.PersonCredits.WidgetInfo,crew)">resource://resource.images.arctic.fuse.3/extras/icons/clapperboard.png</value>
+        <value condition="Skin.String(VideoOSD.PersonCredits.WidgetInfo,both)">resource://resource.images.arctic.fuse.3/extras/icons/video.png</value>
+        <value condition="Skin.String(VideoOSD.PersonCredits.WidgetInfo,films)">resource://resource.images.arctic.fuse.3/extras/icons/film.png</value>
+        <value condition="Skin.String(VideoOSD.PersonCredits.WidgetInfo,shows)">resource://resource.images.arctic.fuse.3/extras/icons/tv.png</value>
     </variable>
 
     <variable name="Image_Settings_Level">
-        <value condition="String.IsEqual(Control.GetLabel(20),$LOCALIZE[10039])">special://skin/extras/icons/settings-expert.png</value>
-        <value condition="String.IsEqual(Control.GetLabel(20),$LOCALIZE[10038])">special://skin/extras/icons/settings-advanced.png</value>
-        <value condition="String.IsEqual(Control.GetLabel(20),$LOCALIZE[10037])">special://skin/extras/icons/settings-standard.png</value>
-        <value condition="String.IsEqual(Control.GetLabel(20),$LOCALIZE[10036])">special://skin/extras/icons/settings-basic.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(20),$LOCALIZE[10039])">resource://resource.images.arctic.fuse.3/extras/icons/settings-expert.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(20),$LOCALIZE[10038])">resource://resource.images.arctic.fuse.3/extras/icons/settings-advanced.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(20),$LOCALIZE[10037])">resource://resource.images.arctic.fuse.3/extras/icons/settings-standard.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(20),$LOCALIZE[10036])">resource://resource.images.arctic.fuse.3/extras/icons/settings-basic.png</value>
     </variable>
 
     <variable name="Image_SkinSettings_Level">
-        <value condition="Integer.IsEqual(Skin.String(Skin.SettingsLevel),3)">special://skin/extras/icons/settings-expert.png</value>
-        <value condition="Integer.IsEqual(Skin.String(Skin.SettingsLevel),2)">special://skin/extras/icons/settings-advanced.png</value>
-        <value condition="Integer.IsEqual(Skin.String(Skin.SettingsLevel),1)">special://skin/extras/icons/settings-standard.png</value>
-        <value>special://skin/extras/icons/settings-basic.png</value>
+        <value condition="Integer.IsEqual(Skin.String(Skin.SettingsLevel),3)">resource://resource.images.arctic.fuse.3/extras/icons/settings-expert.png</value>
+        <value condition="Integer.IsEqual(Skin.String(Skin.SettingsLevel),2)">resource://resource.images.arctic.fuse.3/extras/icons/settings-advanced.png</value>
+        <value condition="Integer.IsEqual(Skin.String(Skin.SettingsLevel),1)">resource://resource.images.arctic.fuse.3/extras/icons/settings-standard.png</value>
+        <value>resource://resource.images.arctic.fuse.3/extras/icons/settings-basic.png</value>
     </variable>
 
 
     <variable name="Image_Widget_Style">
-        <value condition="String.IsEqual(ListItem.Property(widget_style),Landscape)">special://skin/extras/icons/view-landscape.png</value>
-        <value condition="String.IsEqual(ListItem.Property(widget_style),Square)">special://skin/extras/icons/view-square.png</value>
-        <value condition="String.IsEqual(ListItem.Property(widget_style),Board)">special://skin/extras/icons/window-maximize-regular.png</value>
-        <value condition="String.IsEqual(ListItem.Property(widget_style),Circle)">special://skin/extras/icons/view-circle.png</value>
-        <value condition="String.IsEqual(ListItem.Property(widget_style),Poster)">special://skin/extras/icons/view-poster.png</value>
-        <value condition="String.IsEqual(ListItem.Property(widget_style),Banner)">special://skin/extras/icons/window-maximize-regular.png</value>
-        <value condition="String.IsEqual(ListItem.Property(widget_style),Card)">special://skin/extras/icons/window-maximize-regular.png</value>
-        <value>special://skin/extras/icons/window-maximize-regular.png</value>
+        <value condition="String.IsEqual(ListItem.Property(widget_style),Landscape)">resource://resource.images.arctic.fuse.3/extras/icons/view-landscape.png</value>
+        <value condition="String.IsEqual(ListItem.Property(widget_style),Square)">resource://resource.images.arctic.fuse.3/extras/icons/view-square.png</value>
+        <value condition="String.IsEqual(ListItem.Property(widget_style),Board)">resource://resource.images.arctic.fuse.3/extras/icons/window-maximize-regular.png</value>
+        <value condition="String.IsEqual(ListItem.Property(widget_style),Circle)">resource://resource.images.arctic.fuse.3/extras/icons/view-circle.png</value>
+        <value condition="String.IsEqual(ListItem.Property(widget_style),Poster)">resource://resource.images.arctic.fuse.3/extras/icons/view-poster.png</value>
+        <value condition="String.IsEqual(ListItem.Property(widget_style),Banner)">resource://resource.images.arctic.fuse.3/extras/icons/window-maximize-regular.png</value>
+        <value condition="String.IsEqual(ListItem.Property(widget_style),Card)">resource://resource.images.arctic.fuse.3/extras/icons/window-maximize-regular.png</value>
+        <value>resource://resource.images.arctic.fuse.3/extras/icons/window-maximize-regular.png</value>
     </variable>
 
     <variable name="Image_VideoVersion_Poster">
@@ -177,15 +177,15 @@
 
     <variable name="Image_ProfileIcon">
         <value condition="!String.IsEqual(ListItem.Icon,DefaultUser.png) + !String.IsEmpty(ListItem.Icon)">$INFO[ListItem.Icon]</value>
-        <value>$INFO[ListItem.CurrentItem,special://skin/extras/profiles/Mountains (,).jpg]</value>
+        <value>$INFO[ListItem.CurrentItem,resource://resource.images.arctic.fuse.3/extras/profiles/Mountains (,).jpg]</value>
     </variable>
 
     <variable name="Image_ProfileThumb">
         <value condition="!String.IsEmpty(Skin.String(SkinVariables.SkinUser.Icon))">$INFO[Skin.String(SkinVariables.SkinUser.Icon)]</value>
-        <value condition="!String.IsEmpty(Skin.String(SkinVariables.SkinUser.Name)) + !String.IsEmpty(Window(Home).Property(System.ProfileNumber))">$INFO[Window(Home).Property(System.ProfileNumber),special://skin/extras/profiles/Mountains (,).jpg]</value>
+        <value condition="!String.IsEmpty(Skin.String(SkinVariables.SkinUser.Name)) + !String.IsEmpty(Window(Home).Property(System.ProfileNumber))">$INFO[Window(Home).Property(System.ProfileNumber),resource://resource.images.arctic.fuse.3/extras/profiles/Mountains (,).jpg]</value>
         <value condition="!String.IsEqual(System.ProfileThumb,DefaultUser.png) + !String.IsEmpty(System.ProfileThumb)">$INFO[System.ProfileThumb]</value>
-        <value condition="!String.IsEmpty(Window(Home).Property(System.ProfileNumber))">$INFO[Window(Home).Property(System.ProfileNumber),special://skin/extras/profiles/Mountains (,).jpg]</value>
-        <value>special://skin/extras/profiles/Mountains (1).jpg</value>
+        <value condition="!String.IsEmpty(Window(Home).Property(System.ProfileNumber))">$INFO[Window(Home).Property(System.ProfileNumber),resource://resource.images.arctic.fuse.3/extras/profiles/Mountains (,).jpg]</value>
+        <value>resource://resource.images.arctic.fuse.3/extras/profiles/Mountains (1).jpg</value>
     </variable>
 
     <variable name="Image_Player_Status">
@@ -211,32 +211,32 @@
     </variable>
 
     <variable name="Image_DialogInfo_Status">
-        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Status),Returning Series) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Status),Returning Series)">special://skin/extras/icons/calendar-day.png</value>
-        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Status),Post Production) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Status),Post Production)">special://skin/extras/icons/calendar-day.png</value>
-        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Status),Canceled) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Status),Canceled)">special://skin/extras/icons/calendar-xmark.png</value>
-        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Status),Ended) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Status),Ended)">special://skin/extras/icons/calendar-check.png</value>
-        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Status),Released) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Status),Released)">special://skin/extras/icons/calendar-check.png</value>
-        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Status),In Production) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Status),In Production)">special://skin/extras/icons/calendar-day.png</value>
-        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Status),Planned) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Status),Planned)">special://skin/extras/icons/calendar-day.png</value>
-        <value>special://skin/extras/icons/calendar.png</value>
+        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Status),Returning Series) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Status),Returning Series)">resource://resource.images.arctic.fuse.3/extras/icons/calendar-day.png</value>
+        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Status),Post Production) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Status),Post Production)">resource://resource.images.arctic.fuse.3/extras/icons/calendar-day.png</value>
+        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Status),Canceled) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Status),Canceled)">resource://resource.images.arctic.fuse.3/extras/icons/calendar-xmark.png</value>
+        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Status),Ended) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Status),Ended)">resource://resource.images.arctic.fuse.3/extras/icons/calendar-check.png</value>
+        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Status),Released) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Status),Released)">resource://resource.images.arctic.fuse.3/extras/icons/calendar-check.png</value>
+        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Status),In Production) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Status),In Production)">resource://resource.images.arctic.fuse.3/extras/icons/calendar-day.png</value>
+        <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Status),Planned) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Status),Planned)">resource://resource.images.arctic.fuse.3/extras/icons/calendar-day.png</value>
+        <value>resource://resource.images.arctic.fuse.3/extras/icons/calendar.png</value>
     </variable>
 
     <variable name="Image_SimpleDialogBackground">
-        <value condition="Skin.String(Background.DialogImage,Blue)">special://skin/extras/backgrounds/dialogs/blue_blur.png</value>
-        <value condition="Skin.String(Background.DialogImage,Purple)">special://skin/extras/backgrounds/dialogs/purple_blur.png</value>
-        <value condition="Skin.String(Background.DialogImage,Pink)">special://skin/extras/backgrounds/dialogs/pink_blur.png</value>
-        <value condition="Skin.String(Background.DialogImage,Green)">special://skin/extras/backgrounds/dialogs/green_blur.png</value>
-        <value condition="Skin.String(Background.DialogImage,Slate)">special://skin/extras/backgrounds/dialogs/slate_blur.png</value>
-        <value condition="Skin.String(Background.DialogImage,Blush)">special://skin/extras/backgrounds/dialogs/blush_blur.png</value>
-        <value condition="Skin.String(Background.DialogImage,Coal)">special://skin/extras/backgrounds/dialogs/coal_blur.png</value>
-        <value condition="Skin.String(Background.DialogImage,Chalk)">special://skin/extras/backgrounds/dialogs/chalk_blur.png</value>
-        <value condition="Skin.String(Background.DialogImage,Onyx)">special://skin/extras/backgrounds/dialogs/onyx_blur.png</value>
-        <value>special://skin/extras/backgrounds/dialogs/classic_blur.png</value>
+        <value condition="Skin.String(Background.DialogImage,Blue)">resource://resource.images.arctic.fuse.3/extras/backgrounds/dialogs/blue_blur.png</value>
+        <value condition="Skin.String(Background.DialogImage,Purple)">resource://resource.images.arctic.fuse.3/extras/backgrounds/dialogs/purple_blur.png</value>
+        <value condition="Skin.String(Background.DialogImage,Pink)">resource://resource.images.arctic.fuse.3/extras/backgrounds/dialogs/pink_blur.png</value>
+        <value condition="Skin.String(Background.DialogImage,Green)">resource://resource.images.arctic.fuse.3/extras/backgrounds/dialogs/green_blur.png</value>
+        <value condition="Skin.String(Background.DialogImage,Slate)">resource://resource.images.arctic.fuse.3/extras/backgrounds/dialogs/slate_blur.png</value>
+        <value condition="Skin.String(Background.DialogImage,Blush)">resource://resource.images.arctic.fuse.3/extras/backgrounds/dialogs/blush_blur.png</value>
+        <value condition="Skin.String(Background.DialogImage,Coal)">resource://resource.images.arctic.fuse.3/extras/backgrounds/dialogs/coal_blur.png</value>
+        <value condition="Skin.String(Background.DialogImage,Chalk)">resource://resource.images.arctic.fuse.3/extras/backgrounds/dialogs/chalk_blur.png</value>
+        <value condition="Skin.String(Background.DialogImage,Onyx)">resource://resource.images.arctic.fuse.3/extras/backgrounds/dialogs/onyx_blur.png</value>
+        <value>resource://resource.images.arctic.fuse.3/extras/backgrounds/dialogs/classic_blur.png</value>
     </variable>
 
     <variable name="Image_SimpleBackground">
         <value condition="!String.IsEmpty(Skin.String(Background.Image))">$INFO[Skin.String(Background.Image)]</value>
-        <value>special://skin/extras/backgrounds/blur/purple_blur.jpg</value>
+        <value>resource://resource.images.arctic.fuse.3/extras/backgrounds/blur/purple_blur.jpg</value>
     </variable>
 
     <variable name="Image_OSD_Poster">
@@ -340,7 +340,7 @@
         <value condition="!String.IsEmpty(ListItem.Art(artist.fanart))">$INFO[ListItem.Art(artist.fanart)]</value>
 
         <value condition="!String.IsEmpty(Skin.String(Startup.ImageFolder))">$INFO[Skin.String(Startup.ImageFolder)]</value>
-        <value>special://skin/extras/backgrounds/launch/</value>
+        <value condition="System.AddonIsEnabled(resource.images.arctic.fuse.3)">resource://resource.images.arctic.fuse.3/extras/backgrounds/launch/</value>
     </variable>
 
 
@@ -350,9 +350,9 @@
     </variable>
 
     <variable name="Image_StartUp">
-        <value condition="Weather.IsFetched + !String.IsEmpty(Weather.FanartCode) + System.AddonIsEnabled(resource.images.weatherfanart.multi) + [String.IsEmpty(Skin.String(Startup.ImageFolder)) | Skin.String(Startup.ImageFolder,special://skin/extras/backgrounds/launch/)]">resource://resource.images.weatherfanart.multi/$INFO[Weather.FanartCode]/</value>
+        <value condition="Weather.IsFetched + !String.IsEmpty(Weather.FanartCode) + System.AddonIsEnabled(resource.images.weatherfanart.multi) + [String.IsEmpty(Skin.String(Startup.ImageFolder)) | Skin.String(Startup.ImageFolder,resource://resource.images.arctic.fuse.3/extras/backgrounds/launch/)]">resource://resource.images.weatherfanart.multi/$INFO[Weather.FanartCode]/</value>
         <value condition="!String.IsEmpty(Skin.String(Startup.ImageFolder))">$INFO[Skin.String(Startup.ImageFolder)]</value>
-        <value>special://skin/extras/backgrounds/launch/</value>
+        <value condition="System.AddonIsEnabled(resource.images.arctic.fuse.3)">resource://resource.images.arctic.fuse.3/extras/backgrounds/launch/</value>
     </variable>
 
     <variable name="Image_PVRPoster">
@@ -371,29 +371,29 @@
     </variable>
 
     <variable name="Image_FullscreenWidget_PlayButton">
-        <value condition="Container(301).ListItem.IsFolder + !String.StartsWith(Container(301).ListItem.FolderPath,videodb://)">special://skin/extras/icons/folder.png</value>
-        <value>special://skin/extras/icons/play2.png</value>
+        <value condition="Container(301).ListItem.IsFolder + !String.StartsWith(Container(301).ListItem.FolderPath,videodb://)">resource://resource.images.arctic.fuse.3/extras/icons/folder.png</value>
+        <value>resource://resource.images.arctic.fuse.3/extras/icons/play2.png</value>
     </variable>
 
     <variable name="Image_DialogInfo_PlayButton">
-        <value condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.OptimisticState),present) + Control.HasFocus(4001)">special://skin/extras/icons/circle-xmark.png</value>
-        <value condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.OptimisticState),present)">special://skin/extras/icons/circle-xmark-regular.png</value>
-        <value condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.OptimisticState),absent) + Control.HasFocus(4001)">special://skin/extras/icons/circle-check.png</value>
-        <value condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.OptimisticState),absent)">special://skin/extras/icons/circle-check-regular.png</value>
-        <value condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.State),present) + Control.HasFocus(4001)">special://skin/extras/icons/circle-xmark.png</value>
-        <value condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.State),present)">special://skin/extras/icons/circle-xmark-regular.png</value>
-        <value condition="$EXP[Exp_PlexWatchlist_Target] + [String.IsEqual(ListItem.Property(LISTINGKEY),watchlist) | String.IsEqual(ListItem.Property(PlexWatchlistHint),present)] + !String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.State),absent) + Control.HasFocus(4001)">special://skin/extras/icons/circle-xmark.png</value>
-        <value condition="$EXP[Exp_PlexWatchlist_Target] + [String.IsEqual(ListItem.Property(LISTINGKEY),watchlist) | String.IsEqual(ListItem.Property(PlexWatchlistHint),present)] + !String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.State),absent)">special://skin/extras/icons/circle-xmark-regular.png</value>
-        <value condition="$EXP[Exp_PlexWatchlist_Target] + Control.HasFocus(4001)">special://skin/extras/icons/circle-check.png</value>
-        <value condition="$EXP[Exp_PlexWatchlist_Target]">special://skin/extras/icons/circle-check-regular.png</value>
-        <value condition="$EXP[Exp_IsFolder]">special://skin/extras/icons/folder.png</value>
-        <value condition="Control.HasFocus(4001)">special://skin/extras/icons/play3.png</value>
-        <value>special://skin/extras/icons/play.png</value>
+        <value condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.OptimisticState),present) + Control.HasFocus(4001)">resource://resource.images.arctic.fuse.3/extras/icons/circle-xmark.png</value>
+        <value condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.OptimisticState),present)">resource://resource.images.arctic.fuse.3/extras/icons/circle-xmark-regular.png</value>
+        <value condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.OptimisticState),absent) + Control.HasFocus(4001)">resource://resource.images.arctic.fuse.3/extras/icons/circle-check.png</value>
+        <value condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.OptimisticState),absent)">resource://resource.images.arctic.fuse.3/extras/icons/circle-check-regular.png</value>
+        <value condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.State),present) + Control.HasFocus(4001)">resource://resource.images.arctic.fuse.3/extras/icons/circle-xmark.png</value>
+        <value condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.State),present)">resource://resource.images.arctic.fuse.3/extras/icons/circle-xmark-regular.png</value>
+        <value condition="$EXP[Exp_PlexWatchlist_Target] + [String.IsEqual(ListItem.Property(LISTINGKEY),watchlist) | String.IsEqual(ListItem.Property(PlexWatchlistHint),present)] + !String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.State),absent) + Control.HasFocus(4001)">resource://resource.images.arctic.fuse.3/extras/icons/circle-xmark.png</value>
+        <value condition="$EXP[Exp_PlexWatchlist_Target] + [String.IsEqual(ListItem.Property(LISTINGKEY),watchlist) | String.IsEqual(ListItem.Property(PlexWatchlistHint),present)] + !String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.State),absent)">resource://resource.images.arctic.fuse.3/extras/icons/circle-xmark-regular.png</value>
+        <value condition="$EXP[Exp_PlexWatchlist_Target] + Control.HasFocus(4001)">resource://resource.images.arctic.fuse.3/extras/icons/circle-check.png</value>
+        <value condition="$EXP[Exp_PlexWatchlist_Target]">resource://resource.images.arctic.fuse.3/extras/icons/circle-check-regular.png</value>
+        <value condition="$EXP[Exp_IsFolder]">resource://resource.images.arctic.fuse.3/extras/icons/folder.png</value>
+        <value condition="Control.HasFocus(4001)">resource://resource.images.arctic.fuse.3/extras/icons/play3.png</value>
+        <value>resource://resource.images.arctic.fuse.3/extras/icons/play.png</value>
     </variable>
 
     <variable name="Image_FullscreenWidget_InfoButton">
-        <value condition="Skin.HasSetting(Spotlight.UseMenuButton) + $EXP[Exp_Hubs_Spotlight_HasItems]">special://skin/extras/icons/indent.png</value>
-        <value>special://skin/extras/icons/info2.png</value>
+        <value condition="Skin.HasSetting(Spotlight.UseMenuButton) + $EXP[Exp_Hubs_Spotlight_HasItems]">resource://resource.images.arctic.fuse.3/extras/icons/indent.png</value>
+        <value>resource://resource.images.arctic.fuse.3/extras/icons/info2.png</value>
     </variable>
 
     <variable name="Image_ArtistFanartVis">
@@ -405,14 +405,14 @@
     </variable>
 
     <variable name="Image_OSD_Repeat">
-        <value condition="Playlist.IsRepeatOne">special://skin/extras/icons/repeat-one.png</value>
-        <value condition="Playlist.IsRepeat">special://skin/extras/icons/repeat.png</value>
-        <value>special://skin/extras/icons/repeat-off.png</value>
+        <value condition="Playlist.IsRepeatOne">resource://resource.images.arctic.fuse.3/extras/icons/repeat-one.png</value>
+        <value condition="Playlist.IsRepeat">resource://resource.images.arctic.fuse.3/extras/icons/repeat.png</value>
+        <value>resource://resource.images.arctic.fuse.3/extras/icons/repeat-off.png</value>
     </variable>
 
     <variable name="Image_OSD_Shuffle">
-        <value condition="Playlist.IsRandom">special://skin/extras/icons/shuffle.png</value>
-        <value>special://skin/extras/icons/shuffle-off.png</value>
+        <value condition="Playlist.IsRandom">resource://resource.images.arctic.fuse.3/extras/icons/shuffle.png</value>
+        <value>resource://resource.images.arctic.fuse.3/extras/icons/shuffle-off.png</value>
     </variable>
 
     <variable name="Image_UpNext">
@@ -427,23 +427,23 @@
     </variable>
 
     <variable name="Image_OSD_PausePlay">
-        <value condition="Player.Playing">special://skin/extras/icons/pause.png</value>
-        <value>special://skin/extras/icons/play2.png</value>
+        <value condition="Player.Playing">resource://resource.images.arctic.fuse.3/extras/icons/pause.png</value>
+        <value>resource://resource.images.arctic.fuse.3/extras/icons/play2.png</value>
     </variable>
 
     <variable name="Image_OSD_PlayPause">
         <value condition="[Window.IsActive(musicosd) | Window.IsActive(videoosd)] + !$EXP[Exp_OSD_HideControls]">$VAR[Image_OSD_PausePlay]</value>
-        <value condition="Player.Paused">special://skin/extras/icons/pause.png</value>
-        <value condition="Player.Forwarding">special://skin/extras/icons/forward.png</value>
-        <value condition="Player.Rewinding">special://skin/extras/icons/backward.png</value>
-        <value>special://skin/extras/icons/play2.png</value>
+        <value condition="Player.Paused">resource://resource.images.arctic.fuse.3/extras/icons/pause.png</value>
+        <value condition="Player.Forwarding">resource://resource.images.arctic.fuse.3/extras/icons/forward.png</value>
+        <value condition="Player.Rewinding">resource://resource.images.arctic.fuse.3/extras/icons/backward.png</value>
+        <value>resource://resource.images.arctic.fuse.3/extras/icons/play2.png</value>
     </variable>
 
     <variable name="Image_NowPlaying_PlayPause">
-        <value condition="Player.Paused">special://skin/extras/icons/pause.png</value>
-        <value condition="Player.Forwarding">special://skin/extras/icons/forward.png</value>
-        <value condition="Player.Rewinding">special://skin/extras/icons/backward.png</value>
-        <value>special://skin/extras/icons/play2.png</value>
+        <value condition="Player.Paused">resource://resource.images.arctic.fuse.3/extras/icons/pause.png</value>
+        <value condition="Player.Forwarding">resource://resource.images.arctic.fuse.3/extras/icons/forward.png</value>
+        <value condition="Player.Rewinding">resource://resource.images.arctic.fuse.3/extras/icons/backward.png</value>
+        <value>resource://resource.images.arctic.fuse.3/extras/icons/play2.png</value>
     </variable>
 
     <variable name="Image_CombinedStudio">
@@ -564,35 +564,35 @@
     </variable>
 
     <variable name="Image_PVRGrpMgr_HideGroup">
-        <value condition="String.IsEqual(Control.GetLabel(25),_ (*))">special://skin/extras/icons/watched-hide.png</value>
-        <value>special://skin/extras/icons/watched-show.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(25),_ (*))">resource://resource.images.arctic.fuse.3/extras/icons/watched-hide.png</value>
+        <value>resource://resource.images.arctic.fuse.3/extras/icons/watched-show.png</value>
     </variable>
 
     <variable name="Image_AddonInfo_Enable">
-        <value condition="String.IsEqual(Control.GetLabel(7),$LOCALIZE[24021])">special://skin/extras/icons/enabled.png</value>
-        <value>special://skin/extras/icons/disabled.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(7),$LOCALIZE[24021])">resource://resource.images.arctic.fuse.3/extras/icons/enabled.png</value>
+        <value>resource://resource.images.arctic.fuse.3/extras/icons/disabled.png</value>
     </variable>
 
     <variable name="Image_AddonInfo_Install">
-        <value condition="String.IsEqual(Control.GetLabel(6),$LOCALIZE[24037])">special://skin/extras/icons/uninstall.png</value>
-        <value>special://skin/extras/icons/download.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(6),$LOCALIZE[24037])">resource://resource.images.arctic.fuse.3/extras/icons/uninstall.png</value>
+        <value>resource://resource.images.arctic.fuse.3/extras/icons/download.png</value>
     </variable>
 
     <variable name="Image_Watched">
-        <value condition="System.Setting(hidewatched)">special://skin/extras/icons/watched-hide.png</value>
-        <value>special://skin/extras/icons/watched-show.png</value>
+        <value condition="System.Setting(hidewatched)">resource://resource.images.arctic.fuse.3/extras/icons/watched-hide.png</value>
+        <value>resource://resource.images.arctic.fuse.3/extras/icons/watched-show.png</value>
     </variable>
 
     <variable name="Image_Filtered">
-        <value condition="Container.Filtered | !String.IsEmpty(Control.GetLabel(19).index(1))">special://skin/extras/icons/filter-circle-check.png</value>
-        <value>special://skin/extras/icons/filter-circle-xmark.png</value>
+        <value condition="Container.Filtered | !String.IsEmpty(Control.GetLabel(19).index(1))">resource://resource.images.arctic.fuse.3/extras/icons/filter-circle-check.png</value>
+        <value>resource://resource.images.arctic.fuse.3/extras/icons/filter-circle-xmark.png</value>
     </variable>
 
     <variable name="Image_SortDirection">
-        <value condition="!String.IsEmpty(Window.Property(MediaFilter.SortHow)) + Window.IsMedia + String.IsEqual(Container.FolderName,Skin Variables) + !String.IsEmpty(Window.Property(MediaFilter.BaseDir.Name))">special://skin/extras/icons/arrow-down-z-a.png</value>
-        <value condition="String.IsEmpty(Window.Property(MediaFilter.SortHow)) + Window.IsMedia + String.IsEqual(Container.FolderName,Skin Variables) + !String.IsEmpty(Window.Property(MediaFilter.BaseDir.Name))">special://skin/extras/icons/arrow-up-z-a.png</value>
-        <value condition="Container.SortDirection(Descending)">special://skin/extras/icons/arrow-down-z-a.png</value>
-        <value>special://skin/extras/icons/arrow-up-z-a.png</value>
+        <value condition="!String.IsEmpty(Window.Property(MediaFilter.SortHow)) + Window.IsMedia + String.IsEqual(Container.FolderName,Skin Variables) + !String.IsEmpty(Window.Property(MediaFilter.BaseDir.Name))">resource://resource.images.arctic.fuse.3/extras/icons/arrow-down-z-a.png</value>
+        <value condition="String.IsEmpty(Window.Property(MediaFilter.SortHow)) + Window.IsMedia + String.IsEqual(Container.FolderName,Skin Variables) + !String.IsEmpty(Window.Property(MediaFilter.BaseDir.Name))">resource://resource.images.arctic.fuse.3/extras/icons/arrow-up-z-a.png</value>
+        <value condition="Container.SortDirection(Descending)">resource://resource.images.arctic.fuse.3/extras/icons/arrow-down-z-a.png</value>
+        <value>resource://resource.images.arctic.fuse.3/extras/icons/arrow-up-z-a.png</value>
     </variable>
 
     <variable name="Image_Player_RottenTomatoes">
@@ -694,48 +694,48 @@
 
 
     <variable name="Image_DialogConfirm_10">
-        <value condition="String.IsEqual(Control.GetLabel(10),$LOCALIZE[222])">special://skin/extras/icons/circle-xmark.png</value>
-        <value condition="String.IsEqual(Control.GetLabel(10),$LOCALIZE[15067])">special://skin/extras/icons/circle-xmark.png</value>
-        <value condition="String.IsEqual(Control.GetLabel(10),$LOCALIZE[106])">special://skin/extras/icons/circle-xmark.png</value>
-        <value condition="String.IsEqual(Control.GetLabel(10),$LOCALIZE[107])">special://skin/extras/icons/circle-check.png</value>
-        <value condition="String.IsEqual(Control.GetLabel(10),$LOCALIZE[186])">special://skin/extras/icons/circle-check.png</value>
-        <value condition="String.IsEqual(Control.GetLabel(10),$LOCALIZE[31032])">special://skin/extras/icons/circle-check.png</value>
-        <value condition="String.IsEqual(Control.GetLabel(10),$LOCALIZE[13007])">special://skin/extras/icons/triangle-exclamation.png</value>
-        <value condition="String.IsEqual(Control.GetLabel(10),$LOCALIZE[571])">special://skin/extras/icons/triangle-exclamation.png</value>
-        <value condition="String.IsEqual(Control.GetLabel(10),$LOCALIZE[409])">special://skin/extras/icons/triangle-exclamation.png</value>
-        <value condition="String.IsEqual(Control.GetLabel(10),$LOCALIZE[1024])">special://skin/extras/icons/circle-plus.png</value>
-        <value condition="String.IsEqual(Control.GetLabel(10),$LOCALIZE[15019])">special://skin/extras/icons/circle-plus.png</value>
-        <value condition="String.IsEqual(Control.GetLabel(10),$LOCALIZE[31032])">special://skin/extras/icons/circle-plus.png</value>
-        <value>special://skin/extras/icons/circle-dot.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(10),$LOCALIZE[222])">resource://resource.images.arctic.fuse.3/extras/icons/circle-xmark.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(10),$LOCALIZE[15067])">resource://resource.images.arctic.fuse.3/extras/icons/circle-xmark.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(10),$LOCALIZE[106])">resource://resource.images.arctic.fuse.3/extras/icons/circle-xmark.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(10),$LOCALIZE[107])">resource://resource.images.arctic.fuse.3/extras/icons/circle-check.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(10),$LOCALIZE[186])">resource://resource.images.arctic.fuse.3/extras/icons/circle-check.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(10),$LOCALIZE[31032])">resource://resource.images.arctic.fuse.3/extras/icons/circle-check.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(10),$LOCALIZE[13007])">resource://resource.images.arctic.fuse.3/extras/icons/triangle-exclamation.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(10),$LOCALIZE[571])">resource://resource.images.arctic.fuse.3/extras/icons/triangle-exclamation.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(10),$LOCALIZE[409])">resource://resource.images.arctic.fuse.3/extras/icons/triangle-exclamation.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(10),$LOCALIZE[1024])">resource://resource.images.arctic.fuse.3/extras/icons/circle-plus.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(10),$LOCALIZE[15019])">resource://resource.images.arctic.fuse.3/extras/icons/circle-plus.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(10),$LOCALIZE[31032])">resource://resource.images.arctic.fuse.3/extras/icons/circle-plus.png</value>
+        <value>resource://resource.images.arctic.fuse.3/extras/icons/circle-dot.png</value>
     </variable>
     <variable name="Image_DialogConfirm_11">
-        <value condition="String.IsEqual(Control.GetLabel(11),$LOCALIZE[222])">special://skin/extras/icons/circle-xmark.png</value>
-        <value condition="String.IsEqual(Control.GetLabel(11),$LOCALIZE[15067])">special://skin/extras/icons/circle-xmark.png</value>
-        <value condition="String.IsEqual(Control.GetLabel(11),$LOCALIZE[106])">special://skin/extras/icons/circle-xmark.png</value>
-        <value condition="String.IsEqual(Control.GetLabel(11),$LOCALIZE[107])">special://skin/extras/icons/circle-check.png</value>
-        <value condition="String.IsEqual(Control.GetLabel(11),$LOCALIZE[186])">special://skin/extras/icons/circle-check.png</value>
-        <value condition="String.IsEqual(Control.GetLabel(11),$LOCALIZE[31032])">special://skin/extras/icons/circle-check.png</value>
-        <value condition="String.IsEqual(Control.GetLabel(11),$LOCALIZE[13007])">special://skin/extras/icons/triangle-exclamation.png</value>
-        <value condition="String.IsEqual(Control.GetLabel(11),$LOCALIZE[571])">special://skin/extras/icons/triangle-exclamation.png</value>
-        <value condition="String.IsEqual(Control.GetLabel(11),$LOCALIZE[409])">special://skin/extras/icons/triangle-exclamation.png</value>
-        <value condition="String.IsEqual(Control.GetLabel(11),$LOCALIZE[1024])">special://skin/extras/icons/circle-plus.png</value>
-        <value condition="String.IsEqual(Control.GetLabel(11),$LOCALIZE[15019])">special://skin/extras/icons/circle-plus.png</value>
-        <value condition="String.IsEqual(Control.GetLabel(11),$LOCALIZE[31032])">special://skin/extras/icons/circle-plus.png</value>
-        <value>special://skin/extras/icons/circle-dot.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(11),$LOCALIZE[222])">resource://resource.images.arctic.fuse.3/extras/icons/circle-xmark.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(11),$LOCALIZE[15067])">resource://resource.images.arctic.fuse.3/extras/icons/circle-xmark.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(11),$LOCALIZE[106])">resource://resource.images.arctic.fuse.3/extras/icons/circle-xmark.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(11),$LOCALIZE[107])">resource://resource.images.arctic.fuse.3/extras/icons/circle-check.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(11),$LOCALIZE[186])">resource://resource.images.arctic.fuse.3/extras/icons/circle-check.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(11),$LOCALIZE[31032])">resource://resource.images.arctic.fuse.3/extras/icons/circle-check.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(11),$LOCALIZE[13007])">resource://resource.images.arctic.fuse.3/extras/icons/triangle-exclamation.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(11),$LOCALIZE[571])">resource://resource.images.arctic.fuse.3/extras/icons/triangle-exclamation.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(11),$LOCALIZE[409])">resource://resource.images.arctic.fuse.3/extras/icons/triangle-exclamation.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(11),$LOCALIZE[1024])">resource://resource.images.arctic.fuse.3/extras/icons/circle-plus.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(11),$LOCALIZE[15019])">resource://resource.images.arctic.fuse.3/extras/icons/circle-plus.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(11),$LOCALIZE[31032])">resource://resource.images.arctic.fuse.3/extras/icons/circle-plus.png</value>
+        <value>resource://resource.images.arctic.fuse.3/extras/icons/circle-dot.png</value>
     </variable>
     <variable name="Image_DialogConfirm_12">
-        <value condition="String.IsEqual(Control.GetLabel(12),$LOCALIZE[222])">special://skin/extras/icons/circle-xmark.png</value>
-        <value condition="String.IsEqual(Control.GetLabel(12),$LOCALIZE[15067])">special://skin/extras/icons/circle-xmark.png</value>
-        <value condition="String.IsEqual(Control.GetLabel(12),$LOCALIZE[106])">special://skin/extras/icons/circle-xmark.png</value>
-        <value condition="String.IsEqual(Control.GetLabel(12),$LOCALIZE[107])">special://skin/extras/icons/circle-check.png</value>
-        <value condition="String.IsEqual(Control.GetLabel(12),$LOCALIZE[186])">special://skin/extras/icons/circle-check.png</value>
-        <value condition="String.IsEqual(Control.GetLabel(12),$LOCALIZE[31032])">special://skin/extras/icons/circle-check.png</value>
-        <value condition="String.IsEqual(Control.GetLabel(12),$LOCALIZE[13007])">special://skin/extras/icons/triangle-exclamation.png</value>
-        <value condition="String.IsEqual(Control.GetLabel(12),$LOCALIZE[571])">special://skin/extras/icons/triangle-exclamation.png</value>
-        <value condition="String.IsEqual(Control.GetLabel(12),$LOCALIZE[409])">special://skin/extras/icons/triangle-exclamation.png</value>
-        <value condition="String.IsEqual(Control.GetLabel(12),$LOCALIZE[1024])">special://skin/extras/icons/circle-plus.png</value>
-        <value condition="String.IsEqual(Control.GetLabel(12),$LOCALIZE[15019])">special://skin/extras/icons/circle-plus.png</value>
-        <value condition="String.IsEqual(Control.GetLabel(12),$LOCALIZE[31032])">special://skin/extras/icons/circle-plus.png</value>
-        <value>special://skin/extras/icons/circle-dot.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(12),$LOCALIZE[222])">resource://resource.images.arctic.fuse.3/extras/icons/circle-xmark.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(12),$LOCALIZE[15067])">resource://resource.images.arctic.fuse.3/extras/icons/circle-xmark.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(12),$LOCALIZE[106])">resource://resource.images.arctic.fuse.3/extras/icons/circle-xmark.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(12),$LOCALIZE[107])">resource://resource.images.arctic.fuse.3/extras/icons/circle-check.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(12),$LOCALIZE[186])">resource://resource.images.arctic.fuse.3/extras/icons/circle-check.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(12),$LOCALIZE[31032])">resource://resource.images.arctic.fuse.3/extras/icons/circle-check.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(12),$LOCALIZE[13007])">resource://resource.images.arctic.fuse.3/extras/icons/triangle-exclamation.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(12),$LOCALIZE[571])">resource://resource.images.arctic.fuse.3/extras/icons/triangle-exclamation.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(12),$LOCALIZE[409])">resource://resource.images.arctic.fuse.3/extras/icons/triangle-exclamation.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(12),$LOCALIZE[1024])">resource://resource.images.arctic.fuse.3/extras/icons/circle-plus.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(12),$LOCALIZE[15019])">resource://resource.images.arctic.fuse.3/extras/icons/circle-plus.png</value>
+        <value condition="String.IsEqual(Control.GetLabel(12),$LOCALIZE[31032])">resource://resource.images.arctic.fuse.3/extras/icons/circle-plus.png</value>
+        <value>resource://resource.images.arctic.fuse.3/extras/icons/circle-dot.png</value>
     </variable>
 </includes>

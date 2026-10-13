@@ -1,5 +1,9 @@
 import json
 import os
+import re
+import shutil
+import tempfile
+import xml.etree.ElementTree as ET
 
 import xbmc
 import xbmcaddon
@@ -48,6 +52,12 @@ SKINUSERS_FILE = "script-skinvariables-skinusers.xml"
 SKINUSERS_TEMPLATE = "special://skin/shortcuts/skinvariables-skinusers.xmltemplate"
 GENERATED_STANDIN = "script-skinvariables-generator-includes-.xml"
 GENERATED_USER_FILE = "script-skinvariables-generator-includes-{slug}.xml"
+SKIN_SETTINGS_FILE = "special://profile/addon_data/skin.arctic.fuse.3/settings.xml"
+SKINVARIABLES_NODES = "special://profile/addon_data/script.skinvariables/nodes/skin.arctic.fuse.3/"
+LEGACY_EXTRAS_PREFIX = "special://skin/extras"
+RESOURCE_EXTRAS_PREFIX = "resource://resource.images.arctic.fuse.3/extras"
+IMAGE_EXTENSIONS = {".jpg", ".png"}
+MIGRATION_ROLLBACK_SUFFIX = ".before-resource-image-migration"
 
 
 def _read(path):
@@ -92,6 +102,137 @@ def _restore_skin_user_includes():
     if written:
         _log(f"Restored the skin user include for {slug}.")
     return written
+
+
+def _resource_image_path(value):
+    if not isinstance(value, str):
+        return None
+    if value == LEGACY_EXTRAS_PREFIX:
+        suffix = ""
+    elif value.startswith(LEGACY_EXTRAS_PREFIX + "/"):
+        suffix = value[len(LEGACY_EXTRAS_PREFIX) + 1:]
+    else:
+        return None
+
+    target = f"{RESOURCE_EXTRAS_PREFIX}/{suffix}" if suffix else RESOURCE_EXTRAS_PREFIX
+    if suffix.endswith("/") or not suffix:
+        directory_target = target if target.endswith("/") else target + "/"
+        return directory_target if xbmcvfs.exists(directory_target) else None
+    extension = os.path.splitext(suffix)[1].lower()
+    if extension in IMAGE_EXTENSIONS:
+        return target if xbmcvfs.exists(target) else None
+    if not extension:
+        directory_target = target.rstrip("/") + "/"
+        return directory_target if xbmcvfs.exists(directory_target) else None
+    return None
+
+
+def _migrate_skin_setting_images():
+    contents = _read(xbmcvfs.translatePath(SKIN_SETTINGS_FILE))
+    if not contents:
+        return False
+    try:
+        root = ET.fromstring(contents)
+    except ET.ParseError:
+        _log("Could not parse skin settings during image path migration.", xbmc.LOGWARNING)
+        return False
+
+    changed = False
+    for setting in root.iter("setting"):
+        setting_id = setting.get("id", "")
+        if not re.fullmatch(r"[A-Za-z0-9_.-]+", setting_id):
+            continue
+        current = setting.get("value")
+        if current is None:
+            current = setting.text or ""
+        replacement = _resource_image_path(current)
+        if replacement is None:
+            continue
+        if xbmc.getInfoLabel(f"Skin.String({setting_id})") != current:
+            continue
+        xbmc.executebuiltin(f"Skin.SetString({setting_id},{replacement})")
+        changed = True
+    return changed
+
+
+def _rewrite_saved_image_values(value):
+    if isinstance(value, dict):
+        changed = False
+        rewritten = {}
+        for key, child in value.items():
+            rewritten_child, child_changed = _rewrite_saved_image_values(child)
+            rewritten[key] = rewritten_child
+            changed = changed or child_changed
+        return rewritten, changed
+    if isinstance(value, list):
+        changed = False
+        rewritten = []
+        for child in value:
+            rewritten_child, child_changed = _rewrite_saved_image_values(child)
+            rewritten.append(rewritten_child)
+            changed = changed or child_changed
+        return rewritten, changed
+    replacement = _resource_image_path(value)
+    if replacement is None:
+        return value, False
+    return replacement, True
+
+
+def _write_json_atomically(path, value):
+    folder = os.path.dirname(path)
+    filename = os.path.basename(path)
+    handle, temporary_path = tempfile.mkstemp(prefix=f".{filename}.", suffix=".tmp", dir=folder)
+    try:
+        with os.fdopen(handle, "w", encoding="utf-8") as output:
+            json.dump(value, output, ensure_ascii=False, indent=4)
+            output.write("\n")
+        os.replace(temporary_path, path)
+    finally:
+        if os.path.exists(temporary_path):
+            os.unlink(temporary_path)
+
+
+def _migrate_saved_shortcut_images():
+    folder = xbmcvfs.translatePath(SKINVARIABLES_NODES)
+    if not os.path.isdir(folder):
+        return False
+
+    changed = False
+    for filename in sorted(os.listdir(folder)):
+        if not filename.endswith(".json"):
+            continue
+        path = os.path.join(folder, filename)
+        if not os.path.isfile(path):
+            continue
+        try:
+            with open(path, "r", encoding="utf-8") as source:
+                saved = json.load(source)
+        except (OSError, json.JSONDecodeError) as error:
+            _log(f"Could not read saved shortcut data {filename}: {error}", xbmc.LOGWARNING)
+            continue
+
+        rewritten, file_changed = _rewrite_saved_image_values(saved)
+        if not file_changed:
+            continue
+
+        rollback = path + MIGRATION_ROLLBACK_SUFFIX
+        try:
+            if not os.path.exists(rollback):
+                shutil.copy2(path, rollback)
+            _write_json_atomically(path, rewritten)
+        except OSError as error:
+            _log(f"Could not migrate saved shortcut data {filename}: {error}", xbmc.LOGWARNING)
+            continue
+        changed = True
+    return changed
+
+
+def _migrate_legacy_image_paths():
+    settings_changed = _migrate_skin_setting_images()
+    shortcut_data_changed = _migrate_saved_shortcut_images()
+    if settings_changed or shortcut_data_changed:
+        _log("Migrated legacy skin image paths to the resource add-on.")
+    return settings_changed or shortcut_data_changed
 
 
 def _current_window_ids():
@@ -145,6 +286,7 @@ def main():
 
     version_changed = previous_version != version
     if version_changed:
+        _migrate_legacy_image_paths()
         # Before script.skinvariables regenerates and reloads the skin, so that reload
         # picks the user's includes up (no reload of our own: a version change alone must not
         # reset the GUI, see below)

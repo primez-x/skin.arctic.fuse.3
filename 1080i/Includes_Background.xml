@@ -211,10 +211,10 @@
              "GetDirectory - Error getting resource://resource.images.arctic.waves/" on every busy dialog -->
         <include condition="System.AddonIsEnabled(resource.images.arctic.waves)">Background_BusyLoader</include>
         <control type="image">
-            <texture colordiffuse="$VAR[ColorBackground]">special://skin/extras/backgrounds/overlay/combined_flixart.png</texture>
+            <texture background="true" colordiffuse="$VAR[ColorBackground]">resource://resource.images.arctic.fuse.3/extras/backgrounds/overlay/combined_flixart.png</texture>
         </control>
         <control type="image">
-            <texture colordiffuse="$VAR[ColorBackground]">special://skin/extras/backgrounds/overlay/combined_overlay.png</texture>
+            <texture background="true" colordiffuse="$VAR[ColorBackground]">resource://resource.images.arctic.fuse.3/extras/backgrounds/overlay/combined_overlay.png</texture>
 
             <visible>$EXP[Exp_BackgroundArtwork_IsOverlay]</visible>
 
@@ -229,7 +229,7 @@
 
     <include name="Background_SeasonalOverlay">
         <control type="image">
-            <texture background="true">special://skin/extras/backgrounds/holiday/$PARAM[file_path]</texture>
+            <texture background="true">resource://resource.images.arctic.fuse.3/extras/backgrounds/holiday/$PARAM[file_path]</texture>
             <aspectratio>stretch</aspectratio>
         </control>
     </include>

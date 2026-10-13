@@ -319,7 +319,7 @@
         <!-- View -->
         <item>
             <label>$INFO[Container.Viewmode]</label>
-            <icon>special://skin/extras/icons/table.png</icon>
+            <icon>resource://resource.images.arctic.fuse.3/extras/icons/table.png</icon>
             <onclick condition="[Window.IsVisible(tvchannels) | Window.IsVisible(tvguide)]">SendClick($VAR[Action_CurrentMediaWindow],2)</onclick>
             <onclick condition="![Window.IsVisible(tvchannels) | Window.IsVisible(tvguide)]">Close</onclick>
             <onclick condition="![Window.IsVisible(tvchannels) | Window.IsVisible(tvguide)]">Runscript(script.skinvariables,action=buildviews,contentid=$VAR[DialogView_ModeSwitch],pluginname=$INFO[Container.PluginName])</onclick>
@@ -330,7 +330,7 @@
         <!-- Sort -->
         <item>
             <label>$VAR[Label_SortMethod]</label>
-            <icon>special://skin/extras/icons/list-ul.png</icon>
+            <icon>resource://resource.images.arctic.fuse.3/extras/icons/list-ul.png</icon>
             <onclick>SendClick($VAR[Action_CurrentMediaWindow],3)</onclick>
         </item>
 
@@ -345,7 +345,7 @@
         <!-- Group -->
         <item>
             <label>$LOCALIZE[19141]</label>
-            <icon>special://skin/extras/icons/object-group.png</icon>
+            <icon>resource://resource.images.arctic.fuse.3/extras/icons/object-group.png</icon>
             <onclick>SendClick($VAR[Action_CurrentMediaWindow],28)</onclick>
             <visible>[Window.IsVisible(tvchannels) | Window.IsVisible(tvguide)]</visible>
         </item>
@@ -361,7 +361,7 @@
         <!-- Filter -->
         <item>
             <label>$LOCALIZE[587]</label>
-            <icon>special://skin/extras/icons/filter.png</icon>
+            <icon>resource://resource.images.arctic.fuse.3/extras/icons/filter.png</icon>
             <onclick>Dialog.Close(1171,true)</onclick>
             <onclick>AlarmClock(do_filter,Action(Filter),00:00,silent)</onclick>
             <visible>Window.IsVisible(videos)</visible>
@@ -370,7 +370,7 @@
         <!-- Search -->
         <item>
             <label>$LOCALIZE[137]</label>
-            <icon>special://skin/extras/icons/search.png</icon>
+            <icon>resource://resource.images.arctic.fuse.3/extras/icons/search.png</icon>
             <onclick>Dialog.Close(1171,true)</onclick>
             <onclick>SendClick($VAR[Action_CurrentMediaWindow],8)</onclick>
             <visible>Window.IsVisible(videos) | Window.IsVisible(music)</visible>
@@ -379,7 +379,7 @@
         <!-- Update Library -->
         <item>
             <label>$VAR[Label_UpdateLibrary]</label>
-            <icon>special://skin/extras/icons/update.png</icon>
+            <icon>resource://resource.images.arctic.fuse.3/extras/icons/update.png</icon>
             <visible>!Container.Content(addons) + String.IsEmpty(Container.PluginName) + [Window.IsVisible(videos) | Window.IsVisible(music)]</visible>
             <onclick>Dialog.Close(1171,true)</onclick>
             <onclick condition="Window.IsVisible(videos)">UpdateLibrary(video)</onclick>
@@ -390,7 +390,7 @@
         <!-- Addon Settings -->
         <item>
             <label>$INFO[System.AddonTitle(Container.PluginName),, ]$LOCALIZE[5]</label>
-            <icon>special://skin/extras/icons/settings.png</icon>
+            <icon>resource://resource.images.arctic.fuse.3/extras/icons/settings.png</icon>
             <visible>!String.IsEmpty(Container.PluginName)</visible>
             <onclick>Dialog.Close(1171,true)</onclick>
             <onclick>Addon.OpenSettings($INFO[Container.PluginName])</onclick>
@@ -417,7 +417,7 @@
         <!-- Save -->
         <item>
             <label>$LOCALIZE[190]</label>
-            <icon>special://skin/extras/icons/floppy-disk.png</icon>
+            <icon>resource://resource.images.arctic.fuse.3/extras/icons/floppy-disk.png</icon>
             <visible>Window.IsVisible(MyPlaylist.xml) + Control.IsVisible(21) + Control.IsEnabled(21)</visible>
             <onclick>Dialog.Close(1171,true)</onclick>
             <onclick>SendClick(21)</onclick>
@@ -426,7 +426,7 @@
         <!-- Clear -->
         <item>
             <label>$LOCALIZE[192]</label>
-            <icon>special://skin/extras/icons/triangle-exclamation.png</icon>
+            <icon>resource://resource.images.arctic.fuse.3/extras/icons/triangle-exclamation.png</icon>
             <visible>Window.IsVisible(MyPlaylist.xml) + Control.IsVisible(22) + Control.IsEnabled(22)</visible>
             <onclick>Dialog.Close(1171,true)</onclick>
             <onclick>SendClick(22)</onclick>
@@ -435,7 +435,7 @@
         <!-- Add Shortcut -->
         <item>
             <label>$LOCALIZE[31602]</label>
-            <icon>special://skin/extras/icons/circle-plus.png</icon>
+            <icon>resource://resource.images.arctic.fuse.3/extras/icons/circle-plus.png</icon>
             <onclick>Dialog.Close(1171,true)</onclick>
             <onclick>SetFocus(612)</onclick>
             <visible>Window.IsVisible(videos) | Window.IsVisible(music)</visible>
@@ -444,7 +444,7 @@
         <!-- Guide -->
         <item>
             <label>$LOCALIZE[19069]</label>
-            <icon>special://skin/extras/icons/table-list.png</icon>
+            <icon>resource://resource.images.arctic.fuse.3/extras/icons/table-list.png</icon>
             <visible>!Window.IsVisible(tvguide)</visible>
             <visible>$EXP[Exp_PVRWindows]</visible>
             <onclick>Dialog.Close(1171,true)</onclick>
@@ -454,7 +454,7 @@
         <!-- Channels -->
         <item>
             <label>$LOCALIZE[14301]</label>
-            <icon>special://skin/extras/icons/livetv.png</icon>
+            <icon>resource://resource.images.arctic.fuse.3/extras/icons/livetv.png</icon>
             <visible>!Window.IsVisible(tvchannels)</visible>
             <visible>$EXP[Exp_PVRWindows]</visible>
             <onclick>Dialog.Close(1171,true)</onclick>
@@ -464,7 +464,7 @@
         <!-- Recordings -->
         <item>
             <label>$LOCALIZE[19017]</label>
-            <icon>special://skin/extras/icons/hard-drive.png</icon>
+            <icon>resource://resource.images.arctic.fuse.3/extras/icons/hard-drive.png</icon>
             <visible>!Window.IsVisible(tvrecordings)</visible>
             <visible>$EXP[Exp_PVRWindows]</visible>
             <onclick>Dialog.Close(1171,true)</onclick>
@@ -474,7 +474,7 @@
         <!-- Timers -->
         <item>
             <label>$LOCALIZE[19040]</label>
-            <icon>special://skin/extras/icons/timer.png</icon>
+            <icon>resource://resource.images.arctic.fuse.3/extras/icons/timer.png</icon>
             <visible>!Window.IsVisible(tvtimers)</visible>
             <visible>$EXP[Exp_PVRWindows]</visible>
             <onclick>Dialog.Close(1171,true)</onclick>
@@ -484,7 +484,7 @@
         <!-- Search -->
         <item>
             <label>$LOCALIZE[137]</label>
-            <icon>special://skin/extras/icons/search.png</icon>
+            <icon>resource://resource.images.arctic.fuse.3/extras/icons/search.png</icon>
             <visible>!Window.IsVisible(tvsearch)</visible>
             <visible>$EXP[Exp_PVRWindows]</visible>
             <onclick>Dialog.Close(1171,true)</onclick>

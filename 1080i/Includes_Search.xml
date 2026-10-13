@@ -295,12 +295,12 @@
             <width>80</width>
             <control type="image">
                 <include>Home_Grouplist_Icon_Definition</include>
-                <texture background="true" colordiffuse="main_fg_30">special://skin/extras/icons/search.png</texture>
+                <texture background="true" colordiffuse="main_fg_30">resource://resource.images.arctic.fuse.3/extras/icons/search.png</texture>
                 <visible>!Control.HasFocus(3000)</visible>
             </control>
             <control type="image">
                 <include>Home_Grouplist_Icon_Definition</include>
-                <texture background="true" colordiffuse="$VAR[ColorSelected]">special://skin/extras/icons/search.png</texture>
+                <texture background="true" colordiffuse="$VAR[ColorSelected]">resource://resource.images.arctic.fuse.3/extras/icons/search.png</texture>
                 <visible>Control.HasFocus(3000)</visible>
             </control>
         </control>

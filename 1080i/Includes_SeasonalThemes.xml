@@ -8,13 +8,13 @@
                 <animation effect="slide" start="60,0" end="-60,0" time="10000" condition="true" reversible="false" pulse="true">Conditional</animation>
                 <animation effect="fade" end="20" condition="true">Conditional</animation>
                 <control type="image">
-                    <texture flipx="true" flipy="true" colordiffuse="main_fg_70">special://skin/extras/backgrounds/holiday/$PARAM[theme_dir]/$PARAM[loop_file]</texture>
+                    <texture flipx="true" flipy="true" colordiffuse="main_fg_70">resource://resource.images.arctic.fuse.3/extras/backgrounds/holiday/$PARAM[theme_dir]/$PARAM[loop_file]</texture>
                     <width>2430</width>
                     <aspectratio>keep</aspectratio>
                     <animation effect="slide" time="30000" start="0,0" end="0,1080" condition="true" loop="true">Conditional</animation>
                 </control>
                 <control type="image">
-                    <texture flipx="true" flipy="true" colordiffuse="main_fg_70">special://skin/extras/backgrounds/holiday/$PARAM[theme_dir]/$PARAM[loop_file]</texture>
+                    <texture flipx="true" flipy="true" colordiffuse="main_fg_70">resource://resource.images.arctic.fuse.3/extras/backgrounds/holiday/$PARAM[theme_dir]/$PARAM[loop_file]</texture>
                     <width>2430</width>
                     <aspectratio>keep</aspectratio>
                     <animation effect="slide" time="30000" start="0,-1080" end="0,0" condition="true" loop="true">Conditional</animation>
@@ -24,13 +24,13 @@
             <control type="group">
                 <animation effect="slide" start="-60,0" end="60,0" time="10000" condition="true" reversible="false" pulse="true">Conditional</animation>
                 <control type="image">
-                    <texture colordiffuse="main_fg_70">special://skin/extras/backgrounds/holiday/$PARAM[theme_dir]/$PARAM[loop_file]</texture>
+                    <texture colordiffuse="main_fg_70">resource://resource.images.arctic.fuse.3/extras/backgrounds/holiday/$PARAM[theme_dir]/$PARAM[loop_file]</texture>
                     <width>2430</width>
                     <aspectratio>keep</aspectratio>
                     <animation effect="slide" time="16000" start="0,0" end="0,1080" condition="true" loop="true">Conditional</animation>
                 </control>
                 <control type="image">
-                    <texture colordiffuse="main_fg_70">special://skin/extras/backgrounds/holiday/$PARAM[theme_dir]/$PARAM[loop_file]</texture>
+                    <texture colordiffuse="main_fg_70">resource://resource.images.arctic.fuse.3/extras/backgrounds/holiday/$PARAM[theme_dir]/$PARAM[loop_file]</texture>
                     <width>2430</width>
                     <aspectratio>keep</aspectratio>
                     <animation effect="slide" time="16000" start="0,-1080" end="0,0" condition="true" loop="true">Conditional</animation>
@@ -51,7 +51,7 @@
                     <timeperimage>30000</timeperimage>
                     <fadetime>0</fadetime>
                     <randomize>true</randomize>
-                    <imagepath>special://skin/extras/backgrounds/holiday/$PARAM[theme_dir]/icons</imagepath>
+                    <imagepath>resource://resource.images.arctic.fuse.3/extras/backgrounds/holiday/$PARAM[theme_dir]/icons</imagepath>
                     <animation type="Conditional" condition="true" reversible="false" loop="true">
                         <effect type="slide" start="0,0" end="0,1250" time="26000" delay="4000" reversible="false" />
                         <effect type="slide" start="-35,0" end="35,0" time="8300" pulse="true" reversible="false" />
@@ -67,7 +67,7 @@
                     <timeperimage>34000</timeperimage>
                     <fadetime>0</fadetime>
                     <randomize>true</randomize>
-                    <imagepath>special://skin/extras/backgrounds/holiday/$PARAM[theme_dir]/icons</imagepath>
+                    <imagepath>resource://resource.images.arctic.fuse.3/extras/backgrounds/holiday/$PARAM[theme_dir]/icons</imagepath>
                     <animation type="Conditional" condition="true" reversible="false" loop="true">
                         <effect type="slide" start="0,0" end="0,1250" time="22000" delay="12000" reversible="false" />
                         <effect type="slide" start="-65,0" end="65,0" time="9400" pulse="true" reversible="false" />
@@ -83,7 +83,7 @@
                     <timeperimage>26000</timeperimage>
                     <fadetime>0</fadetime>
                     <randomize>true</randomize>
-                    <imagepath>special://skin/extras/backgrounds/holiday/$PARAM[theme_dir]/icons</imagepath>
+                    <imagepath>resource://resource.images.arctic.fuse.3/extras/backgrounds/holiday/$PARAM[theme_dir]/icons</imagepath>
                     <animation type="Conditional" condition="true" reversible="false" loop="true">
                         <effect type="slide" start="0,0" end="0,1250" time="19000" delay="7000" reversible="false" />
                         <effect type="slide" start="-45,0" end="45,0" time="7300" pulse="true" reversible="false" />
@@ -99,7 +99,7 @@
                     <timeperimage>20000</timeperimage>
                     <fadetime>0</fadetime>
                     <randomize>true</randomize>
-                    <imagepath>special://skin/extras/backgrounds/holiday/$PARAM[theme_dir]/icons</imagepath>
+                    <imagepath>resource://resource.images.arctic.fuse.3/extras/backgrounds/holiday/$PARAM[theme_dir]/icons</imagepath>
                     <animation type="Conditional" condition="true" reversible="false" loop="true">
                         <effect type="slide" start="0,0" end="0,1250" time="15000" delay="5000" reversible="false" />
                         <effect type="slide" start="-55,0" end="55,0" time="5700" pulse="true" reversible="false" />
@@ -115,7 +115,7 @@
                     <timeperimage>34000</timeperimage>
                     <fadetime>0</fadetime>
                     <randomize>true</randomize>
-                    <imagepath>special://skin/extras/backgrounds/holiday/$PARAM[theme_dir]/icons</imagepath>
+                    <imagepath>resource://resource.images.arctic.fuse.3/extras/backgrounds/holiday/$PARAM[theme_dir]/icons</imagepath>
                     <animation type="Conditional" condition="true" reversible="false" loop="true">
                         <effect type="slide" start="0,0" end="0,1250" time="34000" reversible="false" />
                         <effect type="slide" start="-25,0" end="25,0" time="12300" pulse="true" reversible="false" />
@@ -135,7 +135,7 @@
                     <timeperimage>16000</timeperimage>
                     <fadetime>0</fadetime>
                     <randomize>true</randomize>
-                    <imagepath>special://skin/extras/backgrounds/holiday/$PARAM[theme_dir]/icons</imagepath>
+                    <imagepath>resource://resource.images.arctic.fuse.3/extras/backgrounds/holiday/$PARAM[theme_dir]/icons</imagepath>
                     <animation type="Conditional" condition="true" reversible="false" loop="true">
                         <effect type="slide" start="0,0" end="0,1250" time="16000" reversible="false" />
                         <effect type="slide" start="-45,0" end="45,0" time="6100" pulse="true" reversible="false" />
@@ -151,7 +151,7 @@
                     <timeperimage>38000</timeperimage>
                     <fadetime>0</fadetime>
                     <randomize>true</randomize>
-                    <imagepath>special://skin/extras/backgrounds/holiday/$PARAM[theme_dir]/icons</imagepath>
+                    <imagepath>resource://resource.images.arctic.fuse.3/extras/backgrounds/holiday/$PARAM[theme_dir]/icons</imagepath>
                     <animation type="Conditional" condition="true" reversible="false" loop="true">
                         <effect type="slide" start="0,0" end="0,1250" time="36000" delay="2000" reversible="false" />
                         <effect type="slide" start="-25,0" end="25,0" time="11100" pulse="true" reversible="false" />
@@ -167,7 +167,7 @@
                     <timeperimage>44000</timeperimage>
                     <fadetime>0</fadetime>
                     <randomize>true</randomize>
-                    <imagepath>special://skin/extras/backgrounds/holiday/$PARAM[theme_dir]/icons</imagepath>
+                    <imagepath>resource://resource.images.arctic.fuse.3/extras/backgrounds/holiday/$PARAM[theme_dir]/icons</imagepath>
                     <animation type="Conditional" condition="true" reversible="false" loop="true">
                         <effect type="slide" start="0,0" end="0,1250" time="30000" delay="14000" reversible="false" />
                         <effect type="slide" start="-70,0" end="70,0" time="10500" pulse="true" reversible="false" />
@@ -183,7 +183,7 @@
                     <timeperimage>43000</timeperimage>
                     <fadetime>0</fadetime>
                     <randomize>true</randomize>
-                    <imagepath>special://skin/extras/backgrounds/holiday/$PARAM[theme_dir]/icons</imagepath>
+                    <imagepath>resource://resource.images.arctic.fuse.3/extras/backgrounds/holiday/$PARAM[theme_dir]/icons</imagepath>
                     <animation type="Conditional" condition="true" reversible="false" loop="true">
                         <effect type="slide" start="0,0" end="0,1250" time="28000" delay="15000" reversible="false" />
                         <effect type="slide" start="-35,0" end="35,0" time="8900" pulse="true" reversible="false" />
@@ -199,7 +199,7 @@
                     <timeperimage>32000</timeperimage>
                     <fadetime>0</fadetime>
                     <randomize>true</randomize>
-                    <imagepath>special://skin/extras/backgrounds/holiday/$PARAM[theme_dir]/icons</imagepath>
+                    <imagepath>resource://resource.images.arctic.fuse.3/extras/backgrounds/holiday/$PARAM[theme_dir]/icons</imagepath>
                     <animation type="Conditional" condition="true" reversible="false" loop="true">
                         <effect type="slide" start="0,0" end="0,1250" time="21000" delay="11000" reversible="false" />
                         <effect type="slide" start="-45,0" end="45,0" time="7700" pulse="true" reversible="false" />
@@ -217,7 +217,7 @@
                     <posy>320</posy>
                     <width>230</width>
                     <height>200</height>
-                    <texture flipx="true">special://skin/extras/backgrounds/holiday/$PARAM[theme_dir]/$PARAM[flyby_file]</texture>
+                    <texture flipx="true">resource://resource.images.arctic.fuse.3/extras/backgrounds/holiday/$PARAM[theme_dir]/$PARAM[flyby_file]</texture>
                     <aspectratio>center</aspectratio>
                     <include>SeasonalThemes_Animation_$PARAM[animation]_Right</include>
                     <animation type="Conditional" condition="true" loop="true">
@@ -233,7 +233,7 @@
                     <posy>520</posy>
                     <width>230</width>
                     <height>200</height>
-                    <texture>special://skin/extras/backgrounds/holiday/$PARAM[theme_dir]/$PARAM[flyby_file]</texture>
+                    <texture>resource://resource.images.arctic.fuse.3/extras/backgrounds/holiday/$PARAM[theme_dir]/$PARAM[flyby_file]</texture>
                     <aspectratio>center</aspectratio>
                     <include>SeasonalThemes_Animation_$PARAM[animation]_Left</include>
                     <animation effect="slide" start="0,0" end="-2350,0" time="10000" delay="25000" loop="true" condition="true">Conditional</animation>

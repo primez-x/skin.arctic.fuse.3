@@ -40,7 +40,7 @@
                 <centertop>50%</centertop>
                 <width>60</width>
                 <height>60</height>
-                <texture colordiffuse="panel_fg_70">special://skin/extras/icons/forward-step.png</texture>
+                <texture colordiffuse="panel_fg_70">resource://resource.images.arctic.fuse.3/extras/icons/forward-step.png</texture>
                 <visible>!Control.HasFocus(3002)</visible>
             </control>
 
@@ -49,7 +49,7 @@
                 <centertop>50%</centertop>
                 <width>60</width>
                 <height>60</height>
-                <texture colordiffuse="$VAR[ColorSelected]">special://skin/extras/icons/forward-step.png</texture>
+                <texture colordiffuse="$VAR[ColorSelected]">resource://resource.images.arctic.fuse.3/extras/icons/forward-step.png</texture>
                 <visible>Control.HasFocus(3002)</visible>
             </control>
         </control>

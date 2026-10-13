@@ -56,7 +56,7 @@
                                     <label>$LOCALIZE[39024]</label>
                                     <label2>$LOCALIZE[31448] [LOWERCASE]$LOCALIZE[39024] $LOCALIZE[31487] $LOCALIZE[14260][/LOWERCASE].</label2>
                                 </item>
-                                <item id="8" description="Thanks">
+                                <item id="8" description="Settings level">
                                     <label>$VAR[Label_SkinSettings_Level]</label>
                                     <label2>$LOCALIZE[31550]</label2>
                                     <onclick condition="Integer.IsEqual(Skin.String(Skin.SettingsLevel),1)">Skin.SetString(Skin.SettingsLevel,$NUMBER[2])</onclick>

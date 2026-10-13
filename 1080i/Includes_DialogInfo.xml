@@ -774,7 +774,7 @@
             <content>
                 <item>
                     <label>$LOCALIZE[31024]</label>
-                    <property name="special_icon">special://skin/extras/icons/trophy.png</property>
+                    <property name="special_icon">resource://resource.images.arctic.fuse.3/extras/icons/trophy.png</property>
                     <property name="sublabel">$INFO[Window(Home).Property(TMDbHelper.ListItem.Awards)]</property>
                     <property name="plotlabel">$INFO[Window(Home).Property(TMDbHelper.ListItem.rottentomatoes_consensus),, ]$INFO[Window(Home).Property(TMDbHelper.ListItem.rottentomatoes_reviewsfresh),$LOCALIZE[31054] , ]$INFO[Window(Home).Property(TMDbHelper.ListItem.rottentomatoes_reviewstotal),$LOCALIZE[31055] , $LOCALIZE[31056] ]$INFO[Window(Home).Property(TMDbHelper.ListItem.Awards),, ]$INFO[Window(Home).Property(TMDbHelper.ListItem.Total_Awards_Won),[CR][CR][B]$LOCALIZE[31286] , $LOCALIZE[31064][/B][CR]]$INFO[Window(Home).Property(TMDbHelper.ListItem.Awards_Won_CR)]$INFO[Window(Home).Property(TMDbHelper.ListItem.Total_Awards_Nominated),[CR][CR][B]$LOCALIZE[31287] , $LOCALIZE[31064][/B][CR]]$INFO[Window(Home).Property(TMDbHelper.ListItem.Awards_Nominated_CR)]</property>
                     <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Awards)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.rottentomatoes_consensus))</visible>
@@ -1355,7 +1355,7 @@
 
     <include name="DialogInfo_VideoButtons_Trailer">
         <item>
-            <icon>special://skin/extras/icons/video.png</icon>
+            <icon>resource://resource.images.arctic.fuse.3/extras/icons/video.png</icon>
             <label>$LOCALIZE[31393]</label>
             <onclick>Dialog.Close(1172,true)</onclick>
             <include content="Action_PlayTrailer_OnClick">
@@ -1369,7 +1369,7 @@
     <include name="DialogInfo_VideoButtons_Trakt">
         <item>
             <label>Trakt</label>
-            <icon>special://skin/extras/icons/trakt.png</icon>
+            <icon>resource://resource.images.arctic.fuse.3/extras/icons/trakt.png</icon>
             <onclick>Dialog.Close(1172,true)</onclick>
             <onclick>$VAR[Action_Sync]</onclick>
             <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.TraktIsAuth)) + !String.IsEqual(  ListItem.DBType,musicvideo)</visible>
@@ -1380,7 +1380,7 @@
     <include name="DialogInfo_VideoButtons_Wikipedia">
         <item>
             <label>Wikipedia</label>
-            <icon>special://skin/extras/icons/globe.png</icon>
+            <icon>resource://resource.images.arctic.fuse.3/extras/icons/globe.png</icon>
             <onclick>Dialog.Close(1172,true)</onclick>
             <onclick>runscript(script.wikipedia,wikipedia=$VAR[Path_Wikipedia_Title],tmdb_type=$VAR[Path_Wikipedia_Type])</onclick>
         </item>
@@ -1389,7 +1389,7 @@
     <include name="DialogInfo_VideoButtons_Plot">
         <item>
             <label>$LOCALIZE[207]</label>
-            <icon>special://skin/extras/icons/quote.png</icon>
+            <icon>resource://resource.images.arctic.fuse.3/extras/icons/quote.png</icon>
             <onclick>Dialog.Close(1172,true)</onclick>
             <onclick>ActivateWindow(1113)</onclick>
             <visible>$EXP[Exp_TMDbHelper_IsData]</visible>
@@ -1398,7 +1398,7 @@
     <include name="DialogInfo_VideoButtons_Artwork">
         <item>
             <label>$LOCALIZE[39123]</label>
-            <icon>special://skin/extras/icons/image.png</icon>
+            <icon>resource://resource.images.arctic.fuse.3/extras/icons/image.png</icon>
             <onclick>Dialog.Close(1172,true)</onclick>
             <onclick>SendClick(10)</onclick>
         </item>
@@ -1406,7 +1406,7 @@
     <include name="DialogInfo_VideoButtons_UserRating">
         <item>
             <label>$LOCALIZE[31061]$INFO[ListItem.UserRating, (,)]</label>
-            <icon>special://skin/extras/icons/star.png</icon>
+            <icon>resource://resource.images.arctic.fuse.3/extras/icons/star.png</icon>
             <onclick>Dialog.Close(1172,true)</onclick>
             <onclick>SendClick(7)</onclick>
         </item>
@@ -1414,7 +1414,7 @@
     <include name="DialogInfo_VideoButtons_Versions">
         <item>
             <label>$LOCALIZE[40000]</label>
-            <icon>special://skin/extras/icons/bookmarks.png</icon>
+            <icon>resource://resource.images.arctic.fuse.3/extras/icons/bookmarks.png</icon>
             <onclick>Dialog.Close(1172,true)</onclick>
             <onclick>SendClick(14)</onclick>
         </item>
@@ -1422,7 +1422,7 @@
     <include name="DialogInfo_VideoButtons_Extras">
         <item>
             <label>$LOCALIZE[40211]</label>
-            <icon>special://skin/extras/icons/director.png</icon>
+            <icon>resource://resource.images.arctic.fuse.3/extras/icons/director.png</icon>
             <onclick>Dialog.Close(1172,true)</onclick>
             <onclick>SendClick(15)</onclick>
         </item>
@@ -1430,7 +1430,7 @@
     <include name="DialogInfo_VideoButtons_Refresh">
         <item>
             <label>$LOCALIZE[184]</label>
-            <icon>special://skin/extras/icons/arrows-rotate.png</icon>
+            <icon>resource://resource.images.arctic.fuse.3/extras/icons/arrows-rotate.png</icon>
             <onclick>Dialog.Close(1172,true)</onclick>
             <onclick>SendClick(6)</onclick>
         </item>
@@ -1438,7 +1438,7 @@
     <include name="DialogInfo_VideoButtons_FileInfo">
         <item>
             <label>$LOCALIZE[31097]</label>
-            <icon>special://skin/extras/icons/file.png</icon>
+            <icon>resource://resource.images.arctic.fuse.3/extras/icons/file.png</icon>
             <onclick>Dialog.Close(1172,true)</onclick>
             <onclick>ActivateWindow(1126)</onclick>
         </item>
@@ -1616,7 +1616,7 @@
                         <param name="id">01</param>
                         <param name="name">$VAR[Label_FromDirector]</param>
                         <param name="role">$LOCALIZE[20339]</param>
-                        <param name="icon">special://skin/extras/icons/video-addons.png</param>
+                        <param name="icon">resource://resource.images.arctic.fuse.3/extras/icons/video-addons.png</param>
                         <param name="shot">$VAR[Image_DirectorIcon]</param>
                         <param name="tmdb_type">person</param>
                         <param name="tmdb_id">$VAR[Path_FromDirector]</param>
@@ -1631,7 +1631,7 @@
                         <param name="id">02</param>
                         <param name="name">$VAR[Label_FromWriter]</param>
                         <param name="role">$LOCALIZE[20417]</param>
-                        <param name="icon">special://skin/extras/icons/write.png</param>
+                        <param name="icon">resource://resource.images.arctic.fuse.3/extras/icons/write.png</param>
                         <param name="shot">$VAR[Image_WriterIcon]</param>
                         <param name="tmdb_type">person</param>
                         <param name="tmdb_id">$VAR[Path_FromWriter]</param>
@@ -1643,7 +1643,7 @@
                         <param name="id">02</param>
                         <param name="name">$VAR[Label_FromWriter]</param>
                         <param name="role">$LOCALIZE[20417]</param>
-                        <param name="icon">special://skin/extras/icons/write.png</param>
+                        <param name="icon">resource://resource.images.arctic.fuse.3/extras/icons/write.png</param>
                         <param name="shot">$VAR[Image_WriterIcon]</param>
                         <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Writer)) | !String.IsEmpty(ListItem.Writer)</visible>
                     </include>
@@ -1653,7 +1653,7 @@
                         <param name="id">03</param>
                         <param name="name">$VAR[Label_Studio]</param>
                         <param name="role">$LOCALIZE[572]</param>
-                        <param name="icon">special://skin/extras/icons/director.png</param>
+                        <param name="icon">resource://resource.images.arctic.fuse.3/extras/icons/director.png</param>
                         <param name="shot">$VAR[Image_CombinedStudio]</param>
                         <param name="alt1">true</param>
                         <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Studio)) | !String.IsEmpty(ListItem.Studio)</visible>
@@ -1664,7 +1664,7 @@
                         <param name="id">04</param>
                         <param name="name">$INFO[ListItem.Property(totalepisodes),, $LOCALIZE[20453]]$INFO[ListItem.Property(watchedepisodes), • , [LOWERCASE]$LOCALIZE[16102][/LOWERCASE]]</param>
                         <param name="role">$LOCALIZE[20360]</param>
-                        <param name="icon">special://skin/extras/icons/photo-film.png</param>
+                        <param name="icon">resource://resource.images.arctic.fuse.3/extras/icons/photo-film.png</param>
                         <param name="shot">$INFO[ListItem.Art(poster)]</param>
                         <visible>!String.IsEmpty(ListItem.Property(totalepisodes))</visible>
                     </include>
@@ -1674,7 +1674,7 @@
                     <include content="Object_InfoCircle_Detail">
                         <param name="id">06</param>
                         <param name="role">$INFO[ListItem.VideoVersionName]</param>
-                        <param name="icon">special://skin/extras/icons/photo-film.png</param>
+                        <param name="icon">resource://resource.images.arctic.fuse.3/extras/icons/photo-film.png</param>
                         <param name="fallback_role">$LOCALIZE[31207]</param>
                         <param name="shot">$INFO[ListItem.Art(poster)]</param>
                         <param name="name">$VAR[Label_ListItem_StreamDetails]</param>
@@ -1686,7 +1686,7 @@
                         <param name="id">07</param>
                         <param name="name">$INFO[Window(Home).Property(TMDbHelper.ListItem.Provider.1.Name)]$INFO[Window(Home).Property(TMDbHelper.ListItem.Provider.2.Name), • ,]$INFO[Window(Home).Property(TMDbHelper.ListItem.Provider.3.Name), • ,]$INFO[Window(Home).Property(TMDbHelper.ListItem.Provider.4.Name), • ,]$INFO[Window(Home).Property(TMDbHelper.ListItem.Provider.5.Name), • ,]</param>
                         <param name="role">JustWatch</param>
-                        <param name="icon">special://skin/extras/icons/photo-film.png</param>
+                        <param name="icon">resource://resource.images.arctic.fuse.3/extras/icons/photo-film.png</param>
                         <param name="shot">$INFO[Window(Home).Property(TMDbHelper.ListItem.Provider.1.Icon)]</param>
                         <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Provider.1.Icon))</visible>
                         <visible>String.IsEmpty(ListItem.VideoCodec)</visible>
@@ -1708,7 +1708,7 @@
                     <!-- Language -->
                     <include content="Object_InfoCircle_Detail">
                         <param name="id">22</param>
-                        <param name="icon">special://skin/extras/icons/language.png</param>
+                        <param name="icon">resource://resource.images.arctic.fuse.3/extras/icons/language.png</param>
                         <param name="role">$LOCALIZE[248]</param>
                         <param name="name">$VAR[Label_Language]</param>
                         <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Language)) | !String.IsEmpty(ListItem.Property(Language))</visible>
@@ -1717,7 +1717,7 @@
                     <!-- Genre -->
                     <include content="Object_InfoCircle_Detail">
                         <param name="id">21</param>
-                        <param name="icon">special://skin/extras/icons/genre.png</param>
+                        <param name="icon">resource://resource.images.arctic.fuse.3/extras/icons/genre.png</param>
                         <param name="role">$LOCALIZE[515]</param>
                         <param name="name">$VAR[Label_Genre]</param>
                         <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Genre)) | !String.IsEmpty(ListItem.Genre)</visible>
@@ -1726,7 +1726,7 @@
                     <!-- Budget / Revenue -->
                     <include content="Object_InfoCircle_Detail">
                         <param name="id">23</param>
-                        <param name="icon">special://skin/extras/icons/coins.png</param>
+                        <param name="icon">resource://resource.images.arctic.fuse.3/extras/icons/coins.png</param>
                         <param name="role">$LOCALIZE[31264] / $LOCALIZE[31265]</param>
                         <param name="name">$INFO[Window(Home).Property(TMDbHelper.ListItem.Revenue),, $LOCALIZE[31373] ]$INFO[Window(Home).Property(TMDbHelper.ListItem.Budget)]</param>
                         <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Revenue)) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Budget))</visible>
@@ -1736,7 +1736,7 @@
                     <!-- Awards -->
                     <include content="Object_InfoCircle_Detail">
                         <param name="id">24</param>
-                        <param name="icon">special://skin/extras/icons/trophy.png</param>
+                        <param name="icon">resource://resource.images.arctic.fuse.3/extras/icons/trophy.png</param>
                         <param name="role">$LOCALIZE[31064]</param>
                         <param name="name">$INFO[Window(Home).Property(TMDbHelper.ListItem.Awards)]</param>
                         <!-- <onclick>SetFocus(5000)</onclick>
@@ -1747,7 +1747,7 @@
                     <!-- Country -->
                     <include content="Object_InfoCircle_Detail">
                         <param name="id">25</param>
-                        <param name="icon">special://skin/extras/icons/earth-americas.png</param>
+                        <param name="icon">resource://resource.images.arctic.fuse.3/extras/icons/earth-americas.png</param>
                         <param name="role">$LOCALIZE[574]</param>
                         <param name="name">$VAR[Label_Country]</param>
                         <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Country)) | !String.IsEmpty(ListItem.Country)</visible>
@@ -1756,7 +1756,7 @@
                     <!-- Tagline -->
                     <include content="Object_InfoCircle_Detail">
                         <param name="id">26</param>
-                        <param name="icon">special://skin/extras/icons/tag.png</param>
+                        <param name="icon">resource://resource.images.arctic.fuse.3/extras/icons/tag.png</param>
                         <param name="role">$LOCALIZE[202]</param>
                         <param name="name">$INFO[Window(Home).Property(TMDbHelper.ListItem.Tagline)]</param>
                         <visible>!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Tagline))</visible>
@@ -1873,25 +1873,25 @@
                     <width>$PARAM[left_group_width]</width>
                     <height>320</height>
                     <include content="Object_InfoCircle">
-                        <param name="icon">special://skin/extras/icons/genre.png</param>
+                        <param name="icon">resource://resource.images.arctic.fuse.3/extras/icons/genre.png</param>
                         <param name="role">$LOCALIZE[515]</param>
                         <param name="name">$INFO[ListItem.Genre]</param>
                         <visible>!String.IsEmpty(ListItem.Genre)</visible>
                     </include>
                     <include content="Object_InfoCircle">
-                        <param name="icon">special://skin/extras/icons/headphones-simple.png</param>
+                        <param name="icon">resource://resource.images.arctic.fuse.3/extras/icons/headphones-simple.png</param>
                         <param name="role">$LOCALIZE[31308]</param>
                         <param name="name">$VAR[Label_MusicMood]</param>
                         <visible>!String.IsEmpty(ListItem.Property(Artist_Mood)) | !String.IsEmpty(ListItem.Property(Album_Mood))</visible>
                     </include>
                     <include content="Object_InfoCircle">
-                        <param name="icon">special://skin/extras/icons/drum.png</param>
+                        <param name="icon">resource://resource.images.arctic.fuse.3/extras/icons/drum.png</param>
                         <param name="role">$LOCALIZE[736]</param>
                         <param name="name">$VAR[Label_MusicStyle]</param>
                         <visible>!String.IsEmpty(ListItem.Property(Artist_Style)) | !String.IsEmpty(ListItem.Property(Album_Style))</visible>
                     </include>
                     <include content="Object_InfoCircle">
-                        <param name="icon">special://skin/extras/icons/radio.png</param>
+                        <param name="icon">resource://resource.images.arctic.fuse.3/extras/icons/radio.png</param>
                         <param name="role">$LOCALIZE[467]</param>
                         <param name="name">$VAR[Label_MusicType]</param>
                         <visible>!String.IsEmpty(ListItem.Property(Artist_Type)) | !String.IsEmpty(ListItem.Property(Album_Type))</visible>
@@ -1908,37 +1908,37 @@
                     <height>320</height>
                     <left>$PARAM[left_group_width]</left>
                     <include content="Object_InfoCircle">
-                        <param name="icon">special://skin/extras/icons/cake-candles.png</param>
+                        <param name="icon">resource://resource.images.arctic.fuse.3/extras/icons/cake-candles.png</param>
                         <param name="role">$LOCALIZE[21893]</param>
                         <param name="name">$INFO[ListItem.Property(Artist_Born)]</param>
                         <visible>!String.IsEmpty(ListItem.Property(Artist_Born))</visible>
                     </include>
                     <include content="Object_InfoCircle">
-                        <param name="icon">special://skin/extras/icons/cross.png</param>
+                        <param name="icon">resource://resource.images.arctic.fuse.3/extras/icons/cross.png</param>
                         <param name="role">$LOCALIZE[21897]</param>
                         <param name="name">$INFO[ListItem.Property(Artist_Died)]</param>
                         <visible>!String.IsEmpty(ListItem.Property(Artist_Died))</visible>
                     </include>
                     <include content="Object_InfoCircle">
-                        <param name="icon">special://skin/extras/icons/people-group.png</param>
+                        <param name="icon">resource://resource.images.arctic.fuse.3/extras/icons/people-group.png</param>
                         <param name="role">$LOCALIZE[21894]</param>
                         <param name="name">$INFO[ListItem.Property(Artist_Formed)]</param>
                         <visible>!String.IsEmpty(ListItem.Property(Artist_Formed))</visible>
                     </include>
                     <include content="Object_InfoCircle">
-                        <param name="icon">special://skin/extras/icons/explosion.png</param>
+                        <param name="icon">resource://resource.images.arctic.fuse.3/extras/icons/explosion.png</param>
                         <param name="role">$LOCALIZE[21896]</param>
                         <param name="name">$INFO[ListItem.Property(Artist_Disbanded)]</param>
                         <visible>!String.IsEmpty(ListItem.Property(Artist_Disbanded))</visible>
                     </include>
                     <include content="Object_InfoCircle">
-                        <param name="icon">special://skin/extras/icons/guitar.png</param>
+                        <param name="icon">resource://resource.images.arctic.fuse.3/extras/icons/guitar.png</param>
                         <param name="role">$LOCALIZE[31307]</param>
                         <param name="name">$INFO[ListItem.Property(Artist_Instrument)]</param>
                         <visible>!String.IsEmpty(ListItem.Property(Artist_Instrument))</visible>
                     </include>
                     <include content="Object_InfoCircle">
-                        <param name="icon">special://skin/extras/icons/compact-disc.png</param>
+                        <param name="icon">resource://resource.images.arctic.fuse.3/extras/icons/compact-disc.png</param>
                         <param name="role">$LOCALIZE[21899]</param>
                         <param name="name">$INFO[ListItem.Property(Album_Label)]</param>
                         <visible>!String.IsEmpty(ListItem.Property(Album_Label))</visible>

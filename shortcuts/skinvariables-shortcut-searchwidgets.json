@@ -1,70 +1,70 @@
 [
     {
         "label": "Movies",
-        "icon": "special://skin/extras/icons/film.png",
+        "icon": "resource://resource.images.arctic.fuse.3/extras/icons/film.png",
         "path": "DefaultSearch-Movies",
         "target": "videos",
         "widget_style": "Poster"
     },
     {
         "label": "TV Shows",
-        "icon": "special://skin/extras/icons/tv.png",
+        "icon": "resource://resource.images.arctic.fuse.3/extras/icons/tv.png",
         "path": "DefaultSearch-TvShows",
         "target": "videos",
         "widget_style": "Poster"
     },
     {
         "label": "Albums",
-        "icon": "special://skin/extras/icons/songs.png",
+        "icon": "resource://resource.images.arctic.fuse.3/extras/icons/songs.png",
         "path": "DefaultSearch-Albums",
         "target": "music",
         "widget_style": "Square"
     },
     {
         "label": "Artists",
-        "icon": "special://skin/extras/icons/songs.png",
+        "icon": "resource://resource.images.arctic.fuse.3/extras/icons/songs.png",
         "path": "DefaultSearch-Artists",
         "target": "music",
         "widget_style": "Square"
     },
     {
         "label": "Movies (TMDb)",
-        "icon": "special://skin/extras/icons/film.png",
+        "icon": "resource://resource.images.arctic.fuse.3/extras/icons/film.png",
         "path": "DefaultSearch-TMDBMovies",
         "target": "videos",
         "widget_style": "Poster"
     },
     {
         "label": "TV Shows (TMDb)",
-        "icon": "special://skin/extras/icons/tv.png",
+        "icon": "resource://resource.images.arctic.fuse.3/extras/icons/tv.png",
         "path": "DefaultSearch-TMDBShows",
         "target": "videos",
         "widget_style": "Poster"
     },
     {
         "label": "Spotify Tracks",
-        "icon": "special://skin/extras/icons/song.png",
+        "icon": "resource://resource.images.arctic.fuse.3/extras/icons/song.png",
         "path": "DefaultSearch-SpotifySongs",
         "target": "music",
         "widget_style": "Square"
     },
     {
         "label": "Spotify Artists",
-        "icon": "special://skin/extras/icons/artist.png",
+        "icon": "resource://resource.images.arctic.fuse.3/extras/icons/artist.png",
         "path": "DefaultSearch-SpotifyArtists",
         "target": "music",
         "widget_style": "Square"
     },
     {
         "label": "Spotify Albums",
-        "icon": "special://skin/extras/icons/songs.png",
+        "icon": "resource://resource.images.arctic.fuse.3/extras/icons/songs.png",
         "path": "DefaultSearch-SpotifyAlbums",
         "target": "music",
         "widget_style": "Square"
     },
     {
         "label": "Spotify Playlists",
-        "icon": "special://skin/extras/icons/playlist.png",
+        "icon": "resource://resource.images.arctic.fuse.3/extras/icons/playlist.png",
         "path": "DefaultSearch-SpotifyPlaylists",
         "target": "music",
         "widget_style": "Square"
