@@ -127,10 +127,11 @@ class StandardInfoPanelTests(unittest.TestCase):
             self.assertNotIn("Integer.IsEqual(Container(", expression)
 
         home = (SKIN_ROOT / "1080i" / "Includes_Home.xml").read_text(encoding="utf-8")
+        self.assertIn(
+            "$EXP[Exp_Hub_FirstRow_$PARAM[row]]\">SetProperty(TMDbHelper.WidgetContainer,$PARAM[row])</onfocus>", home
+        )
         for n in rows:
-            self.assertIn(
-                f"$EXP[Exp_Hub_FirstRow_{n}]\">SetProperty(TMDbHelper.WidgetContainer,{n})</onfocus>", home
-            )
+            self.assertIn(f"<param name=\"row\">{n}</param>", home)
         self.assertIn(">SetProperty(TMDbHelper.WidgetContainer,501)</onfocus>", home)
 
 

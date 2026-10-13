@@ -239,6 +239,10 @@
         <onback condition="!Player.HasMedia">303</onback>
     </include>
 
+    <include name="Home_FirstRow_Focus">
+        <onfocus condition="String.IsEqual(Skin.String(HomeSwitcher.$PARAM[window].Mode),Standard) + Integer.IsGreaterOrEqual(Window.Property(TMDBHelper.WidgetContainer),501) + Integer.IsLess(Window.Property(TMDBHelper.WidgetContainer),600) + $EXP[Exp_Hub_FirstRow_$PARAM[row]]">SetProperty(TMDbHelper.WidgetContainer,$PARAM[row])</onfocus>
+    </include>
+
     <include name="Home_Control">
         <param name="onclick_condition">true</param>
         <definition>
@@ -256,14 +260,38 @@
 
                 <onfocus>SetProperty(HomeSwitcher.IsVisible,True,Home)</onfocus>
                 <!-- Standard mode shows the first row with items while the menu has focus (Hub_Standard_Info) -->
-                <onfocus condition="String.IsEqual(Skin.String(HomeSwitcher.$PARAM[window].Mode),Standard) + Integer.IsGreaterOrEqual(Window.Property(TMDBHelper.WidgetContainer),501) + Integer.IsLess(Window.Property(TMDBHelper.WidgetContainer),600) + $EXP[Exp_Hub_FirstRow_501]">SetProperty(TMDbHelper.WidgetContainer,501)</onfocus>
-                <onfocus condition="String.IsEqual(Skin.String(HomeSwitcher.$PARAM[window].Mode),Standard) + Integer.IsGreaterOrEqual(Window.Property(TMDBHelper.WidgetContainer),501) + Integer.IsLess(Window.Property(TMDBHelper.WidgetContainer),600) + $EXP[Exp_Hub_FirstRow_502]">SetProperty(TMDbHelper.WidgetContainer,502)</onfocus>
-                <onfocus condition="String.IsEqual(Skin.String(HomeSwitcher.$PARAM[window].Mode),Standard) + Integer.IsGreaterOrEqual(Window.Property(TMDBHelper.WidgetContainer),501) + Integer.IsLess(Window.Property(TMDBHelper.WidgetContainer),600) + $EXP[Exp_Hub_FirstRow_503]">SetProperty(TMDbHelper.WidgetContainer,503)</onfocus>
-                <onfocus condition="String.IsEqual(Skin.String(HomeSwitcher.$PARAM[window].Mode),Standard) + Integer.IsGreaterOrEqual(Window.Property(TMDBHelper.WidgetContainer),501) + Integer.IsLess(Window.Property(TMDBHelper.WidgetContainer),600) + $EXP[Exp_Hub_FirstRow_504]">SetProperty(TMDbHelper.WidgetContainer,504)</onfocus>
-                <onfocus condition="String.IsEqual(Skin.String(HomeSwitcher.$PARAM[window].Mode),Standard) + Integer.IsGreaterOrEqual(Window.Property(TMDBHelper.WidgetContainer),501) + Integer.IsLess(Window.Property(TMDBHelper.WidgetContainer),600) + $EXP[Exp_Hub_FirstRow_505]">SetProperty(TMDbHelper.WidgetContainer,505)</onfocus>
-                <onfocus condition="String.IsEqual(Skin.String(HomeSwitcher.$PARAM[window].Mode),Standard) + Integer.IsGreaterOrEqual(Window.Property(TMDBHelper.WidgetContainer),501) + Integer.IsLess(Window.Property(TMDBHelper.WidgetContainer),600) + $EXP[Exp_Hub_FirstRow_506]">SetProperty(TMDbHelper.WidgetContainer,506)</onfocus>
-                <onfocus condition="String.IsEqual(Skin.String(HomeSwitcher.$PARAM[window].Mode),Standard) + Integer.IsGreaterOrEqual(Window.Property(TMDBHelper.WidgetContainer),501) + Integer.IsLess(Window.Property(TMDBHelper.WidgetContainer),600) + $EXP[Exp_Hub_FirstRow_507]">SetProperty(TMDbHelper.WidgetContainer,507)</onfocus>
-                <onfocus condition="String.IsEqual(Skin.String(HomeSwitcher.$PARAM[window].Mode),Standard) + Integer.IsGreaterOrEqual(Window.Property(TMDBHelper.WidgetContainer),501) + Integer.IsLess(Window.Property(TMDBHelper.WidgetContainer),600) + $EXP[Exp_Hub_FirstRow_508]">SetProperty(TMDbHelper.WidgetContainer,508)</onfocus>
+                <include content="Home_FirstRow_Focus">
+                    <param name="window">$PARAM[window]</param>
+                    <param name="row">501</param>
+                </include>
+                <include content="Home_FirstRow_Focus">
+                    <param name="window">$PARAM[window]</param>
+                    <param name="row">502</param>
+                </include>
+                <include content="Home_FirstRow_Focus">
+                    <param name="window">$PARAM[window]</param>
+                    <param name="row">503</param>
+                </include>
+                <include content="Home_FirstRow_Focus">
+                    <param name="window">$PARAM[window]</param>
+                    <param name="row">504</param>
+                </include>
+                <include content="Home_FirstRow_Focus">
+                    <param name="window">$PARAM[window]</param>
+                    <param name="row">505</param>
+                </include>
+                <include content="Home_FirstRow_Focus">
+                    <param name="window">$PARAM[window]</param>
+                    <param name="row">506</param>
+                </include>
+                <include content="Home_FirstRow_Focus">
+                    <param name="window">$PARAM[window]</param>
+                    <param name="row">507</param>
+                </include>
+                <include content="Home_FirstRow_Focus">
+                    <param name="window">$PARAM[window]</param>
+                    <param name="row">508</param>
+                </include>
                 <onfocus condition="String.IsEqual(Skin.String(HomeSwitcher.$PARAM[window].Mode),Standard) + Integer.IsGreaterOrEqual(Window.Property(TMDBHelper.WidgetContainer),501) + Integer.IsLess(Window.Property(TMDBHelper.WidgetContainer),600) + !$EXP[Exp_Hub_FirstRow_501] + !$EXP[Exp_Hub_FirstRow_502] + !$EXP[Exp_Hub_FirstRow_503] + !$EXP[Exp_Hub_FirstRow_504] + !$EXP[Exp_Hub_FirstRow_505] + !$EXP[Exp_Hub_FirstRow_506] + !$EXP[Exp_Hub_FirstRow_507] + !$EXP[Exp_Hub_FirstRow_508]">SetProperty(TMDbHelper.WidgetContainer,501)</onfocus>
                 <onfocus condition="$PARAM[overlay]">SetProperty(InfoPanel.FullSwitch,Wall,Home)</onfocus>
                 <onfocus condition="![$PARAM[overlay]]">ClearProperty(InfoPanel.FullSwitch,Home)</onfocus>
