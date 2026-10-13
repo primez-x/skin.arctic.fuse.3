@@ -52,6 +52,10 @@
     <include name="Object_ContentInclude">
         <content target="$PARAM[target]" sortby="$PARAM[sortby]" sortorder="$PARAM[sortorder]" limit="$PARAM[limit]"><include>$PARAM[include]</include></content>
     </include>
+    <!-- No-op target for optional include parameters: the comment registers
+         the name and inserts nothing, so an omitted parameter stays silent
+         instead of resolving to an empty (invalid) include name. -->
+    <include name="Include_Empty"><!-- intentionally empty --></include>
     <include name="Object_ContentItem">
         <content>
             <item>

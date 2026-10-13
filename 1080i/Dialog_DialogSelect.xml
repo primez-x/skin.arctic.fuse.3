@@ -364,7 +364,6 @@
                             <pagecontrol>61</pagecontrol>
                             <onright>61</onright>
                             <include>Size_Grouplist_Pad</include>
-                            <include>$PARAM[include_content]</include>
                         </include>
                     </control>
                     <include content="Part_Scrollbar">

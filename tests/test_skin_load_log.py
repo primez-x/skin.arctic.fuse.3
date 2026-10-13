@@ -148,5 +148,110 @@ class ResourceImageAddonTests(unittest.TestCase):
         self.assertGreaterEqual(directories, 5)
 
 
+class ParamIncludeTests(unittest.TestCase):
+    """An `<include>$PARAM[name]</include>` whose effective parameter value can be
+    empty resolves to an empty include name, and Kodi logs "Skin has invalid
+    include: " on every load of the window (seen for DialogSelect on CoreELEC).
+    Following Kodi's semantics (caller parameters win, defaults fill gaps, an
+    explicit empty value overrides a default, and a forward of an undefined
+    parameter is dropped so the target's default applies), every direct call
+    chain must leave the parameter non-empty: a literal, a non-empty default
+    (a real include or the Include_Empty no-op stub), or a forward of a
+    parameter that is itself guaranteed. Definitions only ever called
+    indirectly (their name passed as a parameter value, e.g.
+    DialogCustom_Favourites' include_list) have no direct callers to check
+    and are out of scope here."""
+
+    PARAM = re.compile(r"^\$PARAM\[([^\]]+)\]$")
+
+    def _params(self, node):
+        values = {}
+        for child in node:
+            if child.tag == "param" and child.get("name"):
+                value = child.get("value") or child.get("default") or child.text or ""
+                values[child.get("name")] = value.strip()
+        return values
+
+    def _parents(self, root):
+        return {child: parent for parent in root.iter() for child in parent}
+
+    def _owner(self, node, parents):
+        owner = parents.get(node)
+        while owner is not None and not (owner.tag == "include" and owner.get("name")):
+            owner = parents.get(owner)
+        return owner
+
+    def _calls(self, name):
+        for path in _skin_files():
+            root = _tree(path)
+            parents = self._parents(root)
+            for node in root.iter("include"):
+                if node.get("content") == name or (node.text or "").strip() == name:
+                    yield node, parents
+
+    def _guaranteed(self, name, param, definitions, seen=()):
+        if (name, param) in seen:
+            return True
+        seen = seen + ((name, param),)
+        default = self._params(definitions[name]).get(param)
+        default_ok = bool(default) and not self.PARAM.match(default)
+        calls = list(self._calls(name))
+        if not calls:
+            return True
+        for call, parents in calls:
+            supplied = self._params(call)
+            if param not in supplied:
+                if not default_ok:
+                    return False
+                continue
+            value = supplied[param]
+            if not value:
+                return False
+            forward = self.PARAM.match(value)
+            if not forward:
+                continue
+            enclosing = self._owner(call, parents)
+            if enclosing is None:
+                if not default_ok:
+                    return False
+                continue
+            if not (default_ok or self._guaranteed(
+                    enclosing.get("name"), forward.group(1), definitions, seen)):
+                return False
+        return True
+
+    def test_param_includes_never_resolve_empty(self):
+        definitions = _definitions()
+        checked = 0
+        for path in _skin_files():
+            root = _tree(path)
+            parents = self._parents(root)
+            for node in root.iter("include"):
+                if node.get("name"):
+                    continue
+                match = self.PARAM.match((node.get("content") or "").strip()) or \
+                    self.PARAM.match((node.text or "").strip())
+                if not match:
+                    continue
+                owner = self._owner(node, parents)
+                with self.subTest(file=path.name, param=match.group(1),
+                                  owner=owner.get("name") if owner is not None else None):
+                    self.assertIsNotNone(owner, "parameter include outside any definition")
+                    checked += 1
+                    self.assertTrue(
+                        self._guaranteed(owner.get("name"), match.group(1), definitions),
+                        f"{match.group(1)} can resolve empty in {owner.get('name')}")
+        self.assertGreaterEqual(checked, 10)
+
+    def test_include_empty_stub_registers_but_inserts_nothing(self):
+        parser = ET.XMLParser(target=ET.TreeBuilder(insert_comments=True))
+        root = ET.parse(SKIN / "Includes_Objects.xml", parser=parser).getroot()
+        stub = next(n for n in root.findall("include") if n.get("name") == "Include_Empty")
+        children = list(stub)
+        self.assertTrue(children)
+        self.assertTrue(all(c.tag is ET.Comment for c in children))
+        self.assertFalse((stub.text or "").strip())
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -704,7 +704,7 @@
         <param name="color_nf">main_fg_30</param>
         <param name="altfocus">false</param>
         <param name="offset_x">40</param>
-        <param name="hidden_button" />
+        <param name="hidden_button">Include_Empty</param>
         <param name="hidden_button_enabled">false</param>
         <param name="backing">false</param>
         <param name="label_fo">true</param>

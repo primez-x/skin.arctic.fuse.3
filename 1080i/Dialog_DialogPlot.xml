@@ -265,6 +265,7 @@
     </include>
 
     <include name="DialogPlot_Textbox">
+        <param name="include_movement">Include_Empty</param>
         <param name="textbox_visible">true</param>
         <param name="include_divider">true</param>
         <param name="include_top">false</param>

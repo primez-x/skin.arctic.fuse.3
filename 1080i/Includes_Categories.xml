@@ -263,7 +263,7 @@
         <param name="font">font_main_bold</param>
         <param name="color_fo">main_fg_30</param>
         <param name="color_nf">main_fg_30</param>
-        <param name="hidden_button" />
+        <param name="hidden_button">Include_Empty</param>
         <param name="hidden_button_enabled">false</param>
         <param name="preitem_fade">True</param>
         <param name="itemlayout_w">240</param>
