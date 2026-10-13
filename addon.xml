@@ -1,4 +1,4 @@
-<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.8.7">
+<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.8.8">
     <requires>
         <import addon="xbmc.gui" version="5.17.0" />
         <import addon="xbmc.python" version="3.0.0" />
@@ -35,7 +35,10 @@
         <license>Creative Commons Attribution Non-Commercial Share-Alike 4.0</license>
         <forum />
         <source>https://github.com/primez-x/skin.arctic.fuse.3</source>
-        <news>v3.8.7
+        <news>v3.8.8
+- Pressing Down on a Poster, Card, Circle, Banner or Board widget row reaches the rows below again: the labels-below spacer under those rows had no control ID, which broke the widget list's Down/Up chain (for example Discover stopped at Popular and Home stopped at New Shows).
+
+v3.8.7
 - Opening the view picker (DialogSelect in viewtype mode), the game filter dialogs or the text viewer no longer logs "Skin has invalid include" on every open.
 
 v3.8.6

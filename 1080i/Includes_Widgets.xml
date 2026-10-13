@@ -152,6 +152,7 @@
         <param name="detailed">false</param>
         <definition>
             <include content="Object_Control" condition="$EXP[Exp_LabelsBelow__$PARAM[include]]">
+                <param name="id">7$PARAM[id]</param>
                 <param name="control">group</param>
                 <height>view_bar</height>
                 <visible>![$PARAM[detailed]] + !Skin.HasSetting(View.HideWidgetLabels) + $PARAM[visible]</visible>

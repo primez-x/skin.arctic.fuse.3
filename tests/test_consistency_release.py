@@ -211,6 +211,18 @@ class LabelsBelowSpacerTests(unittest.TestCase):
         self.assertIn("![$PARAM[detailed]]", self.visible)
         self.assertIn("!Skin.HasSetting(View.HideWidgetLabels)", self.visible)
 
+    def test_spacer_has_a_unique_id_so_down_navigation_can_cross_it(self):
+        # The spacer is a direct child of the vertical widget grouplist, which
+        # wires each child's Down/Up navigation to the next child's control ID
+        # at load; an ID-less spacer becomes control 0, focus movement aborts,
+        # and Down from a tall-tile row never reaches the row below (seen on
+        # Home and Discover at 3.8.6). Its ID must be unique per row.
+        self.assertEqual("7$PARAM[id]", self.spacer.findtext("param[@name='id']"))
+        content = _include("Includes_Widgets.xml", "Widget_Content")
+        call = next(c for c in content.find("definition").findall("include")
+                    if c.get("content") == "Widget_LabelsBelow_Spacer")
+        self.assertEqual("$PARAM[id]", call.findtext("param[@name='id']"))
+
     def test_no_literal_include_comparisons_left(self):
         for path in SKIN.glob("*.xml"):
             self.assertIsNone(

@@ -35,7 +35,7 @@ class PosterWidgetLabelTests(unittest.TestCase):
         self.assertEqual("$EXP[Exp_LabelsBelow__$PARAM[include]]", spacer.get("condition"))
         self.assertEqual("group", spacer.findtext("param[@name='control']"))
         self.assertEqual("view_bar", spacer.findtext("height"))
-        self.assertIsNone(spacer.find("param[@name='id']"))
+        self.assertEqual("7$PARAM[id]", spacer.findtext("param[@name='id']"))
         visible = spacer.findtext("visible")
         self.assertNotIn("String.IsEqual($PARAM[include]", visible)
         self.assertIn("+ $PARAM[visible]", visible)
