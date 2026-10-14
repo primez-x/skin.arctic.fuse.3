@@ -2459,3 +2459,8 @@ msgstr ""
 msgctxt "#31994"
 msgid "Could not change song information"
 msgstr ""
+
+#: /1080i/Includes_Views_List.xml
+msgctxt "#31995"
+msgid "Media List (Full Height)"
+msgstr ""

@@ -19,32 +19,53 @@
 
     <!-- Media List -->
     <include name="View_507_Media_List">
-        <include content="View_MediaList_Include" condition="Window.IsVisible(videos)">
+        <include content="View_Media_List">
             <param name="id">507</param>
             <param name="viewtype_label">$LOCALIZE[31479]</param>
             <param name="visible">$EXP[Exp_View_507]</param>
-            <param name="left">0</param>
-            <param name="right">510</param>
-            <param name="top">0</param>
-            <param name="focusposition">1</param>
-            <param name="movement">5</param>
-            <param name="overlay">true</param>
-            <param name="item_height">85</param>
-            <include>View_Media_Poster</include>
         </include>
-        <include content="View_MediaList_Include" condition="!Window.IsVisible(videos)">
-            <param name="id">507</param>
-            <param name="viewtype_label">$LOCALIZE[31479]</param>
-            <param name="visible">$EXP[Exp_View_507]</param>
-            <param name="left">0</param>
-            <param name="right">692</param>
+    </include>
+
+    <!-- Full-height Media List -->
+    <include name="View_550_Media_List_Full_Height">
+        <include content="View_Media_List">
+            <param name="id">550</param>
+            <param name="viewtype_label">$LOCALIZE[31995]</param>
+            <param name="visible">$EXP[Exp_View_550]</param>
             <param name="top">0</param>
-            <param name="focusposition">1</param>
-            <param name="movement">5</param>
-            <param name="overlay">true</param>
-            <param name="item_height">85</param>
-            <include>View_Media_Square</include>
         </include>
+    </include>
+
+    <include name="View_Media_List">
+        <param name="top">130</param>
+        <definition>
+            <include content="View_MediaList_Include" condition="Window.IsVisible(videos)">
+                <param name="id">$PARAM[id]</param>
+                <param name="viewtype_label">$PARAM[viewtype_label]</param>
+                <param name="visible">$PARAM[visible]</param>
+                <param name="left">0</param>
+                <param name="right">510</param>
+                <param name="top">$PARAM[top]</param>
+                <param name="focusposition">1</param>
+                <param name="movement">5</param>
+                <param name="overlay">true</param>
+                <param name="item_height">85</param>
+                <include>View_Media_Poster</include>
+            </include>
+            <include content="View_MediaList_Include" condition="!Window.IsVisible(videos)">
+                <param name="id">$PARAM[id]</param>
+                <param name="viewtype_label">$PARAM[viewtype_label]</param>
+                <param name="visible">$PARAM[visible]</param>
+                <param name="left">0</param>
+                <param name="right">692</param>
+                <param name="top">$PARAM[top]</param>
+                <param name="focusposition">1</param>
+                <param name="movement">5</param>
+                <param name="overlay">true</param>
+                <param name="item_height">85</param>
+                <include>View_Media_Square</include>
+            </include>
+        </definition>
     </include>
 
     <!-- Expanded List -->
