@@ -2449,3 +2449,13 @@ msgstr ""
 msgctxt "#31992"
 msgid "Return to playback when idle"
 msgstr ""
+
+#: /1080i/Includes_SkinSettings.xml
+msgctxt "#31993"
+msgid "Always show song information"
+msgstr ""
+
+#: /toggle_music_info.py
+msgctxt "#31994"
+msgid "Could not change song information"
+msgstr ""

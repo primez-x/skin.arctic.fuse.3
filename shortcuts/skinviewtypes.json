@@ -224,8 +224,8 @@
         "songs": {
             "rule": "Container.Content(songs)",
             "viewtypes": ["500", "503", "510", "513", "506", "507", "508", "509"],
-            "library": "508",
-            "plugins": "508"
+            "library": "507",
+            "plugins": "507"
         },
         "files": {
             "rule": "Container.Content(files)",

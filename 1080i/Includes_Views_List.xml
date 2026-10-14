@@ -25,7 +25,7 @@
             <param name="visible">$EXP[Exp_View_507]</param>
             <param name="left">0</param>
             <param name="right">510</param>
-            <param name="top">130</param>
+            <param name="top">0</param>
             <param name="focusposition">1</param>
             <param name="movement">5</param>
             <param name="overlay">true</param>
@@ -38,7 +38,7 @@
             <param name="visible">$EXP[Exp_View_507]</param>
             <param name="left">0</param>
             <param name="right">692</param>
-            <param name="top">130</param>
+            <param name="top">0</param>
             <param name="focusposition">1</param>
             <param name="movement">5</param>
             <param name="overlay">true</param>

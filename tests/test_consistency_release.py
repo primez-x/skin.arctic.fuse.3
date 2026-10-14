@@ -538,9 +538,18 @@ class PanelTests(unittest.TestCase):
     def test_music_osd_title_composes_info_blocks(self):
         details = _include("Includes_OSD.xml", "OSD_TitleDetails")
         self.assertIsNotNone(details.find(".//include[@content='Info_Title']"))
-        line = details.find(".//include[@content='Info_Line']")
-        self.assertEqual("panel_fg", line.findtext("param[@name='colordiffuse']"))
-        self.assertEqual("true", line.findtext("param[@name='show_artist']"))
+        self.assertIsNone(details.find(".//include[@content='Info_Line']"))
+        labels = details.findall(".//include[@content='Info_Line_Label']")
+        self.assertEqual(2, len(labels))
+        self.assertEqual("$INFO[$PARAM[listitem].Artist]", labels[0].findtext("param[@name='label']"))
+        self.assertEqual("$INFO[$PARAM[listitem].AlbumArtist]", labels[0].findtext("param[@name='label_fallback']"))
+        self.assertEqual("false", labels[0].findtext("param[@name='show_divider']"))
+        self.assertEqual("$INFO[$PARAM[listitem].Album]", labels[1].findtext("param[@name='label']"))
+        self.assertEqual("!String.IsEmpty($PARAM[listitem].Artist) | !String.IsEmpty($PARAM[listitem].AlbumArtist)",
+                         labels[1].findtext("param[@name='show_divider']"))
+        for label in labels:
+            self.assertEqual("panel_fg", label.findtext("param[@name='colordiffuse']"))
+            self.assertIn("!String.IsEmpty", label.findtext("param[@name='visible']"))
 
     def test_info_panel_plot_width_is_the_constant(self):
         self.assertEqual("info_plot_w", _include("Includes_Info.xml", "Info_Panel").findtext("param[@name='plotwidth']"))

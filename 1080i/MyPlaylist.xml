@@ -15,6 +15,7 @@
 
             <control type="group">
                 <include>Info_Panel_Dimensions</include>
+                <visible>!Window.IsVisible(musicplaylist)</visible>
                 <control type="group">
                     <visible>!$EXP[Exp_InfoDialogs]</visible>
                     <include content="Info_Panel">
@@ -58,6 +59,7 @@
                 <include content="View_Line">
                     <param name="top">260</param>
                     <param name="left">view_pad</param>
+                    <param name="visible">!Window.IsVisible(musicplaylist)</param>
                 </include>
 
                 <include content="View_MediaList_Include" condition="Window.IsVisible(musicplaylist)">
@@ -65,7 +67,7 @@
                     <param name="viewtype_label">$LOCALIZE[31479]</param>
                     <param name="left">0</param>
                     <param name="right">692</param>
-                    <param name="top">130</param>
+                    <param name="top">0</param>
                     <param name="focusposition">1</param>
                     <param name="movement">5</param>
                     <param name="overlay">true</param>

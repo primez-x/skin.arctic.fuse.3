@@ -603,6 +603,16 @@
             <onclick condition="Skin.String(Idle.ReturnToPlayer,300)">Skin.SetString(Idle.ReturnToPlayer,Off)</onclick>
             <onclick condition="Skin.String(Idle.ReturnToPlayer,Off)">Skin.SetString(Idle.ReturnToPlayer,30)</onclick>
         </include>
+        <include content="Settings_Button" description="Always show song information">
+            <param name="dialog">false</param>
+            <param name="window">skinsettings</param>
+            <param name="baseid">$PARAM[baseid]</param>
+            <param name="id">018</param>
+            <param name="control">radiobutton</param>
+            <label>$LOCALIZE[31993]</label>
+            <selected>System.GetBool(mymusic.songthumbinvis)</selected>
+            <onclick>RunScript(special://skin/toggle_music_info.py)</onclick>
+        </include>
     </include>
 
     <!-- Details -->

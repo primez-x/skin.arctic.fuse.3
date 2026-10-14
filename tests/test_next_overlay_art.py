@@ -1,9 +1,56 @@
+import json
+import runpy
+import sys
+import types
 import unittest
 import xml.etree.ElementTree as ET
 from pathlib import Path
+from unittest.mock import patch
 
 
 SKIN_ROOT = Path(__file__).resolve().parents[1]
+
+
+class SongInformationSettingTests(unittest.TestCase):
+    def run_toggle(self, responses):
+        calls, errors, notifications = [], [], []
+
+        def execute(request):
+            calls.append(json.loads(request))
+            return json.dumps(responses[len(calls) - 1])
+
+        xbmc = types.SimpleNamespace(executeJSONRPC=execute, LOGERROR=4,
+                                     log=lambda *args: errors.append(args),
+                                     getLocalizedString=lambda number: str(number))
+        xbmcgui = types.SimpleNamespace(NOTIFICATION_ERROR="error",
+                                        Dialog=lambda: types.SimpleNamespace(notification=lambda *args, **kwargs: notifications.append(args)))
+        xbmcaddon = types.SimpleNamespace(Addon=lambda addon_id: types.SimpleNamespace(getLocalizedString=lambda number: str(number)))
+        with patch.dict(sys.modules, xbmc=xbmc, xbmcgui=xbmcgui, xbmcaddon=xbmcaddon):
+            runpy.run_path(str(SKIN_ROOT / "toggle_music_info.py"), run_name="__main__")
+        return calls, errors, notifications
+
+    def test_both_values_toggle_with_a_json_boolean(self):
+        for previous in (False, True):
+            calls, errors, notifications = self.run_toggle([{"result": {"value": previous}}, {"result": True}])
+            self.assertEqual(["Settings.GetSettingValue", "Settings.SetSettingValue"], [call["method"] for call in calls])
+            self.assertTrue(all(call["params"]["setting"] == "mymusic.songthumbinvis" for call in calls))
+            self.assertIs(calls[1]["params"]["value"], not previous)
+            self.assertEqual([], errors)
+            self.assertEqual([], notifications)
+
+    def test_failed_or_non_boolean_read_never_writes(self):
+        for response in ({"error": {"code": -32602}}, {"result": {"value": "false"}}, {"result": {"value": 0}}):
+            calls, errors, notifications = self.run_toggle([response])
+            self.assertEqual(1, len(calls))
+            self.assertEqual(1, len(errors))
+            self.assertEqual(1, len(notifications))
+
+    def test_rejected_write_reports_failure(self):
+        for response in ({"error": {"code": -32602}}, {"result": False}):
+            calls, errors, notifications = self.run_toggle([{"result": {"value": False}}, response])
+            self.assertEqual(2, len(calls))
+            self.assertEqual(1, len(errors))
+            self.assertEqual(1, len(notifications))
 
 
 class NextOverlayArtTests(unittest.TestCase):
