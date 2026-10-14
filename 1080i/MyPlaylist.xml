@@ -97,6 +97,9 @@
                     <visible>!$EXP[View_Mode_Wall_Expression] + !Window.IsVisible(musicplaylist)</visible>
                     <include>Furniture_Footer_Left</include>
                 </control>
+                <include content="View_MediaList_Footer">
+                    <param name="visible">Window.IsVisible(musicplaylist)</param>
+                </include>
             </control>
 
         </control>

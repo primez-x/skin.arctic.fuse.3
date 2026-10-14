@@ -464,7 +464,7 @@ class ViewLabelTests(unittest.TestCase):
             self.assertAlmostEqual(bar, row["card_cell_w"] - row["card"][0], places=2, msg=f"labels_off={labels_off}")
 
     def test_views_without_the_footer_are_exempt_by_rule(self):
-        # Walls and Full Height hide the count footer. Other list views retain the count footer.
+        # Walls hide the footer. Full Height uses the lower footer. Other lists retain the standard footer.
         constants = _constants()
         main = _include("Includes_Views.xml", "View_Main")
         footer = next(g for g in main.iter("control") if g.find("include") is not None
@@ -529,11 +529,34 @@ class FullHeightListHeaderTests(unittest.TestCase):
         name = header.find(".//include[@content='View_Line_Label']")
         self.assertEqual("font_midi_bold", name.findtext("param[@name='font']"))
         self.assertEqual("main_fg_100", name.findtext("param[@name='textcolor']"))
-        self.assertEqual("60%", name.findtext("param[@name='max_width']"))
+        self.assertEqual("$PARAM[label_max_width]", name.findtext("param[@name='max_width']"))
+        self.assertEqual("60%", header.findtext("param[@name='label_max_width']"))
+        self.assertEqual("true", header.findtext("param[@name='show_count']"))
         count = header.find(".//include[@content='Info_Line_Label']")
         self.assertEqual("$PARAM[count]", count.findtext("param[@name='label']"))
         self.assertEqual("35%", count.findtext("param[@name='max_width']"))
         self.assertEqual("100%", header.findtext(".//include[@content='View_Line_Divider']/param[@name='width']"))
+
+    def test_browser_and_playlist_counts_use_the_bottom_footer(self):
+        body = _include("Includes_Views_List.xml", "View_MediaList_Include")
+        header = body.find(".//include[@content='View_MediaList_Header']")
+        self.assertEqual("false", header.findtext("param[@name='show_count']"))
+        self.assertEqual("100%", header.findtext("param[@name='label_max_width']"))
+        main = _include("Includes_Views.xml", "View_Main")
+        self.assertEqual("Control.IsVisible(550)", main.findtext(".//include[@content='View_MediaList_Footer']/param[@name='visible']"))
+        playlist = _root("MyPlaylist.xml")
+        self.assertEqual("Window.IsVisible(musicplaylist)", playlist.findtext(".//include[@content='View_MediaList_Footer']/param[@name='visible']"))
+        footer = _include("Includes_Views.xml", "View_MediaList_Footer")
+        group = footer.find("definition/control")
+        self.assertEqual("view_bar", group.findtext("left"))
+        self.assertEqual("0", group.findtext("bottom"))
+        self.assertEqual("view_pad", group.findtext("height"))
+        line = group.find("include")
+        self.assertEqual("$VAR[Label_MediaList_Count]", line.findtext("param[@name='label']"))
+        self.assertEqual("view_bar", line.findtext("param[@name='top']"))
+        self.assertNotIn("View_MediaList_Footer", ET.tostring(_root("Custom_1142_OSD_MusicTracks.xml"), encoding="unicode"))
+        count = _include("Includes_Views.xml", "View_MediaList_Header").find(".//include[@content='Info_Line_Label']")
+        self.assertEqual("$PARAM[show_count]", count.get("condition"))
 
     def test_both_full_height_branches_preserve_artwork_and_extend_the_list(self):
         full = _include("Includes_Views_List.xml", "View_550_Media_List_Full_Height").find("include")

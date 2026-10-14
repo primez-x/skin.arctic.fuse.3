@@ -61,6 +61,8 @@
     <include name="View_MediaList_Header">
         <param name="label">$VAR[Label_Section_Main]</param>
         <param name="count">$VAR[Label_MediaList_Count]</param>
+        <param name="show_count">true</param>
+        <param name="label_max_width">60%</param>
         <param name="top">-view_list_full_offset</param>
         <param name="left">-view_bar</param>
         <param name="right">692</param>
@@ -78,9 +80,9 @@
                         <param name="label">$PARAM[label]</param>
                         <param name="font">font_midi_bold</param>
                         <param name="textcolor">main_fg_100</param>
-                        <param name="max_width">60%</param>
+                        <param name="max_width">$PARAM[label_max_width]</param>
                     </include>
-                    <include content="Info_Line_Label">
+                    <include content="Info_Line_Label" condition="$PARAM[show_count]">
                         <param name="label">$PARAM[count]</param>
                         <param name="colordiffuse">main_fg</param>
                         <param name="max_width">35%</param>
@@ -89,6 +91,26 @@
                 </control>
                 <include content="View_Line_Divider">
                     <param name="width">100%</param>
+                </include>
+            </control>
+        </definition>
+    </include>
+
+    <include name="View_MediaList_Footer">
+        <param name="visible">true</param>
+        <definition>
+            <control type="group">
+                <visible>$PARAM[visible]</visible>
+                <left>view_bar</left>
+                <right>view_pad</right>
+                <bottom>0</bottom>
+                <height>view_pad</height>
+                <include content="View_Line">
+                    <param name="label">$VAR[Label_MediaList_Count]</param>
+                    <param name="top">view_bar</param>
+                    <param name="left">0</param>
+                    <param name="right">0</param>
+                    <param name="textcolor">main_fg_70</param>
                 </include>
             </control>
         </definition>
@@ -673,6 +695,9 @@
                         <visible>!$EXP[View_Mode_Wall_Expression] + !Control.IsVisible(550)</visible>
                         <include>Furniture_Footer_Left</include>
                     </control>
+                    <include content="View_MediaList_Footer">
+                        <param name="visible">Control.IsVisible(550)</param>
+                    </include>
                 </control>
                 <control type="group">
                     <visible>!$EXP[Exp_InfoDialogs]</visible>

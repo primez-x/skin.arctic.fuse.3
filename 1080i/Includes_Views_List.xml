@@ -264,6 +264,8 @@
                 <include>Dimension_Info</include>
 
                 <include content="View_MediaList_Header" condition="$PARAM[show_header]">
+                    <param name="show_count">false</param>
+                    <param name="label_max_width">100%</param>
                     <param name="left">$PARAM[left]</param>
                     <param name="right">$PARAM[right]</param>
                 </include>
