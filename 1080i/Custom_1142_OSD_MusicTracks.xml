@@ -8,6 +8,10 @@
         <control type="group">
             <include>Dimension_Info</include>
 
+            <include content="View_MediaList_Header">
+                <param name="label">$INFO[Container(9801).ListItem.Label]</param>
+            </include>
+
             <control type="group">
                 <right>0</right>
                 <width>612</width>
@@ -52,6 +56,7 @@
                 </include>
             </control>
             <control type="group">
+                <left>-view_bar</left>
                 <right>692</right>
                 <include content="List_DialogSelect">
                     <param name="id">9802</param>
@@ -70,7 +75,7 @@
                     <left>-20</left>
                     <right>-60</right>
                     <top>0</top>
-                    <bottom>0</bottom>
+                    <bottom>-view_bar</bottom>
                     <focusposition>1</focusposition>
                     <movement>5</movement>
                     <preloaditems>0</preloaditems>

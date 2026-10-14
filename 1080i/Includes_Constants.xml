@@ -5,6 +5,8 @@
     <constant name="view_pad">80</constant>
     <constant name="-view_pad">-80</constant>
     <constant name="view_top">180</constant>
+    <constant name="view_list_full_offset">100</constant>
+    <constant name="-view_list_full_offset">-100</constant>
     <constant name="view_row">510</constant>
 
     <constant name="view_menu_main">480</constant>

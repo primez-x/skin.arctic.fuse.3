@@ -65,9 +65,11 @@
                 <include content="View_MediaList_Include" condition="Window.IsVisible(musicplaylist)">
                     <param name="id">50</param>
                     <param name="viewtype_label">$LOCALIZE[31479]</param>
-                    <param name="left">0</param>
+                    <param name="left">-view_bar</param>
                     <param name="right">692</param>
                     <param name="top">0</param>
+                    <param name="bottom">-view_list_full_offset</param>
+                    <param name="show_header">true</param>
                     <param name="focusposition">1</param>
                     <param name="movement">5</param>
                     <param name="overlay">true</param>
@@ -92,7 +94,7 @@
                 </include>
 
                 <control type="group">
-                    <visible>!$EXP[View_Mode_Wall_Expression]</visible>
+                    <visible>!$EXP[View_Mode_Wall_Expression] + !Window.IsVisible(musicplaylist)</visible>
                     <include>Furniture_Footer_Left</include>
                 </control>
             </control>

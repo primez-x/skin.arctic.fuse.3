@@ -2,17 +2,21 @@
 <includes>
 
     <include name="View_Line_Label">
-        <control type="label">
-            <label fallback="$PARAM[label_fallback]">$PARAM[label]</label>
-            <align>$PARAM[align]</align>
-            <haspath>$PARAM[haspath]</haspath>
-            <textcolor>$PARAM[textcolor]</textcolor>
-            <aligny>center</aligny>
-            <textcolor>main_fg_100</textcolor>
-            <font>font_main_bold</font>
-            <width>auto</width>
-            <height>80</height>
-        </control>
+        <param name="font">font_main_bold</param>
+        <param name="max_width" />
+        <definition>
+            <control type="label">
+                <label fallback="$PARAM[label_fallback]">$PARAM[label]</label>
+                <align>$PARAM[align]</align>
+                <haspath>$PARAM[haspath]</haspath>
+                <textcolor>$PARAM[textcolor]</textcolor>
+                <aligny>center</aligny>
+                <textcolor>main_fg_100</textcolor>
+                <font>$PARAM[font]</font>
+                <width max="$PARAM[max_width]">auto</width>
+                <height>80</height>
+            </control>
+        </definition>
     </include>
 
     <include name="View_Line_SubLabel">
@@ -50,6 +54,42 @@
                 <centerbottom>10</centerbottom>
                 <width>$PARAM[width]</width>
                 <include>View_Line_Divider_$PARAM[align]</include>
+            </control>
+        </definition>
+    </include>
+
+    <include name="View_MediaList_Header">
+        <param name="label">$VAR[Label_Section_Main]</param>
+        <param name="count">$VAR[Label_MediaList_Count]</param>
+        <param name="top">-view_list_full_offset</param>
+        <param name="left">-view_bar</param>
+        <param name="right">692</param>
+        <definition>
+            <control type="group">
+                <top>$PARAM[top]</top>
+                <left>$PARAM[left]</left>
+                <right>$PARAM[right]</right>
+                <height>view_pad</height>
+                <control type="grouplist">
+                    <hitrect x="0" y="0" w="0" h="0" />
+                    <orientation>horizontal</orientation>
+                    <itemgap>10</itemgap>
+                    <include content="View_Line_Label">
+                        <param name="label">$PARAM[label]</param>
+                        <param name="font">font_midi_bold</param>
+                        <param name="textcolor">main_fg_100</param>
+                        <param name="max_width">60%</param>
+                    </include>
+                    <include content="Info_Line_Label">
+                        <param name="label">$PARAM[count]</param>
+                        <param name="colordiffuse">main_fg</param>
+                        <param name="max_width">35%</param>
+                        <param name="visible">true</param>
+                    </include>
+                </control>
+                <include content="View_Line_Divider">
+                    <param name="width">100%</param>
+                </include>
             </control>
         </definition>
     </include>
@@ -630,7 +670,7 @@
                     <include>View_Row_Items</include>
                     <include>View_Row_Line</include>
                     <control type="group">
-                        <visible>!$EXP[View_Mode_Wall_Expression]</visible>
+                        <visible>!$EXP[View_Mode_Wall_Expression] + !Control.IsVisible(550)</visible>
                         <include>Furniture_Footer_Left</include>
                     </control>
                 </control>

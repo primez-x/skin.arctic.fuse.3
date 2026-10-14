@@ -1,4 +1,4 @@
-<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.12.0">
+<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.13.0">
     <requires>
         <import addon="xbmc.gui" version="5.17.0" />
         <import addon="xbmc.python" version="3.0.0" />
@@ -7,7 +7,7 @@
         <import addon="plugin.video.themoviedb.helper" version="6.14.3" />
         <import addon="resource.images.weathericons.white" version="0.0.1" />
         <import addon="resource.images.studios.coloured" version="0.0.1" />
-        <import addon="resource.images.arctic.fuse.3" version="0.0.2" />
+        <import addon="resource.images.arctic.fuse.3" version="0.0.3" />
         <import addon="resource.font.robotocjksc" version="0.0.3" />
     </requires>
     <extension debugging="false" defaultthemename="Textures.xbt" effectslowdown="1" point="xbmc.gui.skin">
@@ -36,7 +36,12 @@
         <license>Creative Commons Attribution Non-Commercial Share-Alike 4.0</license>
         <forum />
         <source>https://github.com/primez-x/skin.arctic.fuse.3</source>
-        <news>v3.12.0
+        <news>v3.13.0
+- Show the music folder or playlist name and count above the full-height list.
+- Reduce the left margin and extend the library, playlist, and OSD track lists.
+- Update the full-height view preview.
+
+v3.12.0
 - Show an accurate preview for Media List (Full Height).
 - Require the image package that contains the new preview.
 
