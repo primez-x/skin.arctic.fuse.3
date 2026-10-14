@@ -1133,6 +1133,62 @@
             <selected>System.AddonIsEnabled(service.nexttrack) + System.HasAddon(service.nexttrack)</selected>
         </include>
 
+        <include content="Settings_Button">
+            <param name="dialog">false</param>
+            <param name="window">skinsettings</param>
+            <param name="baseid">$PARAM[baseid]</param>
+            <param name="id">0172</param>
+            <param name="control">radiobutton</param>
+            <label>resource.images.arctic.fuse.3</label>
+            <label2>$INFO[System.AddonVersion(resource.images.arctic.fuse.3),v,       ]</label2>
+            <onclick condition="!System.HasAddon(resource.images.arctic.fuse.3)">InstallAddon(resource.images.arctic.fuse.3)</onclick>
+            <onclick condition="!System.AddonIsEnabled(resource.images.arctic.fuse.3) + System.HasAddon(resource.images.arctic.fuse.3)">EnableAddon(resource.images.arctic.fuse.3)</onclick>
+            <onclick condition="System.AddonIsEnabled(resource.images.arctic.fuse.3) + System.HasAddon(resource.images.arctic.fuse.3)">Addon.OpenSettings(resource.images.arctic.fuse.3)</onclick>
+            <selected>System.AddonIsEnabled(resource.images.arctic.fuse.3) + System.HasAddon(resource.images.arctic.fuse.3)</selected>
+        </include>
+
+        <include content="Settings_Button">
+            <param name="dialog">false</param>
+            <param name="window">skinsettings</param>
+            <param name="baseid">$PARAM[baseid]</param>
+            <param name="id">0173</param>
+            <param name="control">radiobutton</param>
+            <label>resource.images.weathericons.white</label>
+            <label2>$INFO[System.AddonVersion(resource.images.weathericons.white),v,       ]</label2>
+            <onclick condition="!System.HasAddon(resource.images.weathericons.white)">InstallAddon(resource.images.weathericons.white)</onclick>
+            <onclick condition="!System.AddonIsEnabled(resource.images.weathericons.white) + System.HasAddon(resource.images.weathericons.white)">EnableAddon(resource.images.weathericons.white)</onclick>
+            <onclick condition="System.AddonIsEnabled(resource.images.weathericons.white) + System.HasAddon(resource.images.weathericons.white)">Addon.OpenSettings(resource.images.weathericons.white)</onclick>
+            <selected>System.AddonIsEnabled(resource.images.weathericons.white) + System.HasAddon(resource.images.weathericons.white)</selected>
+        </include>
+
+        <include content="Settings_Button">
+            <param name="dialog">false</param>
+            <param name="window">skinsettings</param>
+            <param name="baseid">$PARAM[baseid]</param>
+            <param name="id">0174</param>
+            <param name="control">radiobutton</param>
+            <label>resource.font.robotocjksc</label>
+            <label2>$INFO[System.AddonVersion(resource.font.robotocjksc),v,       ]</label2>
+            <onclick condition="!System.HasAddon(resource.font.robotocjksc)">InstallAddon(resource.font.robotocjksc)</onclick>
+            <onclick condition="!System.AddonIsEnabled(resource.font.robotocjksc) + System.HasAddon(resource.font.robotocjksc)">EnableAddon(resource.font.robotocjksc)</onclick>
+            <onclick condition="System.AddonIsEnabled(resource.font.robotocjksc) + System.HasAddon(resource.font.robotocjksc)">Addon.OpenSettings(resource.font.robotocjksc)</onclick>
+            <selected>System.AddonIsEnabled(resource.font.robotocjksc) + System.HasAddon(resource.font.robotocjksc)</selected>
+        </include>
+
+        <include content="Settings_Button">
+            <param name="dialog">false</param>
+            <param name="window">skinsettings</param>
+            <param name="baseid">$PARAM[baseid]</param>
+            <param name="id">0175</param>
+            <param name="control">radiobutton</param>
+            <label>resource.images.studios.coloured</label>
+            <label2>$INFO[System.AddonVersion(resource.images.studios.coloured),v,       ]</label2>
+            <onclick condition="!System.HasAddon(resource.images.studios.coloured)">InstallAddon(resource.images.studios.coloured)</onclick>
+            <onclick condition="!System.AddonIsEnabled(resource.images.studios.coloured) + System.HasAddon(resource.images.studios.coloured)">EnableAddon(resource.images.studios.coloured)</onclick>
+            <onclick condition="System.AddonIsEnabled(resource.images.studios.coloured) + System.HasAddon(resource.images.studios.coloured)">Addon.OpenSettings(resource.images.studios.coloured)</onclick>
+            <selected>System.AddonIsEnabled(resource.images.studios.coloured) + System.HasAddon(resource.images.studios.coloured)</selected>
+        </include>
+
         <include content="Settings_Label" description="Debug">
             <param name="window">skinsettings</param>
             <param name="slevel">3</param>

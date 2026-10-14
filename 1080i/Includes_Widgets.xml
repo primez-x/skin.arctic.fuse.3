@@ -315,17 +315,6 @@
         </include>
     </include>
 
-    <include name="Widget_Busy_BlankItem_Icon">
-        <include content="Widget_Busy_BlankItem">
-            <param name="item_w">view_poster_item_w</param>
-            <param name="item_h">view_poster_item_w</param>
-            <param name="itemlayout_w">view_poster_itemlayout_w</param>
-            <param name="itemlayout_h">view_poster_itemlayout_h</param>
-            <param name="colordiffuse">$PARAM[colordiffuse]</param>
-            <param name="second_row">false</param>
-            <param name="first_row">false</param>
-        </include>
-    </include>
 
     <include name="Widget_Busy_BlankItem_Poster">
         <include content="Widget_Busy_BlankItem">

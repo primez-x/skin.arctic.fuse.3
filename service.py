@@ -286,7 +286,6 @@ def main():
     previous_version = _read_recovered_version()
 
     if xbmc.getSkinDir() != ADDON_ID:
-        _write_recovered_version(version)
         return
 
     version_changed = previous_version != version

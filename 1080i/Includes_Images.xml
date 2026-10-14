@@ -318,8 +318,9 @@
     </variable>
 
     <variable name="Image_OtherIcon">
-        <value condition="$EXP[Exp_IsStudio]">$INFO[ListItem.Label,resource://resource.images.studios.white/,.png]</value>
-        <value condition="$EXP[Exp_IsCountry]">$INFO[ListItem.Label,resource://resource.images.moviecountryicons.maps/,.png]</value>
+        <value condition="$EXP[Exp_IsStudio] + System.AddonIsEnabled(resource.images.studios.white)">$INFO[ListItem.Label,resource://resource.images.studios.white/,.png]</value>
+        <value condition="$EXP[Exp_IsCountry] + System.AddonIsEnabled(resource.images.moviecountryicons.maps)">$INFO[ListItem.Label,resource://resource.images.moviecountryicons.maps/,.png]</value>
+        <value>DefaultFolder.png</value>
     </variable>
 
     <variable name="Image_FanartFallback">

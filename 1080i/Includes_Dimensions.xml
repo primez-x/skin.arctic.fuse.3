@@ -7,10 +7,6 @@
         <height>view_bar</height>
     </include>
 
-    <include name="Dimension_Topbar">
-        <include>Dimension_Furniture</include>
-        <top>view_pad</top>
-    </include>
 
     <include name="Dimension_Bottombar">
         <include>Dimension_Furniture</include>
@@ -24,12 +20,6 @@
         <bottom>$PARAM[pad]</bottom>
     </include>
 
-    <include name="Dimension_DialogNumeric">
-        <width>600</width>
-        <centertop>50%</centertop>
-        <centerleft>50%</centerleft>
-        <height>920</height>
-    </include>
 
     <include name="Dimension_DialogPlaylistRule">
         <centerleft>50%</centerleft>

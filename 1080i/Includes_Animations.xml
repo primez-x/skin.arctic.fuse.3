@@ -192,15 +192,6 @@
         </definition>
     </include>
 
-    <include name="Animation_Right">
-        <definition>
-            <include content="Animation_Direction">
-                <param name="windowopen_condition">$PARAM[windowopen_condition]</param>
-                <param name="windowclose_condition">$PARAM[windowclose_condition]</param>
-                <param name="posx">320</param>
-            </include>
-        </definition>
-    </include>
 
     <include name="Animation_Right_Delay">
         <definition>
@@ -212,45 +203,9 @@
         </definition>
     </include>
 
-    <include name="Animation_Left">
-        <definition>
-            <include content="Animation_Direction">
-                <param name="windowopen_condition">$PARAM[windowopen_condition]</param>
-                <param name="windowclose_condition">$PARAM[windowclose_condition]</param>
-                <param name="posx">-320</param>
-            </include>
-        </definition>
-    </include>
 
-    <include name="Animation_Left_Delay">
-        <definition>
-            <include content="Animation_Direction_Delay">
-                <param name="windowopen_condition">$PARAM[windowopen_condition]</param>
-                <param name="windowclose_condition">$PARAM[windowclose_condition]</param>
-                <param name="posx">-320</param>
-            </include>
-        </definition>
-    </include>
 
-    <include name="Animation_Down">
-        <definition>
-            <include content="Animation_Direction">
-                <param name="windowopen_condition">$PARAM[windowopen_condition]</param>
-                <param name="windowclose_condition">$PARAM[windowclose_condition]</param>
-                <param name="posy">320</param>
-            </include>
-        </definition>
-    </include>
 
-    <include name="Animation_Down_Delay">
-        <definition>
-            <include content="Animation_Direction_Delay">
-                <param name="windowopen_condition">$PARAM[windowopen_condition]</param>
-                <param name="windowclose_condition">$PARAM[windowclose_condition]</param>
-                <param name="posy">320</param>
-            </include>
-        </definition>
-    </include>
 
     <include name="Animation_View_WindowChange">
         <param name="windowopen_condition">!$EXP[Exp_PlainBackgroundWindows_Prev]</param>
@@ -323,16 +278,6 @@
         </include>
     </include>
 
-    <include name="Animation_FadeIn_Delay">
-        <include content="Animation_Fade_In">
-            <param name="type">Visible</param>
-            <param name="delay">400</param>
-        </include>
-        <include content="Animation_Fade_In">
-            <param name="type">WindowOpen</param>
-            <param name="delay">400</param>
-        </include>
-    </include>
 
     <include name="Animation_FadeOut">
         <include content="Animation_Fade_Out">
@@ -387,13 +332,6 @@
         </definition>
     </include>
 
-    <include name="Animation_Overlay_FadeIn">
-        <param name="delay">0</param>
-        <definition>
-            <animation effect="fade" start="0" end="100" time="300" delay="$PARAM[delay]">WindowOpen</animation>
-            <animation effect="fade" start="100" end="0" time="300">WindowClose</animation>
-        </definition>
-    </include>
 
     <include name="Animation_Group_Bumper">
         <!-- Up (for ondown) -->

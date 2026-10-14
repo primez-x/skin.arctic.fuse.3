@@ -1,4 +1,4 @@
-<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.14.0">
+<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.15.0">
     <requires>
         <import addon="xbmc.gui" version="5.17.0" />
         <import addon="xbmc.python" version="3.0.0" />
@@ -36,7 +36,14 @@
         <license>Creative Commons Attribution Non-Commercial Share-Alike 4.0</license>
         <forum />
         <source>https://github.com/primez-x/skin.arctic.fuse.3</source>
-        <news>v3.14.0
+        <news>v3.15.0
+- Keep the image-path recovery step pending until the skin runs again.
+- List four previously missing optional dependencies in skin settings.
+- Colour PVR guide genres from backend genre codes with a neutral fallback.
+- Fall back to the default folder icon for missing optional add-on icons.
+- Refresh seek bar chapter markers and remove unused skin definitions.
+
+v3.14.0
 - Move the full-height media list count to the bottom left with a hairline.
 - Keep the list name at the top and retain the taller list.
 - Update the full-height view preview.

@@ -411,53 +411,7 @@
         </definition>
     </include>
 
-    <include name="Settings_ButtonRadio">
-        <param name="control">radiobutton</param>
-        <param name="dialog">false</param>
-        <definition>
-            <include content="Settings_Button">
-                <param name="id">$PARAM[id]</param>
-                <param name="control">$PARAM[control]</param>
-                <param name="dialog">$PARAM[dialog]</param>
-                <radiowidth>105</radiowidth>
-                <radioheight>28</radioheight>
-                <nested />
-            </include>
-        </definition>
-    </include>
 
-    <include name="Settings_Divider_Label">
-        <param name="dialog">false</param>
-        <param name="color">dialog_fg</param>
-        <definition>
-            <control type="grouplist" id="$PARAM[id]">
-                <height>40</height>
-                <left>20</left>
-                <right>20</right>
-                <orientation>horizontal</orientation>
-                <control type="image">
-                    <height>1</height>
-                    <centertop>20</centertop>
-                    <width>40</width>
-                    <texture colordiffuse="$PARAM[color]_12">common/white.png</texture>
-                </control>
-                <control type="label">
-                    <left>20</left>
-                    <width>auto</width>
-                    <label>$PARAM[label]</label>
-                    <font>font_hint_bold</font>
-                    <textcolor>$PARAM[color]_70</textcolor>
-                </control>
-                <control type="image">
-                    <left>20</left>
-                    <height>1</height>
-                    <centertop>20</centertop>
-                    <width>1000</width>
-                    <texture colordiffuse="$PARAM[color]_12">common/white.png</texture>
-                </control>
-            </control>
-        </definition>
-    </include>
 
     <include name="Settings_Landing_Label">
         <control type="label">

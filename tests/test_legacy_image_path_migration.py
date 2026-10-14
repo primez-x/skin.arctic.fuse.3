@@ -179,6 +179,44 @@ class LegacyImagePathMigrationTests(unittest.TestCase):
         self.assertEqual(calls_after_first_run, self.calls)
         self.assertEqual(original, rollback.read_text(encoding="utf-8"))
 
+    def test_inactive_skin_preserves_pending_recovery_until_switch_back(self):
+        version_file = self.settings.parent / "update_recovery.version"
+        version_file.write_text("3.8.9", encoding="utf-8")
+        template = SKIN_ROOT / "shortcuts" / "skinvariables-skinusers.xmltemplate"
+        (self.skin / "shortcuts").mkdir(parents=True)
+        (self.skin / "1080i").mkdir()
+        (self.skin / "shortcuts" / template.name).write_text(template.read_text())
+        standin = SKIN_ROOT / "1080i" / "script-skinvariables-generator-includes-.xml"
+        (self.skin / "1080i" / standin.name).write_text(standin.read_text())
+        self.values["SkinVariables.SkinUser"] = "anna"
+        active = self.nodes / "skinvariables-shortcut-powermenu.json"
+        active.write_text(json.dumps({"icon": LEGACY_PREFIX + "icons/custom.png"}))
+        service = self._service()
+        service.xbmc.getSkinDir = lambda: "skin.estuary"
+
+        service.main()
+
+        self.assertEqual("3.8.9", version_file.read_text())
+        self.assertEqual(LEGACY_PREFIX + "icons/custom.png", json.loads(active.read_text())["icon"])
+        self.assertFalse((self.skin / "1080i" / "script-skinvariables-skinusers.xml").exists())
+
+        service.xbmc.getSkinDir = lambda: "skin.arctic.fuse.3"
+        service.xbmc.Monitor = lambda: types.SimpleNamespace(waitForAbort=lambda seconds: False)
+        service.xbmc.executeJSONRPC = lambda payload: json.dumps(
+            {"result": {"currentwindow": {"id": 10000, "label": "Home"}}})
+        service.main()
+
+        self.assertEqual("3.9.0", version_file.read_text())
+        self.assertEqual(RESOURCE_PREFIX + "icons/custom.png", json.loads(active.read_text())["icon"])
+        restored = self.skin / "1080i" / "script-skinvariables-skinusers.xml"
+        self.assertEqual(template.read_text().format(slug="anna"), restored.read_text())
+
+    def test_inactive_skin_does_not_create_a_recovery_marker(self):
+        service = self._service()
+        service.xbmc.getSkinDir = lambda: "skin.estuary"
+        service.main()
+        self.assertFalse((self.settings.parent / "update_recovery.version").exists())
+
     def test_update_recovery_runs_path_migration_before_returning(self):
         version_file = self.settings.parent / "update_recovery.version"
         version_file.write_text("3.8.9", encoding="utf-8")

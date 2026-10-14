@@ -4,6 +4,7 @@ but disabled."""
 
 import re
 import unittest
+from collections import Counter
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
@@ -251,6 +252,89 @@ class ParamIncludeTests(unittest.TestCase):
         self.assertTrue(children)
         self.assertTrue(all(c.tag is ET.Comment for c in children))
         self.assertFalse((stub.text or "").strip())
+
+
+class SkinDependencyAndOverlayTests(unittest.TestCase):
+    def test_dependencies_page_covers_every_non_kodi_import(self):
+        addon = ET.parse(SKIN.parent / "addon.xml").getroot()
+        imports = {n.get("addon") for n in addon.findall("./requires/import")
+                   if not n.get("addon").startswith(("xbmc.", "kodi."))}
+        page = _tree(SKIN / "Includes_SkinSettings.xml").find(
+            "./include[@name='SkinSettings_Items_Dependecies']")
+        buttons = page.findall("./include[@content='Settings_Button']")
+        labels = {n.findtext("label"): n for n in buttons}
+        self.assertEqual(set(), imports - labels.keys())
+        ids = [n.findtext("param[@name='id']") for n in buttons]
+        self.assertEqual(len(ids), len(set(ids)))
+        for addon_id in imports:
+            button = labels[addon_id]
+            self.assertIn(f"EnableAddon({addon_id})", [n.text for n in button.findall("onclick")])
+            self.assertIn(f"System.AddonIsEnabled({addon_id})", button.findtext("selected"))
+
+    def test_optional_node_icon_packs_require_enabled_addons_and_have_a_fallback(self):
+        variable = _tree(SKIN / "Includes_Images.xml").find("./variable[@name='Image_OtherIcon']")
+        for value in variable.findall("value"):
+            for addon_id in ResourceImageAddonTests.PATH.findall(value.text or ""):
+                self.assertIn(f"System.AddonIsEnabled({addon_id})", value.get("condition", ""))
+        fallback = next((n for n in variable.findall("value") if n.get("condition") is None), None)
+        self.assertIsNotNone(fallback)
+        self.assertTrue((SKIN.parent / "media" / fallback.text).is_file())
+
+    def test_seekbar_uses_existing_fullscreen_overlays(self):
+        seekbar = _tree(SKIN / "DialogSeekBar.xml")
+        condition = " ".join(n.text or "" for n in seekbar.findall("visible"))
+        ids = {int(value) for value in re.findall(r"Window.IsActive\((11\d\d)\)", condition)}
+        existing = {int(_tree(p).get("id")) for p in SKIN.glob("Custom_*.xml") if _tree(p).get("id")}
+        self.assertEqual(set(), ids - existing)
+        self.assertTrue({1151, 1153} <= ids)
+        self.assertNotIn(1155, ids)  # Next Track excludes both fullscreen players.
+
+    def test_pvr_genre_colours_use_backend_codes_without_text_scans(self):
+        variable = _tree(SKIN / "Includes_Views_PVR.xml").find("./variable[@name='PVR_GenreType']")
+        values = variable.findall("value")
+        self.assertLessEqual(len(values), 3)
+        self.assertNotIn("String.Contains", ET.tostring(variable, encoding="unicode"))
+        self.assertEqual("0", values[0].text)
+        self.assertEqual("Skin.HasSetting(PVR.DisableGenreColours)", values[0].get("condition"))
+        self.assertIn("!String.IsEmpty(ListItem.Property(GenreType))", values[1].get("condition"))
+        self.assertIn("!Integer.IsEqual(ListItem.Property(GenreType),256)", values[1].get("condition"))
+        self.assertEqual("$INFO[ListItem.Property(GenreType)]", values[1].text)
+        self.assertEqual("0", values[-1].text)
+        for code in range(0, 256, 16):
+            self.assertTrue((SKIN.parent / "media" / "pvr" / "genre" / f"{code}.png").is_file())
+        layouts = _tree(SKIN / "Includes_Layouts.xml")
+        textures = [n for n in layouts.iter("texture") if "PVR_GenreType" in (n.text or "")]
+        self.assertTrue(textures)
+        self.assertTrue(all(n.get("fallback") == "pvr/genre/0.png" for n in textures))
+
+
+class IncludeReferenceTests(unittest.TestCase):
+    # These families resolve names through parameters or Skin Variables templates.
+    DYNAMIC_PREFIXES = (
+        "defs_dialog_", "DialogKeyboard_Row_Buttons_", "Dimension_DialogMiniMenu_",
+        "OSD_CastInfo_HintText_DirectionLabel_", "Object_Indicator_Visible_",
+        "Object_NextItem_", "Object_SearchLetter_Click_", "SeasonalThemes_Animation_",
+        "Settings_Button_", "View_Line_Divider_", "Widget_Busy_BlankItems__",
+    )
+
+    @staticmethod
+    def unreferenced():
+        references = Counter()
+        root = SKIN.parent
+        paths = list(SKIN.glob("*.xml")) + list((root / "shortcuts").rglob("*")) + list(root.glob("*.py"))
+        for path in paths:
+            if not path.is_file() or path.suffix not in {".xml", ".json", ".py", ".xmltemplate"}:
+                continue
+            source = re.sub(r'<include\s+name="[^"]+"', '<include', path.read_text(encoding="utf-8"))
+            tokens = re.findall(r"[\w]+(?:-[\w]+)*", source)
+            references.update(tokens)
+            # Widget placeholder names contain the row name after a double underscore.
+            references.update(token.split("__", 1)[1] for token in tokens if "__" in token)
+        return {name for name in _definitions()
+                if not references[name] and not name.startswith(IncludeReferenceTests.DYNAMIC_PREFIXES)}
+
+    def test_every_include_has_a_literal_or_constructed_reference(self):
+        self.assertEqual(set(), self.unreferenced())
 
 
 if __name__ == "__main__":

@@ -25,37 +25,6 @@
         <movement>0</movement>
     </include>
 
-    <include name="List_Button_Row">
-        <param name="item_h">80</param>
-        <param name="itemlayout_h">120</param>
-        <param name="detailed">false</param>
-        <param name="orientation">horizontal</param>
-        <param name="control">fixedlist</param>
-        <param name="item_w">240</param>
-        <param name="itemlayout_w">280</param>
-        <param name="itemlayout_include">Layout_Button</param>
-        <definition>
-            <include content="List_Core">
-                <param name="id">$PARAM[id]</param>
-                <param name="detailed">$PARAM[detailed]</param>
-                <param name="orientation">$PARAM[orientation]</param>
-                <param name="control">$PARAM[control]</param>
-                <param name="item_w">$PARAM[item_w]</param>
-                <param name="item_h">$PARAM[item_h]</param>
-                <param name="itemlayout_w">$PARAM[itemlayout_w]</param>
-                <param name="itemlayout_h">$PARAM[itemlayout_h]</param>
-                <param name="itemlayout_include">$PARAM[itemlayout_include]</param>
-                <param name="offset_x">$PARAM[offset_x]</param>
-                <param name="offset_y">$PARAM[offset_y]</param>
-                <param name="icon">$PARAM[icon]</param>
-                <param name="misc">$PARAM[misc]</param>
-                <param name="variation">$PARAM[variation]</param>
-                <param name="indicator">$PARAM[indicator]</param>
-                <param name="include_detailed_labels">$PARAM[include_detailed_labels]</param>
-                <nested />
-            </include>
-        </definition>
-    </include>
 
     <include name="List_Reviews_Row">
         <param name="item_h">view_poster_item_h</param>
@@ -655,28 +624,7 @@
         </definition>
     </include>
 
-    <include name="List_ButtonMenu_Row_HiddenButton_View_OnFocus">
-        <param name="condition">true</param>
-        <definition>
-            <onfocus condition="$PARAM[condition]">ClearProperty($PARAM[prefix]SpecialFolderPath)</onfocus>
-            <onfocus condition="$PARAM[condition]">ClearProperty($PARAM[prefix]SpecialFolderLabel)</onfocus>
-            <onfocus condition="$PARAM[condition]">ClearProperty($PARAM[prefix]SpecialFolderStyle)</onfocus>
-            <onfocus condition="$PARAM[condition]">ClearProperty($PARAM[prefix]SpecialFolderSortBy)</onfocus>
-            <onfocus condition="$PARAM[condition]">ClearProperty($PARAM[prefix]SpecialFolderSortOrder)</onfocus>
-            <onfocus condition="$PARAM[condition]">ClearProperty($PARAM[prefix]SpecialFolderLimit)</onfocus>
-            <!-- Update Path -->
-            <onfocus condition="$PARAM[condition] + !String.IsEmpty($PARAM[container]ListItem.FolderPath) + $PARAM[container]ListItem.IsFolder">SetProperty($PARAM[prefix]SpecialFolderPath,$INFO[$PARAM[container]ListItem.FolderPath])</onfocus>
-            <onfocus condition="$PARAM[condition] + !String.IsEmpty($PARAM[container]ListItem.FolderPath) + $PARAM[container]ListItem.IsFolder">SetProperty($PARAM[prefix]SpecialFolderLabel,$INFO[$PARAM[container]ListItem.Label])</onfocus>
-        </definition>
-    </include>
 
-    <include name="List_ButtonMenu_Row_HiddenButton_View">
-        <control type="button">
-            <visible allowhiddenfocus="true">false</visible>
-            <animation effect="fade" start="0" end="0" time="400" reversible="false">Focus</animation>
-            <include>List_ButtonMenu_Row_HiddenButton_View_OnFocus</include>
-        </control>
-    </include>
 
     <include name="List_ButtonMenu_Row_HiddenButton_ERow_OnFocus">
         <param name="condition">true</param>

@@ -509,19 +509,8 @@
     </include>
 
     <variable name="PVR_GenreType">
-        <value condition="Skin.HasSetting(PVR.DisableGenreColours)">256</value>
-        <value condition="String.IsEmpty(ListItem.Genre) | [!String.IsEmpty(ListItem.Property(GenreType)) + !Integer.IsEqual(ListItem.Property(GenreType),256)]">$INFO[ListItem.Property(GenreType)]</value>
-        <value condition="String.Contains(ListItem.Genre,Drama) | String.Contains(ListItem.Genre,Comedy) | String.Contains(ListItem.Genre,Adventure) | String.Contains(ListItem.Genre,Crime) | String.Contains(ListItem.Genre,Horror) | String.Contains(ListItem.Genre,Action) | String.Contains(ListItem.Genre,Thriller) | String.Contains(ListItem.Genre,Movie) | String.Contains(ListItem.Genre,Fantasy) | String.Contains(ListItem.Genre,Science Fiction) | String.Contains(ListItem.Genre,Romance) | String.Contains(ListItem.Genre,Western)">16</value>
-        <value condition="String.Contains(ListItem.Genre,Documentary) | String.Contains(ListItem.Genre,News) | String.Contains(ListItem.Genre,Current Affairs)">32</value>
-        <value condition="String.Contains(ListItem.Genre,Entertainment) | String.Contains(ListItem.Genre,Reality) | String.Contains(ListItem.Genre,Game Show)">48</value>
-        <value condition="String.Contains(ListItem.Genre,Sport) | String.Contains(ListItem.Genre,Football) | String.Contains(ListItem.Genre,Golf) | String.Contains(ListItem.Genre,Cricket) | String.Contains(ListItem.Genre,Baseball) | String.Contains(ListItem.Genre,Basketball) | String.Contains(ListItem.Genre,Hockey) | String.Contains(ListItem.Genre,Tennis) | String.Contains(ListItem.Genre,Athletics) | String.Contains(ListItem.Genre,Squash) | String.Contains(ListItem.Genre,Equestrian) | String.Contains(ListItem.Genre,Soccer) | String.Contains(ListItem.Genre,Olympics)">64</value>
-        <value condition="String.Contains(ListItem.Genre,Kids) | String.Contains(ListItem.Genre,Family) | String.Contains(ListItem.Genre,Children) | String.Contains(ListItem.Genre,Cartoon)">80</value>
-        <value condition="String.Contains(ListItem.Genre,Music) | String.Contains(ListItem.Genre,Ballet) | String.Contains(ListItem.Genre,Dance) | String.Contains(ListItem.Genre,Opera)">96</value>
-        <value condition="String.Contains(ListItem.Genre,Arts) | String.Contains(ListItem.Genre,Culture) | String.Contains(ListItem.Genre,Religion) | String.Contains(ListItem.Genre,Fashion)">112</value>
-        <value condition="String.Contains(ListItem.Genre,Social) | String.Contains(ListItem.Genre,Political) | String.Contains(ListItem.Genre,Economics)">128</value>
-        <value condition="String.Contains(ListItem.Genre,Science) | String.Contains(ListItem.Genre,Nature) | String.Contains(ListItem.Genre,Education)">144</value>
-        <value condition="String.Contains(ListItem.Genre,Lifestyle) | String.Contains(ListItem.Genre,Special Interest) | String.Contains(ListItem.Genre,Cooking) | String.Contains(ListItem.Genre,Food) | String.Contains(ListItem.Genre,Fitness) | String.Contains(ListItem.Genre,Gardening) | String.Contains(ListItem.Genre,Advertisment) | String.Contains(ListItem.Genre,Shopping)">160</value>
-        <value condition="String.Contains(ListItem.Genre,Special) | String.Contains(ListItem.Genre,Live)">192</value>
-        <value>256</value>
+        <value condition="Skin.HasSetting(PVR.DisableGenreColours)">0</value>
+        <value condition="!String.IsEmpty(ListItem.Property(GenreType)) + !Integer.IsEqual(ListItem.Property(GenreType),256)">$INFO[ListItem.Property(GenreType)]</value>
+        <value>0</value>
     </variable>
 </includes>

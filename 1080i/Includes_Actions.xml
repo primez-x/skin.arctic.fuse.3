@@ -286,18 +286,6 @@
         <onload condition="Skin.HasSetting(TMDbHelper.EnableData)">Skin.SetBool(TMDbHelper.Service)</onload>
         <onload condition="!Skin.HasSetting(TMDbHelper.EnableData)">Skin.Reset(TMDbHelper.Service)</onload>
     </include>
-    <include name="_Action_Blur_OnUnload">
-        <param name="sourceimage">Art(fanart)</param>
-        <definition>
-            <onunload>SetProperty(TMDbHelper.Blur.SourceImage,$PARAM[sourceimage],Home)</onunload>
-            <onunload>SetProperty(TMDbHelper.Blur.Fallback,$VAR[Image_Blur_Fallback],Home)</onunload>
-        </definition>
-    </include>
-    <include name="Action_Blur_OnUnload">
-        <include content="_Action_Blur_OnUnload">
-            <param name="sourceimage">Art(fanart)|Property(fanart)</param>
-        </include>
-    </include>
 
     <variable name="Action_Update_Color">
         <value condition="String.IsEqual(Window(Home).Property(ColorPicker_Type),Highlight)">Skin.SetString(focuscolor.name,$VAR[Color_PC_to_Hex])</value>

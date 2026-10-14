@@ -152,38 +152,6 @@
         </control>
     </include>
 
-    <include name="Background_Video_FlixArt">
-        <control type="group">
-            <description>On-screen videowindow for background video</description>
-            <control type="group">
-                <top>0</top>
-                <height>flixart_size_h</height>
-                <visible>![$EXP[Exp_Video_IsNotPlaying]]</visible>
-                <control type="videowindow">
-                    <right>0</right>
-                    <width>flixart_size_w</width>
-                </control>
-                <control type="visualisation">
-                    <right>0</right>
-                    <width>flixart_size_w</width>
-                </control>
-                <control type="image">
-                    <right>0</right>
-                    <width>flixart_size_w</width>
-                    <texture colordiffuse="black">diffuse/flixart/flixart_invert.png</texture>
-                </control>
-                <control type="image">
-                    <left>0</left>
-                    <right>flixart_size_w</right>
-                    <texture colordiffuse="black">common/white.png</texture>
-                </control>
-            </control>
-            <control type="image">
-                <top>flixart_size_h</top>
-                <texture colordiffuse="black">common/white.png</texture>
-            </control>
-        </control>
-    </include>
 
     <include name="Background_Main_Plain">
         <control type="group">
