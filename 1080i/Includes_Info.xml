@@ -304,7 +304,7 @@
         <param name="max_width">1920</param>
         <definition>
             <include content="Info_Line_Divider">
-                <param name="visible">$PARAM[visible] + $PARAM[show_divider]</param>
+                <param name="visible">[$PARAM[visible]] + [$PARAM[show_divider]]</param>
             </include>
             <control type="label">
                 <label fallback="$PARAM[label_fallback]">$PARAM[label]</label>
