@@ -1,4 +1,4 @@
-<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.13.0">
+<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.13.1">
     <requires>
         <import addon="xbmc.gui" version="5.17.0" />
         <import addon="xbmc.python" version="3.0.0" />
@@ -36,7 +36,10 @@
         <license>Creative Commons Attribution Non-Commercial Share-Alike 4.0</license>
         <forum />
         <source>https://github.com/primez-x/skin.arctic.fuse.3</source>
-        <news>v3.13.0
+        <news>v3.13.1
+- Keep the playback timeline below the full-height OSD track list and details.
+
+v3.13.0
 - Show the music folder or playlist name and count above the full-height list.
 - Reduce the left margin and extend the library, playlist, and OSD track lists.
 - Update the full-height view preview.

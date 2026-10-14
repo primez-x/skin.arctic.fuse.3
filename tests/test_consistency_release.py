@@ -573,6 +573,19 @@ class FullHeightListHeaderTests(unittest.TestCase):
         info = _include("Includes_Dimensions.xml", "Dimension_Info")
         self.assertEqual(940, 1080 - _number(info.findtext("bottom"), constants) + _number("view_bar", constants))
 
+    def test_osd_timeline_moves_below_tracks_and_details(self):
+        slide = _include("Includes_Animations.xml", "Animation_OSD_Seekbar_Slide")
+        tracks = slide.find("animation[@condition='Window.IsVisible(1142)']")
+        self.assertIsNotNone(tracks)
+        self.assertEqual("0,120", tracks.get("end"))
+        music = _root("MusicOSD.xml")
+        slider = music.find(".//control[@id='8200']")
+        parent = next(group for group in music.iter("control") if slider in group.iter("control")
+                      and group.findtext("centerbottom") == "180")
+        self.assertIn("Animation_OSD_Seekbar_Slide", [node.text for node in parent.findall("include")])
+        seekbar = _root("DialogSeekBar.xml")
+        self.assertIsNotNone(seekbar.find(".//include[.='Animation_OSD_Seekbar_Slide']"))
+
     def test_music_names_precede_generic_content_labels(self):
         values = _variable("Includes_Labels.xml", "Label_Section_Main").findall("value")
         music_names = [i for i, node in enumerate(values)

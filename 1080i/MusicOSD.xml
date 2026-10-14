@@ -302,6 +302,7 @@
             <right>view_osd_r</right>
             <height>112</height>
             <centerbottom>180</centerbottom>
+            <include>Animation_OSD_Seekbar_Slide</include>
             <control type="group">
                 <left>-56</left>
                 <right>-56</right>
