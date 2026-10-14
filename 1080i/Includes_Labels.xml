@@ -218,7 +218,7 @@
     <variable name="Label_Setting_ColourBackground">
         <value condition="String.IsEmpty(Skin.String(Background.Image))">$LOCALIZE[571]</value>
         <value condition="Skin.String(Background.Image,resource://resource.images.arctic.fuse.3/extras/backgrounds/blur/purple_blur.jpg)">$LOCALIZE[31220]</value>
-        <value condition="Skin.String(Background.Image,resource://resource.images.arctic.fuse.3/extras/backgrounds/blur/blur_blur.jpg)">$LOCALIZE[762]</value>
+        <value condition="Skin.String(Background.Image,resource://resource.images.arctic.fuse.3/extras/backgrounds/blur/blue_blur.jpg)">$LOCALIZE[762]</value>
         <value condition="Skin.String(Background.Image,resource://resource.images.arctic.fuse.3/extras/backgrounds/blur/pink_blur.jpg)">$LOCALIZE[31224]</value>
         <value condition="Skin.String(Background.Image,resource://resource.images.arctic.fuse.3/extras/backgrounds/blur/orange_blur.jpg)">$LOCALIZE[13342]</value>
         <value condition="Skin.String(Background.Image,resource://resource.images.arctic.fuse.3/extras/backgrounds/blur/slate_blur.jpg)">$LOCALIZE[31221]</value>

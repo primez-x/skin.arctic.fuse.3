@@ -613,8 +613,8 @@
             <param name="control">radiobutton</param>
             <param name="istext">true</param>
             <param name="label">$LOCALIZE[31224]</param>
-            <selected>Skin.String(Background.Image,resource://resource.images.arctic.fuse.3/extras/backgrounds/pink_blur.jpg)</selected>
-            <onclick>Skin.SetString(Background.Image,resource://resource.images.arctic.fuse.3/extras/backgrounds/pink_blur.jpg)</onclick>
+            <selected>Skin.String(Background.Image,resource://resource.images.arctic.fuse.3/extras/backgrounds/blur/pink_blur.jpg)</selected>
+            <onclick>Skin.SetString(Background.Image,resource://resource.images.arctic.fuse.3/extras/backgrounds/blur/pink_blur.jpg)</onclick>
             <onclick>RunScript(plugin.video.themoviedb.helper,blur_image=$VAR[Image_SimpleBackground],prefix=SimpleBackground)</onclick>
         </include>
         <include content="Button_Dialog_Setting">

@@ -111,8 +111,13 @@ def _resource_image_path(value):
         suffix = ""
     elif value.startswith(LEGACY_EXTRAS_PREFIX + "/"):
         suffix = value[len(LEGACY_EXTRAS_PREFIX) + 1:]
+    elif value == f"{RESOURCE_EXTRAS_PREFIX}/backgrounds/pink_blur.jpg":
+        suffix = "backgrounds/pink_blur.jpg"
     else:
         return None
+
+    if suffix == "backgrounds/pink_blur.jpg":
+        suffix = "backgrounds/blur/pink_blur.jpg"
 
     target = f"{RESOURCE_EXTRAS_PREFIX}/{suffix}" if suffix else RESOURCE_EXTRAS_PREFIX
     if suffix.endswith("/") or not suffix:

@@ -47,6 +47,16 @@
         <value condition="!String.IsEmpty({listitem}.Property(biography))">$INFO[{listitem}.Property(biography)]</value>
     </variable>
 
+    <variable name="Label_ListItem_Simple" containers="450">
+        <value condition="String.IsEqual({listitem}.DBType,song) + !String.IsEmpty({listitem}.Artist) + !String.IsEmpty({listitem}.Title)">$INFO[{listitem}.Title]$INFO[{listitem}.Artist, • ,]</value>
+        <value condition="String.IsEqual({listitem}.DBType,song) + !String.IsEmpty({listitem}.Artist) + !String.IsEmpty({listitem}.Label)">$INFO[{listitem}.Label]$INFO[{listitem}.Artist, • ,]</value>
+        <value condition="String.IsEqual({listitem}.DBType,song) + !String.IsEmpty({listitem}.Artist)">$INFO[{listitem}.Artist]</value>
+        <value condition="String.IsEqual({listitem}.DBType,song) + !String.IsEmpty({listitem}.AlbumArtist) + !String.IsEmpty({listitem}.Title)">$INFO[{listitem}.Title]$INFO[{listitem}.AlbumArtist, • ,]</value>
+        <value condition="String.IsEqual({listitem}.DBType,song) + !String.IsEmpty({listitem}.AlbumArtist) + !String.IsEmpty({listitem}.Label)">$INFO[{listitem}.Label]$INFO[{listitem}.AlbumArtist, • ,]</value>
+        <value condition="String.IsEqual({listitem}.DBType,song) + !String.IsEmpty({listitem}.AlbumArtist)">$INFO[{listitem}.AlbumArtist]</value>
+        <value>$INFO[{listitem}.Label]</value>
+    </variable>
+
     <variable name="Label_Landscape_Lower" containers="450">
         <value condition="!String.IsEmpty({listitem}.Property(job))">$INFO[{listitem}.Property(job)]$INFO[{listitem}.Property(episodes), (,)]</value>
         <value condition="!String.IsEmpty({listitem}.Property(role))">$INFO[{listitem}.Property(role)]$INFO[{listitem}.Property(episodes), (,)]</value>
@@ -55,6 +65,8 @@
         <value condition="!String.IsEmpty({listitem}.ChannelNumberLabel) + !String.IsEmpty({listitem}.Title) + !String.IsEqual({listitem}.Title,{listitem}.Label)">$INFO[{listitem}.Title]</value>
         <value condition="!String.IsEmpty({listitem}.ChannelNumberLabel) + !String.IsEmpty({listitem}.ChannelName)">$INFO[{listitem}.ChannelName]</value>
         <value condition="!String.IsEmpty({listitem}.TvShowTitle) + !String.IsEqual({listitem}.Title,{listitem}.TVShowTitle) + !String.IsEqual({listitem}.DBType,tvshow)">$INFO[{listitem}.TvShowTitle]</value>
+        <value condition="String.IsEqual({listitem}.DBType,song) + !String.IsEmpty({listitem}.Artist)">$INFO[{listitem}.Artist]$INFO[{listitem}.Album, • ,]</value>
+        <value condition="String.IsEqual({listitem}.DBType,song) + !String.IsEmpty({listitem}.AlbumArtist)">$INFO[{listitem}.AlbumArtist]$INFO[{listitem}.Album, • ,]</value>
         <value condition="!String.IsEmpty({listitem}.AlbumArtist) + !String.IsEqual({listitem}.Title,{listitem}.AlbumArtist) + !String.IsEqual({listitem}.DBType,artist)">$INFO[{listitem}.AlbumArtist]</value>
         <value condition="!String.IsEmpty({listitem}.Artist) + !String.IsEqual({listitem}.Title,{listitem}.Artist) + !String.IsEqual({listitem}.DBType,artist)">$INFO[{listitem}.Artist]</value>
         <value condition="!String.IsEmpty({listitem}.Genre)">$INFO[{listitem}.Genre]</value>

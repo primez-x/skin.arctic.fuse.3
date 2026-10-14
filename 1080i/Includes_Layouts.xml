@@ -1080,7 +1080,7 @@
                             </include>
                             <control type="label">
                                 <font>font_mini</font>
-                                <label>$INFO[ListItem.Label]</label>
+                                <label>$VAR[Label_ListItem_Simple]</label>
                                 <align>left</align>
                                 <left>80</left>
                                 <textcolor>main_fg_70</textcolor>
@@ -1124,7 +1124,7 @@
                             </include>
                             <control type="label">
                                 <font>font_mini</font>
-                                <label>$INFO[ListItem.Label]</label>
+                                <label>$VAR[Label_ListItem_Simple]</label>
                                 <align>left</align>
                                 <left>80</left>
                                 <include>Color_SelectedText</include>
@@ -1188,7 +1188,7 @@
                             <right>60</right>
                             <control type="label">
                                 <font>font_mini_bold</font>
-                                <label>$INFO[ListItem.Label]</label>
+                                <label>$VAR[Label_ListItem_Simple]</label>
                                 <align>left</align>
                                 <left>80</left>
                                 <textcolor>main_fg_90</textcolor>
@@ -1208,7 +1208,7 @@
                             <right>60</right>
                             <control type="label">
                                 <font>font_mini_bold</font>
-                                <label>$INFO[ListItem.Label]</label>
+                                <label>$VAR[Label_ListItem_Simple]</label>
                                 <align>left</align>
                                 <left>80</left>
                                 <include>Color_SelectedText</include>
@@ -1292,7 +1292,7 @@
                                 <height>80</height>
 
                                 <control type="label">
-                                    <label>$INFO[ListItem.Label]</label>
+                                    <label>$VAR[Label_ListItem_Simple]</label>
                                     <font>font_main_bold</font>
                                     <include condition="$PARAM[selected]">Color_SelectedText</include>
                                     <textcolor>main_fg_90</textcolor>
@@ -2545,7 +2545,7 @@
                         <bottom>3</bottom>
                         <aligny>$PARAM[aligny]</aligny>
                         <font>font_mini</font>
-                        <label>$INFO[$PARAM[listitem].Label]</label>
+                        <label>$VAR[Label_ListItem_Simple$PARAM[affix]]</label>
                         <align>$PARAM[align]</align>
                         <include condition="$PARAM[selected]">Color_SelectedText</include>
                         <textcolor>main_fg_70</textcolor>
@@ -2556,7 +2556,7 @@
                         <bottom>$PARAM[textbox_offset_y]</bottom>
                         <aligny>$PARAM[aligny]</aligny>
                         <font>font_mini</font>
-                        <label>$INFO[$PARAM[listitem].Label]</label>
+                        <label>$VAR[Label_ListItem_Simple$PARAM[affix]]</label>
                         <align>$PARAM[align]</align>
                         <include condition="$PARAM[selected]">Color_SelectedText</include>
                         <textcolor>main_fg_70</textcolor>
@@ -2567,7 +2567,7 @@
                         <bottom>$PARAM[textbox_offset_y]</bottom>
                         <aligny>$PARAM[aligny]</aligny>
                         <font>font_mini</font>
-                        <label>$INFO[$PARAM[listitem].Label]</label>
+                        <label>$VAR[Label_ListItem_Simple$PARAM[affix]]</label>
                         <align>$PARAM[align]</align>
                         <include condition="$PARAM[selected]">Color_SelectedText</include>
                         <textcolor>main_fg_70</textcolor>
