@@ -362,9 +362,16 @@ class ViewLabelTests(unittest.TestCase):
             [condition for value, condition in values if value == "62"],
         )
         self.assertEqual("62", _root("MyMusicNav.xml").findtext("defaultcontrol"))
-        onloads = [node.text for node in _root("MyMusicNav.xml").findall("onload")]
-        self.assertIn("CancelAlarm(refocus_window,true)", onloads)
-        self.assertIn("AlarmClock(refocus_window,SetFocus(62),00:00,silent)", onloads)
+        music_onload = _root("MyMusicNav.xml").find(
+            "include[@content='Action_Media_Onload']"
+        )
+        self.assertEqual("62", music_onload.findtext("param[@name='refocus_id']"))
+        media_onload = _include("Includes_Actions.xml", "Action_Media_Onload")
+        self.assertEqual("500", media_onload.findtext("param[@name='refocus_id']"))
+        self.assertIn(
+            "AlarmClock(refocus_window,SetFocus($PARAM[refocus_id]),00:00,silent)",
+            [node.text for node in media_onload.find("definition").findall("onload")],
+        )
 
         not_ready = next(
             node.text
