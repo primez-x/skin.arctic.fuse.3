@@ -1280,6 +1280,7 @@
                 <include>Object_NextItem_Corner_$PARAM[corner]</include>
                 <height>view_landscape_item_h</height>
                 <nested />
+                <include>Object_NextItem_Backdrop_$PARAM[corner]</include>
                 <control type="group">
                     <include>Object_NextItem_Tile_$PARAM[corner]</include>
                     <include>Object_NextItem_Width_$PARAM[shape]</include>
@@ -1330,6 +1331,28 @@
             <font>$PARAM[font]</font>
             <textcolor>$PARAM[textcolor]</textcolor>
             <label>$PARAM[label]</label>
+        </control>
+    </include>
+    <!-- Dark corner gradient behind the card so the text stays readable over bright art.
+         The texture is strongest at its top-right corner; the left corner flips it. -->
+    <include name="Object_NextItem_Backdrop_right">
+        <control type="image">
+            <right>-80</right>
+            <top>-80</top>
+            <width>1120</width>
+            <height>520</height>
+            <aspectratio>stretch</aspectratio>
+            <texture>common/gradient-corner.png</texture>
+        </control>
+    </include>
+    <include name="Object_NextItem_Backdrop_left">
+        <control type="image">
+            <left>-80</left>
+            <top>-80</top>
+            <width>1120</width>
+            <height>520</height>
+            <aspectratio>stretch</aspectratio>
+            <texture flipx="true">common/gradient-corner.png</texture>
         </control>
     </include>
     <include name="Object_NextItem_Corner_left"><left>view_pad</left></include>

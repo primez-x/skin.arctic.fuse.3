@@ -88,6 +88,29 @@ class NextOverlayArtTests(unittest.TestCase):
         osd = (SKIN_ROOT / "1080i" / "MusicOSD.xml").read_text(encoding="utf-8")
         self.assertIn('condition="$EXP[Exp_OSD_MusicNext_Available]">ActivateWindow(1154)', osd)
 
+    def test_next_item_card_has_a_dark_corner_gradient_behind_it(self):
+        osd = ET.parse(SKIN_ROOT / "1080i" / "Includes_OSD.xml").getroot()
+        card = osd.find("./include[@name='Object_NextItem']/definition/control")
+        children = [child.tag for child in card]
+        backdrop_ref = next(
+            (node for node in card.findall("./include") if node.text == "Object_NextItem_Backdrop_$PARAM[corner]"),
+            None,
+        )
+        self.assertIsNotNone(backdrop_ref)
+        # the gradient renders behind the art tile and the labels
+        control_indexes = [i for i, tag in enumerate(children) if tag == "control"]
+        self.assertLess(list(card).index(backdrop_ref), control_indexes[0])
+        for corner, anchor, flipx in (("right", "right", None), ("left", "left", "true")):
+            include = osd.find(f"./include[@name='Object_NextItem_Backdrop_{corner}']")
+            image = include.find("./control")
+            self.assertEqual("image", image.get("type"))
+            self.assertEqual("-80", image.findtext(anchor))
+            self.assertEqual("-80", image.findtext("top"))
+            texture = image.find("texture")
+            self.assertEqual("common/gradient-corner.png", texture.text)
+            self.assertEqual(flipx, texture.get("flipx"))
+        self.assertTrue((SKIN_ROOT / "media" / "common" / "gradient-corner.png").exists())
+
     def test_video_next_overlay_stays_landscape(self):
         text = (SKIN_ROOT / "1080i" / "Custom_1143_OSD_NextOverlay.xml").read_text(encoding="utf-8")
         self.assertNotIn("square_w217_h217", text)
