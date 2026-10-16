@@ -1,4 +1,4 @@
-<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.17.1">
+<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.18.0">
     <requires>
         <import addon="xbmc.gui" version="5.17.0" />
         <import addon="xbmc.python" version="3.0.0" />
@@ -36,7 +36,12 @@
         <license>Creative Commons Attribution Non-Commercial Share-Alike 4.0</license>
         <forum />
         <source>https://github.com/primez-x/skin.arctic.fuse.3</source>
-        <news>v3.17.1
+        <news>v3.18.0
+- Order the library show, season and episode information page as Episodes, Cast, Seasons, Videos, Comments and Recommendations.
+- Show the cast of the highlighted episode, including guest stars.
+- Remove the Year, Starring, crew, Collection, Studio and Gallery rows from this page.
+
+v3.17.1
 - Open YouTube search, information-page videos and music-video trailers in SmartTube, which replaces the YouTube add-on in the Primez repository.
 
 v3.17.0

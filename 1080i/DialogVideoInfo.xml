@@ -109,7 +109,7 @@
 
                 <include condition="!String.IsEqual(ListItem.Property(tmdb_type),person)">DialogInfo_VideoWidgets</include>
                 <include condition="String.IsEqual(ListItem.Property(tmdb_type),person)">DialogInfo_PersonWidgets</include>
-                <include condition="!Skin.HasSetting(VideoInfo.Widgets.DisableGallery)">DialogInfo_GalleryWidget</include>
+                <include condition="!Skin.HasSetting(VideoInfo.Widgets.DisableGallery) + !$EXP[Exp_DialogInfo_LibraryTV]">DialogInfo_GalleryWidget</include>
 
 
                 <include>Widget_End_Bumper</include>

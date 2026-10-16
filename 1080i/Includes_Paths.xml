@@ -299,6 +299,12 @@
         <value condition="String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.DBType),episode)">plugin://plugin.video.themoviedb.helper?info=fanart&amp;aggregate=true&amp;nextpage=false&amp;cacheonly=true&amp;tmdb_type=tv&amp;tmdb_id=$INFO[Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID)]&amp;season=$INFO[Window(Home).Property(TMDbHelper.ListItem.Monitor.Season)]&amp;episode=$INFO[Window(Home).Property(TMDbHelper.ListItem.Monitor.Episode)]</value>
     </variable>
 
+    <!-- Not cache-only: each highlighted episode needs a separate cast list. -->
+    <variable name="Path_VideoInfo_LibraryEpisodeCast">
+        <value condition="!String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_Type),tv) | String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID)) | String.IsEmpty(Container(5019).ListItem.Episode)">special://skin/extras/playlists/Null.xsp</value>
+        <value>plugin://plugin.video.themoviedb.helper?info=cast&amp;aggregate=true&amp;nextpage=false&amp;tmdb_type=tv&amp;tmdb_id=$INFO[Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID)]&amp;season=$INFO[Container(5019).ListItem.Season]&amp;episode=$INFO[Container(5019).ListItem.Episode]</value>
+    </variable>
+
     <variable name="Path_VideoInfo_OnlineCast">
         <value condition="String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID))">special://skin/extras/playlists/Null.xsp</value>
         <value condition="String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_Type))">special://skin/extras/playlists/Null.xsp</value>

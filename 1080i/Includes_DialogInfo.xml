@@ -368,7 +368,7 @@
 
     <include name="DialogInfo_VideoWidgets">
 
-        <!-- Library Episodes and Seasons: Episodes first, directly under the action buttons -->
+        <!-- Library TV rows: Episodes directly under the action buttons, then Cast, then Seasons -->
         <include content="Widget_Info_Row" condition="$EXP[Exp_DialogInfo_LibraryTV]">
             <param name="id">19</param>
             <param name="baseid">50</param>
@@ -384,6 +384,40 @@
             <content sortby="episode" sortorder="ascending">$VAR[Path_VideoInfo_OnlineEpisodes]</content>
             <include>Action_DialogInfo_PlayEpisode</include>
         </include>
+        <!-- Library TV: who is in the highlighted episode, above the Seasons row -->
+        <include content="Widget_Info_Row" condition="$EXP[Exp_DialogInfo_LibraryTV] + ![!Skin.HasSetting(Info.UseLocalCast) + $EXP[Exp_TMDbHelper_IsData]]">
+            <param name="id">50</param>
+            <param name="baseid" />
+            <param name="basegroupid">51</param>
+            <param name="label">$LOCALIZE[206]</param>
+            <param name="include">List_Poster_Row</param>
+            <param name="widgetfade_include">true</param>
+            <param name="set_widgetcontainer">false</param>
+            <param name="menuid">8000</param>
+            <param name="detailed">true</param>
+            <param name="widget_hideartwork">true</param>
+            <param name="widget_showoverlay">true</param>
+            <param name="altvisible">true</param>
+            <onfocus>SetProperty(CurrentID,$INFO[Window.Property(BaseID)])</onfocus>
+        </include>
+        <include content="Widget_Info_Row" condition="$EXP[Exp_DialogInfo_LibraryTV] + !Skin.HasSetting(Info.UseLocalCast) + $EXP[Exp_TMDbHelper_IsData]">
+            <param name="id">50</param>
+            <param name="baseid">50</param>
+            <param name="basegroupid">51</param>
+            <param name="label">$LOCALIZE[206]</param>
+            <param name="include">List_Poster_Row</param>
+            <param name="widgetfade_include">true</param>
+            <param name="set_widgetcontainer">false</param>
+            <param name="menuid">8000</param>
+            <param name="detailed">true</param>
+            <param name="widget_hideartwork">true</param>
+            <param name="widget_showoverlay">true</param>
+            <param name="altvisible">true</param>
+            <onfocus>SetProperty(CurrentID,$INFO[Window.Property(BaseID)])</onfocus>
+            <content target="videos">$VAR[Path_VideoInfo_LibraryEpisodeCast]</content>
+            <include>DialogInfo_Widgets_Action</include>
+        </include>
+
         <include content="Widget_Info_Row" condition="$EXP[Exp_DialogInfo_LibraryTV]">
             <param name="id">18</param>
             <param name="baseid">50</param>
@@ -400,7 +434,7 @@
         </include>
 
         <!-- Cast-->
-        <include content="Widget_Info_Row" condition="![!Skin.HasSetting(Info.UseLocalCast) + $EXP[Exp_TMDbHelper_IsData]]">
+        <include content="Widget_Info_Row" condition="!$EXP[Exp_DialogInfo_LibraryTV] + ![!Skin.HasSetting(Info.UseLocalCast) + $EXP[Exp_TMDbHelper_IsData]]">
             <param name="id">50</param>
             <param name="baseid" />
             <param name="basegroupid">51</param>
@@ -415,7 +449,7 @@
             <param name="altvisible">true</param>
             <onfocus>SetProperty(CurrentID,$INFO[Window.Property(BaseID)])</onfocus>
         </include>
-        <include content="Widget_Info_Row" condition="!Skin.HasSetting(Info.UseLocalCast) + $EXP[Exp_TMDbHelper_IsData]">
+        <include content="Widget_Info_Row" condition="!$EXP[Exp_DialogInfo_LibraryTV] + !Skin.HasSetting(Info.UseLocalCast) + $EXP[Exp_TMDbHelper_IsData]">
             <param name="id">50</param>
             <param name="baseid">50</param>
             <param name="basegroupid">51</param>
@@ -434,7 +468,7 @@
         </include>
 
         <!-- Collection -->
-        <include content="Widget_Info_Row" condition="!Skin.HasSetting(VideoInfo.Widgets.DisableCollection) + !Skin.HasSetting(VideoInfo.Widgets.EnableLocalCollection) + $EXP[Exp_TMDbHelper_IsData] + String.IsEqual(ListItem.DBType,movie)">
+        <include content="Widget_Info_Row" condition="!$EXP[Exp_DialogInfo_LibraryTV] + !Skin.HasSetting(VideoInfo.Widgets.DisableCollection) + !Skin.HasSetting(VideoInfo.Widgets.EnableLocalCollection) + $EXP[Exp_TMDbHelper_IsData] + String.IsEqual(ListItem.DBType,movie)">
             <param name="id">11</param>
             <param name="baseid">50</param>
             <param name="basegroupid">51</param>
@@ -451,7 +485,7 @@
             <content>$VAR[Path_VideoInfo_OnlineCollection]</content>
             <include>DialogInfo_Widgets_Action</include>
         </include>
-        <include content="Widget_Info_Row" condition="!Skin.HasSetting(VideoInfo.Widgets.DisableCollection) + ![!Skin.HasSetting(VideoInfo.Widgets.EnableLocalCollection) + $EXP[Exp_TMDbHelper_IsData]] + String.IsEqual(ListItem.DBType,movie)">
+        <include content="Widget_Info_Row" condition="!$EXP[Exp_DialogInfo_LibraryTV] + !Skin.HasSetting(VideoInfo.Widgets.DisableCollection) + ![!Skin.HasSetting(VideoInfo.Widgets.EnableLocalCollection) + $EXP[Exp_TMDbHelper_IsData]] + String.IsEqual(ListItem.DBType,movie)">
             <param name="id">11</param>
             <param name="baseid">50</param>
             <param name="basegroupid">51</param>
@@ -470,7 +504,7 @@
         </include>
 
         <!-- Studio -->
-        <include content="Widget_Info_Row" condition="!Skin.HasSetting(VideoInfo.Widgets.DisableStudio) + $EXP[Exp_TMDbHelper_IsData]">
+        <include content="Widget_Info_Row" condition="!$EXP[Exp_DialogInfo_LibraryTV] + !Skin.HasSetting(VideoInfo.Widgets.DisableStudio) + $EXP[Exp_TMDbHelper_IsData]">
             <param name="id">12</param>
             <param name="baseid">50</param>
             <param name="basegroupid">51</param>
@@ -489,7 +523,7 @@
         </include>
 
         <!-- Year -->
-        <include content="Widget_Info_Row" condition="!Skin.HasSetting(VideoInfo.Widgets.DisableYear) + $EXP[Exp_TMDbHelper_IsData]">
+        <include content="Widget_Info_Row" condition="!$EXP[Exp_DialogInfo_LibraryTV] + !Skin.HasSetting(VideoInfo.Widgets.DisableYear) + $EXP[Exp_TMDbHelper_IsData]">
             <param name="id">13</param>
             <param name="baseid">50</param>
             <param name="basegroupid">51</param>
@@ -565,7 +599,7 @@
         </include>
 
         <!-- Director -->
-        <include content="Widget_Info_Row" condition="!Skin.HasSetting(VideoInfo.Widgets.DisableDirector) + $EXP[Exp_TMDbHelper_IsData]">
+        <include content="Widget_Info_Row" condition="!$EXP[Exp_DialogInfo_LibraryTV] + !Skin.HasSetting(VideoInfo.Widgets.DisableDirector) + $EXP[Exp_TMDbHelper_IsData]">
             <param name="id">01</param>
             <param name="baseid">50</param>
             <param name="basegroupid">51</param>
@@ -597,7 +631,7 @@
         </include>
 
         <!-- Writer -->
-        <include content="Widget_Info_Row" condition="!Skin.HasSetting(VideoInfo.Widgets.DisableWriter) + $EXP[Exp_TMDbHelper_IsData]">
+        <include content="Widget_Info_Row" condition="!$EXP[Exp_DialogInfo_LibraryTV] + !Skin.HasSetting(VideoInfo.Widgets.DisableWriter) + $EXP[Exp_TMDbHelper_IsData]">
             <param name="id">02</param>
             <param name="baseid">50</param>
             <param name="basegroupid">51</param>
@@ -629,7 +663,7 @@
         </include>
 
         <!-- Creator -->
-        <include content="Widget_Info_Row" condition="!Skin.HasSetting(VideoInfo.Widgets.DisableCreator) + [String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)] + $EXP[Exp_TMDbHelper_IsData]">
+        <include content="Widget_Info_Row" condition="!$EXP[Exp_DialogInfo_LibraryTV] + !Skin.HasSetting(VideoInfo.Widgets.DisableCreator) + [String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)] + $EXP[Exp_TMDbHelper_IsData]">
             <param name="id">03</param>
             <param name="baseid">50</param>
             <param name="basegroupid">51</param>
@@ -661,7 +695,7 @@
         </include>
 
         <!-- Starring First Actor -->
-        <include content="Widget_Info_Row" condition="!Skin.HasSetting(Info.UseLocalCast) + !Skin.HasSetting(VideoInfo.Widgets.DisableStarring) + $EXP[Exp_TMDbHelper_IsData]">
+        <include content="Widget_Info_Row" condition="!$EXP[Exp_DialogInfo_LibraryTV] + !Skin.HasSetting(Info.UseLocalCast) + !Skin.HasSetting(VideoInfo.Widgets.DisableStarring) + $EXP[Exp_TMDbHelper_IsData]">
             <param name="id">51</param>
             <param name="baseid">50</param>
             <param name="basegroupid">51</param>
@@ -694,7 +728,7 @@
         </include>
 
         <!-- Starring Second Actor -->
-        <include content="Widget_Info_Row" condition="!Skin.HasSetting(Info.UseLocalCast) + !Skin.HasSetting(VideoInfo.Widgets.DisableStarring) + $EXP[Exp_TMDbHelper_IsData]">
+        <include content="Widget_Info_Row" condition="!$EXP[Exp_DialogInfo_LibraryTV] + !Skin.HasSetting(Info.UseLocalCast) + !Skin.HasSetting(VideoInfo.Widgets.DisableStarring) + $EXP[Exp_TMDbHelper_IsData]">
             <param name="id">52</param>
             <param name="baseid">50</param>
             <param name="basegroupid">51</param>
@@ -727,42 +761,42 @@
         </include>
 
         <!-- Crew Lists -->
-        <include content="DialogInfo_CrewWidget" condition="!Skin.HasSetting(VideoInfo.Widgets.DisableCrew) + $EXP[Exp_TMDbHelper_IsData]">
+        <include content="DialogInfo_CrewWidget" condition="!$EXP[Exp_DialogInfo_LibraryTV] + !Skin.HasSetting(VideoInfo.Widgets.DisableCrew) + $EXP[Exp_TMDbHelper_IsData]">
             <param name="id">21</param>
             <param name="type">Director</param>
             <param name="label">$LOCALIZE[31050] ($LOCALIZE[31038])</param>
         </include>
-        <include content="DialogInfo_CrewWidget" condition="!Skin.HasSetting(VideoInfo.Widgets.DisableCrew) + $EXP[Exp_TMDbHelper_IsData]">
+        <include content="DialogInfo_CrewWidget" condition="!$EXP[Exp_DialogInfo_LibraryTV] + !Skin.HasSetting(VideoInfo.Widgets.DisableCrew) + $EXP[Exp_TMDbHelper_IsData]">
             <param name="id">22</param>
             <param name="type">Writer</param>
             <param name="label">$LOCALIZE[31050] ($LOCALIZE[31039])</param>
         </include>
-        <include content="DialogInfo_CrewWidget" condition="!Skin.HasSetting(VideoInfo.Widgets.DisableCrew) + $EXP[Exp_TMDbHelper_IsData]">
+        <include content="DialogInfo_CrewWidget" condition="!$EXP[Exp_DialogInfo_LibraryTV] + !Skin.HasSetting(VideoInfo.Widgets.DisableCrew) + $EXP[Exp_TMDbHelper_IsData]">
             <param name="id">23</param>
             <param name="type">Creator</param>
             <param name="label">$LOCALIZE[31050] ($LOCALIZE[31065])</param>
         </include>
-        <include content="DialogInfo_CrewWidget" condition="!Skin.HasSetting(VideoInfo.Widgets.DisableCrew) + $EXP[Exp_TMDbHelper_IsData]">
+        <include content="DialogInfo_CrewWidget" condition="!$EXP[Exp_DialogInfo_LibraryTV] + !Skin.HasSetting(VideoInfo.Widgets.DisableCrew) + $EXP[Exp_TMDbHelper_IsData]">
             <param name="id">24</param>
             <param name="type">Producer</param>
             <param name="label">$LOCALIZE[31050] ($LOCALIZE[38039])</param>
         </include>
-        <include content="DialogInfo_CrewWidget" condition="!Skin.HasSetting(VideoInfo.Widgets.DisableCrew) + $EXP[Exp_TMDbHelper_IsData]">
+        <include content="DialogInfo_CrewWidget" condition="!$EXP[Exp_DialogInfo_LibraryTV] + !Skin.HasSetting(VideoInfo.Widgets.DisableCrew) + $EXP[Exp_TMDbHelper_IsData]">
             <param name="id">25</param>
             <param name="type">Sound_Department</param>
             <param name="label">$LOCALIZE[31050] ($LOCALIZE[31052])</param>
         </include>
-        <include content="DialogInfo_CrewWidget" condition="!Skin.HasSetting(VideoInfo.Widgets.DisableCrew) + $EXP[Exp_TMDbHelper_IsData]">
+        <include content="DialogInfo_CrewWidget" condition="!$EXP[Exp_DialogInfo_LibraryTV] + !Skin.HasSetting(VideoInfo.Widgets.DisableCrew) + $EXP[Exp_TMDbHelper_IsData]">
             <param name="id">26</param>
             <param name="type">Art_Department</param>
             <param name="label">$LOCALIZE[31050] ($LOCALIZE[31072])</param>
         </include>
-        <include content="DialogInfo_CrewWidget" condition="!Skin.HasSetting(VideoInfo.Widgets.DisableCrew) + $EXP[Exp_TMDbHelper_IsData]">
+        <include content="DialogInfo_CrewWidget" condition="!$EXP[Exp_DialogInfo_LibraryTV] + !Skin.HasSetting(VideoInfo.Widgets.DisableCrew) + $EXP[Exp_TMDbHelper_IsData]">
             <param name="id">27</param>
             <param name="type">Photography</param>
             <param name="label">$LOCALIZE[31050] ($LOCALIZE[31347])</param>
         </include>
-        <include content="DialogInfo_CrewWidget" condition="!Skin.HasSetting(VideoInfo.Widgets.DisableCrew) + $EXP[Exp_TMDbHelper_IsData]">
+        <include content="DialogInfo_CrewWidget" condition="!$EXP[Exp_DialogInfo_LibraryTV] + !Skin.HasSetting(VideoInfo.Widgets.DisableCrew) + $EXP[Exp_TMDbHelper_IsData]">
             <param name="id">28</param>
             <param name="type">Editor</param>
             <param name="label">$LOCALIZE[31050] ($LOCALIZE[31075])</param>
