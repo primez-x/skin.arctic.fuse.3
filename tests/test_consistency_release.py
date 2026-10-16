@@ -530,6 +530,11 @@ class FullHeightListTests(unittest.TestCase):
         # 9 rows (760px) between the title hairline (110) and the footer text (949) leave 39px above and below.
         self.assertEqual("-30", full.findtext("param[@name='top']"))
         self.assertEqual("-20", full.findtext("param[@name='bottom']"))
+        # The 612px artwork sits centred on the rows (150-910): 900 - 530 - 306 = 64 above the area bottom.
+        self.assertEqual("64", full.findtext("param[@name='art_bottom']"))
+        self.assertIsNone(_include("Includes_Views_List.xml", "View_507_Media_List").find("include/param[@name='art_bottom']"))
+        for art in ("View_Media_Square", "View_Media_Poster"):
+            self.assertEqual("0", _include("Includes_Views_List.xml", art).findtext("param[@name='art_bottom']"), art)
         for name in ("left", "show_header"):
             self.assertIsNone(full.find(f"param[@name='{name}']"), name)
         standard = _include("Includes_Views_List.xml", "View_507_Media_List").find("include")

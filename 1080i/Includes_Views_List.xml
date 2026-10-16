@@ -34,6 +34,8 @@
             <param name="visible">$EXP[Exp_View_550]</param>
             <param name="top">-30</param>
             <param name="bottom">-20</param>
+            <!-- Centre the 612px artwork on the nine-row list (rows 150-910) -->
+            <param name="art_bottom">64</param>
         </include>
     </include>
 
@@ -41,6 +43,7 @@
         <param name="top">130</param>
         <param name="left">0</param>
         <param name="bottom">0</param>
+        <param name="art_bottom">0</param>
         <definition>
             <include content="View_MediaList_Include" condition="Window.IsVisible(videos)">
                 <param name="id">$PARAM[id]</param>
@@ -54,7 +57,9 @@
                 <param name="movement">5</param>
                 <param name="overlay">true</param>
                 <param name="item_height">85</param>
-                <include>View_Media_Poster</include>
+                <include content="View_Media_Poster">
+                    <param name="art_bottom">$PARAM[art_bottom]</param>
+                </include>
             </include>
             <include content="View_MediaList_Include" condition="!Window.IsVisible(videos)">
                 <param name="id">$PARAM[id]</param>
@@ -68,7 +73,9 @@
                 <param name="movement">5</param>
                 <param name="overlay">true</param>
                 <param name="item_height">85</param>
-                <include>View_Media_Square</include>
+                <include content="View_Media_Square">
+                    <param name="art_bottom">$PARAM[art_bottom]</param>
+                </include>
             </include>
         </definition>
     </include>
@@ -146,30 +153,34 @@
     </include>
 
     <include name="View_Media_Square">
-        <control type="group">
-            <height>612</height>
-            <width>612</width>
-            <bottom>0</bottom>
-            <right>0</right>
-            <control type="image">
-                <include>Texture_Shadow_40</include>
-                <texture colordiffuse="main_fg_12" border="20">common/box.png</texture>
+        <param name="art_bottom">0</param>
+        <definition>
+            <control type="group">
+                <height>612</height>
+                <width>612</width>
+                <bottom>$PARAM[art_bottom]</bottom>
+                <right>0</right>
+                <control type="image">
+                    <include>Texture_Shadow_40</include>
+                    <texture colordiffuse="main_fg_12" border="20">common/box.png</texture>
+                </control>
+                <control type="image">
+                    <texture diffuse="diffuse/square_w585_h585.png" background="true">$INFO[ListItem.Icon]</texture>
+                    <fadetime>background_fadetime</fadetime>
+                    <aspectratio scalediffuse="false">scale</aspectratio>
+                </control>
             </control>
-            <control type="image">
-                <texture diffuse="diffuse/square_w585_h585.png" background="true">$INFO[ListItem.Icon]</texture>
-                <fadetime>background_fadetime</fadetime>
-                <aspectratio scalediffuse="false">scale</aspectratio>
-            </control>
-        </control>
+        </definition>
     </include>
 
     <include name="View_Media_Poster">
         <param name="image">$VAR[Image_Poster]</param>
+        <param name="art_bottom">0</param>
         <definition>
             <control type="group">
                 <height>612</height>
                 <width>430</width>
-                <bottom>0</bottom>
+                <bottom>$PARAM[art_bottom]</bottom>
                 <right>0</right>
                 <control type="image">
                     <include>Texture_Shadow_40</include>
