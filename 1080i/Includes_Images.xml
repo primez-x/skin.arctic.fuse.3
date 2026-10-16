@@ -369,19 +369,14 @@
     </variable>
 
     <variable name="Image_DialogInfo_PlayButton">
-        <value condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.OptimisticState),present) + Control.HasFocus(4001)">resource://resource.images.arctic.fuse.3/extras/icons/circle-xmark.png</value>
-        <value condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.OptimisticState),present)">resource://resource.images.arctic.fuse.3/extras/icons/circle-xmark-regular.png</value>
-        <value condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.OptimisticState),absent) + Control.HasFocus(4001)">resource://resource.images.arctic.fuse.3/extras/icons/circle-check.png</value>
-        <value condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.OptimisticState),absent)">resource://resource.images.arctic.fuse.3/extras/icons/circle-check-regular.png</value>
-        <value condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.State),present) + Control.HasFocus(4001)">resource://resource.images.arctic.fuse.3/extras/icons/circle-xmark.png</value>
-        <value condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.State),present)">resource://resource.images.arctic.fuse.3/extras/icons/circle-xmark-regular.png</value>
-        <value condition="$EXP[Exp_PlexWatchlist_Target] + [String.IsEqual(ListItem.Property(LISTINGKEY),watchlist) | String.IsEqual(ListItem.Property(PlexWatchlistHint),present)] + !String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.State),absent) + Control.HasFocus(4001)">resource://resource.images.arctic.fuse.3/extras/icons/circle-xmark.png</value>
-        <value condition="$EXP[Exp_PlexWatchlist_Target] + [String.IsEqual(ListItem.Property(LISTINGKEY),watchlist) | String.IsEqual(ListItem.Property(PlexWatchlistHint),present)] + !String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.State),absent)">resource://resource.images.arctic.fuse.3/extras/icons/circle-xmark-regular.png</value>
-        <value condition="$EXP[Exp_PlexWatchlist_Target] + Control.HasFocus(4001)">resource://resource.images.arctic.fuse.3/extras/icons/circle-check.png</value>
-        <value condition="$EXP[Exp_PlexWatchlist_Target]">resource://resource.images.arctic.fuse.3/extras/icons/circle-check-regular.png</value>
+        <!-- Filled icons in both button states -->
+        <value condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.OptimisticState),present)">resource://resource.images.arctic.fuse.3/extras/icons/circle-xmark.png</value>
+        <value condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.OptimisticState),absent)">resource://resource.images.arctic.fuse.3/extras/icons/circle-check.png</value>
+        <value condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.State),present)">resource://resource.images.arctic.fuse.3/extras/icons/circle-xmark.png</value>
+        <value condition="$EXP[Exp_PlexWatchlist_Target] + [String.IsEqual(ListItem.Property(LISTINGKEY),watchlist) | String.IsEqual(ListItem.Property(PlexWatchlistHint),present)] + !String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.State),absent)">resource://resource.images.arctic.fuse.3/extras/icons/circle-xmark.png</value>
+        <value condition="$EXP[Exp_PlexWatchlist_Target]">resource://resource.images.arctic.fuse.3/extras/icons/circle-check.png</value>
         <value condition="$EXP[Exp_IsFolder] + !$EXP[Exp_DialogInfo_LibraryTV]">resource://resource.images.arctic.fuse.3/extras/icons/folder.png</value>
-        <value condition="Control.HasFocus(4001)">resource://resource.images.arctic.fuse.3/extras/icons/play3.png</value>
-        <value>resource://resource.images.arctic.fuse.3/extras/icons/play.png</value>
+        <value>resource://resource.images.arctic.fuse.3/extras/icons/play3.png</value>
     </variable>
 
     <variable name="Image_FullscreenWidget_InfoButton">

@@ -302,7 +302,7 @@ class WatchlistActionOrderTests(unittest.TestCase):
         self.assertIn("PKC.Watchlist.Detail.TMDbId", action_source)
         self.assertIn("PKC.Watchlist.Detail.TMDbType", action_source)
 
-    def test_detail_button_uses_png_hover_states_for_play_and_watchlist(self):
+    def test_detail_button_uses_filled_pngs_for_play_and_watchlist(self):
         root = ET.parse(SKIN_ROOT / "1080i" / "Includes_Images.xml").getroot()
         image_values = root.find(
             "./variable[@name='Image_DialogInfo_PlayButton']"
@@ -310,20 +310,15 @@ class WatchlistActionOrderTests(unittest.TestCase):
         images = "\n".join(value.text or "" for value in image_values)
         conditions = "\n".join(value.get("condition", "") for value in image_values)
 
-        for icon in (
-            "play.png",
-            "play3.png",
-            "circle-check-regular.png",
-            "circle-check.png",
-            "circle-xmark-regular.png",
-            "circle-xmark.png",
-        ):
-            self.assertIn(icon, images)
+        # The filled icons show in both button states.
+        for icon in ("play3.png", "circle-check.png", "circle-xmark.png"):
             self.assertIn(
                 f"resource://resource.images.arctic.fuse.3/extras/icons/{icon}",
                 images,
             )
-        self.assertIn("Control.HasFocus(4001)", conditions)
+        for icon in ("/play.png", "-regular.png"):
+            self.assertNotIn(icon, images)
+        self.assertNotIn("Control.HasFocus(4001)", conditions)
         self.assertIn("PKC.Watchlist.Detail.OptimisticState", conditions)
         self.assertNotIn("circle-regular.png", images)
         self.assertNotIn("circle-plus.png", images)

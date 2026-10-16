@@ -1070,8 +1070,8 @@
         <param name="condition">true</param>
         <param name="start">resume</param>
         <definition>
-            <onclick condition="$PARAM[condition] + !String.IsEmpty(Container(5019).ListItem.DBID)">PlayMedia($ESCINFO[Container(5019).ListItem.FileNameAndPath],$PARAM[start])</onclick>
-            <onclick condition="$PARAM[condition] + !String.IsEmpty(Container(5019).ListItem.DBID)">Dialog.Close(movieinformation)</onclick>
+            <onclick condition="$PARAM[condition] + $EXP[Exp_DialogInfo_LibraryTV_Episode]">PlayMedia($ESCINFO[Container(5019).ListItem.FileNameAndPath],$PARAM[start])</onclick>
+            <onclick condition="$PARAM[condition] + $EXP[Exp_DialogInfo_LibraryTV_Episode]">Dialog.Close(movieinformation)</onclick>
         </definition>
     </include>
 
@@ -1635,7 +1635,7 @@
                         <include content="Action_DialogInfo_PlayEpisode">
                             <param name="start">noresume</param>
                         </include>
-                        <visible>$EXP[Exp_DialogInfo_LibraryTV] + Container(5019).ListItem.IsResumable</visible>
+                        <visible>$EXP[Exp_DialogInfo_LibraryTV_Episode] + Container(5019).ListItem.IsResumable</visible>
                     </include>
 
                     <!-- Button 0 -->
@@ -1678,6 +1678,7 @@
                         <label>$LOCALIZE[33063]</label>
                         <onclick>SetProperty(Dialog.1172.DBTYPE,$INFO[ListITem.DBTYpe],Home)</onclick>
                         <onclick>ActivateWindow(1172)</onclick>
+                        <visible>!$EXP[Exp_DialogInfo_LibraryTV]</visible>
                     </include>
 
                     </control>

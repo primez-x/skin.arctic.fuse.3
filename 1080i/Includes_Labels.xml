@@ -608,7 +608,8 @@
     </variable>
 
     <variable name="Label_DialogInfo_PlayButton">
-        <value condition="$EXP[Exp_DialogInfo_LibraryTV] + Container(5019).ListItem.IsResumable">$LOCALIZE[13404]</value>
+        <value condition="$EXP[Exp_DialogInfo_LibraryTV_Episode] + Container(5019).ListItem.IsResumable">$LOCALIZE[13404]</value>
+        <value condition="$EXP[Exp_DialogInfo_LibraryTV] + !$EXP[Exp_DialogInfo_LibraryTV_Ready] + ListItem.IsResumable">$LOCALIZE[13404]</value>
         <value condition="$EXP[Exp_DialogInfo_LibraryTV]">$LOCALIZE[208]</value>
         <value condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.OptimisticState),present)">$LOCALIZE[31991]</value>
         <value condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.OptimisticState),absent)">$LOCALIZE[31990]</value>

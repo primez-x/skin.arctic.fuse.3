@@ -1,4 +1,4 @@
-<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.18.0">
+<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.19.0">
     <requires>
         <import addon="xbmc.gui" version="5.17.0" />
         <import addon="xbmc.python" version="3.0.0" />
@@ -36,7 +36,13 @@
         <license>Creative Commons Attribution Non-Commercial Share-Alike 4.0</license>
         <forum />
         <source>https://github.com/primez-x/skin.arctic.fuse.3</source>
-        <news>v3.18.0
+        <news>v3.19.0
+- Start the TV information page on the Play or Resume button. The Episodes row shows the selected episode without taking focus.
+- Wait until the Episodes row has loaded this page's episode before the details and play buttons follow the row.
+- Remove the Options button from library TV information pages.
+- Use the filled play and watchlist icons on the information page buttons, focused or not.
+
+v3.18.0
 - Order the library show, season and episode information page as Episodes, Cast, Seasons, Videos, Comments and Recommendations.
 - Show the cast of the highlighted episode, including guest stars.
 - Remove the Year, Starring, crew, Collection, Studio and Gallery rows from this page.

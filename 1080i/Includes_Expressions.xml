@@ -80,11 +80,12 @@
     <expression name="Exp_InfoDialogs_WidgetsGroup_HasFocus">[ControlGroup(5000).HasFocus()]</expression>
     <!-- Library show, season or episode info: Episodes and Seasons from the library sit under the action buttons. -->
     <expression name="Exp_DialogInfo_LibraryTV">[[String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)] + !String.IsEmpty(ListItem.DBID) + !Skin.HasSetting(VideoInfo.Widgets.DisableSeasons) + !Skin.HasSetting(VideoInfo.Widgets.DisableEpisodes)]</expression>
-    <!-- focus_episode.py sets TVFocus.Busy while the script selects the season, so that step does not slide the page. -->
     <!-- The Episodes row shares the page with the title and buttons, so only the rows below the Episodes row slide the widget group up. -->
-    <expression name="Exp_DialogInfo_LibraryTV_Episode">[$EXP[Exp_DialogInfo_LibraryTV] + !String.IsEmpty(Container(5019).ListItem.DBID)]</expression>
+    <!-- select_episode.py sets TVSelect.Ready once the Episodes row holds this page's episode. Until then the row can still hold the previous page's items. -->
+    <expression name="Exp_DialogInfo_LibraryTV_Ready">[$EXP[Exp_DialogInfo_LibraryTV] + !String.IsEmpty(Window(movieinformation).Property(TVSelect.Ready))]</expression>
+    <expression name="Exp_DialogInfo_LibraryTV_Episode">[$EXP[Exp_DialogInfo_LibraryTV_Ready] + !String.IsEmpty(Container(5019).ListItem.DBID)]</expression>
     <expression name="Exp_DialogInfo_LibraryTV_EpisodesFocus">[$EXP[Exp_DialogInfo_LibraryTV] + Control.HasFocus(5019)]</expression>
-    <expression name="Exp_DialogInfo_WidgetsPage">[ControlGroup(5000).HasFocus() + !$EXP[Exp_DialogInfo_LibraryTV_EpisodesFocus] + String.IsEmpty(Window(movieinformation).Property(TVFocus.Busy))]</expression>
+    <expression name="Exp_DialogInfo_WidgetsPage">[ControlGroup(5000).HasFocus() + !$EXP[Exp_DialogInfo_LibraryTV_EpisodesFocus]]</expression>
 
     <expression name="Exp_IsAlphabetStrip">[!Skin.HasSetting(Navigation.DisableAlphabetJump) + !Window.IsVisible(MyPlaylist.xml) + [String.IsEqual(Container.SortMethod,$LOCALIZE[20376]) | String.IsEqual(Container.SortMethod,$LOCALIZE[556]) | String.IsEqual(Container.SortMethod,$LOCALIZE[551]) | String.IsEqual(Container.SortMethod,$LOCALIZE[21899]) | String.IsEqual(Container.SortMethod,$LOCALIZE[557]) | String.IsEqual(Container.SortMethod,$LOCALIZE[558]) | String.IsEqual(Container.SortMethod,$LOCALIZE[578])]]</expression>
 
