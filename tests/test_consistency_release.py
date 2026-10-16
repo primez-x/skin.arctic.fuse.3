@@ -343,6 +343,17 @@ class LabelSystemTests(unittest.TestCase):
 
 
 class ViewLabelTests(unittest.TestCase):
+    def test_media_list_focus_requires_loaded_items(self):
+        values = {
+            node.text: node.get("condition")
+            for node in _variable("Includes_Views.xml", "View_ContentID").findall("value")
+        }
+        for view_id in ("507", "550"):
+            condition = values[view_id]
+            self.assertIn(f"Control.IsVisible({view_id})", condition)
+            self.assertIn(f"!Container({view_id}).IsUpdating", condition)
+            self.assertIn(f"Integer.IsGreater(Container({view_id}).NumItems,0)", condition)
+
     def test_no_wall_label_left(self):
         for path in SKIN.glob("*.xml"):
             self.assertNotIn("show_wall_label", path.read_text(encoding="utf-8"), path.name)

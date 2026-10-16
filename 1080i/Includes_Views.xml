@@ -360,8 +360,8 @@
         <value condition="Control.IsVisible(504)">504</value>
         <value condition="Control.IsVisible(505)">505</value>
         <value condition="Control.IsVisible(506)">506</value>
-        <value condition="Control.IsVisible(507)">507</value>
-        <value condition="Control.IsVisible(550)">550</value>
+        <value condition="Control.IsVisible(507) + !Container(507).IsUpdating + Integer.IsGreater(Container(507).NumItems,0)">507</value>
+        <value condition="Control.IsVisible(550) + !Container(550).IsUpdating + Integer.IsGreater(Container(550).NumItems,0)">550</value>
         <value condition="Control.IsVisible(508)">508</value>
         <value condition="Control.IsVisible(509)">509</value>
         <value condition="Control.IsVisible(510)">510</value>
