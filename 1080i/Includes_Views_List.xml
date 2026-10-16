@@ -32,7 +32,8 @@
             <param name="id">550</param>
             <param name="viewtype_label">$LOCALIZE[31995]</param>
             <param name="visible">$EXP[Exp_View_550]</param>
-            <param name="top">-50</param>
+            <param name="top">-30</param>
+            <param name="bottom">-20</param>
         </include>
     </include>
 

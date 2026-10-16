@@ -527,8 +527,10 @@ class FullHeightListTests(unittest.TestCase):
     def test_full_height_list_is_the_standard_list_without_the_title(self):
         full = _include("Includes_Views_List.xml", "View_550_Media_List_Full_Height").find("include")
         self.assertEqual("View_Media_List", full.get("content"))
-        self.assertEqual("-50", full.findtext("param[@name='top']"))
-        for name in ("left", "bottom", "show_header"):
+        # 9 rows (760px) between the title hairline (110) and the footer text (949) leave 39px above and below.
+        self.assertEqual("-30", full.findtext("param[@name='top']"))
+        self.assertEqual("-20", full.findtext("param[@name='bottom']"))
+        for name in ("left", "show_header"):
             self.assertIsNone(full.find(f"param[@name='{name}']"), name)
         standard = _include("Includes_Views_List.xml", "View_507_Media_List").find("include")
         self.assertIsNone(standard.find("param[@name='top']"))

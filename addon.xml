@@ -1,4 +1,4 @@
-<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.16.0">
+<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.16.1">
     <requires>
         <import addon="xbmc.gui" version="5.17.0" />
         <import addon="xbmc.python" version="3.0.0" />
@@ -36,7 +36,10 @@
         <license>Creative Commons Attribution Non-Commercial Share-Alike 4.0</license>
         <forum />
         <source>https://github.com/primez-x/skin.arctic.fuse.3</source>
-        <news>v3.16.0
+        <news>v3.16.1
+- Balance the space above and below the full-height Media List.
+
+v3.16.0
 - Return the full-height Media List to the standard layout without the large title.
 - Move the list name to the standard page title position and show more rows.
 - Show the standard item count at the bottom left of every list.
