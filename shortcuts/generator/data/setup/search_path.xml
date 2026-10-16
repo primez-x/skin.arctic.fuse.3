@@ -86,7 +86,7 @@
         </rule>
         <rule>
             <condition>{item_path}==DefaultSearch-Youtube</condition>
-            <value>plugin://plugin.video.youtube/search/?q=</value>
+            <value>plugin://plugin.video.smarttube/search/?q=</value>
         </rule>
         <rule>
             <condition>{item_path}==DefaultSearch-ABCiView</condition>

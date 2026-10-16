@@ -1159,7 +1159,7 @@
                 <param name="trailer_fallback" />
             </include>
 
-            <content target="videos">$VAR[Path_Youtube_Query,plugin://plugin.video.youtube/kodion/search/query/?q=,&amp;search_type=notvalid]</content>
+            <content target="videos">$VAR[Path_Youtube_Query,plugin://plugin.video.smarttube/kodion/search/query/?q=,&amp;search_type=notvalid]</content>
         </include>
     </include>
 

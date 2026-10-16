@@ -1,4 +1,4 @@
-<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.17.0">
+<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.17.1">
     <requires>
         <import addon="xbmc.gui" version="5.17.0" />
         <import addon="xbmc.python" version="3.0.0" />
@@ -36,7 +36,10 @@
         <license>Creative Commons Attribution Non-Commercial Share-Alike 4.0</license>
         <forum />
         <source>https://github.com/primez-x/skin.arctic.fuse.3</source>
-        <news>v3.17.0
+        <news>v3.17.1
+- Open YouTube search, information-page videos and music-video trailers in SmartTube, which replaces the YouTube add-on in the Primez repository.
+
+v3.17.0
 - Show the library Episodes and Seasons rows on the show, season and episode information page, with Episodes directly below the action buttons.
 - Open the information page on the selected episode, or on the next unwatched episode for a show or season. The details and buttons follow the highlighted episode.
 - Show Resume and Play from beginning for a started episode, and play without the resume prompt.
