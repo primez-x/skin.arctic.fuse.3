@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <window>
     <include>View_MediaWindows_ID</include>
-    <defaultcontrol always="true">500</defaultcontrol>
+    <defaultcontrol always="true">62</defaultcontrol>
     <menucontrol>67</menucontrol>
     <include>Action_Blur_Onload</include>
     <include>Action_Media_Onload</include>
+    <onload>CancelAlarm(refocus_window,true)</onload>
+    <onload>AlarmClock(refocus_window,SetFocus(62),00:00,silent)</onload>
     <controls>
         <include>View_Main</include>
     </controls>

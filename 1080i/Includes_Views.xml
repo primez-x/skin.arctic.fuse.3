@@ -154,6 +154,7 @@
     <expression name="View_Mode_List_Expression">[$EXP[View_Mode_List_Full_Expression] | $EXP[View_Mode_List_Flix_Expression]]</expression>
     <expression name="View_Mode_List_Full_Expression">[$EXP[Exp_View_506] | $EXP[Exp_View_507] | $EXP[Exp_View_508] | $EXP[Exp_View_550]]</expression>
     <expression name="View_Mode_List_Flix_Expression">[$EXP[Exp_View_509] | $EXP[Exp_View_549]]</expression>
+    <expression name="View_MediaList_NotReady_Expression">[[Control.IsVisible(507) + [Container(507).IsUpdating | Integer.IsEqual(Container(507).NumItems,0)]] | [Control.IsVisible(550) + [Container(550).IsUpdating | Integer.IsEqual(Container(550).NumItems,0)]]]</expression>
 
     <expression name="View_Mode_Comb_Expression">[$EXP[View_Mode_Comb_Flix_Expression] | $EXP[View_Mode_Comb_Full_Expression]]</expression>
     <expression name="View_Mode_Comb_Flix_Expression">[$EXP[Exp_View_520] | $EXP[Exp_View_521] | $EXP[Exp_View_522] | $EXP[Exp_View_523] | $EXP[Exp_View_524]]</expression>
@@ -361,7 +362,9 @@
         <value condition="Control.IsVisible(505)">505</value>
         <value condition="Control.IsVisible(506)">506</value>
         <value condition="Control.IsVisible(507) + !Container(507).IsUpdating + Integer.IsGreater(Container(507).NumItems,0)">507</value>
+        <value condition="Control.IsVisible(507)">62</value>
         <value condition="Control.IsVisible(550) + !Container(550).IsUpdating + Integer.IsGreater(Container(550).NumItems,0)">550</value>
+        <value condition="Control.IsVisible(550)">62</value>
         <value condition="Control.IsVisible(508)">508</value>
         <value condition="Control.IsVisible(509)">509</value>
         <value condition="Control.IsVisible(510)">510</value>
@@ -386,6 +389,12 @@
         <!-- Dummy for bouncing focus back to view on back -->
         <include content="Object_Hidden_Button">
             <param name="id">62</param>
+            <onfocus>SetFocus($VAR[View_ContentID])</onfocus>
+            <onfocus condition="$EXP[View_MediaList_NotReady_Expression]">AlarmClock(refocus_media_list,SetFocus(68),00:01,silent)</onfocus>
+            <onunfocus>CancelAlarm(refocus_media_list,true)</onunfocus>
+        </include>
+        <include content="Object_Hidden_Button">
+            <param name="id">68</param>
             <onfocus>SetFocus($VAR[View_ContentID])</onfocus>
         </include>
         <include content="Object_Hidden_Button">

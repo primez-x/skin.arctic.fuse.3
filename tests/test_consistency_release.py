@@ -344,15 +344,59 @@ class LabelSystemTests(unittest.TestCase):
 
 class ViewLabelTests(unittest.TestCase):
     def test_media_list_focus_requires_loaded_items(self):
-        values = {
-            node.text: node.get("condition")
+        values = [
+            (node.text, node.get("condition"))
             for node in _variable("Includes_Views.xml", "View_ContentID").findall("value")
-        }
+        ]
+        ready = dict(values)
         for view_id in ("507", "550"):
-            condition = values[view_id]
+            condition = ready[view_id]
             self.assertIn(f"Control.IsVisible({view_id})", condition)
             self.assertIn(f"!Container({view_id}).IsUpdating", condition)
             self.assertIn(f"Integer.IsGreater(Container({view_id}).NumItems,0)", condition)
+
+        # Kodi translates SetFocus(500) to the current view, so an unready
+        # 507/550 must stay on the hidden bounce button instead.
+        self.assertEqual(
+            ["Control.IsVisible(507)", "Control.IsVisible(550)"],
+            [condition for value, condition in values if value == "62"],
+        )
+        self.assertEqual("62", _root("MyMusicNav.xml").findtext("defaultcontrol"))
+        onloads = [node.text for node in _root("MyMusicNav.xml").findall("onload")]
+        self.assertIn("CancelAlarm(refocus_window,true)", onloads)
+        self.assertIn("AlarmClock(refocus_window,SetFocus(62),00:00,silent)", onloads)
+
+        not_ready = next(
+            node.text
+            for node in _root("Includes_Views.xml").findall("expression")
+            if node.get("name") == "View_MediaList_NotReady_Expression"
+        )
+        for view_id in ("507", "550"):
+            self.assertIn(f"Control.IsVisible({view_id})", not_ready)
+            self.assertIn(f"Container({view_id}).IsUpdating", not_ready)
+            self.assertIn(f"Integer.IsEqual(Container({view_id}).NumItems,0)", not_ready)
+
+        strip = _include("Includes_Views.xml", "View_Scrollbar_Strip")
+        buttons = {
+            node.findtext("param[@name='id']"): node
+            for node in strip.findall("include[@content='Object_Hidden_Button']")
+        }
+        retry = next(
+            node
+            for node in buttons["62"].findall("onfocus")
+            if node.text and node.text.startswith("AlarmClock(refocus_media_list")
+        )
+        self.assertEqual("$EXP[View_MediaList_NotReady_Expression]", retry.get("condition"))
+        self.assertEqual(
+            "AlarmClock(refocus_media_list,SetFocus(68),00:01,silent)", retry.text
+        )
+        self.assertEqual(
+            "CancelAlarm(refocus_media_list,true)", buttons["62"].findtext("onunfocus")
+        )
+        self.assertEqual(
+            ["SetFocus($VAR[View_ContentID])"],
+            [node.text for node in buttons["68"].findall("onfocus")],
+        )
 
     def test_no_wall_label_left(self):
         for path in SKIN.glob("*.xml"):
