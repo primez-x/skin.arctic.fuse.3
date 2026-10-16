@@ -1260,7 +1260,8 @@
         </definition>
     </include>
     <!--
-        Object_NextItem: the shared next-item overlay (video Custom_1143, music Custom_1154).
+        Object_NextItem: the shared next-item overlay (video Custom_1143, music Custom_1154,
+        and the Next Track countdown via Furniture_NextTrack).
         An art tile in a top corner and, beside it, three lines vertically centred on the tile:
         the "Up Next" header (font_tiny_bold, panel_fg_50, as Furniture_NextTrack), the title
         (font_main_bold, panel_fg_90) and a subline (font_main, panel_fg_70).
