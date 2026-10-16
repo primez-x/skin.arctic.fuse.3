@@ -500,6 +500,8 @@
                 <param name="itemlayout_h">$PARAM[itemlayout_h]</param>
                 <param name="itemlayout_include">Layout_Landscape</param>
                 <param name="focusedlayout_dynamic">$PARAM[focusedlayout_dynamic]</param>
+                <param name="item_fade">$PARAM[item_fade]</param>
+                <param name="selected_fade">$PARAM[selected_fade]</param>
                 <param name="icon">$PARAM[icon]</param>
                 <param name="textcolor">$PARAM[textcolor]</param>
                 <param name="offset_x">$PARAM[offset_x]</param>
@@ -822,6 +824,9 @@
         <param name="focusedlayout_special">false</param>
         <param name="focusedlayout_dynamic">false</param>
         <param name="altfocus">false</param>
+        <!-- Per-item dimming for rows that keep the selected item bright while the row is not focused -->
+        <param name="item_fade">false</param>
+        <param name="selected_fade">false</param>
         <param name="detailed">false</param>
         <param name="indicator">true</param>
         <param name="hidden_button_enabled">false</param>
@@ -849,6 +854,7 @@
                         <right>-$PARAM[offset_x]</right>
                         <top>$PARAM[offset_y]</top>
                         <bottom>-$PARAM[offset_y]</bottom>
+                        <animation effect="fade" start="100" end="30" time="0" condition="$PARAM[item_fade]">Conditional</animation>
                         <include content="$PARAM[itemlayout_include]">
                             <param name="selected">false</param>
                             <param name="item_w">$PARAM[item_w]</param>
@@ -887,6 +893,7 @@
                         <right>-$PARAM[offset_x]</right>
                         <top>$PARAM[offset_y]</top>
                         <bottom>-$PARAM[offset_y]</bottom>
+                        <animation effect="fade" start="100" end="30" time="0" condition="$PARAM[selected_fade]">Conditional</animation>
                         <!-- Single copy: only the parts that differ between the plain and the highlighted look are gated on row focus (see Layout_Landscape) -->
                         <include content="$PARAM[itemlayout_include]" condition="$PARAM[focusedlayout_dynamic]">
                             <param name="focusedlayout">true</param>

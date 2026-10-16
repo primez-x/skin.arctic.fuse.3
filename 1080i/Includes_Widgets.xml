@@ -57,6 +57,10 @@
         <param name="conditional_fade">false</param>
         <param name="widgetfade_include">false</param>
         <param name="widgetfade_disable">false</param>
+        <!-- item_fade_enabled dims the items one by one (item_fade, selected_fade) instead of the whole row -->
+        <param name="item_fade_enabled">false</param>
+        <param name="item_fade">false</param>
+        <param name="selected_fade">false</param>
         <param name="widget_hideartwork">false</param>
         <param name="widget_showoverlay">false</param>
         <!-- Row-level: detailed rows (cast and crew in the info dialog) overlay their labels on the tile -->
@@ -94,6 +98,8 @@
                 <param name="item_w">$PARAM[item_w]</param>
                 <param name="itemlayout_w">$PARAM[itemlayout_w]</param>
                 <param name="hidden_button_enabled">true</param>
+                <param name="item_fade">$PARAM[item_fade]</param>
+                <param name="selected_fade">$PARAM[selected_fade]</param>
                 <nested />
                 <include content="Object_HitRect">
                     <param name="x">0</param>
@@ -115,7 +121,7 @@
                 <onfocus condition="!$EXP[Exp_InfoDialogs] + ![$PARAM[widget_showoverlay]]">ClearProperty(Background.ShowOverlay,Home)</onfocus>
                 <onfocus condition="!$EXP[Exp_InfoDialogs] + $PARAM[widget_showoverlay]">SetProperty(Background.ShowOverlay,True,Home)</onfocus>
 
-                <include content="Animation_Widget_FadeOut" condition="$PARAM[widgetfade_include]">
+                <include content="Animation_Widget_FadeOut" condition="$PARAM[widgetfade_include] + ![$PARAM[item_fade_enabled]]">
                     <param name="condition">!Control.HasFocus($PARAM[id]) + !Integer.IsEqual(Window.Property(TMDBHelper.WidgetContainer),$PARAM[id]) + ![$PARAM[widgetfade_disable]]</param>
                 </include>
 
@@ -662,6 +668,9 @@
                 <param name="conditional_fade">$PARAM[conditional_fade]</param>
                 <param name="widgetfade_include">$PARAM[widgetfade_include]</param>
                 <param name="widgetfade_disable">$PARAM[widgetfade_disable]</param>
+                <param name="item_fade_enabled">$PARAM[item_fade_enabled]</param>
+                <param name="item_fade">$PARAM[item_fade]</param>
+                <param name="selected_fade">$PARAM[selected_fade]</param>
                 <param name="widget_hideartwork">$PARAM[widget_hideartwork]</param>
                 <param name="widget_showoverlay">$PARAM[widget_showoverlay]</param>
                 <nested />
@@ -686,6 +695,9 @@
                 <param name="busy_visible">[Integer.IsEqual(Container($PARAM[id]).NumItems,0) | [Integer.IsEqual(Container($PARAM[id]).NumItems,1) + String.IsEqual(Container($PARAM[id]).ListItemAbsolute(0).Label,$LOCALIZE[31046]) + Container($PARAM[id]).IsUpdating] | String.IsEqual(Container($PARAM[id]).ListItemAbsolute(0).Property(widget_lazy),true)]</param>
                 <param name="widgetfade_include">$PARAM[widgetfade_include]</param>
                 <param name="widgetfade_disable">$PARAM[widgetfade_disable]</param>
+                <param name="item_fade_enabled">$PARAM[item_fade_enabled]</param>
+                <param name="item_fade">$PARAM[item_fade]</param>
+                <param name="selected_fade">$PARAM[selected_fade]</param>
                 <param name="widget_hideartwork">$PARAM[widget_hideartwork]</param>
                 <param name="widget_showoverlay">$PARAM[widget_showoverlay]</param>
 
@@ -727,6 +739,9 @@
                 <param name="widgetheight">$PARAM[widgetheight]</param>
                 <param name="widgetfade_include">$PARAM[widgetfade_include]</param>
                 <param name="widgetfade_disable">$PARAM[widgetfade_disable]</param>
+                <param name="item_fade_enabled">$PARAM[item_fade_enabled]</param>
+                <param name="item_fade">$PARAM[item_fade]</param>
+                <param name="selected_fade">$PARAM[selected_fade]</param>
                 <param name="widget_hideartwork">$PARAM[widget_hideartwork]</param>
                 <param name="widget_showoverlay">$PARAM[widget_showoverlay]</param>
 
