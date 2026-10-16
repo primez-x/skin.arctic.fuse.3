@@ -193,6 +193,7 @@
             <onup>601</onup>
             <include>$PARAM[include_action]</include>
             <include>Hub_Grouplist_OnLeftRight</include>
+            <include>Action_Widget_LibraryTVInfo</include>
             <onback condition="$EXP[Exp_Navigation_OnParent] + !Player.HasMedia">SetFocus($PARAM[id],0,absolute)</onback>
             <include content="Action_Widget_OnBack">
                 <param name="id">$PARAM[id]</param>
@@ -269,6 +270,7 @@
                 <onback condition="Player.HasMedia">309</onback>
 
                 <include>Hub_Grouplist_OnLeftRight</include>
+                <include>Action_Widget_LibraryTVInfo</include>
                 <ondown>ActivateWindow(1180)</ondown>
                 <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PARAM[id])</onfocus>
                 <onfocus>ClearProperty(Background.ShowOverlay,Home)</onfocus>

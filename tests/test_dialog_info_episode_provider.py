@@ -38,10 +38,17 @@ class DialogInfoEpisodeProviderTests(unittest.TestCase):
             and "Container(5018)" in (include.find("param[@name='label']").text or "")
         ]
 
-        self.assertEqual(len(episode_rows), 1)
+        # One row for library shows (under the action buttons), one for online shows.
+        self.assertEqual(len(episode_rows), 2)
+        for row in episode_rows:
+            self.assertEqual(
+                row.find("content").text,
+                "$VAR[Path_VideoInfo_OnlineEpisodes]",
+            )
         self.assertEqual(
-            episode_rows[0].find("content").text,
-            "$VAR[Path_VideoInfo_OnlineEpisodes]",
+            sorted("Exp_DialogInfo_LibraryTV" in row.get("condition") and
+                   not row.get("condition").startswith("!") for row in episode_rows),
+            [False, True],
         )
 
 

@@ -59,7 +59,7 @@ class WatchlistActionOrderTests(unittest.TestCase):
         )
 
         self.assertIn(
-            '<onclick condition="!$EXP[Exp_PlexWatchlist_Target]">'
+            '<onclick condition="!$EXP[Exp_PlexWatchlist_Target] + !$EXP[Exp_DialogInfo_LibraryTV]">'
             "$VAR[Action_DialogInfo_PlayMedia]</onclick>",
             button,
         )
@@ -376,12 +376,13 @@ class WatchlistActionOrderTests(unittest.TestCase):
         buttons = dialog_root.findall(
             ".//include[@content='Button_DialogInfo_ActionPill']"
         )
-        self.assertEqual(len(buttons), 9)
+        # Video pills: Play, Play from beginning (4006), three Container(4900) pills, Options.
+        self.assertEqual(len(buttons), 10)
         self.assertEqual(
             [button.findtext("param[@name='textoffsetx']") for button in buttons],
-            ["39", None, None, None, None, "39", None, None, None],
+            ["39", None, None, None, None, None, "39", None, None, None],
         )
-        for button in (buttons[0], buttons[5]):
+        for button in (buttons[0], buttons[6]):
             self.assertEqual(button.findtext("param[@name='align']"), "left")
             self.assertEqual(button.findtext("param[@name='textcolor']"), "00ffffff")
             self.assertEqual(button.findtext("param[@name='focusedcolor']"), "00ffffff")

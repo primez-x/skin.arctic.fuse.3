@@ -60,7 +60,7 @@
     </include>
 
     <include name="DialogInfo_Main_Group">
-        <visible>!ControlGroup(5000).HasFocus()</visible>
+        <visible>!$EXP[Exp_DialogInfo_WidgetsPage]</visible>
         <include content="Animation_Zoom_Out">
             <param name="type">Hidden</param>
         </include>
@@ -79,6 +79,7 @@
                 <right>0</right>
                 <width>infodialog_poster_w</width>
                 <height>infodialog_poster_h</height>
+                <visible>!$EXP[Exp_DialogInfo_LibraryTV]</visible>
                 <include>DialogInfo_Animation_Right</include>
                 <include content="Object_BigPoster" condition="[Window.IsVisible(movieinformation) | Window.IsActive(fullscreenvideo)]">
                     <param name="icon">$PARAM[icon]</param>
@@ -143,6 +144,15 @@
                     <param name="plotheight">120</param>
                     <param name="plotwidth">$PARAM[plotwidth]</param>
                     <param name="include_title">false</param>
+                    <param name="visible">!$EXP[Exp_DialogInfo_LibraryTV_Episode]</param>
+                </include>
+                <!-- Library TV: details follow the highlighted episode, which the action buttons play -->
+                <include content="Info_Panel" condition="$EXP[Exp_DialogInfo_LibraryTV]">
+                    <param name="container">Container(5019).</param>
+                    <param name="plotheight">120</param>
+                    <param name="plotwidth">$PARAM[plotwidth]</param>
+                    <param name="include_title">false</param>
+                    <param name="visible">$EXP[Exp_DialogInfo_LibraryTV_Episode]</param>
                 </include>
                 <include content="Info_Panel" condition="String.IsEqual(ListItem.Property(tmdb_type),person)">
                     <param name="use_textbox">true</param>
@@ -164,8 +174,10 @@
     <include name="DialogInfo_Widget_Group">
         <top>880</top>
         <bottom>-880</bottom>
-        <animation effect="slide" tween="quadratic" reversible="false" time="400" condition="ControlGroup(5000).HasFocus()" start="0" end="0,-880">Conditional</animation>
-        <animation effect="slide" tween="quadratic" reversible="false" time="400" condition="!ControlGroup(5000).HasFocus()" end="0" start="0,-880">Conditional</animation>
+        <animation effect="slide" tween="quadratic" reversible="false" time="400" condition="$EXP[Exp_DialogInfo_WidgetsPage]" start="0" end="0,-880">Conditional</animation>
+        <animation effect="slide" tween="quadratic" reversible="false" time="400" condition="!$EXP[Exp_DialogInfo_WidgetsPage]" end="0" start="0,-880">Conditional</animation>
+        <!-- Library TV: the Episodes row starts under the action buttons -->
+        <animation effect="slide" tween="quadratic" reversible="true" time="400" condition="$EXP[Exp_DialogInfo_LibraryTV] + !$EXP[Exp_DialogInfo_WidgetsPage]" start="0" end="0,-340">Conditional</animation>
     </include>
 
     <include name="DialogInfo_Widget_Grouplist">
@@ -356,6 +368,37 @@
 
     <include name="DialogInfo_VideoWidgets">
 
+        <!-- Library Episodes and Seasons: Episodes first, directly under the action buttons -->
+        <include content="Widget_Info_Row" condition="$EXP[Exp_DialogInfo_LibraryTV]">
+            <param name="id">19</param>
+            <param name="baseid">50</param>
+            <param name="basegroupid">51</param>
+            <param name="label">$INFO[Container(5018).ListItem.Label,$LOCALIZE[20360] (,)]</param>
+            <param name="include">List_Landscape_Row</param>
+            <param name="widgetfade_include">true</param>
+            <param name="set_widgetcontainer">false</param>
+            <param name="menuid">8000</param>
+            <param name="widget_showoverlay">true</param>
+            <param name="detailed">true</param>
+            <param name="altvisible">true</param>
+            <content sortby="episode" sortorder="ascending">$VAR[Path_VideoInfo_OnlineEpisodes]</content>
+            <include>Action_DialogInfo_PlayEpisode</include>
+        </include>
+        <include content="Widget_Info_Row" condition="$EXP[Exp_DialogInfo_LibraryTV]">
+            <param name="id">18</param>
+            <param name="baseid">50</param>
+            <param name="basegroupid">51</param>
+            <param name="label">$LOCALIZE[33054]</param>
+            <param name="include">List_Poster_Row</param>
+            <param name="widgetfade_include">true</param>
+            <param name="set_widgetcontainer">false</param>
+            <param name="menuid">8000</param>
+            <param name="widget_showoverlay">true</param>
+            <param name="altvisible">true</param>
+            <content sortby="season" sortorder="ascending">$VAR[Path_VideoInfo_LibrarySeasons]</content>
+            <onclick>SetFocus(5019,0,absolute)</onclick>
+        </include>
+
         <!-- Cast-->
         <include content="Widget_Info_Row" condition="![!Skin.HasSetting(Info.UseLocalCast) + $EXP[Exp_TMDbHelper_IsData]]">
             <param name="id">50</param>
@@ -465,7 +508,7 @@
         </include>
 
         <!-- Seasons and Episodes -->
-        <include content="Widget_Info_Row" condition="!Skin.HasSetting(VideoInfo.Widgets.DisableSeasons) + [String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)] + $EXP[Exp_TMDbHelper_IsData]">
+        <include content="Widget_Info_Row" condition="!$EXP[Exp_DialogInfo_LibraryTV] + !Skin.HasSetting(VideoInfo.Widgets.DisableSeasons) + [String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)] + $EXP[Exp_TMDbHelper_IsData]">
             <param name="id">18</param>
             <param name="baseid">50</param>
             <param name="basegroupid">51</param>
@@ -483,7 +526,7 @@
             <!-- <onclick>RunScript(plugin.video.themoviedb.helper,close_dialog=1190,call_path=$INFO[Container(5018).ListItem.FolderPath])</onclick> -->
             <include>DialogInfo_Widgets_Action</include>
         </include>
-        <include content="Widget_Info_Row" condition="!Skin.HasSetting(VideoInfo.Widgets.DisableEpisodes) + !Skin.HasSetting(VideoInfo.Widgets.DisableSeasons) + [String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)] + $EXP[Exp_TMDbHelper_IsData]">
+        <include content="Widget_Info_Row" condition="!$EXP[Exp_DialogInfo_LibraryTV] + !Skin.HasSetting(VideoInfo.Widgets.DisableEpisodes) + !Skin.HasSetting(VideoInfo.Widgets.DisableSeasons) + [String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)] + $EXP[Exp_TMDbHelper_IsData]">
             <param name="id">19</param>
             <param name="baseid">50</param>
             <param name="basegroupid">51</param>
@@ -985,6 +1028,16 @@
             <onclick>SetProperty(origin_season,$VAR[Path_InfoParams_Season],1114)</onclick>
             <onclick>SetProperty(origin_episode,$VAR[Path_InfoParams_Episode],1114)</onclick>
             <onclick>ActivateWindow(1114)</onclick>
+        </definition>
+    </include>
+
+    <!-- Play the highlighted library episode without the resume prompt: "resume" continues a started episode, "noresume" starts over. -->
+    <include name="Action_DialogInfo_PlayEpisode">
+        <param name="condition">true</param>
+        <param name="start">resume</param>
+        <definition>
+            <onclick condition="$PARAM[condition] + !String.IsEmpty(Container(5019).ListItem.DBID)">PlayMedia($ESCINFO[Container(5019).ListItem.FileNameAndPath],$PARAM[start])</onclick>
+            <onclick condition="$PARAM[condition] + !String.IsEmpty(Container(5019).ListItem.DBID)">Dialog.Close(movieinformation)</onclick>
         </definition>
     </include>
 
@@ -1507,6 +1560,7 @@
                     <param name="use_spinner">false</param>
                     <param name="left">20</param>
                     <param name="label" />
+                    <param name="visible">!$EXP[Exp_DialogInfo_LibraryTV]</param>
                 </include>
                 <control type="group">
                     <top>10</top>
@@ -1517,7 +1571,8 @@
                     <left>20</left>
                     <height>80</height>
                     <itemgap>10</itemgap>
-                    <ondown>90001</ondown>
+                    <ondown condition="!$EXP[Exp_DialogInfo_LibraryTV]">90001</ondown>
+                    <ondown condition="$EXP[Exp_DialogInfo_LibraryTV]">5019</ondown>
                     <onup condition="$EXP[Exp_TMDbHelper_IsData]">ActivateWindow(1113)</onup>
 
                     <!-- Play/Browse -->
@@ -1531,8 +1586,22 @@
                         <param name="selectedcolor">00ffffff</param>
                         <label>$VAR[Label_DialogInfo_PlayButton]</label>
                         <include>Action_DialogInfo_WatchlistPreflight</include>
-                        <onclick condition="!$EXP[Exp_PlexWatchlist_Target]">$VAR[Action_DialogInfo_PlayMedia]</onclick>
+                        <onclick condition="!$EXP[Exp_PlexWatchlist_Target] + !$EXP[Exp_DialogInfo_LibraryTV]">$VAR[Action_DialogInfo_PlayMedia]</onclick>
+                        <include content="Action_DialogInfo_PlayEpisode">
+                            <param name="condition">$EXP[Exp_DialogInfo_LibraryTV]</param>
+                        </include>
                         <onclick condition="String.IsEmpty(ListItem.DBID) + !$EXP[Exp_PlexWatchlist_Target] + [[String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,tvshow)] | [String.IsEmpty(ListItem.Property(ratingKey)) + String.IsEmpty(ListItem.UniqueID(tmdb)) + String.IsEmpty(ListItem.Property(tmdb_id)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID)) + [String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_Type),movie) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_Type),tv)]]]">Dialog.Close(1190,true)</onclick>
+                    </include>
+
+                    <!-- Play from beginning: a started library episode -->
+                    <include content="Button_DialogInfo_ActionPill">
+                        <param name="id">4006</param>
+                        <param name="control">button</param>
+                        <label>$LOCALIZE[12021]</label>
+                        <include content="Action_DialogInfo_PlayEpisode">
+                            <param name="start">noresume</param>
+                        </include>
+                        <visible>$EXP[Exp_DialogInfo_LibraryTV] + Container(5019).ListItem.IsResumable</visible>
                     </include>
 
                     <!-- Button 0 -->
@@ -1588,6 +1657,7 @@
                 <left>0</left>
                 <right>$PARAM[right]</right>
                 <height>320</height>
+                <visible>!$EXP[Exp_DialogInfo_LibraryTV]</visible>
 
                 <control type="grouplist" id="9100">
                     <orientation>vertical</orientation>

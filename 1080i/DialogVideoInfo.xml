@@ -8,6 +8,7 @@
     <include>DialogInfo_Onload</include>
     <onload>SetProperty(TMDbHelper.EnableExtendedProperties,True)</onload>
     <onload>SetProperty(BaseID,$INFO[ListItem.Label]$INFO[ListItem.FolderPath])</onload>
+    <onload condition="$EXP[Exp_DialogInfo_LibraryTV]">RunScript(special://skin/focus_episode.py,$INFO[ListItem.DBType],$INFO[ListItem.DBID],$INFO[ListItem.TvShowDBID],$INFO[ListItem.Season])</onload>
     <onload>ClearProperty(PKC.Watchlist.Detail.Identity,Home)</onload>
     <onload>SetProperty(PKC.Watchlist.Detail.State,unknown,Home)</onload>
     <onload>ClearProperty(PKC.Watchlist.Detail.PreviousState,Home)</onload>

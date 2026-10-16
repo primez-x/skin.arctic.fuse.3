@@ -699,6 +699,7 @@
                 </include>
 
                 <onfocus>SetProperty(TMDbHelper.WidgetContainer,$PARAM[id])</onfocus>
+                <include>Action_Widget_LibraryTVInfo</include>
                 <nested />
 
             </include>
