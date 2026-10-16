@@ -32,10 +32,7 @@
             <param name="id">550</param>
             <param name="viewtype_label">$LOCALIZE[31995]</param>
             <param name="visible">$EXP[Exp_View_550]</param>
-            <param name="top">0</param>
-            <param name="left">-view_bar</param>
-            <param name="bottom">-view_list_full_offset</param>
-            <param name="show_header">true</param>
+            <param name="top">-50</param>
         </include>
     </include>
 
@@ -43,7 +40,6 @@
         <param name="top">130</param>
         <param name="left">0</param>
         <param name="bottom">0</param>
-        <param name="show_header">false</param>
         <definition>
             <include content="View_MediaList_Include" condition="Window.IsVisible(videos)">
                 <param name="id">$PARAM[id]</param>
@@ -53,7 +49,6 @@
                 <param name="right">510</param>
                 <param name="top">$PARAM[top]</param>
                 <param name="bottom">$PARAM[bottom]</param>
-                <param name="show_header">$PARAM[show_header]</param>
                 <param name="focusposition">1</param>
                 <param name="movement">5</param>
                 <param name="overlay">true</param>
@@ -68,7 +63,6 @@
                 <param name="right">692</param>
                 <param name="top">$PARAM[top]</param>
                 <param name="bottom">$PARAM[bottom]</param>
-                <param name="show_header">$PARAM[show_header]</param>
                 <param name="focusposition">1</param>
                 <param name="movement">5</param>
                 <param name="overlay">true</param>
@@ -256,19 +250,11 @@
         <param name="overlay">false</param>
         <param name="control">fixedlist</param>
         <param name="itemlayout_include">Layout_MediaList</param>
-        <param name="show_header">false</param>
         <definition>
 
             <control type="group">
                 <visible>Control.IsVisible($PARAM[id])</visible>
                 <include>Dimension_Info</include>
-
-                <include content="View_MediaList_Header" condition="$PARAM[show_header]">
-                    <param name="show_count">false</param>
-                    <param name="label_max_width">100%</param>
-                    <param name="left">$PARAM[left]</param>
-                    <param name="right">$PARAM[right]</param>
-                </include>
 
                 <nested />
 

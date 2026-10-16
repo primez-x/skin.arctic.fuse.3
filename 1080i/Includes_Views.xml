@@ -2,21 +2,17 @@
 <includes>
 
     <include name="View_Line_Label">
-        <param name="font">font_main_bold</param>
-        <param name="max_width" />
-        <definition>
-            <control type="label">
-                <label fallback="$PARAM[label_fallback]">$PARAM[label]</label>
-                <align>$PARAM[align]</align>
-                <haspath>$PARAM[haspath]</haspath>
-                <textcolor>$PARAM[textcolor]</textcolor>
-                <aligny>center</aligny>
-                <textcolor>main_fg_100</textcolor>
-                <font>$PARAM[font]</font>
-                <width max="$PARAM[max_width]">auto</width>
-                <height>80</height>
-            </control>
-        </definition>
+        <control type="label">
+            <label fallback="$PARAM[label_fallback]">$PARAM[label]</label>
+            <align>$PARAM[align]</align>
+            <haspath>$PARAM[haspath]</haspath>
+            <textcolor>$PARAM[textcolor]</textcolor>
+            <aligny>center</aligny>
+            <textcolor>main_fg_100</textcolor>
+            <font>font_main_bold</font>
+            <width>auto</width>
+            <height>80</height>
+        </control>
     </include>
 
     <include name="View_Line_SubLabel">
@@ -54,64 +50,6 @@
                 <centerbottom>10</centerbottom>
                 <width>$PARAM[width]</width>
                 <include>View_Line_Divider_$PARAM[align]</include>
-            </control>
-        </definition>
-    </include>
-
-    <include name="View_MediaList_Header">
-        <param name="label">$VAR[Label_Section_Main]</param>
-        <param name="count">$VAR[Label_MediaList_Count]</param>
-        <param name="show_count">true</param>
-        <param name="label_max_width">60%</param>
-        <param name="top">-view_list_full_offset</param>
-        <param name="left">-view_bar</param>
-        <param name="right">692</param>
-        <definition>
-            <control type="group">
-                <top>$PARAM[top]</top>
-                <left>$PARAM[left]</left>
-                <right>$PARAM[right]</right>
-                <height>view_pad</height>
-                <control type="grouplist">
-                    <hitrect x="0" y="0" w="0" h="0" />
-                    <orientation>horizontal</orientation>
-                    <itemgap>10</itemgap>
-                    <include content="View_Line_Label">
-                        <param name="label">$PARAM[label]</param>
-                        <param name="font">font_midi_bold</param>
-                        <param name="textcolor">main_fg_100</param>
-                        <param name="max_width">$PARAM[label_max_width]</param>
-                    </include>
-                    <include content="Info_Line_Label" condition="$PARAM[show_count]">
-                        <param name="label">$PARAM[count]</param>
-                        <param name="colordiffuse">main_fg</param>
-                        <param name="max_width">35%</param>
-                        <param name="visible">true</param>
-                    </include>
-                </control>
-                <include content="View_Line_Divider">
-                    <param name="width">100%</param>
-                </include>
-            </control>
-        </definition>
-    </include>
-
-    <include name="View_MediaList_Footer">
-        <param name="visible">true</param>
-        <definition>
-            <control type="group">
-                <visible>$PARAM[visible]</visible>
-                <left>view_bar</left>
-                <right>view_pad</right>
-                <bottom>0</bottom>
-                <height>view_pad</height>
-                <include content="View_Line">
-                    <param name="label">$VAR[Label_MediaList_Count]</param>
-                    <param name="top">view_bar</param>
-                    <param name="left">0</param>
-                    <param name="right">0</param>
-                    <param name="textcolor">main_fg_70</param>
-                </include>
             </control>
         </definition>
     </include>
@@ -289,8 +227,8 @@
         <control type="group">
             <visible>!Integer.IsEqual(Container.NumItems,0)</visible>
             <visible>!Control.IsVisible(515)</visible>
-            <visible>!Control.IsVisible(550)</visible>
             <control type="group">
+                <visible>!Control.IsVisible(550)</visible>
                 <visible>$EXP[View_Row_Info_Details_Expression]</visible>
                 <visible>!$EXP[View_Mode_Comb_Flix_Expression]</visible>
                 <visible>!$EXP[View_Mode_Comb_Tall_Expression]</visible>
@@ -300,6 +238,7 @@
                 </include>
             </control>
             <control type="group">
+                <visible>!Control.IsVisible(550)</visible>
                 <visible>!$EXP[View_Row_Info_Details_Expression]</visible>
                 <visible>!$EXP[View_Mode_Comb_Flix_Expression]</visible>
                 <visible>!$EXP[View_Mode_Comb_Tall_Expression]</visible>
@@ -307,6 +246,15 @@
                     <param name="use_spinner">true</param>
                     <param name="run_spinner">[Container.IsUpdating]</param>
                     <param name="top">260</param>
+                </include>
+            </control>
+            <!-- Full-height list: the list name takes the place of the info panel title -->
+            <control type="group">
+                <visible>Control.IsVisible(550)</visible>
+                <include content="View_Line">
+                    <param name="use_spinner">true</param>
+                    <param name="run_spinner">[Container.IsUpdating]</param>
+                    <param name="top">view_pad</param>
                 </include>
             </control>
             <control type="group">
@@ -692,12 +640,9 @@
                     <include>View_Row_Items</include>
                     <include>View_Row_Line</include>
                     <control type="group">
-                        <visible>!$EXP[View_Mode_Wall_Expression] + !Control.IsVisible(550)</visible>
+                        <visible>!$EXP[View_Mode_Wall_Expression]</visible>
                         <include>Furniture_Footer_Left</include>
                     </control>
-                    <include content="View_MediaList_Footer">
-                        <param name="visible">Control.IsVisible(550)</param>
-                    </include>
                 </control>
                 <control type="group">
                     <visible>!$EXP[Exp_InfoDialogs]</visible>

@@ -464,12 +464,12 @@ class ViewLabelTests(unittest.TestCase):
             self.assertAlmostEqual(bar, row["card_cell_w"] - row["card"][0], places=2, msg=f"labels_off={labels_off}")
 
     def test_views_without_the_footer_are_exempt_by_rule(self):
-        # Walls hide the footer. Full Height uses the lower footer. Other lists retain the standard footer.
+        # Walls hide the footer. Every other view retains the standard footer.
         constants = _constants()
         main = _include("Includes_Views.xml", "View_Main")
         footer = next(g for g in main.iter("control") if g.find("include") is not None
                       and g.find("include").text == "Furniture_Footer_Left")
-        self.assertEqual("!$EXP[View_Mode_Wall_Expression] + !Control.IsVisible(550)", footer.findtext("visible"))
+        self.assertEqual("!$EXP[View_Mode_Wall_Expression]", footer.findtext("visible"))
         walls = next(e.text for e in _root("Includes_Views.xml").findall("expression")
                      if e.get("name") == "View_Mode_Wall_Expression")
         for view in range(510, 516):
@@ -523,78 +523,39 @@ class ViewLabelTests(unittest.TestCase):
             self.assertTrue(value.lstrip("-").startswith("view_poster_wall_"), (name, value))
 
 
-class FullHeightListHeaderTests(unittest.TestCase):
-    def test_full_height_header_uses_shared_name_count_and_hairline(self):
-        header = _include("Includes_Views.xml", "View_MediaList_Header")
-        name = header.find(".//include[@content='View_Line_Label']")
-        self.assertEqual("font_midi_bold", name.findtext("param[@name='font']"))
-        self.assertEqual("main_fg_100", name.findtext("param[@name='textcolor']"))
-        self.assertEqual("$PARAM[label_max_width]", name.findtext("param[@name='max_width']"))
-        self.assertEqual("60%", header.findtext("param[@name='label_max_width']"))
-        self.assertEqual("true", header.findtext("param[@name='show_count']"))
-        count = header.find(".//include[@content='Info_Line_Label']")
-        self.assertEqual("$PARAM[count]", count.findtext("param[@name='label']"))
-        self.assertEqual("35%", count.findtext("param[@name='max_width']"))
-        self.assertEqual("100%", header.findtext(".//include[@content='View_Line_Divider']/param[@name='width']"))
-
-    def test_browser_and_playlist_counts_use_the_bottom_footer(self):
-        body = _include("Includes_Views_List.xml", "View_MediaList_Include")
-        header = body.find(".//include[@content='View_MediaList_Header']")
-        self.assertEqual("false", header.findtext("param[@name='show_count']"))
-        self.assertEqual("100%", header.findtext("param[@name='label_max_width']"))
-        main = _include("Includes_Views.xml", "View_Main")
-        self.assertEqual("Control.IsVisible(550)", main.findtext(".//include[@content='View_MediaList_Footer']/param[@name='visible']"))
-        playlist = _root("MyPlaylist.xml")
-        self.assertEqual("Window.IsVisible(musicplaylist)", playlist.findtext(".//include[@content='View_MediaList_Footer']/param[@name='visible']"))
-        footer = _include("Includes_Views.xml", "View_MediaList_Footer")
-        group = footer.find("definition/control")
-        self.assertEqual("view_bar", group.findtext("left"))
-        self.assertEqual("0", group.findtext("bottom"))
-        self.assertEqual("view_pad", group.findtext("height"))
-        line = group.find("include")
-        self.assertEqual("$VAR[Label_MediaList_Count]", line.findtext("param[@name='label']"))
-        self.assertEqual("view_bar", line.findtext("param[@name='top']"))
-        self.assertNotIn("View_MediaList_Footer", ET.tostring(_root("Custom_1142_OSD_MusicTracks.xml"), encoding="unicode"))
-        count = _include("Includes_Views.xml", "View_MediaList_Header").find(".//include[@content='Info_Line_Label']")
-        self.assertEqual("$PARAM[show_count]", count.get("condition"))
-
-    def test_both_full_height_branches_preserve_artwork_and_extend_the_list(self):
+class FullHeightListTests(unittest.TestCase):
+    def test_full_height_list_is_the_standard_list_without_the_title(self):
         full = _include("Includes_Views_List.xml", "View_550_Media_List_Full_Height").find("include")
-        self.assertEqual("-view_bar", full.findtext("param[@name='left']"))
-        self.assertEqual("-view_list_full_offset", full.findtext("param[@name='bottom']"))
-        self.assertEqual("true", full.findtext("param[@name='show_header']"))
-        standard = _include("Includes_Views_List.xml", "View_507_Media_List").find("include")
+        self.assertEqual("View_Media_List", full.get("content"))
+        self.assertEqual("-50", full.findtext("param[@name='top']"))
         for name in ("left", "bottom", "show_header"):
-            self.assertIsNone(standard.find(f"param[@name='{name}']"))
-        branches = _include("Includes_Views_List.xml", "View_Media_List").findall(".//include[@content='View_MediaList_Include']")
-        self.assertEqual(2, len(branches))
-        for branch in branches:
-            for name in ("left", "bottom", "show_header"):
-                self.assertEqual(f"$PARAM[{name}]", branch.findtext(f"param[@name='{name}']"))
-        constants = _constants()
-        info = _include("Includes_Dimensions.xml", "Dimension_Info")
-        self.assertEqual(80, _number(info.findtext("top"), constants) - _number("view_list_full_offset", constants))
-        self.assertEqual(1000, 1080 - _number(info.findtext("bottom"), constants) + _number("view_list_full_offset", constants))
-        self.assertEqual(40, _number(info.findtext("left"), constants) - _number("view_bar", constants))
+            self.assertIsNone(full.find(f"param[@name='{name}']"), name)
+        standard = _include("Includes_Views_List.xml", "View_507_Media_List").find("include")
+        self.assertIsNone(standard.find("param[@name='top']"))
+        defaults = _include("Includes_Views_List.xml", "View_Media_List")
+        self.assertEqual(["130", "0", "0"], [defaults.findtext(f"param[@name='{n}']") for n in ("top", "left", "bottom")])
 
-    def test_music_playlist_and_osd_tracks_share_the_header_and_bounds(self):
-        playlist = _root("MyPlaylist.xml")
-        music = playlist.find(".//include[@content='View_MediaList_Include'][@condition='Window.IsVisible(musicplaylist)']")
-        self.assertEqual("true", music.findtext("param[@name='show_header']"))
-        self.assertEqual("-view_bar", music.findtext("param[@name='left']"))
-        self.assertEqual("-view_list_full_offset", music.findtext("param[@name='bottom']"))
-        video = playlist.find(".//include[@content='View_MediaList_Include'][@condition='Window.IsVisible(videoplaylist)']")
-        self.assertEqual("130", video.findtext("param[@name='top']"))
-        self.assertEqual("0", video.findtext("param[@name='bottom']"))
-        tracks = _root("Custom_1142_OSD_MusicTracks.xml")
-        header = tracks.find(".//include[@content='View_MediaList_Header']")
-        self.assertEqual("$INFO[Container(9801).ListItem.Label]", header.findtext("param[@name='label']"))
-        songs = next(node for node in tracks.findall(".//include[@content='List_DialogSelect']")
-                     if node.findtext("param[@name='id']") == "9802")
-        self.assertEqual("-view_bar", songs.findtext("bottom"))
-        constants = _constants()
-        info = _include("Includes_Dimensions.xml", "Dimension_Info")
-        self.assertEqual(940, 1080 - _number(info.findtext("bottom"), constants) + _number("view_bar", constants))
+    def test_full_height_list_moves_the_list_name_up_and_hides_the_info_title(self):
+        line = _include("Includes_Views.xml", "View_Row_Line")
+        groups = line.findall("control/control")
+        standard = [g for g in groups if "!Control.IsVisible(550)" in [v.text for v in g.findall("visible")]]
+        self.assertEqual(2, len(standard))
+        full = next(g for g in groups if g.findtext("visible") == "Control.IsVisible(550)")
+        self.assertEqual("view_pad", full.findtext(".//include[@content='View_Line']/param[@name='top']"))
+        info = _include("Includes_Views.xml", "View_Row_Info")
+        self.assertIn("!Control.IsVisible(550)", [v.text for v in info.find("control").findall("visible")])
+
+    def test_every_view_uses_the_standard_bottom_left_count(self):
+        main = _include("Includes_Views.xml", "View_Main")
+        footer = next(g for g in main.iter("control") if g.find("include") is not None
+                      and g.find("include").text == "Furniture_Footer_Left")
+        self.assertEqual("!$EXP[View_Mode_Wall_Expression]", footer.findtext("visible"))
+        for name in ("View_MediaList_Header", "View_MediaList_Footer"):
+            self.assertIsNone(_root("Includes_Views.xml").find(f"./include[@name='{name}']"), name)
+        for name in ("MyPlaylist.xml", "Custom_1142_OSD_MusicTracks.xml"):
+            text = ET.tostring(_root(name), encoding="unicode")
+            self.assertNotIn("View_MediaList_Header", text, name)
+            self.assertNotIn("View_MediaList_Footer", text, name)
 
     def test_osd_timeline_moves_below_tracks_and_details(self):
         slide = _include("Includes_Animations.xml", "Animation_OSD_Seekbar_Slide")
@@ -618,17 +579,6 @@ class FullHeightListHeaderTests(unittest.TestCase):
         self.assertTrue(all(index < fallback for index in music_names))
         self.assertEqual(["$INFO[Container.PluginCategory]", "$INFO[Container.Property(FolderName)]", "$INFO[Container.FolderName]"],
                          [values[index].text for index in music_names])
-
-    def test_count_handles_empty_singular_plural_and_osd_containers(self):
-        values = _variable("Includes_Labels.xml", "Label_MediaList_Count").findall("value")
-        for singular, plural in (("179", "134"), ("558", "132"), ("557", "133")):
-            one = next(node for node in values if f"$LOCALIZE[{singular}]" in (node.text or ""))
-            self.assertIn("Integer.IsEqual", one.get("condition"))
-            self.assertTrue(any(f"$LOCALIZE[{plural}]" in (node.text or "") for node in values))
-        self.assertIn("Container(9802).NumItems", "".join(node.text or "" for node in values))
-        self.assertEqual("Integer.IsEqual(Container.NumItems,1)", values[-2].get("condition"))
-        self.assertEqual("$INFO[Container.NumItems] [LOWERCASE]$LOCALIZE[31996][/LOWERCASE]", values[-2].text)
-        self.assertIsNone(values[-1].get("condition"))
 
 
 class PanelTests(unittest.TestCase):

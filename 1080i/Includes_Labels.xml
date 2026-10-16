@@ -1317,19 +1317,6 @@
         <value>$LOCALIZE[10000]</value>
     </variable>
 
-    <variable name="Label_MediaList_Count">
-        <value condition="Window.IsVisible(1142) + Integer.IsEqual(Container(9802).NumItems,1)">$INFO[Container(9802).NumItems] [LOWERCASE]$LOCALIZE[179][/LOWERCASE]</value>
-        <value condition="Window.IsVisible(1142)">$INFO[Container(9802).NumItems] [LOWERCASE]$LOCALIZE[134][/LOWERCASE]</value>
-        <value condition="[Container.Content(songs) | Window.IsVisible(musicplaylist)] + Integer.IsEqual(Container.NumItems,1)">$INFO[Container.NumItems] [LOWERCASE]$LOCALIZE[179][/LOWERCASE]</value>
-        <value condition="Container.Content(songs) | Window.IsVisible(musicplaylist)">$INFO[Container.NumItems] [LOWERCASE]$LOCALIZE[134][/LOWERCASE]</value>
-        <value condition="Container.Content(albums) + Integer.IsEqual(Container.NumItems,1)">$INFO[Container.NumItems] [LOWERCASE]$LOCALIZE[558][/LOWERCASE]</value>
-        <value condition="Container.Content(albums)">$INFO[Container.NumItems] [LOWERCASE]$LOCALIZE[132][/LOWERCASE]</value>
-        <value condition="Container.Content(artists) + Integer.IsEqual(Container.NumItems,1)">$INFO[Container.NumItems] [LOWERCASE]$LOCALIZE[557][/LOWERCASE]</value>
-        <value condition="Container.Content(artists)">$INFO[Container.NumItems] [LOWERCASE]$LOCALIZE[133][/LOWERCASE]</value>
-        <value condition="Integer.IsEqual(Container.NumItems,1)">$INFO[Container.NumItems] [LOWERCASE]$LOCALIZE[31996][/LOWERCASE]</value>
-        <value>$INFO[Container.NumItems] [LOWERCASE]$LOCALIZE[31022][/LOWERCASE]</value>
-    </variable>
-
     <variable name="Label_Section_Name">
         <value condition="!String.IsEmpty(Container.PluginCategory)">$INFO[Container.PluginCategory]</value>
         <value condition="!String.IsEmpty(Container.FolderName)">$INFO[Container.FolderName]</value>
