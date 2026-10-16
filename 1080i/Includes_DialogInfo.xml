@@ -1459,15 +1459,6 @@
         </item>
     </include>
 
-    <include name="DialogInfo_VideoButtons_Wikipedia">
-        <item>
-            <label>Wikipedia</label>
-            <icon>resource://resource.images.arctic.fuse.3/extras/icons/globe.png</icon>
-            <onclick>Dialog.Close(1172,true)</onclick>
-            <onclick>runscript(script.wikipedia,wikipedia=$VAR[Path_Wikipedia_Title],tmdb_type=$VAR[Path_Wikipedia_Type])</onclick>
-        </item>
-    </include>
-
     <include name="DialogInfo_VideoButtons_Plot">
         <item>
             <label>$LOCALIZE[207]</label>
@@ -1527,9 +1518,7 @@
     </include>
 
     <include name="DialogInfo_VideoButtons_Position">
-        <include condition="Skin.String(DialogInfo.$PARAM[type].$PARAM[item],Trailer)">DialogInfo_VideoButtons_Trailer</include>
         <include condition="Skin.String(DialogInfo.$PARAM[type].$PARAM[item],Trakt)">DialogInfo_VideoButtons_Trakt</include>
-        <include condition="Skin.String(DialogInfo.$PARAM[type].$PARAM[item],Wikipedia)">DialogInfo_VideoButtons_Wikipedia</include>
         <include condition="Skin.String(DialogInfo.$PARAM[type].$PARAM[item],Plot)">DialogInfo_VideoButtons_Plot</include>
         <include condition="Skin.String(DialogInfo.$PARAM[type].$PARAM[item],Artwork)">DialogInfo_VideoButtons_Artwork</include>
         <include condition="Skin.String(DialogInfo.$PARAM[type].$PARAM[item],UserRating)">DialogInfo_VideoButtons_UserRating</include>
@@ -1540,9 +1529,8 @@
     </include>
 
     <include name="DialogInfo_VideoButtons_Overflow">
-        <include condition="!Skin.String(DialogInfo.$PARAM[type].item01,Trailer) + !Skin.String(DialogInfo.$PARAM[type].item02,Trailer) + !Skin.String(DialogInfo.$PARAM[type].item03,Trailer)">DialogInfo_VideoButtons_Trailer</include>
+        <include>DialogInfo_VideoButtons_Trailer</include>
         <include condition="!Skin.String(DialogInfo.$PARAM[type].item01,Trakt) + !Skin.String(DialogInfo.$PARAM[type].item02,Trakt) + !Skin.String(DialogInfo.$PARAM[type].item03,Trakt)">DialogInfo_VideoButtons_Trakt</include>
-        <include condition="!Skin.String(DialogInfo.$PARAM[type].item01,Wikipedia) + !Skin.String(DialogInfo.$PARAM[type].item02,Wikipedia) + !Skin.String(DialogInfo.$PARAM[type].item03,Wikipedia)">DialogInfo_VideoButtons_Wikipedia</include>
         <include condition="!Skin.String(DialogInfo.$PARAM[type].item01,Plot) + !Skin.String(DialogInfo.$PARAM[type].item02,Plot) + !Skin.String(DialogInfo.$PARAM[type].item03,Plot)">DialogInfo_VideoButtons_Plot</include>
         <include condition="!Skin.String(DialogInfo.$PARAM[type].item01,Artwork) + !Skin.String(DialogInfo.$PARAM[type].item02,Artwork) + !Skin.String(DialogInfo.$PARAM[type].item03,Artwork)">DialogInfo_VideoButtons_Artwork</include>
         <include condition="!Skin.String(DialogInfo.$PARAM[type].item01,UserRating) + !Skin.String(DialogInfo.$PARAM[type].item02,UserRating) + !Skin.String(DialogInfo.$PARAM[type].item03,UserRating)">DialogInfo_VideoButtons_UserRating</include>
@@ -1613,6 +1601,18 @@
                     <ondown condition="$EXP[Exp_DialogInfo_LibraryTV]">5019</ondown>
                     <onup condition="$EXP[Exp_TMDbHelper_IsData]">ActivateWindow(1113)</onup>
 
+                    <!-- Replay: an icon pill left of Resume plays a started library episode from the beginning -->
+                    <include content="Button_DialogInfo_ActionPill">
+                        <param name="id">4006</param>
+                        <param name="control">button</param>
+                        <param name="width">80</param>
+                        <label />
+                        <include content="Action_DialogInfo_PlayEpisode">
+                            <param name="start">noresume</param>
+                        </include>
+                        <visible>$EXP[Exp_DialogInfo_LibraryTV_Episode] + Container(5019).ListItem.IsResumable</visible>
+                    </include>
+
                     <!-- Play/Browse -->
                     <include content="Button_DialogInfo_ActionPill">
                         <param name="id">4001</param>
@@ -1629,17 +1629,6 @@
                             <param name="condition">$EXP[Exp_DialogInfo_LibraryTV]</param>
                         </include>
                         <onclick condition="String.IsEmpty(ListItem.DBID) + !$EXP[Exp_PlexWatchlist_Target] + [[String.IsEqual(ListItem.DBTYPE,movie) | String.IsEqual(ListItem.DBTYPE,tvshow)] | [String.IsEmpty(ListItem.Property(ratingKey)) + String.IsEmpty(ListItem.UniqueID(tmdb)) + String.IsEmpty(ListItem.Property(tmdb_id)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_ID)) + [String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_Type),movie) | String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Monitor.TMDb_Type),tv)]]]">Dialog.Close(1190,true)</onclick>
-                    </include>
-
-                    <!-- Play from beginning: a started library episode -->
-                    <include content="Button_DialogInfo_ActionPill">
-                        <param name="id">4006</param>
-                        <param name="control">button</param>
-                        <label>$LOCALIZE[12021]</label>
-                        <include content="Action_DialogInfo_PlayEpisode">
-                            <param name="start">noresume</param>
-                        </include>
-                        <visible>$EXP[Exp_DialogInfo_LibraryTV_Episode] + Container(5019).ListItem.IsResumable</visible>
                     </include>
 
                     <!-- Button 0 -->
@@ -1686,9 +1675,20 @@
                     </include>
 
                     </control>
-                    <include content="DialogInfo_PrimaryActionForeground">
-                        <param name="label">$VAR[Label_DialogInfo_PlayButton]</param>
-                    </include>
+                    <control type="image">
+                        <left>30</left>
+                        <centertop>50%</centertop>
+                        <width>60</width>
+                        <height>60</height>
+                        <texture colordiffuse="$VAR[Color_DialogInfo_ReplayIcon]">resource://resource.images.arctic.fuse.3/extras/icons/rotate-left.png</texture>
+                        <visible>Control.IsVisible(4006)</visible>
+                    </control>
+                    <control type="group">
+                        <animation effect="slide" end="90,0" time="0" condition="Control.IsVisible(4006)">Conditional</animation>
+                        <include content="DialogInfo_PrimaryActionForeground">
+                            <param name="label">$VAR[Label_DialogInfo_PlayButton]</param>
+                        </include>
+                    </control>
                 </control>
             </control>
 

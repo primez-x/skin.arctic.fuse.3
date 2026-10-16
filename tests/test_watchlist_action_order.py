@@ -371,13 +371,18 @@ class WatchlistActionOrderTests(unittest.TestCase):
         buttons = dialog_root.findall(
             ".//include[@content='Button_DialogInfo_ActionPill']"
         )
-        # Video pills: Play, Play from beginning (4006), three Container(4900) pills, Options.
+        # Video pills: Replay (4006) left of Play, three Container(4900) pills, Options.
         self.assertEqual(len(buttons), 10)
         self.assertEqual(
-            [button.findtext("param[@name='textoffsetx']") for button in buttons],
-            ["39", None, None, None, None, None, "39", None, None, None],
+            [button.findtext("param[@name='id']") for button in buttons[:2]],
+            ["4006", "4001"],
         )
-        for button in (buttons[0], buttons[6]):
+        self.assertEqual(buttons[0].findtext("param[@name='width']"), "80")
+        self.assertEqual(
+            [button.findtext("param[@name='textoffsetx']") for button in buttons],
+            [None, "39", None, None, None, None, "39", None, None, None],
+        )
+        for button in (buttons[1], buttons[6]):
             self.assertEqual(button.findtext("param[@name='align']"), "left")
             self.assertEqual(button.findtext("param[@name='textcolor']"), "00ffffff")
             self.assertEqual(button.findtext("param[@name='focusedcolor']"), "00ffffff")
