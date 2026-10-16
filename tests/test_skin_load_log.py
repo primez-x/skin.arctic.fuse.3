@@ -286,7 +286,8 @@ class SkinDependencyAndOverlayTests(unittest.TestCase):
         ids = {int(value) for value in re.findall(r"Window.IsActive\((11\d\d)\)", condition)}
         existing = {int(_tree(p).get("id")) for p in SKIN.glob("Custom_*.xml") if _tree(p).get("id")}
         self.assertEqual(set(), ids - existing)
-        self.assertTrue({1151, 1153} <= ids)
+        self.assertIn(1153, ids)
+        self.assertNotIn(1151, ids)  # The passive music screen shows no seek bar or clock.
         self.assertNotIn(1155, ids)  # Next Track excludes both fullscreen players.
 
     def test_pvr_genre_colours_use_backend_codes_without_text_scans(self):
