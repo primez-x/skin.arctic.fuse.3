@@ -3,6 +3,7 @@
 import json
 import re
 import tempfile
+import types
 import unittest
 import xml.etree.ElementTree as ET
 from pathlib import Path
@@ -52,7 +53,7 @@ class PlexSourceMigrationTests(unittest.TestCase):
 
     def migrate(self):
         self.assertTrue(callable(getattr(self.service, "_migrate_plex_sources", None)), "Plex profile migration is absent")
-        return self.service._migrate_plex_sources()
+        return self.service._migrate_plex_sources()[0]
 
     def test_all_six_rating_slots_migrate_and_second_run_has_no_commands(self):
         slots = [f"CustomRating.{content}.Item{index:02}" for content in ("Movies", "TVShows") for index in (1, 2, 3)]
@@ -238,6 +239,154 @@ class PlexSourceMigrationTests(unittest.TestCase):
         self.assertEqual("Wall", self.values["HomeSwitcher.Home.Mode"])
         self.assertFalse(self.migrate())
 
+    def prepare_startup(self):
+        self.service.xbmc.Monitor = lambda: types.SimpleNamespace(waitForAbort=lambda seconds: False)
+        self.service.xbmc.executeJSONRPC = lambda payload: json.dumps({"result": {"currentwindow": {"id": 10000}}})
+        self.marker = self.settings.parent / "update_recovery.version"
+        self.marker.write_text("3.8.9")
+
+    def test_startup_retries_failed_write_then_completes_without_gui_reset(self):
+        self.write_settings({"CustomRating.Movies.Item01": "Trakt"})
+        self.prepare_startup()
+        active, sibling = self.nodes / "a.json", self.nodes / "b.json"
+        original = json.dumps({"path": "DefaultSearch-TMDBListsTrakt", "label": "Old List"})
+        active.write_text(original)
+        sibling.write_text(original)
+        rollback = active.with_name(active.name + ".before-plex-source-migration")
+        rollback.write_text("original backup")
+        replace = self.service.os.replace
+
+        def fail_first(source, target):
+            if Path(target) == active:
+                raise OSError("injected shortcut write failure")
+            return replace(source, target)
+
+        with patch.object(self.service.os, "replace", side_effect=fail_first):
+            self.service.main()
+        self.assertEqual("3.8.9", self.marker.read_text())
+        self.assertEqual(original, active.read_text())
+        self.assertEqual(LISTS, json.loads(sibling.read_text())["path"])
+        self.assertEqual("Plex", self.values["CustomRating.Movies.Item01"])
+        self.assertIn("ClearProperty(Shortcuts.Checked.Version,Home)", self.commands)
+        self.assertFalse(any(command.startswith(("Dialog.Close", "ActivateWindow", "ReloadSkin")) for command in self.commands))
+        self.assertEqual("original backup", rollback.read_text())
+        self.assertEqual([], list(self.nodes.glob("*.tmp")))
+        sibling_before = (sibling.read_bytes(), sibling.stat().st_mtime_ns)
+
+        self.commands.clear()
+        self.service.main()
+        self.assertEqual("3.9.0", self.marker.read_text())
+        self.assertEqual(LISTS, json.loads(active.read_text())["path"])
+        self.assertEqual("original backup", rollback.read_text())
+        self.assertEqual(sibling_before, (sibling.read_bytes(), sibling.stat().st_mtime_ns))
+        self.assertEqual(["ClearProperty(Shortcuts.Checked.Version,Home)"], self.commands)
+        snapshots = {path.name: (path.read_bytes(), path.stat().st_mtime_ns) for path in self.nodes.iterdir()}
+        self.commands.clear()
+        with patch.object(self.service.xbmc, "log") as log:
+            self.service.main()
+        self.assertEqual(snapshots, {path.name: (path.read_bytes(), path.stat().st_mtime_ns) for path in self.nodes.iterdir()})
+        self.assertEqual([], self.commands)
+        log.assert_not_called()
+
+    def test_startup_retries_read_decode_and_parse_failures(self):
+        active, sibling = self.nodes / "a.json", self.nodes / "b.json"
+        original = json.dumps({"path": "DefaultSearch-TMDBListsTrakt"})
+        normal_open = open
+        for target in (self.settings, active):
+            for failure in ("read", "decode", "parse", "empty"):
+                with self.subTest(target=target.name, failure=failure):
+                    self.values.clear()
+                    self.commands.clear()
+                    self.write_settings({"CustomRating.Movies.Item01": "Trakt"})
+                    valid_settings = self.settings.read_bytes()
+                    active.write_text(original)
+                    sibling.write_text(original)
+                    self.prepare_startup()
+                    invalid = {"decode": b"\xff", "parse": b"<broken" if target == self.settings else b"{", "empty": b""}
+                    if failure in invalid:
+                        target.write_bytes(invalid[failure])
+                    before = target.read_bytes()
+
+                    def fail_read(path, *args, **kwargs):
+                        if failure == "read" and Path(path) == target:
+                            raise PermissionError("injected profile read failure")
+                        return normal_open(path, *args, **kwargs)
+
+                    with patch("builtins.open", side_effect=fail_read):
+                        self.service.main()
+                    self.assertEqual("3.8.9", self.marker.read_text())
+                    self.assertEqual(before, target.read_bytes())
+                    self.assertEqual(LISTS, json.loads(sibling.read_text())["path"])
+                    if target == active:
+                        self.assertEqual("Plex", self.values["CustomRating.Movies.Item01"])
+                    target.write_bytes(valid_settings if target == self.settings else original.encode())
+                    self.service.main()
+                    self.assertEqual("3.9.0", self.marker.read_text())
+                    self.assertEqual("Plex", self.values["CustomRating.Movies.Item01"])
+                    self.assertEqual(LISTS, json.loads(active.read_text())["path"])
+                    self.commands.clear()
+                    self.service.main()
+                    self.assertEqual([], self.commands)
+
+    def test_absent_optional_profile_data_allows_completion(self):
+        self.prepare_startup()
+        self.nodes.rmdir()
+        self.service.main()
+        self.assertEqual("3.9.0", self.marker.read_text())
+        self.assertEqual([], self.commands)
+
+    def test_unreadable_shortcut_folder_keeps_completion_pending(self):
+        self.write_settings({})
+        self.prepare_startup()
+        listdir = self.service.os.listdir
+
+        def fail_listdir(path):
+            if Path(path) == self.nodes:
+                raise PermissionError("injected folder read failure")
+            return listdir(path)
+
+        with patch.object(self.service.os, "listdir", side_effect=fail_listdir):
+            self.service.main()
+        self.assertEqual("3.8.9", self.marker.read_text())
+        self.service.main()
+        self.assertEqual("3.9.0", self.marker.read_text())
+
+    def test_unreadable_shortcut_metadata_keeps_completion_pending(self):
+        self.write_settings({})
+        self.prepare_startup()
+        active, sibling = self.nodes / "a.json", self.nodes / "b.json"
+        original = json.dumps({"path": "DefaultSearch-TMDBListsTrakt"})
+        active.write_text(original)
+        sibling.write_text(original)
+        stat = self.service.os.stat
+
+        def fail_stat(path, *args, **kwargs):
+            if Path(path) == active:
+                raise PermissionError("injected shortcut metadata read failure")
+            return stat(path, *args, **kwargs)
+
+        with patch.object(self.service.os, "stat", side_effect=fail_stat):
+            self.service.main()
+        self.assertEqual("3.8.9", self.marker.read_text())
+        self.assertEqual(original, active.read_text())
+        self.assertEqual(LISTS, json.loads(sibling.read_text())["path"])
+        self.service.main()
+        self.assertEqual("3.9.0", self.marker.read_text())
+        self.assertEqual(LISTS, json.loads(active.read_text())["path"])
+
+    def test_pending_migration_preserves_invalid_window_recovery_and_playback(self):
+        for playing in (False, True):
+            with self.subTest(playing=playing):
+                self.write_settings({})
+                self.prepare_startup()
+                (self.nodes / "broken.json").write_text("{")
+                self.service.xbmc.executeJSONRPC = lambda payload: json.dumps({"result": {"currentwindow": {"id": 9999}}})
+                self.service.xbmc.getCondVisibility = lambda query: playing
+                with patch.object(self.service, "_run_recovery") as recover:
+                    self.service.main()
+                self.assertEqual(0 if playing else 1, recover.call_count)
+                self.assertEqual("3.8.9", self.marker.read_text())
+
     def test_version_change_runs_profile_migration(self):
         self.write_settings({"CustomRating.Movies.Item03": "Trakt"})
         self.service.main()
@@ -251,6 +400,7 @@ class RatingRenderer:
         self.root = ET.parse(SKIN_ROOT / "1080i/Includes_Info.xml")
         self.settings = settings
         self.labels = labels
+        self.expressions = {node.get("name"): node.text for node in ET.parse(SKIN_ROOT / "1080i/Includes_Expressions.xml").findall("expression")}
 
     @staticmethod
     def split(expression, separator):
@@ -285,9 +435,11 @@ class RatingRenderer:
         if expression.lower() in ("true", "false"):
             return expression.lower() == "true"
         if expression.startswith("$EXP["):
-            return True
+            return self.condition(self.expressions[expression[5:-1]])
         name, arguments = expression.split("(", 1)
         args = self.split(arguments[:-1], ",")
+        if name == "Skin.HasSetting":
+            return self.settings.get(args[0], "false").lower() == "true"
         if name == "Skin.String":
             return self.settings.get(args[0], "").lower() == args[1].lower()
         if name == "String.IsEmpty":
@@ -323,10 +475,18 @@ class RatingRenderer:
 
 
 class PlexRatingContracts(unittest.TestCase):
-    def render(self, labels, other=None, item="Item01"):
-        settings = {"CustomRating.Movies." + item: "Plex"}
+    PROVIDERS = (
+        ("imdb", "IMDb", "IMDb", "IMDb_Rating"),
+        ("themoviedb", "TMDb", "TMDb", "TMDb_Rating"),
+        ("tvdb", "TVDB", "TVDB", None),
+        ("tomatometerallaudience", "Rotten Tomatoes Audience", "RottenTomatoesUser", "RottenTomatoes_UserMeter"),
+        ("tomatometerallcritics", "Rotten Tomatoes Critics", "RottenTomatoesCritic", "RottenTomatoes_Rating"),
+    )
+
+    def render(self, labels, other=None, item="Item01", content="Movies"):
+        settings = {"CustomRating." + content + "." + item: "Plex", "TMDbHelper.EnableData": "true"}
         settings.update(other or {})
-        return RatingRenderer(settings, labels).render(params={"content": "Movies", "item": item, "listitem": "ListItem", "container": "", "visible": "true", "colordiffuse": "main_fg"})
+        return RatingRenderer(settings, labels).render(params={"content": content, "item": item, "listitem": "ListItem", "container": "", "visible": "true", "colordiffuse": "main_fg"})
 
     def test_each_public_provider_keeps_source_and_ten_point_scale(self):
         for key, source in (("imdb", "IMDb"), ("themoviedb", "TMDb"), ("tvdb", "TVDB"), ("tomatometerallaudience", "Rotten Tomatoes Audience"), ("tomatometerallcritics", "Rotten Tomatoes Critics")):
@@ -336,11 +496,62 @@ class PlexRatingContracts(unittest.TestCase):
     def test_explicit_rating_takes_precedence_over_named_rating(self):
         self.assertEqual(["IMDb: 7.1/10"], self.render({"ListItem.Property(PlexRating)": "7.1", "ListItem.Property(PlexRatingSource)": "imdb", "ListItem.Rating(imdb)": "8.4"}))
 
-    def test_duplicate_selected_provider_and_duplicate_plex_slot_stay_hidden(self):
+    def test_missing_competing_value_preserves_plex_and_duplicate_plex_slot_stays_hidden(self):
         labels = {"ListItem.Rating(imdb)": "8.4"}
-        self.assertEqual([], self.render(labels, {"CustomRating.Movies.Item02": "IMDb"}))
+        self.assertEqual(["IMDb: 8.4/10"], self.render(labels, {"CustomRating.Movies.Item02": "IMDb"}))
         self.assertEqual([], self.render(labels, {"CustomRating.Movies.Item01": "Plex"}, "Item03"))
-        self.assertEqual([], self.render({"ListItem.Property(PlexRating)": "7.1", "ListItem.Property(PlexRatingSource)": "themoviedb"}, {"CustomRating.Movies.Item02": "TMDb"}))
+        self.assertEqual(["TMDb: 7.1/10"], self.render({"ListItem.Property(PlexRating)": "7.1", "ListItem.Property(PlexRatingSource)": "themoviedb"}, {"CustomRating.Movies.Item02": "TMDb"}))
+
+    def test_provider_siblings_suppress_only_when_competing_slot_can_render(self):
+        for content in ("Movies", "TVShows"):
+            for plex_slot in ("Item01", "Item02", "Item03"):
+                for provider_slot in (slot for slot in ("Item01", "Item02", "Item03") if slot != plex_slot):
+                    for source, label, provider, helper_key in self.PROVIDERS:
+                        for explicit in (False, True):
+                            if explicit:
+                                labels = {"ListItem.Property(PlexRating)": "7.1", "ListItem.Property(PlexRatingSource)": source}
+                            else:
+                                labels = {f"ListItem.Rating({source})": "7.1"}
+                            for enabled, value in ((True, None), (True, ""), (True, "8.4"), (True, "0"), (True, "0.0"), (False, "8.4")):
+                                with self.subTest(content=content, plex_slot=plex_slot, provider_slot=provider_slot, provider=provider, explicit=explicit, enabled=enabled, value=value):
+                                    data = dict(labels)
+                                    if helper_key and value is not None:
+                                        data[f"Window(Home).Property(TMDbHelper.ListItem.{helper_key})"] = value
+                                    settings = {f"CustomRating.{content}.{provider_slot}": provider, "TMDbHelper.EnableData": str(enabled).lower()}
+                                    expected = [] if helper_key and enabled and value else [label + ": 7.1/10"]
+                                    self.assertEqual(expected, self.render(data, settings, plex_slot, content))
+                                    if helper_key:
+                                        helper = RatingRenderer(settings, data).render(params={"content": content, "item": provider_slot})
+                                        suffix = "%" if provider.startswith("RottenTomatoes") else ""
+                                        self.assertEqual([value + suffix] if enabled and value else [], helper)
+
+    def test_delayed_helper_values_change_duplicate_visibility_in_all_slots(self):
+        for content in ("Movies", "TVShows"):
+            for slot in ("Item01", "Item02", "Item03"):
+                other_slot = "Item02" if slot == "Item01" else "Item01"
+                for source, label, provider, helper_key in self.PROVIDERS:
+                    for service in ("ListItem", "Player"):
+                        with self.subTest(content=content, slot=slot, provider=provider, service=service):
+                            settings = {f"CustomRating.{content}.{slot}": "Plex", f"CustomRating.{content}.{other_slot}": provider, "TMDbHelper.EnableData": "true"}
+                            labels = {"ListItem.Property(PlexRating)": "7.1", "ListItem.Property(PlexRatingSource)": source}
+                            renderer = RatingRenderer(settings, labels)
+                            params = {"content": content, "item": slot, "service": service}
+                            expected = [label + ": 7.1/10"]
+                            self.assertEqual(expected, renderer.render(params=params))
+                            if helper_key:
+                                labels[f"Window(Home).Property(TMDbHelper.{service}.{helper_key})"] = "8.4"
+                            self.assertEqual([] if helper_key else expected, renderer.render(params=params))
+                            settings["TMDbHelper.EnableData"] = "false"
+                            self.assertEqual(expected, renderer.render(params=params))
+                            labels.clear()
+                            labels[f"ListItem.Rating({source})"] = "7.1"
+                            self.assertEqual(expected, renderer.render(params=params))
+
+    def test_duplicate_plex_slots_keep_first_score_across_both_media_groups(self):
+        for content in ("Movies", "TVShows"):
+            for first in (1, 2):
+                for later in range(first + 1, 4):
+                    self.assertEqual([], self.render({"ListItem.Rating(imdb)": "7.1"}, {f"CustomRating.{content}.Item0{first}": "Plex"}, f"Item0{later}", content))
 
     def test_missing_public_ratings_never_use_personal_rating_or_version_count(self):
         self.assertEqual([], self.render({"ListItem.UserRating": "9", "ListItem.Property(Versions)": "4", "ListItem.Rating": "0.0", "ListItem.Rating(imdb)": "0.0"}))

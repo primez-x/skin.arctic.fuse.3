@@ -7,6 +7,7 @@ import tempfile
 import types
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 
 SKIN_ROOT = Path(__file__).resolve().parents[1]
@@ -120,7 +121,7 @@ class LegacyImagePathMigrationTests(unittest.TestCase):
     def test_settings_migrate_only_existing_images_and_directories_through_live_skin_api(self):
         service = self._service()
 
-        self.assertTrue(service._migrate_legacy_image_paths())
+        self.assertEqual((True, True), service._migrate_legacy_image_paths())
 
         self.assertEqual(RESOURCE_PREFIX + "backgrounds/default.jpg", self.values["Background.Image"])
         self.assertEqual(RESOURCE_PREFIX + "profiles/", self.values["Startup.ImageFolder"])
@@ -159,7 +160,7 @@ class LegacyImagePathMigrationTests(unittest.TestCase):
         rollback = active.with_name(active.name + ".before-resource-image-migration")
 
         service = self._service()
-        self.assertTrue(service._migrate_legacy_image_paths())
+        self.assertEqual((True, True), service._migrate_legacy_image_paths())
 
         migrated = json.loads(active.read_text(encoding="utf-8"))
         self.assertEqual(RESOURCE_PREFIX + "backgrounds/default.jpg", migrated["background"])
@@ -175,9 +176,53 @@ class LegacyImagePathMigrationTests(unittest.TestCase):
         self.assertEqual(backup_before, backup.read_text(encoding="utf-8"))
         calls_after_first_run = list(self.calls)
 
-        self.assertFalse(service._migrate_legacy_image_paths())
+        self.assertEqual((False, True), service._migrate_legacy_image_paths())
         self.assertEqual(calls_after_first_run, self.calls)
         self.assertEqual(original, rollback.read_text(encoding="utf-8"))
+
+    def test_startup_retries_image_write_failure_and_preserves_sibling_progress(self):
+        marker = self.settings.parent / "update_recovery.version"
+        marker.write_text("3.8.9")
+        active = self.nodes / "a.json"
+        sibling = self.nodes / "b.json"
+        original = json.dumps({"icon": LEGACY_PREFIX + "icons/custom.png"})
+        active.write_text(original)
+        sibling.write_text(original)
+        service = self._service()
+        service.xbmc.Monitor = lambda: types.SimpleNamespace(waitForAbort=lambda seconds: False)
+        service.xbmc.executeJSONRPC = lambda payload: json.dumps({"result": {"currentwindow": {"id": 10000}}})
+        commands = []
+        original_builtin = service.xbmc.executebuiltin
+        service.xbmc.executebuiltin = lambda command: commands.append(command) or original_builtin(command)
+        replace = service.os.replace
+
+        def fail_first(source, target):
+            if Path(target) == active:
+                raise OSError("injected image write failure")
+            return replace(source, target)
+
+        with patch.object(service.os, "replace", side_effect=fail_first):
+            service.main()
+        self.assertEqual("3.8.9", marker.read_text())
+        self.assertEqual(original, active.read_text())
+        self.assertEqual(RESOURCE_PREFIX + "icons/custom.png", json.loads(sibling.read_text())["icon"])
+        rollback = active.with_name(active.name + service.MIGRATION_ROLLBACK_SUFFIX)
+        self.assertEqual(original, rollback.read_text())
+        sibling_before = (sibling.read_bytes(), sibling.stat().st_mtime_ns)
+
+        service.main()
+        self.assertEqual("3.9.0", marker.read_text())
+        self.assertEqual(RESOURCE_PREFIX + "icons/custom.png", json.loads(active.read_text())["icon"])
+        self.assertEqual(original, rollback.read_text())
+        self.assertEqual(sibling_before, (sibling.read_bytes(), sibling.stat().st_mtime_ns))
+        self.assertFalse(any(command.startswith(("Dialog.Close", "ActivateWindow", "ReloadSkin")) for command in commands))
+        snapshots = {path.name: (path.read_bytes(), path.stat().st_mtime_ns) for path in self.nodes.iterdir()}
+        commands.clear()
+        with patch.object(service.xbmc, "log") as log:
+            service.main()
+        self.assertEqual(snapshots, {path.name: (path.read_bytes(), path.stat().st_mtime_ns) for path in self.nodes.iterdir()})
+        self.assertEqual([], commands)
+        log.assert_not_called()
 
     def test_inactive_skin_preserves_pending_recovery_until_switch_back(self):
         version_file = self.settings.parent / "update_recovery.version"

@@ -37,22 +37,25 @@
     </include>
 
     <include name="Info_Meta_PlexRating">
+        <param name="provider_visible">false</param>
         <definition>
             <include content="Info_Meta_Object">
                 <param name="icon">resource://resource.images.arctic.fuse.3/extras/icons/plex.png</param>
                 <param name="label">$PARAM[source]: $INFO[$PARAM[rating],,/10]</param>
-                <param name="visible">[$PARAM[visible]] + [String.IsEqual($PARAM[provider],None) | ![Skin.String(CustomRating.$PARAM[content].Item01,$PARAM[provider]) | Skin.String(CustomRating.$PARAM[content].Item02,$PARAM[provider]) | Skin.String(CustomRating.$PARAM[content].Item03,$PARAM[provider])]] + ![String.IsEqual($PARAM[item],Item02) + Skin.String(CustomRating.$PARAM[content].Item01,Plex)] + ![String.IsEqual($PARAM[item],Item03) + [Skin.String(CustomRating.$PARAM[content].Item01,Plex) | Skin.String(CustomRating.$PARAM[content].Item02,Plex)]]</param>
+                <param name="visible">[$PARAM[visible]] + [String.IsEqual($PARAM[provider],None) | ![$EXP[Exp_TMDbHelper_IsData] + [$PARAM[provider_visible]] + [Skin.String(CustomRating.$PARAM[content].Item01,$PARAM[provider]) | Skin.String(CustomRating.$PARAM[content].Item02,$PARAM[provider]) | Skin.String(CustomRating.$PARAM[content].Item03,$PARAM[provider])]]] + ![String.IsEqual($PARAM[item],Item02) + Skin.String(CustomRating.$PARAM[content].Item01,Plex)] + ![String.IsEqual($PARAM[item],Item03) + [Skin.String(CustomRating.$PARAM[content].Item01,Plex) | Skin.String(CustomRating.$PARAM[content].Item02,Plex)]]</param>
                 <param name="colordiffuse">$PARAM[colordiffuse]</param>
             </include>
         </definition>
     </include>
 
     <include name="Info_Meta_PlexRatings">
+        <param name="service">ListItem</param>
         <definition>
             <include content="Info_Meta_PlexRating">
                 <param name="rating">$PARAM[listitem].Property(PlexRating)</param>
                 <param name="source">IMDb</param>
                 <param name="provider">IMDb</param>
+                <param name="provider_visible">!String.IsEmpty(Window(Home).Property(TMDbHelper.$PARAM[service].IMDb_Rating))</param>
                 <param name="content">$PARAM[content]</param>
                 <param name="item">$PARAM[item]</param>
                 <param name="visible">[$PARAM[visible]] + [!String.IsEmpty($PARAM[listitem].Property(PlexRating)) + !String.IsEqual($PARAM[listitem].Property(PlexRating),0) + !String.IsEqual($PARAM[listitem].Property(PlexRating),0.0) + String.IsEqual($PARAM[listitem].Property(PlexRatingSource),imdb)]</param>
@@ -62,6 +65,7 @@
                 <param name="rating">$PARAM[listitem].Property(PlexRating)</param>
                 <param name="source">TMDb</param>
                 <param name="provider">TMDb</param>
+                <param name="provider_visible">!String.IsEmpty(Window(Home).Property(TMDbHelper.$PARAM[service].TMDb_Rating))</param>
                 <param name="content">$PARAM[content]</param>
                 <param name="item">$PARAM[item]</param>
                 <param name="visible">[$PARAM[visible]] + [!String.IsEmpty($PARAM[listitem].Property(PlexRating)) + !String.IsEqual($PARAM[listitem].Property(PlexRating),0) + !String.IsEqual($PARAM[listitem].Property(PlexRating),0.0) + String.IsEqual($PARAM[listitem].Property(PlexRatingSource),themoviedb)]</param>
@@ -80,6 +84,7 @@
                 <param name="rating">$PARAM[listitem].Property(PlexRating)</param>
                 <param name="source">Rotten Tomatoes Audience</param>
                 <param name="provider">RottenTomatoesUser</param>
+                <param name="provider_visible">!String.IsEmpty(Window(Home).Property(TMDbHelper.$PARAM[service].RottenTomatoes_UserMeter))</param>
                 <param name="content">$PARAM[content]</param>
                 <param name="item">$PARAM[item]</param>
                 <param name="visible">[$PARAM[visible]] + [!String.IsEmpty($PARAM[listitem].Property(PlexRating)) + !String.IsEqual($PARAM[listitem].Property(PlexRating),0) + !String.IsEqual($PARAM[listitem].Property(PlexRating),0.0) + String.IsEqual($PARAM[listitem].Property(PlexRatingSource),tomatometerallaudience)]</param>
@@ -89,6 +94,7 @@
                 <param name="rating">$PARAM[listitem].Property(PlexRating)</param>
                 <param name="source">Rotten Tomatoes Critics</param>
                 <param name="provider">RottenTomatoesCritic</param>
+                <param name="provider_visible">!String.IsEmpty(Window(Home).Property(TMDbHelper.$PARAM[service].RottenTomatoes_Rating))</param>
                 <param name="content">$PARAM[content]</param>
                 <param name="item">$PARAM[item]</param>
                 <param name="visible">[$PARAM[visible]] + [!String.IsEmpty($PARAM[listitem].Property(PlexRating)) + !String.IsEqual($PARAM[listitem].Property(PlexRating),0) + !String.IsEqual($PARAM[listitem].Property(PlexRating),0.0) + String.IsEqual($PARAM[listitem].Property(PlexRatingSource),tomatometerallcritics)]</param>
@@ -116,6 +122,7 @@
                 <param name="rating">$PARAM[listitem].Rating(imdb)</param>
                 <param name="source">IMDb</param>
                 <param name="provider">IMDb</param>
+                <param name="provider_visible">!String.IsEmpty(Window(Home).Property(TMDbHelper.$PARAM[service].IMDb_Rating))</param>
                 <param name="content">$PARAM[content]</param>
                 <param name="item">$PARAM[item]</param>
                 <param name="visible">[$PARAM[visible]] + [![!String.IsEmpty($PARAM[listitem].Property(PlexRating)) + !String.IsEqual($PARAM[listitem].Property(PlexRating),0) + !String.IsEqual($PARAM[listitem].Property(PlexRating),0.0)] + !String.IsEmpty($PARAM[listitem].Rating(imdb)) + !String.IsEqual($PARAM[listitem].Rating(imdb),0) + !String.IsEqual($PARAM[listitem].Rating(imdb),0.0)]</param>
@@ -125,6 +132,7 @@
                 <param name="rating">$PARAM[listitem].Rating(themoviedb)</param>
                 <param name="source">TMDb</param>
                 <param name="provider">TMDb</param>
+                <param name="provider_visible">!String.IsEmpty(Window(Home).Property(TMDbHelper.$PARAM[service].TMDb_Rating))</param>
                 <param name="content">$PARAM[content]</param>
                 <param name="item">$PARAM[item]</param>
                 <param name="visible">[$PARAM[visible]] + [![!String.IsEmpty($PARAM[listitem].Property(PlexRating)) + !String.IsEqual($PARAM[listitem].Property(PlexRating),0) + !String.IsEqual($PARAM[listitem].Property(PlexRating),0.0)] + ![!String.IsEmpty($PARAM[listitem].Rating(imdb)) + !String.IsEqual($PARAM[listitem].Rating(imdb),0) + !String.IsEqual($PARAM[listitem].Rating(imdb),0.0)] + !String.IsEmpty($PARAM[listitem].Rating(themoviedb)) + !String.IsEqual($PARAM[listitem].Rating(themoviedb),0) + !String.IsEqual($PARAM[listitem].Rating(themoviedb),0.0)]</param>
@@ -143,6 +151,7 @@
                 <param name="rating">$PARAM[listitem].Rating(tomatometerallaudience)</param>
                 <param name="source">Rotten Tomatoes Audience</param>
                 <param name="provider">RottenTomatoesUser</param>
+                <param name="provider_visible">!String.IsEmpty(Window(Home).Property(TMDbHelper.$PARAM[service].RottenTomatoes_UserMeter))</param>
                 <param name="content">$PARAM[content]</param>
                 <param name="item">$PARAM[item]</param>
                 <param name="visible">[$PARAM[visible]] + [![!String.IsEmpty($PARAM[listitem].Property(PlexRating)) + !String.IsEqual($PARAM[listitem].Property(PlexRating),0) + !String.IsEqual($PARAM[listitem].Property(PlexRating),0.0)] + ![!String.IsEmpty($PARAM[listitem].Rating(imdb)) + !String.IsEqual($PARAM[listitem].Rating(imdb),0) + !String.IsEqual($PARAM[listitem].Rating(imdb),0.0)] + ![!String.IsEmpty($PARAM[listitem].Rating(themoviedb)) + !String.IsEqual($PARAM[listitem].Rating(themoviedb),0) + !String.IsEqual($PARAM[listitem].Rating(themoviedb),0.0)] + ![!String.IsEmpty($PARAM[listitem].Rating(tvdb)) + !String.IsEqual($PARAM[listitem].Rating(tvdb),0) + !String.IsEqual($PARAM[listitem].Rating(tvdb),0.0)] + !String.IsEmpty($PARAM[listitem].Rating(tomatometerallaudience)) + !String.IsEqual($PARAM[listitem].Rating(tomatometerallaudience),0) + !String.IsEqual($PARAM[listitem].Rating(tomatometerallaudience),0.0)]</param>
@@ -152,6 +161,7 @@
                 <param name="rating">$PARAM[listitem].Rating(tomatometerallcritics)</param>
                 <param name="source">Rotten Tomatoes Critics</param>
                 <param name="provider">RottenTomatoesCritic</param>
+                <param name="provider_visible">!String.IsEmpty(Window(Home).Property(TMDbHelper.$PARAM[service].RottenTomatoes_Rating))</param>
                 <param name="content">$PARAM[content]</param>
                 <param name="item">$PARAM[item]</param>
                 <param name="visible">[$PARAM[visible]] + [![!String.IsEmpty($PARAM[listitem].Property(PlexRating)) + !String.IsEqual($PARAM[listitem].Property(PlexRating),0) + !String.IsEqual($PARAM[listitem].Property(PlexRating),0.0)] + ![!String.IsEmpty($PARAM[listitem].Rating(imdb)) + !String.IsEqual($PARAM[listitem].Rating(imdb),0) + !String.IsEqual($PARAM[listitem].Rating(imdb),0.0)] + ![!String.IsEmpty($PARAM[listitem].Rating(themoviedb)) + !String.IsEqual($PARAM[listitem].Rating(themoviedb),0) + !String.IsEqual($PARAM[listitem].Rating(themoviedb),0.0)] + ![!String.IsEmpty($PARAM[listitem].Rating(tvdb)) + !String.IsEqual($PARAM[listitem].Rating(tvdb),0) + !String.IsEqual($PARAM[listitem].Rating(tvdb),0.0)] + ![!String.IsEmpty($PARAM[listitem].Rating(tomatometerallaudience)) + !String.IsEqual($PARAM[listitem].Rating(tomatometerallaudience),0) + !String.IsEqual($PARAM[listitem].Rating(tomatometerallaudience),0.0)] + !String.IsEmpty($PARAM[listitem].Rating(tomatometerallcritics)) + !String.IsEqual($PARAM[listitem].Rating(tomatometerallcritics),0) + !String.IsEqual($PARAM[listitem].Rating(tomatometerallcritics),0.0)]</param>
@@ -194,6 +204,7 @@
                 <param name="colordiffuse">$PARAM[colordiffuse]</param>
             </include>
             <include content="Info_Meta_PlexRatings" condition="Skin.String(CustomRating.$PARAM[content].$PARAM[item],Plex)">
+                <param name="service">$PARAM[service]</param>
                 <param name="content">$PARAM[content]</param>
                 <param name="item">$PARAM[item]</param>
                 <param name="listitem">$PARAM[container]$PARAM[listitem]</param>

@@ -2,6 +2,7 @@ import json
 import os
 import re
 import shutil
+import stat
 import tempfile
 import xml.etree.ElementTree as ET
 from urllib.parse import parse_qs, urlsplit
@@ -133,15 +134,23 @@ def _resource_image_path(value):
     return None
 
 
-def _migrate_skin_setting_images():
-    contents = _read(xbmcvfs.translatePath(SKIN_SETTINGS_FILE))
-    if not contents:
-        return False
+def _read_migration_settings():
+    """Return the optional settings root and a separate completion status."""
+    path = xbmcvfs.translatePath(SKIN_SETTINGS_FILE)
     try:
-        root = ET.fromstring(contents)
-    except ET.ParseError:
-        _log("Could not parse skin settings during image path migration.", xbmc.LOGWARNING)
-        return False
+        with open(path, "r", encoding="utf-8") as source:
+            return ET.fromstring(source.read()), True
+    except FileNotFoundError:
+        return None, True
+    except (OSError, UnicodeError, ET.ParseError) as error:
+        _log(f"Could not read skin settings during profile migration: {error}", xbmc.LOGWARNING)
+        return None, False
+
+
+def _migrate_skin_setting_images():
+    root, complete = _read_migration_settings()
+    if root is None:
+        return False, complete
 
     changed = False
     for setting in root.iter("setting"):
@@ -158,7 +167,7 @@ def _migrate_skin_setting_images():
             continue
         xbmc.executebuiltin(f"Skin.SetString({setting_id},{replacement})")
         changed = True
-    return changed
+    return changed, True
 
 
 def _rewrite_saved_values(value, rewrite_value, rewrite_record=None):
@@ -202,22 +211,30 @@ def _write_json_atomically(path, value):
 
 
 def _migrate_saved_shortcut_values(rewrite_value, rollback_suffix, rewrite_record=None):
+    """Return (changed, complete) while preserving successful sibling migrations."""
     folder = xbmcvfs.translatePath(SKINVARIABLES_NODES)
-    if not os.path.isdir(folder):
-        return False
+    try:
+        filenames = sorted(os.listdir(folder))
+    except FileNotFoundError:
+        return False, True
+    except OSError as error:
+        _log(f"Could not read saved shortcut folder: {error}", xbmc.LOGWARNING)
+        return False, False
 
     changed = False
-    for filename in sorted(os.listdir(folder)):
+    complete = True
+    for filename in filenames:
         if not filename.endswith(".json"):
             continue
         path = os.path.join(folder, filename)
-        if not os.path.isfile(path):
-            continue
         try:
+            if not stat.S_ISREG(os.stat(path).st_mode):
+                continue
             with open(path, "r", encoding="utf-8") as source:
                 saved = json.load(source)
         except (OSError, UnicodeError, json.JSONDecodeError) as error:
             _log(f"Could not read saved shortcut data {filename}: {error}", xbmc.LOGWARNING)
+            complete = False
             continue
 
         rewritten, file_changed = _rewrite_saved_values(saved, rewrite_value, rewrite_record)
@@ -231,9 +248,10 @@ def _migrate_saved_shortcut_values(rewrite_value, rollback_suffix, rewrite_recor
             _write_json_atomically(path, rewritten)
         except OSError as error:
             _log(f"Could not migrate saved shortcut data {filename}: {error}", xbmc.LOGWARNING)
+            complete = False
             continue
         changed = True
-    return changed
+    return changed, complete
 
 
 def _migrate_saved_shortcut_images():
@@ -241,11 +259,11 @@ def _migrate_saved_shortcut_images():
 
 
 def _migrate_legacy_image_paths():
-    settings_changed = _migrate_skin_setting_images()
-    shortcut_data_changed = _migrate_saved_shortcut_images()
+    settings_changed, settings_complete = _migrate_skin_setting_images()
+    shortcut_data_changed, shortcuts_complete = _migrate_saved_shortcut_images()
     if settings_changed or shortcut_data_changed:
         _log("Migrated legacy skin image paths to the resource add-on.")
-    return settings_changed or shortcut_data_changed
+    return settings_changed or shortcut_data_changed, settings_complete and shortcuts_complete
 
 
 PLEX_LISTS_PATH = "plugin://plugin.video.plexkodiconnect/?mode=discover_lists"
@@ -310,14 +328,9 @@ def _rewrite_plex_shortcut_record(original, rewritten):
 
 
 def _migrate_plex_skin_settings():
-    contents = _read(xbmcvfs.translatePath(SKIN_SETTINGS_FILE))
-    if not contents:
-        return False
-    try:
-        root = ET.fromstring(contents)
-    except ET.ParseError:
-        _log("Could not parse skin settings during Plex source migration.", xbmc.LOGWARNING)
-        return False
+    root, complete = _read_migration_settings()
+    if root is None:
+        return False, complete
     settings = {node.get("id", "").lower(): node for node in root.iter("setting")}
     changed = False
     for normalized_id, node in settings.items():
@@ -358,18 +371,18 @@ def _migrate_plex_skin_settings():
         if badge_changed:
             xbmc.executebuiltin("Skin.SetString(Migration.PlexBadges,1)")
             changed = True
-    return changed
+    return changed, True
 
 
 def _migrate_plex_sources():
-    settings_changed = _migrate_plex_skin_settings()
-    shortcuts_changed = _migrate_saved_shortcut_values(
+    settings_changed, settings_complete = _migrate_plex_skin_settings()
+    shortcuts_changed, shortcuts_complete = _migrate_saved_shortcut_values(
         _plex_source_path, ".before-plex-source-migration", _rewrite_plex_shortcut_record)
     if shortcuts_changed:
         xbmc.executebuiltin("ClearProperty(Shortcuts.Checked.Version,Home)")
     if settings_changed or shortcuts_changed:
         _log("Migrated legacy Trakt sources to Plex.")
-    return settings_changed or shortcuts_changed
+    return settings_changed or shortcuts_changed, settings_complete and shortcuts_complete
 
 
 def _current_window_ids():
@@ -421,9 +434,11 @@ def main():
         return
 
     version_changed = previous_version != version
+    migrations_complete = True
     if version_changed:
-        _migrate_legacy_image_paths()
-        _migrate_plex_sources()
+        _, images_complete = _migrate_legacy_image_paths()
+        _, plex_complete = _migrate_plex_sources()
+        migrations_complete = images_complete and plex_complete
         # Before script.skinvariables regenerates and reloads the skin, so that reload
         # picks the user's includes up (no reload of our own: a version change alone must not
         # reset the GUI, see below)
@@ -439,7 +454,8 @@ def main():
     # Only recover when the skin reload actually left an invalid window.
     if _needs_window_recovery() and not _is_playing():
         _run_recovery(monitor)
-    _write_recovered_version(version)
+    if migrations_complete:
+        _write_recovered_version(version)
 
 
 if __name__ == "__main__":
