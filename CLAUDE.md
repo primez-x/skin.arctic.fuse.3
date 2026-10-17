@@ -66,7 +66,7 @@ inside a vertical `grouplist` (`itemgap=0`, `top=-20`, `left=-40`, 20px spacer),
    Duration (movies/episodes), Year (albums/songs), plus actor/PVR fields. Height 80.
 3. **`Info_Plot`** — plot body (+ optional plotline: tagline/genre/director). Params: `width`,
    `height` (default 120), `listitem`, `colordiffuse`, `use_textbox`.
-4. **`Info_Meta`** — rating-service icons (IMDb/TMDb/Trakt/…) + misc meta.
+4. **`Info_Meta`** — rating-service icons (IMDb/TMDb/Plex/…) + misc meta.
 
 **Rules:**
 - **Do not hand-roll metadata.** If `Info_Line` / `Info_Panel` already composes it, call the
