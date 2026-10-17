@@ -907,17 +907,14 @@ class CompactVideoInfoTests(unittest.TestCase):
         self.assertIn("<label>$LOCALIZE[12021]</label>", details)
         self.assertIn("<visible>Control.HasFocus(4006)</visible>", details)
 
-    def test_info_row_labels_sit_next_to_their_items(self):
-        # The label moves down and its height shrinks by the same amount, so the items stay put.
+    def test_row_labels_sit_next_to_their_items(self):
+        # Every widget row reads these constants. The label moved 35px down, next to its items,
+        # and label top + label height still puts the items where they were.
         constants = {n.get("name"): int(n.text) for n in _root("Includes_Constants.xml").iter("constant") if n.get("name", "").startswith("widget_label_")}
-        self.assertEqual(constants["widget_label_t"] + constants["widget_label_h"],
-                         constants["widget_label_t_info"] + constants["widget_label_h_info"])
-        self.assertGreater(constants["widget_label_t_info"], constants["widget_label_t"])
-        row = _include("Includes_Widgets.xml", "Widget_Info_Row")
-        gallery = _include("Includes_DialogInfo.xml", "DialogInfo_GalleryWidget")
-        for node in (row, gallery.find("include")):
-            self.assertEqual("widget_label_t_info", node.findtext("param[@name='labeltop']"))
-            self.assertEqual("widget_label_h_info", node.findtext("param[@name='labelheight']"))
+        self.assertEqual(-545, constants["widget_label_t"])
+        self.assertEqual(-640, constants["widget_label_t"] + constants["widget_label_h"])
+        self.assertEqual(-580, constants["widget_label_t"] + constants["widget_label_h_detailed"])
+        self.assertNotIn("labeltop", ET.tostring(_root("Includes_DialogInfo.xml"), encoding="unicode"))
 
     def test_play_resumes_and_replay_starts_over(self):
         grouplist = self._video_details_grouplist()
