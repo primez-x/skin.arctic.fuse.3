@@ -23,9 +23,10 @@ def toggle_watched(dbtype, dbid):
     details = rpc(get_method, {id_param: dbid, "properties": ["playcount"]}).get(result_key) or {}
     playcount = 0 if details.get("playcount") else 1
     rpc(set_method, {id_param: dbid, "playcount": playcount, "resume": {"position": 0, "total": 0}})
-    # The dialog item keeps its load-time playcount, so publish the new state for
-    # the caption and rebuild the action list to pick it up.
+    # The dialog item keeps its load-time playcount, so publish the new state and
+    # the toggled item for the caption.
     state = "watched" if playcount else "unwatched"
+    xbmc.executebuiltin(f"SetProperty(WatchedToggle.ID,{dbid},movieinformation)")
     xbmc.executebuiltin(f"SetProperty(WatchedToggle,{state},movieinformation)")
     xbmc.executebuiltin("Container.Refresh")
 

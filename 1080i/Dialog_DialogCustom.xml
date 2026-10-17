@@ -1082,42 +1082,6 @@
         </include>
 
         <include content="Settings_Button">
-            <param name="id">8031</param>
-            <param name="control">radiobutton</param>
-            <param name="dialog">true</param>
-            <onclick>Skin.ToggleSetting(VideoInfo.Widgets.DisableDirector)</onclick>
-            <selected>!Skin.HasSetting(VideoInfo.Widgets.DisableDirector)</selected>
-            <label>$LOCALIZE[20339]</label>
-            <visible>$EXP[Exp_TMDbHelper_IsData]</visible>
-        </include>
-        <include content="Settings_Button">
-            <param name="id">8032</param>
-            <param name="control">radiobutton</param>
-            <param name="dialog">true</param>
-            <onclick>Skin.ToggleSetting(VideoInfo.Widgets.DisableWriter)</onclick>
-            <selected>!Skin.HasSetting(VideoInfo.Widgets.DisableWriter)</selected>
-            <label>$LOCALIZE[20417]</label>
-            <visible>$EXP[Exp_TMDbHelper_IsData]</visible>
-        </include>
-        <include content="Settings_Button">
-            <param name="id">8033</param>
-            <param name="control">radiobutton</param>
-            <param name="dialog">true</param>
-            <onclick>Skin.ToggleSetting(VideoInfo.Widgets.DisableCreator)</onclick>
-            <selected>!Skin.HasSetting(VideoInfo.Widgets.DisableCreator)</selected>
-            <label>$LOCALIZE[31065]</label>
-            <visible>$EXP[Exp_TMDbHelper_IsData]</visible>
-        </include>
-        <include content="Settings_Button">
-            <param name="id">8034</param>
-            <param name="control">radiobutton</param>
-            <param name="dialog">true</param>
-            <onclick>Skin.ToggleSetting(VideoInfo.Widgets.DisableStarring)</onclick>
-            <selected>!Skin.HasSetting(VideoInfo.Widgets.DisableStarring)</selected>
-            <label>$LOCALIZE[31076]</label>
-            <visible>$EXP[Exp_TMDbHelper_IsData]</visible>
-        </include>
-        <include content="Settings_Button">
             <param name="id">8035</param>
             <param name="control">radiobutton</param>
             <param name="dialog">true</param>
@@ -1141,33 +1105,6 @@
             <onclick>Skin.ToggleSetting(VideoInfo.Widgets.DisableEpisodes)</onclick>
             <selected>!Skin.HasSetting(VideoInfo.Widgets.DisableEpisodes)</selected>
             <label>$LOCALIZE[20360]</label>
-            <visible>$EXP[Exp_TMDbHelper_IsData]</visible>
-        </include>
-        <include content="Settings_Button">
-            <param name="id">8038</param>
-            <param name="control">radiobutton</param>
-            <param name="dialog">true</param>
-            <onclick>Skin.ToggleSetting(VideoInfo.Widgets.DisableStudio)</onclick>
-            <selected>!Skin.HasSetting(VideoInfo.Widgets.DisableStudio)</selected>
-            <label>$LOCALIZE[572]</label>
-            <visible>$EXP[Exp_TMDbHelper_IsData]</visible>
-        </include>
-        <include content="Settings_Button">
-            <param name="id">8039</param>
-            <param name="control">radiobutton</param>
-            <param name="dialog">true</param>
-            <onclick>Skin.ToggleSetting(VideoInfo.Widgets.DisableYear)</onclick>
-            <selected>!Skin.HasSetting(VideoInfo.Widgets.DisableYear)</selected>
-            <label>$LOCALIZE[345]</label>
-            <visible>$EXP[Exp_TMDbHelper_IsData]</visible>
-        </include>
-        <include content="Settings_Button">
-            <param name="id">8040</param>
-            <param name="control">radiobutton</param>
-            <param name="dialog">true</param>
-            <onclick>Skin.ToggleSetting(VideoInfo.Widgets.DisableCrew)</onclick>
-            <selected>!Skin.HasSetting(VideoInfo.Widgets.DisableCrew)</selected>
-            <label>$LOCALIZE[31050]</label>
             <visible>$EXP[Exp_TMDbHelper_IsData]</visible>
         </include>
         <include content="Settings_Button">
@@ -1260,14 +1197,6 @@
     </include>
 
     <include name="DialogCustom_Buttons_Items_Type">
-        <include content="DialogCustom_Buttons_Items_Template">
-            <param name="id">8003</param>
-            <param name="groupid">8103</param>
-            <param name="label">Trakt</param>
-            <param name="type">Trakt</param>
-            <param name="item">$PARAM[item]</param>
-            <param name="content">$PARAM[content]</param>
-        </include>
         <include content="DialogCustom_Buttons_Items_Template">
             <param name="id">8005</param>
             <param name="groupid">8105</param>

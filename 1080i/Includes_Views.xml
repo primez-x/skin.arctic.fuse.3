@@ -414,12 +414,11 @@
             <ondown>500</ondown>
             <ondown>ActivateWindow(1171)</ondown>
             <onback>62</onback>
-            <onleft>SetFocus($VAR[Action_View_ContainerID])</onleft>
-            <onleft>Action(PrevLetter)</onleft>
-            <onleft>SetFocus(610)</onleft>
-            <onright>SetFocus($VAR[Action_View_ContainerID])</onright>
-            <onright>Action(NextLetter)</onright>
-            <onright>SetFocus(610)</onright>
+            <!-- One letter group per press, with the group's first item on the top row. A held key drops presses while letter_jump.py runs. -->
+            <onleft condition="String.IsEmpty(Window(Home).Property(LetterJump.Busy))">SetProperty(LetterJump.Busy,1,Home)</onleft>
+            <onleft condition="String.IsEmpty(Window(Home).Property(LetterJump.Busy))">RunScript(special://skin/letter_jump.py,prev,$VAR[View_ContentID],610)</onleft>
+            <onright condition="String.IsEmpty(Window(Home).Property(LetterJump.Busy))">SetProperty(LetterJump.Busy,1,Home)</onright>
+            <onright condition="String.IsEmpty(Window(Home).Property(LetterJump.Busy))">RunScript(special://skin/letter_jump.py,next,$VAR[View_ContentID],610)</onright>
             <onfocus condition="!$EXP[Exp_IsAlphabetStrip]">SetFocus(60)</onfocus>
         </include>
         <!-- Below the row views' tile labels: a tall row's label block ends at 990
@@ -453,33 +452,14 @@
             <onback>62</onback>
             <onright>500</onright>
             <onright>ActivateWindow(1171)</onright>
-            <onup>SetFocus($VAR[Action_View_ContainerID])</onup>
-            <onup>Action(PrevLetter)</onup>
-            <onup>SetFocus(611)</onup>
-            <!-- Vertical A-Z strip (view 515): Down from a non-alpha (#) item jumps to the first alpha section via 613/614 loop -->
-            <ondown condition="!$EXP[View_AlphabetStrip_Vertical_Expression] | !$EXP[View_AlphabetStrip_IsNonAlpha]">SetFocus($VAR[Action_View_ContainerID])</ondown>
-            <ondown condition="!$EXP[View_AlphabetStrip_Vertical_Expression] | !$EXP[View_AlphabetStrip_IsNonAlpha]">Action(NextLetter)</ondown>
-            <ondown condition="!$EXP[View_AlphabetStrip_Vertical_Expression] | !$EXP[View_AlphabetStrip_IsNonAlpha]">SetFocus(611)</ondown>
-            <ondown condition="$EXP[View_AlphabetStrip_Vertical_Expression] + $EXP[View_AlphabetStrip_IsNonAlpha]">SetFocus(613)</ondown>
+            <!-- One letter group per press, with the group's first item on the top row. A held key drops presses while letter_jump.py runs. -->
+            <onup condition="String.IsEmpty(Window(Home).Property(LetterJump.Busy))">SetProperty(LetterJump.Busy,1,Home)</onup>
+            <onup condition="String.IsEmpty(Window(Home).Property(LetterJump.Busy))">RunScript(special://skin/letter_jump.py,prev,$VAR[View_ContentID],611)</onup>
+            <ondown condition="String.IsEmpty(Window(Home).Property(LetterJump.Busy))">SetProperty(LetterJump.Busy,1,Home)</ondown>
+            <ondown condition="String.IsEmpty(Window(Home).Property(LetterJump.Busy))">RunScript(special://skin/letter_jump.py,next,$VAR[View_ContentID],611)</ondown>
             <onfocus condition="!$EXP[Exp_IsAlphabetStrip] + $EXP[View_Scrollbar_Vertical_Full_Expression]">SetFocus(64)</onfocus>
             <onfocus condition="!$EXP[Exp_IsAlphabetStrip] + $EXP[View_Scrollbar_Vertical_Flix_Expression]">SetFocus(65)</onfocus>
             <onfocus condition="!$EXP[Exp_IsAlphabetStrip] + $EXP[View_Scrollbar_Vertical_Wall_Expression]">SetFocus(66)</onfocus>
-        </include>
-        <!-- NextLetter only advances one letter group (each digit/symbol is its own group), and action
-             conditions are evaluated before any action runs, so loop through 613/614 instead: 613 jumps one
-             group, 614 re-evaluates and either jumps again or returns to 611. The stored previous letter stops
-             the loop if NextLetter can no longer move (e.g. no alpha items in the list). -->
-        <include content="Object_Hidden_Button">
-            <param name="id">613</param>
-            <onfocus>SetProperty(View_AlphabetStrip_PrevLetter,$INFO[ListItem.SortLetter])</onfocus>
-            <onfocus>SetFocus($VAR[Action_View_ContainerID])</onfocus>
-            <onfocus>Action(NextLetter)</onfocus>
-            <onfocus>SetFocus(614)</onfocus>
-        </include>
-        <include content="Object_Hidden_Button">
-            <param name="id">614</param>
-            <onfocus condition="$EXP[View_AlphabetStrip_IsNonAlpha] + !String.IsEqual(ListItem.SortLetter,Window.Property(View_AlphabetStrip_PrevLetter))">SetFocus(613)</onfocus>
-            <onfocus condition="!$EXP[View_AlphabetStrip_IsNonAlpha] | String.IsEqual(ListItem.SortLetter,Window.Property(View_AlphabetStrip_PrevLetter))">SetFocus(611)</onfocus>
         </include>
         <control type="group">
             <centerright>40</centerright>

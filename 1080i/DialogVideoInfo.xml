@@ -14,6 +14,7 @@
     <onload>SetProperty(CurrentID,$INFO[ListItem.Label]$INFO[ListItem.FolderPath])</onload>
     <onload>ClearProperty(TVSelect.Ready,movieinformation)</onload>
     <onload>ClearProperty(WatchedToggle,movieinformation)</onload>
+    <onload>ClearProperty(WatchedToggle.ID,movieinformation)</onload>
     <onload condition="$EXP[Exp_DialogInfo_LibraryTV]">RunScript(special://skin/select_episode.py,$INFO[ListItem.DBType],$INFO[ListItem.DBID],$INFO[ListItem.TvShowDBID],$INFO[ListItem.Season])</onload>
     <onload>ClearProperty(PKC.Watchlist.Detail.Identity,Home)</onload>
     <onload>SetProperty(PKC.Watchlist.Detail.State,unknown,Home)</onload>
@@ -67,12 +68,29 @@
 
     <controls>
 
+        <include condition="!String.IsEqual(ListItem.Property(tmdb_type),person)">DialogInfo_VideoButtons</include>
 
         <control type="button" id="8000">
             <texturenofocus />
             <texturefocus />
             <font />
             <ondown>5000</ondown>
+            <!-- The buttons take focus on load and on Back from the rows. Kodi scrolls the rows grouplist to the top
+                 only when its first row takes focus, so first focus each visible row from last to first. -->
+            <onfocus condition="$EXP[Exp_DialogInfo_LibraryTV] + Control.IsVisible(5015)">SetFocus(5015)</onfocus>
+            <onfocus condition="$EXP[Exp_DialogInfo_LibraryTV] + Control.IsVisible(5016)">SetFocus(5016)</onfocus>
+            <onfocus condition="$EXP[Exp_DialogInfo_LibraryTV] + Control.IsVisible(5014)">SetFocus(5014)</onfocus>
+            <onfocus condition="$EXP[Exp_DialogInfo_LibraryTV] + Control.IsVisible(5018)">SetFocus(5018)</onfocus>
+            <onfocus condition="$EXP[Exp_DialogInfo_LibraryTV] + Control.IsVisible(5050)">SetFocus(5050)</onfocus>
+            <onfocus condition="$EXP[Exp_DialogInfo_LibraryTV] + Control.IsVisible(5019)">SetFocus(5019)</onfocus>
+            <onfocus condition="!$EXP[Exp_DialogInfo_LibraryTV] + Control.IsVisible(5020)">SetFocus(5020)</onfocus>
+            <onfocus condition="!$EXP[Exp_DialogInfo_LibraryTV] + Control.IsVisible(5015)">SetFocus(5015)</onfocus>
+            <onfocus condition="!$EXP[Exp_DialogInfo_LibraryTV] + Control.IsVisible(5016)">SetFocus(5016)</onfocus>
+            <onfocus condition="!$EXP[Exp_DialogInfo_LibraryTV] + Control.IsVisible(5019)">SetFocus(5019)</onfocus>
+            <onfocus condition="!$EXP[Exp_DialogInfo_LibraryTV] + Control.IsVisible(5018)">SetFocus(5018)</onfocus>
+            <onfocus condition="!$EXP[Exp_DialogInfo_LibraryTV] + Control.IsVisible(5011)">SetFocus(5011)</onfocus>
+            <onfocus condition="!$EXP[Exp_DialogInfo_LibraryTV] + Control.IsVisible(5014)">SetFocus(5014)</onfocus>
+            <onfocus condition="!$EXP[Exp_DialogInfo_LibraryTV] + Control.IsVisible(5050)">SetFocus(5050)</onfocus>
             <onfocus condition="!String.IsEqual(ListItem.Property(tmdb_type),person)">SetFocus(4001)</onfocus>
             <onright condition="!String.IsEqual(ListItem.Property(tmdb_type),person)">4001</onright>
             <onleft condition="!String.IsEqual(ListItem.Property(tmdb_type),person)">4001</onleft>

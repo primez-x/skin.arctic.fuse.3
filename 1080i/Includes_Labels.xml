@@ -424,26 +424,7 @@
         <value condition="!Skin.HasSetting(OSD.OnDown.Disable1141)">$LOCALIZE[31293]</value>
     </variable>
 
-    <variable name="Label_Studio">
-        <value condition="!String.IsEmpty(ListItem.Studio)">$INFO[ListItem.Studio]</value>
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Network.1.Name))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Network.1.Name)]</value>
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Studio.1.Name))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Studio.1.Name)]</value>
-    </variable>
-    <variable name="Label_FromStudio">
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Network.1.Name))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Network.1.Name)]</value>
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Network.2.Name))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Network.2.Name)]</value>
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Network.3.Name))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Network.3.Name)]</value>
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Studio.1.Name))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Studio.1.Name)]</value>
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Studio.2.Name))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Studio.2.Name)]</value>
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Studio.3.Name))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Studio.3.Name)]</value>
-        <value condition="!String.IsEmpty(ListItem.Studio)">$INFO[ListItem.Studio]</value>
 
-    </variable>
-
-    <variable name="Label_Language">
-        <value condition="!String.IsEmpty(ListItem.Property(Language))">$INFO[ListItem.Property(Language)]</value>
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Language))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Language)]</value>
-    </variable>
 
     <variable name="Label_Country">
         <value condition="!String.IsEmpty(ListItem.Country)">$INFO[ListItem.Country]</value>
@@ -489,19 +470,6 @@
     <variable name="Label_Writer">
         <value condition="!String.IsEmpty(ListItem.Writer)">$INFO[ListItem.Writer]</value>
         <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Writer))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Writer)]</value>
-    </variable>
-    <variable name="Label_FromWriter">
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Writer.1.Name)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Writer.1.job)) + String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Writer.1.job),Screenplay)">$INFO[Window(Home).Property(TMDbHelper.ListItem.Writer.1.Name)]</value>
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Writer.2.Name)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Writer.2.job)) + String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Writer.2.job),Screenplay)">$INFO[Window(Home).Property(TMDbHelper.ListItem.Writer.2.Name)]</value>
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Writer.3.Name)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Writer.3.job)) + String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Writer.3.job),Screenplay)">$INFO[Window(Home).Property(TMDbHelper.ListItem.Writer.3.Name)]</value>
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Writer.4.Name)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Writer.4.job)) + String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Writer.4.job),Screenplay)">$INFO[Window(Home).Property(TMDbHelper.ListItem.Writer.4.Name)]</value>
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Writer.5.Name)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Writer.5.job)) + String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Writer.5.job),Screenplay)">$INFO[Window(Home).Property(TMDbHelper.ListItem.Writer.5.Name)]</value>
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Writer.6.Name)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Writer.6.job)) + String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Writer.6.job),Screenplay)">$INFO[Window(Home).Property(TMDbHelper.ListItem.Writer.6.Name)]</value>
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Writer.7.Name)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Writer.7.job)) + String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Writer.7.job),Screenplay)">$INFO[Window(Home).Property(TMDbHelper.ListItem.Writer.7.Name)]</value>
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Writer.8.Name)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Writer.8.job)) + String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Writer.8.job),Screenplay)">$INFO[Window(Home).Property(TMDbHelper.ListItem.Writer.8.Name)]</value>
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Writer.9.Name)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Writer.9.job)) + String.IsEqual(Window(Home).Property(TMDbHelper.ListItem.Writer.9.job),Screenplay)">$INFO[Window(Home).Property(TMDbHelper.ListItem.Writer.9.Name)]</value>
-        <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Writer))">$INFO[Window(Home).Property(TMDbHelper.ListItem.Writer)]</value>
-        <value>$INFO[ListItem.Writer]</value>
     </variable>
     <variable name="Label_OSD_FromWriter">
         <value condition="!String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Writer.1.Name)) + !String.IsEmpty(Window(Home).Property(TMDbHelper.Player.Writer.1.job)) + String.IsEqual(Window(Home).Property(TMDbHelper.Player.Writer.1.job),Screenplay)">$INFO[Window(Home).Property(TMDbHelper.Player.Writer.1.Name)]</value>
@@ -608,9 +576,13 @@
     </variable>
 
     <variable name="Label_DialogInfo_WatchedButton">
-        <value condition="String.IsEqual(Window(movieinformation).Property(WatchedToggle),watched)">$LOCALIZE[16104]</value>
-        <value condition="String.IsEqual(Window(movieinformation).Property(WatchedToggle),unwatched)">$LOCALIZE[16103]</value>
+        <!-- toggle_watched.py records the toggled item, which keeps its load-time playcount -->
+        <value condition="$EXP[Exp_DialogInfo_LibraryTV_Episode] + String.IsEqual(Window(movieinformation).Property(WatchedToggle.ID),Container(5019).ListItem.DBID) + String.IsEqual(Window(movieinformation).Property(WatchedToggle),watched)">$LOCALIZE[16104]</value>
+        <value condition="$EXP[Exp_DialogInfo_LibraryTV_Episode] + String.IsEqual(Window(movieinformation).Property(WatchedToggle.ID),Container(5019).ListItem.DBID)">$LOCALIZE[16103]</value>
         <value condition="$EXP[Exp_DialogInfo_LibraryTV_Episode] + Integer.IsGreater(Container(5019).ListItem.PlayCount,0)">$LOCALIZE[16104]</value>
+        <value condition="$EXP[Exp_DialogInfo_LibraryTV_Episode]">$LOCALIZE[16103]</value>
+        <value condition="String.IsEqual(Window(movieinformation).Property(WatchedToggle.ID),ListItem.DBID) + String.IsEqual(Window(movieinformation).Property(WatchedToggle),watched)">$LOCALIZE[16104]</value>
+        <value condition="String.IsEqual(Window(movieinformation).Property(WatchedToggle.ID),ListItem.DBID)">$LOCALIZE[16103]</value>
         <value condition="Integer.IsGreater(ListItem.PlayCount,0)">$LOCALIZE[16104]</value>
         <value>$LOCALIZE[16103]</value>
     </variable>
@@ -619,6 +591,7 @@
         <value condition="$EXP[Exp_DialogInfo_LibraryTV_Episode] + Container(5019).ListItem.IsResumable">$LOCALIZE[13404]</value>
         <value condition="$EXP[Exp_DialogInfo_LibraryTV] + !$EXP[Exp_DialogInfo_LibraryTV_Ready] + ListItem.IsResumable">$LOCALIZE[13404]</value>
         <value condition="$EXP[Exp_DialogInfo_LibraryTV]">$LOCALIZE[208]</value>
+        <value condition="$EXP[Exp_DialogInfo_ResumableVideo]">$LOCALIZE[13404]</value>
         <value condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.OptimisticState),present)">$LOCALIZE[31991]</value>
         <value condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.OptimisticState),absent)">$LOCALIZE[31990]</value>
         <value condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.State),present)">$LOCALIZE[31991]</value>

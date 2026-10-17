@@ -1,4 +1,4 @@
-<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.22.0">
+<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.23.0">
     <requires>
         <import addon="xbmc.gui" version="5.17.0" />
         <import addon="xbmc.python" version="3.0.0" />
@@ -36,7 +36,16 @@
         <license>Creative Commons Attribution Non-Commercial Share-Alike 4.0</license>
         <forum />
         <source>https://github.com/primez-x/skin.arctic.fuse.3</source>
-        <news>v3.22.0
+        <news>v3.23.0
+- Put all information page actions in one button row: Replay, Play or Resume, the configured buttons, Mark as Watched and Options. Left and Right now move through every button.
+- Fix Resume on movie and episode pages: the button says Resume for a part-watched item and continues playback without a resume prompt. Replay starts from the beginning.
+- Order the movie rows as Cast, then Videos and Trailers. Remove the Starring, Studio, Director, Writer and Creator rows.
+- Return the rows to the top when Back goes to the buttons.
+- Remove the Trakt and Trailer buttons.
+- Fix a freeze when an alphabet strip key is held down in the media library. The selected letter now starts on the top row.
+- Match the director and genre icon size to the other information icons.
+
+v3.22.0
 - Rework the movie information page: remove the Director, Writer and Studio details grid, show director and genre in the information line, use a smaller poster, and start the rows under the action buttons.
 - Order the movie rows as Videos and Trailers, Cast, a Starring row that follows the highlighted cast member, then the remaining rows. Recommendations and Critics / Comments close the page. The year row is gone.
 - Turn the secondary actions into icon circles with captions, and add Trailer and Mark as Watched actions. A replay icon beside Play now starts a part-watched movie from the beginning.

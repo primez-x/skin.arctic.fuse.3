@@ -253,12 +253,14 @@
 
                     <!-- Director and genre: video information pages, which have no details grid -->
                     <include content="Info_Meta_Object">
+                        <param name="bordersize">-12</param>
                         <param name="icon">resource://resource.images.arctic.fuse.3/extras/icons/clapperboard.png</param>
                         <param name="label">$VAR[Label_FromDirector]</param>
                         <param name="max_width">320</param>
                         <param name="visible">$EXP[Exp_DialogInfo_CompactVideo] + !$EXP[Exp_DialogInfo_LibraryTV] + [!String.IsEmpty(ListItem.Director) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Director))]</param>
                     </include>
                     <include content="Info_Meta_Object">
+                        <param name="bordersize">-12</param>
                         <param name="icon">resource://resource.images.arctic.fuse.3/extras/icons/genre.png</param>
                         <param name="label">$VAR[Label_Genre]</param>
                         <param name="max_width">700</param>

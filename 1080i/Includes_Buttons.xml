@@ -258,6 +258,84 @@
         </definition>
     </include>
 
+    <!-- A focusable 130px button in the action grouplist. The overlay group that follows sits on top of
+         the button: a -140 left plus 130 width cancels the 10px grouplist gap, so the overlay takes no space. -->
+    <include name="Button_DialogInfo_ActionCircle">
+        <definition>
+            <control type="button" id="$PARAM[id]">
+                <width>130</width>
+                <height>110</height>
+                <texturefocus />
+                <texturenofocus />
+                <label />
+                <nested />
+            </control>
+            <!-- Grouplist navigation chains children by id, so the overlay needs one for focus to pass through -->
+            <control type="group" id="$PARAM[id]9">
+                <left>-140</left>
+                <width>130</width>
+                <height>110</height>
+                <visible>Control.IsVisible($PARAM[id])</visible>
+                <control type="image">
+                    <left>25</left>
+                    <width>80</width>
+                    <height>80</height>
+                    <texture colordiffuse="dialog_fg_12">diffuse/circle/circle_120.png</texture>
+                    <visible>!Control.HasFocus($PARAM[id])</visible>
+                </control>
+                <control type="image">
+                    <left>25</left>
+                    <width>80</width>
+                    <height>80</height>
+                    <texture colordiffuse="$VAR[ColorHighlight]">diffuse/circle/circle_120.png</texture>
+                    <visible>Control.HasFocus($PARAM[id])</visible>
+                </control>
+                <control type="image">
+                    <left>45</left>
+                    <top>20</top>
+                    <width>40</width>
+                    <height>40</height>
+                    <aspectratio>keep</aspectratio>
+                    <texture colordiffuse="dialog_fg_100">$PARAM[icon]</texture>
+                    <visible>!Control.HasFocus($PARAM[id])</visible>
+                </control>
+                <control type="image">
+                    <left>45</left>
+                    <top>20</top>
+                    <width>40</width>
+                    <height>40</height>
+                    <aspectratio>keep</aspectratio>
+                    <texture colordiffuse="$VAR[ColorSelected]">$PARAM[icon]</texture>
+                    <visible>Control.HasFocus($PARAM[id])</visible>
+                </control>
+                <control type="label">
+                    <left>-20</left>
+                    <top>84</top>
+                    <width>170</width>
+                    <height>24</height>
+                    <align>center</align>
+                    <aligny>center</aligny>
+                    <font>font_hint</font>
+                    <textcolor>dialog_fg_70</textcolor>
+                    <label>$PARAM[label]</label>
+                    <visible>!Control.HasFocus($PARAM[id])</visible>
+                </control>
+                <control type="label">
+                    <left>-20</left>
+                    <top>84</top>
+                    <width>170</width>
+                    <height>24</height>
+                    <align>center</align>
+                    <aligny>center</aligny>
+                    <font>font_hint</font>
+                    <textcolor>dialog_fg_100</textcolor>
+                    <label>$PARAM[label]</label>
+                    <visible>Control.HasFocus($PARAM[id])</visible>
+                </control>
+            </control>
+        </definition>
+    </include>
+
     <!-- A 39px transparent native offset yields the 78px icon, gap, and outer-padding reserve; this foreground centers the visible icon and label as one unit. -->
     <include name="DialogInfo_PrimaryActionForeground">
         <param name="buttonid">4001</param>

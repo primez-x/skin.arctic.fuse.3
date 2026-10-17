@@ -268,9 +268,6 @@ class LabelsBelowSpacerTests(unittest.TestCase):
             f"String.IsEmpty({first}.Property(role))",
         ):
             self.assertIn(check, rule)
-        # Info dialog cast/crew rows are detailed rows: no spacer for them either
-        crew = _include("Includes_DialogInfo.xml", "DialogInfo_CrewWidget")
-        self.assertEqual("true", crew.findtext(".//param[@name='detailed']"))
         content = _include("Includes_Widgets.xml", "Widget_Content")
         self.assertEqual("false", content.findtext("param[@name='detailed']"))
 
@@ -822,7 +819,7 @@ class CompactVideoInfoTests(unittest.TestCase):
         self.assertNotIn("90001", text)
         grouplist = definition.find(".//control[@id='9000']")
         ondowns = [node.text for node in grouplist.findall("ondown")]
-        self.assertEqual(["5014", "5000", "5019"], ondowns)
+        self.assertEqual(["5000", "5019"], ondowns)
 
     def test_compact_poster_and_rows_clear_the_text_and_captions(self):
         body = _include("Includes_DialogInfo.xml", "DialogInfo_Body_Group")
@@ -851,52 +848,20 @@ class CompactVideoInfoTests(unittest.TestCase):
         self.assertIn("movieinformation", expr.text)
         self.assertIn("person", expr.text)
 
-    def test_movie_row_order_and_dynamic_starring(self):
+    def test_movie_row_order(self):
         widgets = _include("Includes_DialogInfo.xml", "DialogInfo_VideoWidgets")
-        rows = []
-        for node in widgets:
-            if node.tag != "include":
-                continue
-            condition = node.get("condition") or ""
-            if condition.startswith("$EXP[Exp_DialogInfo_LibraryTV]"):
-                continue
-            rows.append(node.findtext("param[@name='id']"))
-        # Videos, Cast, dynamic Starring, then the rest; Recommendations
-        # (16) second last and Comments (15) last, no Year (13), no second
-        # Starring (52).
-        self.assertEqual(["14", "50", "50", "51"], rows[:4])
-        row_by_id = {}
-        for node in widgets:
-            if node.tag != "include":
-                continue
-            row_by_id.setdefault(node.findtext("param[@name='id']"), node)
-        # Videos are part of the top-level page: the row does not wait
-        # for the widget group to gain focus before appearing.
-        for row_id in ("14",):
-            self.assertIsNone(row_by_id[row_id].find("param[@name='visible']"))
-        self.assertIn(
-            "| !String.IsEmpty(Container(5050).ListItem.Property(tmdb_id))",
-            row_by_id["51"].findtext("param[@name='altvisible']"),
-        )
+        rows = [
+            node.findtext("param[@name='id']")
+            for node in widgets.findall("include")
+            if not (node.get("condition") or "").startswith("$EXP[Exp_DialogInfo_LibraryTV]")
+        ]
+        # Cast, then Videos / Trailers; Recommendations second last and Comments last.
+        self.assertEqual(["50", "50", "14"], rows[:3])
         self.assertEqual(["16", "15"], rows[-2:])
-        self.assertNotIn("13", rows)
-        self.assertNotIn("52", rows)
-
-        text = ET.tostring(widgets, encoding="unicode")
-        self.assertIn("Container(5050).ListItem.Property(tmdb_id)", text)
-        self.assertNotIn("TMDbHelper.ListItem.Cast.1.Name", text)
-        self.assertNotIn("Path_VideoInfo_OnlineYear", text)
-
-    def test_secondary_actions_are_icon_circles_with_captions(self):
-        actions = self._secondary_action_items()
-        self.assertEqual("110", actions.findtext("height"))
-        for layout_name in ("itemlayout", "focusedlayout"):
-            layout = actions.find(layout_name)
-            self.assertEqual("110", layout.get("height"))
-            text = ET.tostring(layout, encoding="unicode")
-            self.assertIn("diffuse/circle/circle_120.png", text)
-            self.assertIn("$INFO[ListItem.Icon]", text)
-            self.assertIn("$INFO[ListItem.Label]", text)
+        # No rows of other titles by the cast, crew, studio or year.
+        for removed in ("51", "52", "12", "13", "01", "02", "03"):
+            self.assertNotIn(removed, rows)
+        self.assertEqual([], widgets.findall("include[@content='DialogInfo_CrewWidget']"))
 
     def _video_details_grouplist(self):
         definition = _include(
@@ -904,75 +869,47 @@ class CompactVideoInfoTests(unittest.TestCase):
         ).find("definition")
         return definition.find(".//control[@id='9000']")
 
-    def _secondary_action_items(self):
-        actions = self._video_details_grouplist().find("./control[@id='4901']")
-        self.assertIsNotNone(actions)
-        return actions
-
-    def test_secondary_actions_are_a_list_beside_the_pills(self):
+    def test_actions_are_one_grouplist_of_buttons(self):
         grouplist = self._video_details_grouplist()
-        pills = [
-            node.findtext("param[@name='id']")
-            for node in grouplist.findall("include")
-            if node.findtext("param[@name='id']")
-        ]
-        self.assertEqual(["4006", "4001"], pills)
-        # The group list steps between direct children, so the pills and
-        # the action list carry no explicit Left or Right of their own.
-        for node in grouplist.findall("include"):
-            self.assertEqual([], node.findall("onright"))
-            self.assertEqual([], node.findall("onleft"))
-        actions = self._secondary_action_items()
-        self.assertEqual("list", actions.get("type"))
-        content = actions.find("content")
-        positions = content.findall("include[@content='DialogInfo_VideoButtons_Position']")
-        self.assertEqual(6, len(positions))
-        action_ids = [
-            item.findtext("property[@name='action_id']")
-            for item in content.findall("item")
-        ]
-        self.assertEqual(["trailer", "watched", "options"], action_ids)
+        self.assertIsNone(grouplist.find(".//control[@type='list']"))
+        ids = [node.findtext("param[@name='id']") for node in grouplist.findall("include")]
+        self.assertEqual(["4006", "4001", "4002", "4003", "4004", "4012", "4005"], ids)
+        circles = grouplist.findall("include[@content='Button_DialogInfo_ActionCircle']")
+        self.assertEqual(5, len(circles))
+        # The overlay after each circle needs an id: grouplist navigation chains children by id.
+        circle = _include("Includes_Buttons.xml", "Button_DialogInfo_ActionCircle").find("definition")
+        overlay = circle.find("control[@type='group']")
+        self.assertEqual("$PARAM[id]9", overlay.get("id"))
+        self.assertEqual("-140", overlay.findtext("left"))
+        text = ET.tostring(grouplist, encoding="unicode")
+        self.assertNotIn("31393", text)
+        self.assertNotIn("Trakt", text)
 
-    def test_trailer_and_mark_watched_buttons(self):
-        content = self._secondary_action_items().find("content")
-        items = {
-            item.findtext("property[@name='action_id']"): item
-            for item in content.findall("item")
-        }
-        trailer = items["trailer"]
-        play = trailer.find("include[@content='Action_PlayTrailer_OnClick']")
-        self.assertIsNotNone(play)
-        self.assertEqual("ListItem.Trailer", play.findtext("param[@name='trailer']"))
-        # The trailer left the Options overflow list for the top-level button.
-        overflow = _include("Includes_DialogInfo.xml", "DialogInfo_VideoButtons_Overflow")
-        self.assertNotIn("31393", ET.tostring(overflow, encoding="unicode"))
+    def test_play_resumes_and_replay_starts_over(self):
+        grouplist = self._video_details_grouplist()
+        by_id = {node.findtext("param[@name='id']"): node for node in grouplist.findall("include")}
+        play = [n.text for n in by_id["4001"].findall("onclick")]
+        replay = [n.text for n in by_id["4006"].findall("onclick")]
+        self.assertIn("PlayMedia($ESCINFO[ListItem.FileNameAndPath],resume)", play)
+        self.assertIn("PlayMedia($ESCINFO[ListItem.FileNameAndPath],noresume)", replay)
+        self.assertIn("Exp_DialogInfo_ResumableVideo", by_id["4006"].findtext("visible"))
+        label = ET.tostring(_root("Includes_Labels.xml").find("./variable[@name='Label_DialogInfo_PlayButton']"), encoding="unicode")
+        self.assertIn('condition="$EXP[Exp_DialogInfo_ResumableVideo]">$LOCALIZE[13404]', label)
 
-        watched = items["watched"]
+    def test_mark_watched_caption_follows_the_toggled_item(self):
+        grouplist = self._video_details_grouplist()
+        watched = next(n for n in grouplist.findall("include") if n.findtext("param[@name='id']") == "4012")
         clicks = [n.text or "" for n in watched.findall("onclick")]
         self.assertTrue(any("toggle_watched.py,episode" in c and "Container(5019)" in c for c in clicks))
         self.assertTrue(any("toggle_watched.py,movie" in c for c in clicks))
-        self.assertIn("Label_DialogInfo_WatchedButton", watched.findtext("label"))
-        label_var = _root("Includes_Labels.xml").find("./variable[@name='Label_DialogInfo_WatchedButton']")
-        text = ET.tostring(label_var, encoding="unicode")
-        self.assertIn("$LOCALIZE[16103]", text)
-        self.assertIn("$LOCALIZE[16104]", text)
+        label = ET.tostring(_root("Includes_Labels.xml").find("./variable[@name='Label_DialogInfo_WatchedButton']"), encoding="unicode")
+        # A toggle on one episode must not relabel the other episodes.
+        self.assertIn("Property(WatchedToggle.ID),Container(5019).ListItem.DBID", label)
+        self.assertIn("Property(WatchedToggle.ID),ListItem.DBID", label)
         import py_compile
 
         py_compile.compile(str(SKIN_ROOT / "toggle_watched.py"), doraise=True)
-
-        options = items["options"]
-        clicks = [n.text or "" for n in options.findall("onclick")]
-        self.assertTrue(any("ActivateWindow(1172)" in c for c in clicks))
-
-        grouplist = self._video_details_grouplist()
-        replay = next(
-            node
-            for node in grouplist.findall("include")
-            if node.findtext("param[@name='id']") == "4006"
-        )
-        self.assertIn("ListItem.IsResumable", replay.findtext("visible"))
-        clicks = [n.text or "" for n in replay.findall("onclick")]
-        self.assertTrue(any("PlayMedia($ESCINFO[ListItem.FileNameAndPath],noresume)" in c for c in clicks))
+        self.assertIn("WatchedToggle.ID", (SKIN_ROOT / "toggle_watched.py").read_text(encoding="utf-8"))
 
     def test_cast_and_season_rows_hide_when_empty(self):
         # A row kept visible while empty breaks the group list scrolling:

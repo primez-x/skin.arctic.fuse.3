@@ -59,7 +59,7 @@ class WatchlistActionOrderTests(unittest.TestCase):
         )
 
         self.assertIn(
-            '<onclick condition="!$EXP[Exp_PlexWatchlist_Target] + !$EXP[Exp_DialogInfo_LibraryTV]">'
+            '<onclick condition="!$EXP[Exp_PlexWatchlist_Target] + !$EXP[Exp_DialogInfo_LibraryTV] + !$EXP[Exp_DialogInfo_ResumableVideo]">'
             "$VAR[Action_DialogInfo_PlayMedia]</onclick>",
             button,
         )
@@ -377,7 +377,7 @@ class WatchlistActionOrderTests(unittest.TestCase):
             ".//include[@content='Button_DialogInfo_ActionPill']"
         )
         # Pills: video Replay (4006) left of Play, then the music dialog pills.
-        # Video secondary actions are icon circles (Button_DialogInfo_IconAction).
+        # Video secondary actions are icon circles (Button_DialogInfo_ActionCircle).
         self.assertEqual(len(buttons), 6)
         self.assertEqual(
             [button.findtext("param[@name='id']") for button in buttons[:2]],
@@ -388,15 +388,14 @@ class WatchlistActionOrderTests(unittest.TestCase):
             [button.findtext("param[@name='textoffsetx']") for button in buttons],
             [None, "39", "39", None, None, None],
         )
-        # Secondary actions are items in one horizontal list beside the pills.
-        action_list = dialog_root.find(".//control[@id='4901']")
-        self.assertIsNotNone(action_list)
+        # Secondary actions are circle buttons in the same grouplist as the pills.
+        self.assertIsNone(dialog_root.find(".//control[@id='4901']"))
         self.assertEqual(
             [
-                item.findtext("property[@name='action_id']")
-                for item in action_list.findall("./content/item")
+                circle.findtext("param[@name='id']")
+                for circle in dialog_root.findall(".//include[@content='Button_DialogInfo_ActionCircle']")
             ],
-            ["trailer", "watched", "options"],
+            ["4002", "4003", "4004", "4012", "4005"],
         )
         for button in (buttons[1], buttons[2]):
             self.assertEqual(button.findtext("param[@name='align']"), "left")

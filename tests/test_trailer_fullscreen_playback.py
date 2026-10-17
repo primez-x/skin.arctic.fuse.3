@@ -89,7 +89,7 @@ class TrailerFullscreenPlaybackTests(unittest.TestCase):
                 }
                 callers.append((source_path.name, params))
 
-        self.assertEqual(len(callers), 3)
+        self.assertEqual(len(callers), 2)
         self.assertTrue(callers)
         self.assertTrue(all(params <= VALID_TRAILER_PARAMS for _, params in callers))
 
