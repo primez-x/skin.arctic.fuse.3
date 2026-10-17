@@ -1,4 +1,4 @@
-<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="4.0.0">
+<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="4.1.0">
     <requires>
         <import addon="xbmc.gui" version="5.17.0" />
         <import addon="xbmc.python" version="3.0.0" />
@@ -37,7 +37,14 @@
         <license>Creative Commons Attribution Non-Commercial Share-Alike 4.0</license>
         <forum />
         <source>https://github.com/primez-x/skin.arctic.fuse.3</source>
-        <news>v4.0.0
+        <news>v4.1.0
+- Show information page buttons as icons that open into labelled pills on focus.
+- Show the time left and a progress ring on the Resume button.
+- Show video, audio and subtitle chips on the information page.
+- Restyle the hub tabs as a compact glass bar, with a chevron on tabs that have a submenu.
+- Fix the music information toggle notification text.
+
+v4.0.0
 - Replace Trakt sources with Plex ratings, Watchlist badges, reviews, and My Plex Lists.
 - Use a selected Plex List for favourite badges.
 - Migrate saved rating choices, calendar settings, and Trakt shortcuts.
