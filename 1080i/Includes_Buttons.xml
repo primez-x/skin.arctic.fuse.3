@@ -258,7 +258,8 @@
         </definition>
     </include>
 
-    <!-- A focusable 130px button in the action grouplist. The overlay group that follows sits on top of
+    <!-- Icon buttons show their caption only while focused, as on the Replay button.
+         A focusable 130px button in the action grouplist. The overlay group that follows sits on top of
          the button: a -140 left plus 130 width cancels the 10px grouplist gap, so the overlay takes no space. -->
     <include name="Button_DialogInfo_ActionCircle">
         <definition>
@@ -307,18 +308,6 @@
                     <aspectratio>keep</aspectratio>
                     <texture colordiffuse="$VAR[ColorSelected]">$PARAM[icon]</texture>
                     <visible>Control.HasFocus($PARAM[id])</visible>
-                </control>
-                <control type="label">
-                    <left>-20</left>
-                    <top>84</top>
-                    <width>170</width>
-                    <height>24</height>
-                    <align>center</align>
-                    <aligny>center</aligny>
-                    <font>font_hint</font>
-                    <textcolor>dialog_fg_70</textcolor>
-                    <label>$PARAM[label]</label>
-                    <visible>!Control.HasFocus($PARAM[id])</visible>
                 </control>
                 <control type="label">
                     <left>-20</left>

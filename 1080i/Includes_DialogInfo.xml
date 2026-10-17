@@ -1393,6 +1393,18 @@
                         <texture colordiffuse="$VAR[Color_DialogInfo_ReplayIcon]">buttons/replay.png</texture>
                         <visible>Control.IsVisible(4006)</visible>
                     </control>
+                    <control type="label">
+                        <left>-25</left>
+                        <top>84</top>
+                        <width>170</width>
+                        <height>24</height>
+                        <align>center</align>
+                        <aligny>center</aligny>
+                        <font>font_hint</font>
+                        <textcolor>dialog_fg_100</textcolor>
+                        <label>$LOCALIZE[12021]</label>
+                        <visible>Control.HasFocus(4006)</visible>
+                    </control>
                     <control type="group">
                         <animation effect="slide" end="90,0" time="0" condition="Control.IsVisible(4006)">Conditional</animation>
                         <include content="DialogInfo_PrimaryActionForeground">

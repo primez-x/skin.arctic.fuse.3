@@ -896,6 +896,14 @@ class CompactVideoInfoTests(unittest.TestCase):
             values = [v.text for v in _variable("Includes_Colors.xml", name).findall("value")]
             self.assertEqual(["$VAR[ColorSelected]", "dialog_fg_100"], values)
 
+    def test_icon_buttons_caption_only_on_focus(self):
+        circle = _include("Includes_Buttons.xml", "Button_DialogInfo_ActionCircle")
+        captions = [n.findtext("visible") for n in circle.iter("control") if n.get("type") == "label"]
+        self.assertEqual(["Control.HasFocus($PARAM[id])"], captions)
+        details = ET.tostring(_include("Includes_DialogInfo.xml", "DialogInfo_VideoDetails"), encoding="unicode")
+        self.assertIn("<label>$LOCALIZE[12021]</label>", details)
+        self.assertIn("<visible>Control.HasFocus(4006)</visible>", details)
+
     def test_play_resumes_and_replay_starts_over(self):
         grouplist = self._video_details_grouplist()
         by_id = {node.findtext("param[@name='id']"): node for node in grouplist.findall("include")}
