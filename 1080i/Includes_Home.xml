@@ -515,7 +515,6 @@
     </include>
 
     <variable name="Home_Switcher_Right_Buttons_Calendar">
-        <value condition="Skin.String(HomeSwitcher.1106.UpNextMode,trakt_calendar)">resource://resource.images.arctic.fuse.3/extras/icons/trakt.png</value>
         <value>resource://resource.images.arctic.fuse.3/extras/icons/calendar.png</value>
     </variable>
 

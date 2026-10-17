@@ -1189,6 +1189,20 @@
             <selected>System.AddonIsEnabled(resource.images.studios.coloured) + System.HasAddon(resource.images.studios.coloured)</selected>
         </include>
 
+        <include content="Settings_Button">
+            <param name="dialog">false</param>
+            <param name="window">skinsettings</param>
+            <param name="baseid">$PARAM[baseid]</param>
+            <param name="id">0176</param>
+            <param name="control">radiobutton</param>
+            <label>plugin.video.plexkodiconnect</label>
+            <label2>$INFO[System.AddonVersion(plugin.video.plexkodiconnect),v,       ]</label2>
+            <onclick condition="!System.HasAddon(plugin.video.plexkodiconnect)">InstallAddon(plugin.video.plexkodiconnect)</onclick>
+            <onclick condition="!System.AddonIsEnabled(plugin.video.plexkodiconnect) + System.HasAddon(plugin.video.plexkodiconnect)">EnableAddon(plugin.video.plexkodiconnect)</onclick>
+            <onclick condition="System.AddonIsEnabled(plugin.video.plexkodiconnect)">Addon.OpenSettings(plugin.video.plexkodiconnect)</onclick>
+            <selected>System.AddonIsEnabled(plugin.video.plexkodiconnect) + System.HasAddon(plugin.video.plexkodiconnect)</selected>
+        </include>
+
         <include content="Settings_Label" description="Debug">
             <param name="window">skinsettings</param>
             <param name="slevel">3</param>

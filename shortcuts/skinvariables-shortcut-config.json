@@ -438,9 +438,9 @@
             "link": "true"
         },
         {
-            "name": "Trakt Lists",
-            "icon": "resource://resource.images.arctic.fuse.3/extras/icons/trakttv.png",
-            "path": "DefaultSearch-TMDBListsTrakt",
+            "name": "My Plex Lists",
+            "icon": "resource://resource.images.arctic.fuse.3/extras/icons/plex.png",
+            "path": "plugin://plugin.video.plexkodiconnect/?mode=discover_lists",
             "node": "videos",
             "link": "true"
         },

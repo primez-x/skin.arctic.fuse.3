@@ -157,8 +157,8 @@
             <value>plugin://plugin.video.themoviedb.helper?info=search&amp;amp;tmdb_type=keyword&amp;amp;query=</value>
         </rule>
         <rule>
-            <condition>{item_path}==DefaultSearch-TMDBListsTrakt</condition>
-            <value>plugin://plugin.video.themoviedb.helper?info=trakt_searchlists&amp;amp;tmdb_type=both&amp;amp;query=</value>
+            <condition>{item_path}==plugin://plugin.video.plexkodiconnect/?mode=discover_lists</condition>
+            <value></value>
         </rule>
         <rule>
             <condition>{item_path}==DefaultSearch-TMDBListsMDBList</condition>
@@ -287,8 +287,8 @@
             <value>&amp;amp;nextpage=false&amp;amp;cacheonly=true</value>
         </rule>
         <rule>
-            <condition>{item_path}==DefaultSearch-TMDBListsTrakt</condition>
-            <value>&amp;amp;nextpage=false&amp;amp;cacheonly=true</value>
+            <condition>{item_path}==plugin://plugin.video.plexkodiconnect/?mode=discover_lists</condition>
+            <value></value>
         </rule>
         <rule>
             <condition>{item_path}==DefaultSearch-TMDBListsMDBList</condition>
@@ -461,7 +461,7 @@
             <value>videos</value>
         </rule>
         <rule>
-            <condition>{item_path}==DefaultSearch-TMDBListsTrakt</condition>
+            <condition>{item_path}==plugin://plugin.video.plexkodiconnect/?mode=discover_lists</condition>
             <value>videos</value>
         </rule>
         <rule>
@@ -639,8 +639,8 @@
             <value>Path_SearchTerm_DoubleEncoded</value>
         </rule>
         <rule>
-            <condition>{item_path}==DefaultSearch-TMDBListsTrakt</condition>
-            <value>Path_SearchTerm_DoubleEncoded</value>
+            <condition>{item_path}==plugin://plugin.video.plexkodiconnect/?mode=discover_lists</condition>
+            <value>Path_PlexLists</value>
         </rule>
         <rule>
             <condition>{item_path}==DefaultSearch-TMDBListsMDBList</condition>

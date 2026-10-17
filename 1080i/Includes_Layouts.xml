@@ -1242,7 +1242,7 @@
                             <param name="listitem">$PARAM[listitem]</param>
                         </include>
 
-                        <include content="Object_TraktOverlays" condition="$PARAM[indicator] + [Skin.HasSetting(Indicator.TraktWatchlist) | Skin.HasSetting(Indicator.TraktFavourites)]">
+                        <include content="Object_PlexOverlays" condition="$PARAM[indicator]">
                             <param name="listitem">$PARAM[listitem]</param>
                         </include>
                     </control>
@@ -1962,7 +1962,7 @@
                     <include content="Object_ContentBanner" condition="$PARAM[indicator]">
                         <param name="listitem">$PARAM[listitem]</param>
                     </include>
-                    <include content="Object_TraktOverlays" condition="$PARAM[indicator] + [Skin.HasSetting(Indicator.TraktWatchlist) | Skin.HasSetting(Indicator.TraktFavourites)]">
+                    <include content="Object_PlexOverlays" condition="$PARAM[indicator]">
                         <param name="listitem">$PARAM[listitem]</param>
                     </include>
                     <include condition="!$PARAM[selected]" content="Object_Indicator">
@@ -2020,7 +2020,7 @@
                         <bordersize>20</bordersize>
                         <visible>String.IsEmpty($PARAM[listitem].Art(banner)) + String.IsEmpty($PARAM[listitem].Art(tvshow.banner)) + String.IsEmpty($PARAM[listitem].Art(season.banner))</visible>
                     </control>
-                    <include content="Object_TraktOverlays" condition="$PARAM[indicator] + [Skin.HasSetting(Indicator.TraktWatchlist) | Skin.HasSetting(Indicator.TraktFavourites)]">
+                    <include content="Object_PlexOverlays" condition="$PARAM[indicator]">
                         <param name="listitem">$PARAM[listitem]</param>
                     </include>
                 </control>
@@ -2190,7 +2190,7 @@
                     <include content="Object_ContentBanner" condition="$PARAM[indicator]">
                         <param name="listitem">$PARAM[listitem]</param>
                     </include>
-                    <include content="Object_TraktOverlays" condition="$PARAM[indicator] + [Skin.HasSetting(Indicator.TraktWatchlist) | Skin.HasSetting(Indicator.TraktFavourites)]">
+                    <include content="Object_PlexOverlays" condition="$PARAM[indicator]">
                         <param name="listitem">$PARAM[listitem]</param>
                     </include>
                     <include condition="!$PARAM[selected] + $PARAM[indicator]" content="Object_Indicator">
@@ -2617,7 +2617,7 @@
                     <param name="listitem">$PARAM[listitem]</param>
                 </include>
 
-                <include content="Object_TraktOverlays" condition="$PARAM[indicator] + [Skin.HasSetting(Indicator.TraktWatchlist) | Skin.HasSetting(Indicator.TraktFavourites)]">
+                <include content="Object_PlexOverlays" condition="$PARAM[indicator]">
                     <param name="listitem">$PARAM[listitem]</param>
                 </include>
 

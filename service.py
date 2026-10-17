@@ -4,6 +4,7 @@ import re
 import shutil
 import tempfile
 import xml.etree.ElementTree as ET
+from urllib.parse import parse_qs, urlsplit
 
 import xbmc
 import xbmcaddon
@@ -64,7 +65,7 @@ def _read(path):
     try:
         with open(path, "r", encoding="utf-8") as handle:
             return handle.read()
-    except OSError:
+    except (OSError, UnicodeError):
         return None
 
 
@@ -160,24 +161,27 @@ def _migrate_skin_setting_images():
     return changed
 
 
-def _rewrite_saved_image_values(value):
+def _rewrite_saved_values(value, rewrite_value, rewrite_record=None):
     if isinstance(value, dict):
         changed = False
         rewritten = {}
         for key, child in value.items():
-            rewritten_child, child_changed = _rewrite_saved_image_values(child)
+            rewritten_child, child_changed = _rewrite_saved_values(child, rewrite_value, rewrite_record)
             rewritten[key] = rewritten_child
             changed = changed or child_changed
+        if rewrite_record:
+            rewritten, record_changed = rewrite_record(value, rewritten)
+            changed = changed or record_changed
         return rewritten, changed
     if isinstance(value, list):
         changed = False
         rewritten = []
         for child in value:
-            rewritten_child, child_changed = _rewrite_saved_image_values(child)
+            rewritten_child, child_changed = _rewrite_saved_values(child, rewrite_value, rewrite_record)
             rewritten.append(rewritten_child)
             changed = changed or child_changed
         return rewritten, changed
-    replacement = _resource_image_path(value)
+    replacement = rewrite_value(value)
     if replacement is None:
         return value, False
     return replacement, True
@@ -197,7 +201,7 @@ def _write_json_atomically(path, value):
             os.unlink(temporary_path)
 
 
-def _migrate_saved_shortcut_images():
+def _migrate_saved_shortcut_values(rewrite_value, rollback_suffix, rewrite_record=None):
     folder = xbmcvfs.translatePath(SKINVARIABLES_NODES)
     if not os.path.isdir(folder):
         return False
@@ -212,15 +216,15 @@ def _migrate_saved_shortcut_images():
         try:
             with open(path, "r", encoding="utf-8") as source:
                 saved = json.load(source)
-        except (OSError, json.JSONDecodeError) as error:
+        except (OSError, UnicodeError, json.JSONDecodeError) as error:
             _log(f"Could not read saved shortcut data {filename}: {error}", xbmc.LOGWARNING)
             continue
 
-        rewritten, file_changed = _rewrite_saved_image_values(saved)
+        rewritten, file_changed = _rewrite_saved_values(saved, rewrite_value, rewrite_record)
         if not file_changed:
             continue
 
-        rollback = path + MIGRATION_ROLLBACK_SUFFIX
+        rollback = path + rollback_suffix
         try:
             if not os.path.exists(rollback):
                 shutil.copy2(path, rollback)
@@ -232,12 +236,140 @@ def _migrate_saved_shortcut_images():
     return changed
 
 
+def _migrate_saved_shortcut_images():
+    return _migrate_saved_shortcut_values(_resource_image_path, MIGRATION_ROLLBACK_SUFFIX)
+
+
 def _migrate_legacy_image_paths():
     settings_changed = _migrate_skin_setting_images()
     shortcut_data_changed = _migrate_saved_shortcut_images()
     if settings_changed or shortcut_data_changed:
         _log("Migrated legacy skin image paths to the resource add-on.")
     return settings_changed or shortcut_data_changed
+
+
+PLEX_LISTS_PATH = "plugin://plugin.video.plexkodiconnect/?mode=discover_lists"
+PLEX_TRENDING_PATH = "plugin://plugin.video.plexkodiconnect/?mode=discover_hub&hub_id=trending-for-you"
+TRAKT_LIST_ROUTES = {
+    "trakt_searchlists", "trakt_trendinglists", "trakt_popularlists", "trakt_likedlists",
+    "trakt_mylists", "trakt_inlists", "trakt_userslists", "trakt_userlist",
+    "random_trendinglists", "random_popularlists", "random_likedlists", "random_mylists",
+}
+SHORTCUT_ACTION = re.compile(
+    r"((?:ActivateWindow\([^,()]+,)|(?:RunPlugin\())(.+?)(,return\)|\))", re.IGNORECASE)
+
+
+def _plex_source_path(value):
+    if not isinstance(value, str):
+        return None
+    if value in {"DefaultSearch-TMDBListsTrakt", "DefaultSearch-PlexLists"}:
+        return PLEX_LISTS_PATH
+    if len(value) > 1 and value[0] in {'"', "'"} and value[-1] == value[0]:
+        path = _plex_source_path(value[1:-1])
+        return value[0] + path + value[-1] if path else None
+    action = SHORTCUT_ACTION.fullmatch(value)
+    if action:
+        path = _plex_source_path(action[2])
+        return action[1] + path + action[3] if path else None
+    try:
+        parsed = urlsplit(value)
+    except ValueError:
+        return None
+    if parsed.scheme != "plugin" or parsed.netloc != "plugin.video.themoviedb.helper" or parsed.path not in {"", "/"}:
+        return None
+    info = parse_qs(parsed.query).get("info", [])
+    if len(info) != 1:
+        return None
+    if info[0] in TRAKT_LIST_ROUTES:
+        return PLEX_LISTS_PATH
+    if info[0] in {"trakt_becauseyouwatched", "trakt_becausemostwatched"}:
+        return PLEX_TRENDING_PATH
+    return None
+
+
+def _plex_source_label(path):
+    action = SHORTCUT_ACTION.fullmatch(path)
+    if action:
+        return _plex_source_label(action[2])
+    if len(path) > 1 and path[0] in {'"', "'"} and path[-1] == path[0]:
+        return _plex_source_label(path[1:-1])
+    return "Plex: Trending for You" if path == PLEX_TRENDING_PATH else "My Plex Lists"
+
+
+def _rewrite_plex_shortcut_record(original, rewritten):
+    changed = False
+    for key in ("path", "widget_path"):
+        replacement = _plex_source_path(original.get(key))
+        if replacement is None:
+            continue
+        for label_key in ("label", "name", "widget_label"):
+            if label_key in original:
+                rewritten[label_key] = _plex_source_label(replacement)
+                changed = True
+    return rewritten, changed
+
+
+def _migrate_plex_skin_settings():
+    contents = _read(xbmcvfs.translatePath(SKIN_SETTINGS_FILE))
+    if not contents:
+        return False
+    try:
+        root = ET.fromstring(contents)
+    except ET.ParseError:
+        _log("Could not parse skin settings during Plex source migration.", xbmc.LOGWARNING)
+        return False
+    settings = {node.get("id", "").lower(): node for node in root.iter("setting")}
+    changed = False
+    for normalized_id, node in settings.items():
+        if node.get("type", "string") != "string":
+            continue
+        setting_id = node.get("id")
+        if not setting_id or not re.fullmatch(r"[A-Za-z0-9_.-]+", setting_id):
+            continue
+        current = xbmc.getInfoLabel(f"Skin.String({setting_id})")
+        replacement = None
+        if re.fullmatch(r"customrating\.(movies|tvshows)\.item0[123]", normalized_id) and current == "Trakt":
+            replacement = "Plex"
+        elif normalized_id == "homeswitcher.1106.upnextmode" and current == "trakt_calendar":
+            replacement = "library_nextaired"
+        else:
+            replacement = _plex_source_path(current)
+        if replacement is None:
+            continue
+        xbmc.executebuiltin(f"Skin.SetString({setting_id},{replacement})")
+        if normalized_id.endswith(".path"):
+            label = settings.get(normalized_id[:-5] + ".label")
+            if label is not None and label.get("type", "string") == "string":
+                label_id = label.get("id")
+                xbmc.executebuiltin(f"Skin.SetString({label_id},{_plex_source_label(replacement)})")
+        changed = True
+    if xbmc.getInfoLabel("Skin.String(Migration.PlexBadges)") != "1":
+        badge_changed = False
+        for suffix in ("Watchlist", "Favourites"):
+            old, new = f"Indicator.Trakt{suffix}", f"Indicator.Plex{suffix}"
+            saved = settings.get(old.lower())
+            if saved is None:
+                continue
+            enabled = saved.get("value", saved.text or "") == "true"
+            # Skin conditions create new false settings before the first migration.
+            xbmc.executebuiltin(f"Skin.SetBool({new})" if enabled else f"Skin.Reset({new})")
+            xbmc.executebuiltin(f"Skin.Reset({old})")
+            badge_changed = True
+        if badge_changed:
+            xbmc.executebuiltin("Skin.SetString(Migration.PlexBadges,1)")
+            changed = True
+    return changed
+
+
+def _migrate_plex_sources():
+    settings_changed = _migrate_plex_skin_settings()
+    shortcuts_changed = _migrate_saved_shortcut_values(
+        _plex_source_path, ".before-plex-source-migration", _rewrite_plex_shortcut_record)
+    if shortcuts_changed:
+        xbmc.executebuiltin("ClearProperty(Shortcuts.Checked.Version,Home)")
+    if settings_changed or shortcuts_changed:
+        _log("Migrated legacy Trakt sources to Plex.")
+    return settings_changed or shortcuts_changed
 
 
 def _current_window_ids():
@@ -291,6 +423,7 @@ def main():
     version_changed = previous_version != version
     if version_changed:
         _migrate_legacy_image_paths()
+        _migrate_plex_sources()
         # Before script.skinvariables regenerates and reloads the skin, so that reload
         # picks the user's includes up (no reload of our own: a version change alone must not
         # reset the GUI, see below)

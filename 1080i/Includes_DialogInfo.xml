@@ -579,12 +579,12 @@
         </include>
 
 
-        <!-- Comments -->
-        <include content="Widget_Info_Row" condition="!Skin.HasSetting(VideoInfo.Widgets.DisableComments) + $EXP[Exp_TMDbHelper_IsData]">
+        <!-- Reviews and awards -->
+        <include content="Widget_Info_Row" condition="!Skin.HasSetting(VideoInfo.Widgets.DisableComments) + [$EXP[Exp_TMDbHelper_IsData] | $EXP[Exp_PlexReviews_Target]]">
             <param name="id">15</param>
             <param name="baseid">50</param>
             <param name="basegroupid">51</param>
-            <param name="label">$LOCALIZE[31030] / $LOCALIZE[31334]</param>
+            <param name="label">$LOCALIZE[31334]</param>
             <param name="include">List_Reviews_Row</param>
             <param name="widgetfade_include">true</param>
             <param name="set_widgetcontainer">false</param>
@@ -603,9 +603,11 @@
                 </item>
             </content>
             <content>$VAR[Path_VideoInfo_OnlineComments]</content>
-            <onclick>SetProperty(header,$INFO[ListItem.Label]$INFO[ListItem.Label2, - ,],1114)</onclick>
-            <onclick>SetProperty(textbox,$ESCINFO[Container(5015).ListItem.Plot]$ESCINFO[Container(5015).ListItem.Property(plotlabel)],1114)</onclick>
-            <onclick>ActivateWindow(1114)</onclick>
+            <onclick condition="!String.IsEmpty(Container(5015).ListItem.Property(PlexReviewPath)) + !String.IsEqual(Container(5015).ListItem.Property(PlexReviewMore),true)">RunPlugin($INFO[Container(5015).ListItem.Property(PlexReviewPath)])</onclick>
+            <onclick condition="String.IsEqual(Container(5015).ListItem.Property(PlexReviewMore),true)">ActivateWindow(Videos,$INFO[Container(5015).ListItem.Property(PlexReviewPath)],return)</onclick>
+            <onclick condition="String.IsEmpty(Container(5015).ListItem.Property(PlexReviewPath))">SetProperty(header,$INFO[ListItem.Label]$INFO[ListItem.Label2, - ,],1114)</onclick>
+            <onclick condition="String.IsEmpty(Container(5015).ListItem.Property(PlexReviewPath))">SetProperty(textbox,$ESCINFO[Container(5015).ListItem.Plot]$ESCINFO[Container(5015).ListItem.Property(plotlabel)],1114)</onclick>
+            <onclick condition="String.IsEmpty(Container(5015).ListItem.Property(PlexReviewPath))">ActivateWindow(1114)</onclick>
         </include>
 
     </include>

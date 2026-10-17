@@ -805,18 +805,26 @@
             <param name="id">8013</param>
             <param name="control">radiobutton</param>
             <param name="dialog">true</param>
-            <onclick>Skin.ToggleSetting(Indicator.TraktWatchlist)</onclick>
-            <selected>Skin.HasSetting(Indicator.TraktWatchlist)</selected>
-            <label>Trakt $LOCALIZE[31122] (TMDbHelper $LOCALIZE[31022])</label>
+            <onclick>Skin.ToggleSetting(Indicator.PlexWatchlist)</onclick>
+            <selected>Skin.HasSetting(Indicator.PlexWatchlist)</selected>
+            <label>Plex $LOCALIZE[31122]</label>
         </include>
 
         <include content="Settings_Button">
             <param name="id">8014</param>
             <param name="control">radiobutton</param>
             <param name="dialog">true</param>
-            <onclick>Skin.ToggleSetting(Indicator.TraktFavourites)</onclick>
-            <selected>Skin.HasSetting(Indicator.TraktFavourites)</selected>
-            <label>Trakt $LOCALIZE[1036] (TMDbHelper $LOCALIZE[31022])</label>
+            <onclick>Skin.ToggleSetting(Indicator.PlexFavourites)</onclick>
+            <selected>Skin.HasSetting(Indicator.PlexFavourites)</selected>
+            <label>Plex $LOCALIZE[1036]</label>
+        </include>
+
+        <include content="Settings_Button">
+            <param name="id">8015</param>
+            <param name="dialog">true</param>
+            <onclick>RunPlugin(plugin://plugin.video.plexkodiconnect/?mode=discover_favourites_select)</onclick>
+            <label>Favourite Plex List</label>
+            <label2>$INFO[Window(Home).Property(PKC.Favourites.ListName)]</label2>
         </include>
 
         <include content="Settings_Button">
@@ -878,8 +886,8 @@
         <include content="DialogCustom_Ratings_Items_Template">
             <param name="id">8003</param>
             <param name="groupid">8103</param>
-            <param name="label">Trakt</param>
-            <param name="type">Trakt</param>
+            <param name="label">Plex</param>
+            <param name="type">Plex</param>
             <param name="item">$PARAM[item]</param>
             <param name="content">$PARAM[content]</param>
         </include>

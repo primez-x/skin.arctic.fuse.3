@@ -210,7 +210,7 @@
                                 </item>
                                 <item>
                                     <label>Brand</label>
-                                    <property name="filter">&amp;filter_key=label&amp;filter_value=spotify / youtube / netflix / disney / reddit / instagram / steam / crunchyroll / kodi / plex / trakt / github / twitter / facebook / tiktok / twitch / discord / whatsapp / apple / android / windows / linux / bbc / wwe / google / amazon / microsoft / intel / nvidia / playstation / xbox / nintendo</property>
+                                    <property name="filter">&amp;filter_key=label&amp;filter_value=spotify / youtube / netflix / disney / reddit / instagram / steam / crunchyroll / kodi / plex / github / twitter / facebook / tiktok / twitch / discord / whatsapp / apple / android / windows / linux / bbc / wwe / google / amazon / microsoft / intel / nvidia / playstation / xbox / nintendo</property>
                                 </item>
                                 <item>
                                     <label>Mobile &amp; Tablet</label>

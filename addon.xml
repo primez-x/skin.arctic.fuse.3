@@ -1,7 +1,8 @@
-<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.29.1">
+<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="4.0.0">
     <requires>
         <import addon="xbmc.gui" version="5.17.0" />
         <import addon="xbmc.python" version="3.0.0" />
+        <import addon="plugin.video.plexkodiconnect" version="3.16.0" />
         <import addon="script.skinvariables" version="2.2.2" />
         <import addon="script.texturemaker" version="0.2.9" />
         <import addon="plugin.video.themoviedb.helper" version="6.14.3" />
@@ -36,7 +37,13 @@
         <license>Creative Commons Attribution Non-Commercial Share-Alike 4.0</license>
         <forum />
         <source>https://github.com/primez-x/skin.arctic.fuse.3</source>
-        <news>v3.29.1
+        <news>v4.0.0
+- Replace Trakt sources with Plex ratings, Watchlist badges, reviews, and My Plex Lists.
+- Use a selected Plex List for favourite badges.
+- Migrate saved rating choices, calendar settings, and Trakt shortcuts.
+- Remove the Trakt calendar switch and retain the library Next Aired calendar.
+
+v3.29.1
 - Restore the TV information page Cast row when episode metadata arrives after the page opens.
 - Keep empty widget rows responsive to source changes without showing blank rows.
 

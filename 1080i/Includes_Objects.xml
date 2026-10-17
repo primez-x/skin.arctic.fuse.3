@@ -166,33 +166,72 @@
         </definition>
     </include>
 
-    <include name="Object_TraktOverlays">
+    <include name="Object_PlexMembershipBadge">
+        <param name="listitem">ListItem</param>
+        <param name="allow_hint">false</param>
+        <param name="top">0</param>
+        <definition>
+            <control type="image">
+                <width>40</width>
+                <height>40</height>
+                <top>$PARAM[top]</top>
+                <visible>Skin.HasSetting(Indicator.Plex$PARAM[kind])</visible>
+                <visible>String.IsEqual($PARAM[listitem].DBTYPE,$PARAM[type])</visible>
+                <visible>!String.IsEmpty(Window(Home).Property(PKC.Account.Hash))</visible>
+                <visible>[String.IsEqual(Window(Home).Property(PKC.$PARAM[kind].Account),Window(Home).Property(PKC.Account.Hash)) + [[!String.IsEmpty($PARAM[listitem].UniqueID(plex)) + String.Contains(Window(Home).Property(PKC.$PARAM[kind].Guids),$PARAM[listitem].UniqueID(plex))] | [String.IsEqual(Window(Home).Property(PKC.$PARAM[kind].Library.Account),Window(Home).Property(PKC.Account.Hash)) + [[Integer.IsGreaterOrEqual($PARAM[listitem].DBID,1) + Integer.IsLess($PARAM[listitem].DBID,10) + String.Contains(Window(Home).Property(PKC.$PARAM[kind].Library.$PARAM[type].1),$PARAM[listitem].DBID)] | [Integer.IsGreaterOrEqual($PARAM[listitem].DBID,10) + Integer.IsLess($PARAM[listitem].DBID,100) + String.Contains(Window(Home).Property(PKC.$PARAM[kind].Library.$PARAM[type].2),$PARAM[listitem].DBID)] | [Integer.IsGreaterOrEqual($PARAM[listitem].DBID,100) + Integer.IsLess($PARAM[listitem].DBID,1000) + String.Contains(Window(Home).Property(PKC.$PARAM[kind].Library.$PARAM[type].3),$PARAM[listitem].DBID)] | [Integer.IsGreaterOrEqual($PARAM[listitem].DBID,1000) + Integer.IsLess($PARAM[listitem].DBID,10000) + String.Contains(Window(Home).Property(PKC.$PARAM[kind].Library.$PARAM[type].4),$PARAM[listitem].DBID)] | [Integer.IsGreaterOrEqual($PARAM[listitem].DBID,10000) + Integer.IsLess($PARAM[listitem].DBID,100000) + String.Contains(Window(Home).Property(PKC.$PARAM[kind].Library.$PARAM[type].5),$PARAM[listitem].DBID)] | [Integer.IsGreaterOrEqual($PARAM[listitem].DBID,100000) + Integer.IsLess($PARAM[listitem].DBID,1000000) + String.Contains(Window(Home).Property(PKC.$PARAM[kind].Library.$PARAM[type].6),$PARAM[listitem].DBID)] | [Integer.IsGreaterOrEqual($PARAM[listitem].DBID,1000000) + Integer.IsLess($PARAM[listitem].DBID,10000000) + String.Contains(Window(Home).Property(PKC.$PARAM[kind].Library.$PARAM[type].7),$PARAM[listitem].DBID)] | [Integer.IsGreaterOrEqual($PARAM[listitem].DBID,10000000) + Integer.IsLess($PARAM[listitem].DBID,100000000) + String.Contains(Window(Home).Property(PKC.$PARAM[kind].Library.$PARAM[type].8),$PARAM[listitem].DBID)] | [Integer.IsGreaterOrEqual($PARAM[listitem].DBID,100000000) + Integer.IsLess($PARAM[listitem].DBID,1000000000) + String.Contains(Window(Home).Property(PKC.$PARAM[kind].Library.$PARAM[type].9),$PARAM[listitem].DBID)] | [Integer.IsGreaterOrEqual($PARAM[listitem].DBID,1000000000) + Integer.IsLessOrEqual($PARAM[listitem].DBID,2147483647) + String.Contains(Window(Home).Property(PKC.$PARAM[kind].Library.$PARAM[type].10),$PARAM[listitem].DBID)]]]]] | [$PARAM[allow_hint] + !String.IsEqual(Window(Home).Property(PKC.$PARAM[kind].Account),Window(Home).Property(PKC.Account.Hash)) + String.IsEqual($PARAM[listitem].Property(PlexMembershipAccount),Window(Home).Property(PKC.Account.Hash)) + String.IsEqual($PARAM[listitem].Property(PlexWatchlistHint),present)]</visible>
+                <texture>$PARAM[texture]</texture>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Object_PlexOverlays">
         <param name="listitem">ListItem</param>
         <definition>
             <control type="group">
-                <control type="group">
-                    <width>40</width>
-                    <height>40</height>
-                    <top>12</top>
-                    <right>12</right>
-                    <visible>Skin.HasSetting(Indicator.TraktWatchlist)</visible>
-                    <visible>!String.IsEmpty($PARAM[listitem].Property(watchlist_rank))</visible>
-                    <control type="image">
-                        <texture>flags/color/trakt/watchlist.png</texture>
-                    </control>
-                </control>
-                <control type="group">
-                    <animation effect="slide" end="0,48" condition="!String.IsEmpty($PARAM[listitem].Property(watchlist_rank)) + Skin.HasSetting(Indicator.TraktWatchlist)">Conditional</animation>
-                    <width>40</width>
-                    <height>40</height>
-                    <top>12</top>
-                    <right>12</right>
-                    <visible>Skin.HasSetting(Indicator.TraktFavourites)</visible>
-                    <visible>!String.IsEmpty($PARAM[listitem].Property(favorites_rank))</visible>
-                    <control type="image">
-                        <texture>flags/color/trakt/favorite.png</texture>
-                    </control>
-                </control>
+                <width>40</width>
+                <height>88</height>
+                <top>12</top>
+                <right>12</right>
+                <include content="Object_PlexMembershipBadge">
+                    <param name="listitem">$PARAM[listitem]</param>
+                    <param name="kind">Watchlist</param>
+                    <param name="type">movie</param>
+                    <param name="texture">resource://resource.images.arctic.fuse.3/extras/icons/bookmark.png</param>
+                    <param name="allow_hint">true</param>
+                </include>
+                <include content="Object_PlexMembershipBadge">
+                    <param name="listitem">$PARAM[listitem]</param>
+                    <param name="kind">Watchlist</param>
+                    <param name="type">tvshow</param>
+                    <param name="texture">resource://resource.images.arctic.fuse.3/extras/icons/bookmark.png</param>
+                    <param name="allow_hint">true</param>
+                </include>
+                <include content="Object_PlexMembershipBadge">
+                    <param name="listitem">$PARAM[listitem]</param>
+                    <param name="kind">Favourites</param>
+                    <param name="type">movie</param>
+                    <param name="top">48</param>
+                    <param name="texture">resource://resource.images.arctic.fuse.3/extras/icons/heart.png</param>
+                </include>
+                <include content="Object_PlexMembershipBadge">
+                    <param name="listitem">$PARAM[listitem]</param>
+                    <param name="kind">Favourites</param>
+                    <param name="type">tvshow</param>
+                    <param name="top">48</param>
+                    <param name="texture">resource://resource.images.arctic.fuse.3/extras/icons/heart.png</param>
+                </include>
+                <include content="Object_PlexMembershipBadge">
+                    <param name="listitem">$PARAM[listitem]</param>
+                    <param name="kind">Favourites</param>
+                    <param name="type">season</param>
+                    <param name="texture">resource://resource.images.arctic.fuse.3/extras/icons/heart.png</param>
+                </include>
+                <include content="Object_PlexMembershipBadge">
+                    <param name="listitem">$PARAM[listitem]</param>
+                    <param name="kind">Favourites</param>
+                    <param name="type">episode</param>
+                    <param name="texture">resource://resource.images.arctic.fuse.3/extras/icons/heart.png</param>
+                </include>
             </control>
         </definition>
     </include>

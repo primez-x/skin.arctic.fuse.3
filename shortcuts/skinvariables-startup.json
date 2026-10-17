@@ -73,8 +73,36 @@
                     "value": "Skin.SetString(Navigation.OnBack,Parent)"
                 }],
                 [{
+                    "rules": ["Skin.String(CustomRating.Movies.Item01,Trakt)"],
+                    "value": "Skin.SetString(CustomRating.Movies.Item01,Plex)"
+                }],
+                [{
+                    "rules": ["Skin.String(CustomRating.Movies.Item02,Trakt)"],
+                    "value": "Skin.SetString(CustomRating.Movies.Item02,Plex)"
+                }],
+                [{
+                    "rules": ["Skin.String(CustomRating.Movies.Item03,Trakt)"],
+                    "value": "Skin.SetString(CustomRating.Movies.Item03,Plex)"
+                }],
+                [{
+                    "rules": ["Skin.String(CustomRating.TVShows.Item01,Trakt)"],
+                    "value": "Skin.SetString(CustomRating.TVShows.Item01,Plex)"
+                }],
+                [{
+                    "rules": ["Skin.String(CustomRating.TVShows.Item02,Trakt)"],
+                    "value": "Skin.SetString(CustomRating.TVShows.Item02,Plex)"
+                }],
+                [{
+                    "rules": ["Skin.String(CustomRating.TVShows.Item03,Trakt)"],
+                    "value": "Skin.SetString(CustomRating.TVShows.Item03,Plex)"
+                }],
+                [{
+                    "rules": ["Skin.String(HomeSwitcher.1106.UpNextMode,trakt_calendar)"],
+                    "value": "Skin.SetString(HomeSwitcher.1106.UpNextMode,library_nextaired)"
+                }],
+                [{
                     "rules": ["String.IsEmpty(Skin.String(CustomRating.Movies.Item01))"],
-                    "value": "Skin.SetString(CustomRating.Movies.Item01,Trakt)"
+                    "value": "Skin.SetString(CustomRating.Movies.Item01,Plex)"
                 }],
                 [{
                     "rules": ["String.IsEmpty(Skin.String(CustomRating.Movies.Item02))"],
@@ -82,7 +110,7 @@
                 }],
                 [{
                     "rules": ["String.IsEmpty(Skin.String(CustomRating.TVShows.Item01))"],
-                    "value": "Skin.SetString(CustomRating.TVShows.Item01,Trakt)"
+                    "value": "Skin.SetString(CustomRating.TVShows.Item01,Plex)"
                 }],
                 [{
                     "rules": ["String.IsEmpty(Skin.String(CustomRating.TVShows.Item02))"],

@@ -290,13 +290,13 @@
             "plugins": "521"
         },
         "none-calendar": {
-            "rule": "Container.Content() + [String.IsEqual(Container.Property(param.info),dir_calendar_library) | String.IsEqual(Container.Property(param.info),dir_calendar_trakt)]",
+            "rule": "Container.Content() + String.IsEqual(Container.Property(param.info),dir_calendar_library)",
             "viewtypes": ["500", "503", "510", "513", "521", "524", "526", "528", "506"],
             "library": "500",
             "plugins": "500"
         },
         "none": {
-            "rule": "Container.Content() + !Window.IsVisible(MyGames.xml) + !Window.IsVisible(MyPVRRecordings.xml) + !Window.IsVisible(MyPVRTimers.xml) + !Window.IsVisible(MyPVRSearch.xml) + !String.IsEqual(Container.Property(param.info),watch_providers) + ![String.IsEqual(Container.Property(param.info),dir_calendar_library) | String.IsEqual(Container.Property(param.info),dir_calendar_trakt)]",
+            "rule": "Container.Content() + !Window.IsVisible(MyGames.xml) + !Window.IsVisible(MyPVRRecordings.xml) + !Window.IsVisible(MyPVRTimers.xml) + !Window.IsVisible(MyPVRSearch.xml) + !String.IsEqual(Container.Property(param.info),watch_providers) + !String.IsEqual(Container.Property(param.info),dir_calendar_library)",
             "viewtypes": ["500", "510", "506"],
             "library": "500",
             "plugins": "500"
