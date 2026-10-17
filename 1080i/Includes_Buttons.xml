@@ -47,6 +47,8 @@
         <param name="control">button</param>
         <param name="dialog">true</param>
         <param name="istext">false</param>
+        <param name="has_fade">false</param>
+        <param name="fade_condition">false</param>
         <definition>
             <include content="Button_Control">
                 <param name="id">$PARAM[id]</param>
@@ -54,9 +56,14 @@
                 <param name="dialog">$PARAM[dialog]</param>
                 <radioposx>-2</radioposx>
                 <font />
+                <include content="Animation_ConditionalFade" condition="$PARAM[has_fade]">
+                    <param name="condition">$PARAM[fade_condition]</param>
+                </include>
                 <nested />
             </include>
             <include content="Button_Image" condition="![$PARAM[istext]]">
+                <param name="has_fade">$PARAM[has_fade]</param>
+                <param name="fade_condition">$PARAM[fade_condition]</param>
                 <param name="id">$PARAM[groupid]</param>
                 <param name="buttonid">$PARAM[id]</param>
                 <param name="icon">$PARAM[icon]</param>
@@ -67,6 +74,8 @@
                 <param name="label2">$PARAM[label2]</param>
             </include>
             <include content="Button_Label" condition="$PARAM[istext]">
+                <param name="has_fade">$PARAM[has_fade]</param>
+                <param name="fade_condition">$PARAM[fade_condition]</param>
                 <param name="id">$PARAM[groupid]</param>
                 <param name="buttonid">$PARAM[id]</param>
                 <param name="label">$PARAM[label]</param>
@@ -163,12 +172,17 @@
 
     <include name="Button_Image">
         <param name="top">-pill_pitch</param>
+        <param name="has_fade">false</param>
+        <param name="fade_condition">false</param>
         <param name="left">20</param>
         <definition>
             <control type="group" id="$PARAM[id]">
                 <top>$PARAM[top]</top>
                 <height>pill_h</height>
                 <visible>Control.IsVisible($PARAM[buttonid])</visible>
+                <include content="Animation_ConditionalFade" condition="$PARAM[has_fade]">
+                    <param name="condition">$PARAM[fade_condition]</param>
+                </include>
                 <control type="group">
                     <centertop>50%</centertop>
                     <left>$PARAM[left]</left>
@@ -200,11 +214,16 @@
 
     <include name="Button_Label">
         <param name="top">-pill_pitch</param>
+        <param name="has_fade">false</param>
+        <param name="fade_condition">false</param>
         <definition>
             <control type="group" id="$PARAM[id]">
                 <top>$PARAM[top]</top>
                 <height>pill_h</height>
                 <visible>Control.IsVisible($PARAM[buttonid])</visible>
+                <include content="Animation_ConditionalFade" condition="$PARAM[has_fade]">
+                    <param name="condition">$PARAM[fade_condition]</param>
+                </include>
                 <include content="Button_Label_Controls">
                     <param name="label">$PARAM[label]</param>
                     <param name="buttonid">$PARAM[buttonid]</param>

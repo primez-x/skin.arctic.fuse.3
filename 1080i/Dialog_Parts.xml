@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 	<include name="Part_List_Highlight">
-        <control type="image">
-            <include>Texture_Menu_Highlight_Row</include>
-        </control>
+        <param name="texture">Texture_Menu_Highlight_Row</param>
+        <definition>
+            <control type="image">
+                <include>$PARAM[texture]</include>
+            </control>
+        </definition>
     </include>
 
     <include name="Part_List_Checkmark">

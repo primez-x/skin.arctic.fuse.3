@@ -102,7 +102,9 @@
         <param name="selected">false</param>
         <param name="detailed">false</param>
         <definition>
-            <include condition="$PARAM[selected]">Part_List_Highlight</include>
+            <include content="Part_List_Highlight" condition="$PARAM[selected]">
+                <param name="texture">Texture_Menu_Highlight_H</param>
+            </include>
             <control type="group">
                 <left>40</left>
                 <right>40</right>
@@ -139,7 +141,9 @@
         <definition>
             <control type="group">
                 <animation effect="fade" start="100" end="50" condition="!Control.HasFocus($PARAM[id])">Conditional</animation>
-                <include condition="$PARAM[selected]">Part_List_Highlight</include>
+                <include content="Part_List_Highlight" condition="$PARAM[selected]">
+                    <param name="texture">Texture_Menu_Highlight_H</param>
+                </include>
             </control>
             <control type="group">
                 <left>40</left>

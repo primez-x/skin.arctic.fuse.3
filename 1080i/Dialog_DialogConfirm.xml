@@ -54,7 +54,7 @@
                     <control type="group">
                         <include>Size_Grouplist_Pad</include>
                         <control type="group">
-                            <height>80</height>
+                            <height>pill_h</height>
                             <control type="image">
                                 <visible>Control.IsVisible(20)</visible>
                                 <texture colordiffuse="$VAR[Color_DialogBorder]" border="26">common/pill.png</texture>
@@ -87,9 +87,8 @@
                 <label>$INFO[Control.GetLabel(11)]</label>
                 <onclick>SendClick(11)</onclick>
                 <visible>Control.IsVisible(11) + Control.IsEnabled(11)</visible>
-                <include content="Animation_ConditionalFade">
-                    <param name="condition">Control.IsVisible(20)</param>
-                </include>
+                <param name="has_fade">true</param>
+                <param name="fade_condition">Control.IsVisible(20)</param>
             </include>
             <include content="Button_Dialog">
                 <param name="id">9010</param>
@@ -98,9 +97,8 @@
                 <label>$INFO[Control.GetLabel(10)]</label>
                 <onclick>SendClick(10)</onclick>
                 <visible>Control.IsVisible(10) + Control.IsEnabled(10)</visible>
-                <include content="Animation_ConditionalFade">
-                    <param name="condition">Control.IsVisible(20)</param>
-                </include>
+                <param name="has_fade">true</param>
+                <param name="fade_condition">Control.IsVisible(20)</param>
             </include>
             <include content="Button_Dialog">
                 <param name="id">9012</param>
@@ -109,9 +107,8 @@
                 <label>$INFO[Control.GetLabel(12)]</label>
                 <onclick>SendClick(12)</onclick>
                 <visible>Control.IsVisible(12) + Control.IsEnabled(12)</visible>
-                <include content="Animation_ConditionalFade">
-                    <param name="condition">Control.IsVisible(20)</param>
-                </include>
+                <param name="has_fade">true</param>
+                <param name="fade_condition">Control.IsVisible(20)</param>
             </include>
         </definition>
     </include>
