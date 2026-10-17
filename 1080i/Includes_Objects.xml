@@ -12,6 +12,7 @@
     <include name="Object_Width"><width>$PARAM[width]</width></include>
     <include name="Object_Scroll"><scroll>$PARAM[scroll]</scroll></include>
     <include name="Object_Align"><align>$PARAM[align]</align></include>
+    <include name="Object_ItemGap"><itemgap>$PARAM[itemgap]</itemgap></include>
     <include name="Object_Visible"><visible allowhiddenfocus="$PARAM[allowhiddenfocus]">$PARAM[visible]</visible></include>
     <include name="Object_Visible_Focused"><visible>$PARAM[focus_condition]</visible></include>
     <include name="Object_Visible_Unfocused"><visible>![$PARAM[focus_condition]]</visible></include>

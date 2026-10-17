@@ -913,6 +913,21 @@ class CompactVideoInfoTests(unittest.TestCase):
         for size, zoom in zooms.items():
             self.assertEqual((slides[size] + 1) * 100, zoom, size)
 
+    def test_hub_tab_glass_and_pill_match_the_tab_width(self):
+        # Each button is the tab name plus 2 x textoffsetx wide. The glass must span the spacer exactly
+        # (segments join without gaps or overlaps); the pill sits 6 inside it on both sides.
+        spacer = _include("Includes_Home.xml", "Home_Spacer")
+        tab_widths = sorted(int(b.findtext("textoffsetx")) for b in spacer.iter("control"))
+        self.assertEqual([24, 36], tab_widths)
+        shape = _include("Includes_Home.xml", "Home_Tab_Shape")
+        shapes = {}
+        for call in shape.iterfind(".//include[@content='Home_Tab_Button']"):
+            params = {p.get("name"): p.text for p in call.findall("param")}
+            shapes[params["height"]] = (int(params["left"]), int(params["offset"]), int(params["offset_submenu"]))
+        self.assertEqual((0, 24, 36), shapes["64"])
+        inset, offset, offset_submenu = shapes["52"]
+        self.assertEqual((24, 36), (offset + inset, offset_submenu + inset))
+
     def test_pills_and_circles_share_both_states(self):
         icon = ET.tostring(_include("Includes_Buttons.xml", "Button_DialogInfo_ActionIcon"), encoding="unicode")
         cap = ET.tostring(_include("Includes_Buttons.xml", "Object_DialogInfo_ActionPillCap"), encoding="unicode")

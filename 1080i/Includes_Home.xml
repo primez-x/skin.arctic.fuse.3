@@ -344,6 +344,13 @@
         <animation effect="slide" start="0" end="-90" condition="Skin.HasSetting(HomeSwitcher.DisableSearch)">Conditional</animation>
     </include>
 
+
+    <!-- Selected hub tab: dark text on the filled pill, light text in the outline over the open submenu -->
+    <variable name="Home_Tab_Selected_Text">
+        <value condition="Window.IsVisible(1181)">main_fg_100</value>
+        <value>$VAR[ColorSelected]</value>
+    </variable>
+
     <variable name="Home_Header_Label">
         <value condition="Skin.HasSetting(HomeSwitcher.DisableDate)">$VAR[Label_ProfileName]</value>
         <value>$INFO[System.Date]</value>
@@ -382,6 +389,11 @@
                         <visible>!Control.HasFocus(300)</visible>
                     </control>
                 </control>
+                <include content="Home_Submenu_Counter"><param name="window">home</param><param name="id">00</param></include>
+                <include content="Home_Submenu_Counter"><param name="window">1101</param><param name="id">01</param></include>
+                <include content="Home_Submenu_Counter"><param name="window">1102</param><param name="id">02</param></include>
+                <include content="Home_Submenu_Counter"><param name="window">1103</param><param name="id">03</param></include>
+                <include content="Home_Submenu_Counter"><param name="window">1104</param><param name="id">04</param></include>
                 <control type="grouplist">
                     <top>-100</top>
                     <include content="Object_Left" condition="Skin.HasSetting(HomeSwitcher.EnableIcons)">
@@ -389,26 +401,40 @@
                     </include>
                     <left>-20</left>
                     <orientation>horizontal</orientation>
+                    <!-- Text tabs abut so their glass segments join -->
+                    <include content="Object_ItemGap" condition="!Skin.HasSetting(HomeSwitcher.EnableIcons)">
+                        <param name="itemgap">0</param>
+                    </include>
                     <height>1080</height>
                     <include content="Home_Object">
                         <param name="window">home</param>
                         <param name="id">00</param>
+                        <param name="first">true</param>
+                        <param name="last">String.IsEmpty(Skin.String(HomeSwitcher.1101.Toggle)) + String.IsEmpty(Skin.String(HomeSwitcher.1102.Toggle)) + String.IsEmpty(Skin.String(HomeSwitcher.1103.Toggle)) + String.IsEmpty(Skin.String(HomeSwitcher.1104.Toggle))</param>
                     </include>
                     <include content="Home_Object" condition="!String.IsEmpty(Skin.String(HomeSwitcher.1101.Toggle))">
                         <param name="window">1101</param>
                         <param name="id">01</param>
+                        <param name="first">false</param>
+                        <param name="last">String.IsEmpty(Skin.String(HomeSwitcher.1102.Toggle)) + String.IsEmpty(Skin.String(HomeSwitcher.1103.Toggle)) + String.IsEmpty(Skin.String(HomeSwitcher.1104.Toggle))</param>
                     </include>
                     <include content="Home_Object" condition="!String.IsEmpty(Skin.String(HomeSwitcher.1102.Toggle))">
                         <param name="window">1102</param>
                         <param name="id">02</param>
+                        <param name="first">false</param>
+                        <param name="last">String.IsEmpty(Skin.String(HomeSwitcher.1103.Toggle)) + String.IsEmpty(Skin.String(HomeSwitcher.1104.Toggle))</param>
                     </include>
                     <include content="Home_Object" condition="!String.IsEmpty(Skin.String(HomeSwitcher.1103.Toggle))">
                         <param name="window">1103</param>
                         <param name="id">03</param>
+                        <param name="first">false</param>
+                        <param name="last">String.IsEmpty(Skin.String(HomeSwitcher.1104.Toggle))</param>
                     </include>
                     <include content="Home_Object" condition="!String.IsEmpty(Skin.String(HomeSwitcher.1104.Toggle))">
                         <param name="window">1104</param>
                         <param name="id">04</param>
+                        <param name="first">false</param>
+                        <param name="last">true</param>
                     </include>
                 </control>
 
@@ -597,10 +623,9 @@
                 <control type="group">
                     <visible>Window.IsVisible($PARAM[window])</visible>
                     <include>Animation_SlideIn_Dialog</include>
+                    <!-- The panel starts below the glass tab bar, clear of the other tab names -->
                     <control type="group">
-                        <include content="Object_Top" condition="Skin.HasSetting(HomeSwitcher.Vertical)">
-                            <param name="top">40</param>
-                        </include>
+                        <top>40</top>
                         <control type="group">
                             <include>Part_Background_Panel</include>
                             <visible>Integer.IsGreater(Container(80$PARAM[id]).NumItems,8)</visible>
@@ -677,6 +702,8 @@
             </control>
             <include content="Home_Focus_Object" condition="!Skin.HasSetting(HomeSwitcher.Vertical)">
                 <param name="window">$PARAM[window]</param>
+                <param name="submenu">Integer.IsGreater(Container(80$PARAM[id]).NumItems,0)</param>
+                <param name="outline">true</param>
             </include>
         </definition>
     </include>
@@ -690,12 +717,17 @@
                 <height>80</height>
                 <control type="group">
                     <left>view_pad</left>
-                    <control type="label">
-                        <font>font_main_bold</font>
-                        <textcolor>main_fg_30</textcolor>
-                        <label>$INFO[Skin.String(HomeSwitcher.$PARAM[window].Name)]</label>
-                        <left>30</left>
+                    <control type="grouplist">
+                        <left>24</left>
+                        <orientation>horizontal</orientation>
+                        <itemgap>8</itemgap>
+                        <usecontrolcoords>true</usecontrolcoords>
                         <visible>![$PARAM[use_icons]]</visible>
+                        <include content="Home_Tab_Label">
+                            <param name="window">$PARAM[window]</param>
+                            <param name="submenu">Integer.IsGreater(Container(87$PARAM[id]).NumItems,0)</param>
+                            <param name="color">main_fg_30</param>
+                        </include>
                     </control>
                     <control type="group">
                         <left>10</left>
@@ -710,20 +742,73 @@
             </control>
             <include content="Home_Focus_Object">
                 <param name="window">$PARAM[window]</param>
+                <param name="submenu">Integer.IsGreater(Container(87$PARAM[id]).NumItems,0)</param>
+                <param name="glass">true</param>
+                <param name="first">$PARAM[first]</param>
+                <param name="last">$PARAM[last]</param>
             </include>
         </definition>
     </include>
 
-    <include name="Home_Focus_Object">
-        <include content="Home_Focus_Faker">
-            <param name="window">$PARAM[window]</param>
-        </include>
-        <include content="Home_Spacer">
-            <param name="name">$INFO[Skin.String(HomeSwitcher.$PARAM[window].Name)]</param>
-            <param name="icon">$VAR[Home_Icon_$PARAM[window]]</param>
-        </include>
+    <!-- Static copy of a tab's submenu items, so the bar (dialog 1182) can tell which tabs have a submenu -->
+    <include name="Home_Submenu_Counter">
+        <definition>
+            <control type="list" id="87$PARAM[id]">
+                <left>-4000</left>
+                <width>1</width>
+                <height>1</height>
+                <itemlayout width="1" height="1" />
+                <focusedlayout width="1" height="1" />
+                <content>
+                    <include>skinvariables-$PARAM[window]submenu-staticitems</include>
+                </content>
+            </control>
+        </definition>
     </include>
 
+    <!-- Tab name, then a chevron when the tab has a submenu -->
+    <include name="Home_Tab_Label">
+        <definition>
+            <control type="label">
+                <font>font_mini_bold</font>
+                <textcolor>$PARAM[color]</textcolor>
+                <width>auto</width>
+                <label>$INFO[Skin.String(HomeSwitcher.$PARAM[window].Name)]</label>
+            </control>
+            <control type="image">
+                <top>32</top>
+                <width>16</width>
+                <height>16</height>
+                <aspectratio>keep</aspectratio>
+                <texture colordiffuse="$PARAM[color]">resource://resource.images.arctic.fuse.3/extras/icons/chevron-down.png</texture>
+                <visible>$PARAM[submenu]</visible>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Home_Focus_Object">
+        <param name="glass">false</param>
+        <param name="outline">false</param>
+        <param name="first">false</param>
+        <param name="last">false</param>
+        <definition>
+            <include content="Home_Focus_Faker">
+                <param name="window">$PARAM[window]</param>
+                <param name="submenu">$PARAM[submenu]</param>
+                <param name="glass">$PARAM[glass]</param>
+                <param name="outline">$PARAM[outline]</param>
+                <param name="first">$PARAM[first]</param>
+                <param name="last">$PARAM[last]</param>
+            </include>
+            <include content="Home_Spacer">
+                <param name="name">$INFO[Skin.String(HomeSwitcher.$PARAM[window].Name)]</param>
+                <param name="icon">$VAR[Home_Icon_$PARAM[window]]</param>
+                <param name="submenu">$PARAM[submenu]</param>
+            </include>
+        </definition>
+    </include>
+
+    <!-- Tab sizes: padding 24 a side; a tab with a submenu adds 24 for the chevron and its gap -->
     <include name="Home_Focus_Faker">
         <param name="use_icons">Skin.HasSetting(HomeSwitcher.EnableIcons)</param>
         <definition>
@@ -732,24 +817,59 @@
                 <width>480</width>
                 <top>100</top>
                 <height>80</height>
+                <!-- Glass segment, with rounded ends on the first and the last shown tab -->
+                <control type="group">
+                    <visible>![$PARAM[use_icons]]</visible>
+                    <include content="Home_Tab_Shape" condition="$PARAM[glass] + $PARAM[first] + $PARAM[last]">
+                        <param name="window">$PARAM[window]</param>
+                        <param name="submenu">$PARAM[submenu]</param>
+                        <param name="texture">common/tab-glass.png</param>
+                    </include>
+                    <include content="Home_Tab_Shape" condition="$PARAM[glass] + $PARAM[first] + ![$PARAM[last]]">
+                        <param name="window">$PARAM[window]</param>
+                        <param name="submenu">$PARAM[submenu]</param>
+                        <param name="texture">common/tab-glass-start.png</param>
+                    </include>
+                    <include content="Home_Tab_Shape" condition="$PARAM[glass] + ![$PARAM[first]] + $PARAM[last]">
+                        <param name="window">$PARAM[window]</param>
+                        <param name="submenu">$PARAM[submenu]</param>
+                        <param name="texture">common/tab-glass-end.png</param>
+                    </include>
+                    <include content="Home_Tab_Shape" condition="$PARAM[glass] + ![$PARAM[first]] + ![$PARAM[last]]">
+                        <param name="window">$PARAM[window]</param>
+                        <param name="submenu">$PARAM[submenu]</param>
+                        <param name="texture">common/white.png</param>
+                    </include>
+                </control>
+                <!-- Selected tab: a filled pill while the bar has focus, an outline over the open submenu -->
+                <control type="group">
+                    <visible>Window.IsVisible($PARAM[window]) + ![$PARAM[use_icons]] + [$PARAM[outline] | !Window.IsVisible(1181)]</visible>
+                    <include content="Home_Tab_Shape" condition="![$PARAM[outline]]">
+                        <param name="window">$PARAM[window]</param>
+                        <param name="submenu">$PARAM[submenu]</param>
+                        <param name="texture">common/tab.png</param>
+                        <param name="pill">true</param>
+                    </include>
+                    <include content="Home_Tab_Shape" condition="$PARAM[outline]">
+                        <param name="window">$PARAM[window]</param>
+                        <param name="submenu">$PARAM[submenu]</param>
+                        <param name="texture">common/tab-outline.png</param>
+                        <param name="pill">true</param>
+                    </include>
+                    <control type="grouplist">
+                        <left>24</left>
+                        <orientation>horizontal</orientation>
+                        <itemgap>8</itemgap>
+                        <usecontrolcoords>true</usecontrolcoords>
+                        <include content="Home_Tab_Label">
+                            <param name="window">$PARAM[window]</param>
+                            <param name="submenu">$PARAM[submenu]</param>
+                            <param name="color">$VAR[Home_Tab_Selected_Text]</param>
+                        </include>
+                    </control>
+                </control>
                 <control type="group">
                     <visible>Window.IsVisible($PARAM[window])</visible>
-                    <control type="button">
-                        <font>font_main_bold</font>
-                        <textcolor>00ffffff</textcolor>
-                        <focusedcolor>00ffffff</focusedcolor>
-                        <label>$INFO[Skin.String(HomeSwitcher.$PARAM[window].Name)]</label>
-                        <width>auto</width>
-                        <include>Texture_Highlight_Button_FakeFocus_H</include>
-                        <visible>![$PARAM[use_icons]]</visible>
-                    </control>
-                    <control type="label">
-                        <font>font_main_bold</font>
-                        <textcolor>$VAR[ColorSelected]</textcolor>
-                        <label>$INFO[Skin.String(HomeSwitcher.$PARAM[window].Name)]</label>
-                        <left>30</left>
-                        <visible>![$PARAM[use_icons]]</visible>
-                    </control>
                     <control type="group">
                         <left>10</left>
                         <width>80</width>
@@ -763,6 +883,70 @@
                         </control>
                     </control>
                 </control>
+            </control>
+        </definition>
+    </include>
+
+    <!-- A tab-sized shape: a transparent copy of the tab name sizes the button to the tab.
+         Glass fills the tab at 64 high; the selected pill sits 6 inside it at 52 high. -->
+    <include name="Home_Tab_Shape">
+        <param name="pill">false</param>
+        <definition>
+            <include content="Home_Tab_Button" condition="![$PARAM[pill]]">
+                <param name="window">$PARAM[window]</param>
+                <param name="submenu">$PARAM[submenu]</param>
+                <param name="texture">$PARAM[texture]</param>
+                <param name="left">0</param>
+                <param name="height">64</param>
+                <param name="offset">24</param>
+                <param name="offset_submenu">36</param>
+                <param name="border">32,0,32,0</param>
+                <param name="colordiffuse">main_fg_12</param>
+            </include>
+            <include content="Home_Tab_Button" condition="$PARAM[pill]">
+                <param name="window">$PARAM[window]</param>
+                <param name="submenu">$PARAM[submenu]</param>
+                <param name="texture">$PARAM[texture]</param>
+                <param name="left">6</param>
+                <param name="height">52</param>
+                <param name="offset">18</param>
+                <param name="offset_submenu">30</param>
+                <param name="border">26</param>
+                <param name="colordiffuse">$VAR[ColorHighlight]</param>
+            </include>
+        </definition>
+    </include>
+
+    <include name="Home_Tab_Button">
+        <definition>
+            <control type="button">
+                <left>$PARAM[left]</left>
+                <centertop>50%</centertop>
+                <height>$PARAM[height]</height>
+                <width>auto</width>
+                <textoffsetx>$PARAM[offset]</textoffsetx>
+                <font>font_mini_bold</font>
+                <textcolor>00ffffff</textcolor>
+                <focusedcolor>00ffffff</focusedcolor>
+                <label>$INFO[Skin.String(HomeSwitcher.$PARAM[window].Name)]</label>
+                <texturefocus colordiffuse="$PARAM[colordiffuse]" border="$PARAM[border]">$PARAM[texture]</texturefocus>
+                <texturenofocus colordiffuse="$PARAM[colordiffuse]" border="$PARAM[border]">$PARAM[texture]</texturenofocus>
+                <visible>!$PARAM[submenu]</visible>
+            </control>
+            <!-- The chevron and its gap widen a tab with a submenu by 24, so the side offset grows by 12 -->
+            <control type="button">
+                <left>$PARAM[left]</left>
+                <centertop>50%</centertop>
+                <height>$PARAM[height]</height>
+                <width>auto</width>
+                <textoffsetx>$PARAM[offset_submenu]</textoffsetx>
+                <font>font_mini_bold</font>
+                <textcolor>00ffffff</textcolor>
+                <focusedcolor>00ffffff</focusedcolor>
+                <label>$INFO[Skin.String(HomeSwitcher.$PARAM[window].Name)]</label>
+                <texturefocus colordiffuse="$PARAM[colordiffuse]" border="$PARAM[border]">$PARAM[texture]</texturefocus>
+                <texturenofocus colordiffuse="$PARAM[colordiffuse]" border="$PARAM[border]">$PARAM[texture]</texturenofocus>
+                <visible>$PARAM[submenu]</visible>
             </control>
         </definition>
     </include>
@@ -795,6 +979,10 @@
                     </include>
                     <left>-20</left>
                     <orientation>horizontal</orientation>
+                    <!-- Text tabs abut so their glass segments join -->
+                    <include content="Object_ItemGap" condition="!Skin.HasSetting(HomeSwitcher.EnableIcons)">
+                        <param name="itemgap">0</param>
+                    </include>
                     <height>1080</height>
                     <include content="Home_Submenu_Panel">
                         <param name="window">home</param>
@@ -901,12 +1089,11 @@
     </include>
 
     <include name="Home_Spacer">
-        <param name="visible">true</param>
         <param name="use_icons">Skin.HasSetting(HomeSwitcher.EnableIcons)</param>
         <definition>
             <control type="button">
                 <left>-560</left>
-                <font>font_main_bold</font>
+                <font>font_mini_bold</font>
                 <textcolor>00ffffff</textcolor>
                 <focusedcolor>00ffffff</focusedcolor>
                 <label>$PARAM[name]</label>
@@ -915,10 +1102,25 @@
                     <param name="width">100</param>
                 </include>
                 <width>auto</width>
+                <textoffsetx>24</textoffsetx>
                 <centertop>50%</centertop>
                 <texturenofocus />
                 <texturefocus />
-                <visible>$PARAM[visible]</visible>
+                <visible>$PARAM[use_icons] | !$PARAM[submenu]</visible>
+            </control>
+            <control type="button">
+                <left>-560</left>
+                <font>font_mini_bold</font>
+                <textcolor>00ffffff</textcolor>
+                <focusedcolor>00ffffff</focusedcolor>
+                <label>$PARAM[name]</label>
+                <height>80</height>
+                <width>auto</width>
+                <textoffsetx>36</textoffsetx>
+                <centertop>50%</centertop>
+                <texturenofocus />
+                <texturefocus />
+                <visible>![$PARAM[use_icons]] + $PARAM[submenu]</visible>
             </control>
         </definition>
     </include>
