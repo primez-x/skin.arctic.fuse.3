@@ -8,7 +8,12 @@
     <include>DialogInfo_Onload</include>
     <onload>SetProperty(TMDbHelper.EnableExtendedProperties,True)</onload>
     <onload>SetProperty(BaseID,$INFO[ListItem.Label]$INFO[ListItem.FolderPath])</onload>
+    <!-- CurrentID must start equal to BaseID: a stale value from the previous dialog
+         keeps every empty widget row visible, and the group list then scrolls past
+         the last focused row into those empty rows, showing a blank page. -->
+    <onload>SetProperty(CurrentID,$INFO[ListItem.Label]$INFO[ListItem.FolderPath])</onload>
     <onload>ClearProperty(TVSelect.Ready,movieinformation)</onload>
+    <onload>ClearProperty(WatchedToggle,movieinformation)</onload>
     <onload condition="$EXP[Exp_DialogInfo_LibraryTV]">RunScript(special://skin/select_episode.py,$INFO[ListItem.DBType],$INFO[ListItem.DBID],$INFO[ListItem.TvShowDBID],$INFO[ListItem.Season])</onload>
     <onload>ClearProperty(PKC.Watchlist.Detail.Identity,Home)</onload>
     <onload>SetProperty(PKC.Watchlist.Detail.State,unknown,Home)</onload>
@@ -62,7 +67,6 @@
 
     <controls>
 
-        <include condition="!String.IsEqual(ListItem.Property(tmdb_type),person)">DialogInfo_VideoButtons</include>
 
         <control type="button" id="8000">
             <texturenofocus />

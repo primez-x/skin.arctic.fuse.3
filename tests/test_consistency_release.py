@@ -746,7 +746,7 @@ class SharedLabelTests(unittest.TestCase):
             self.assertIn("$VAR[Label_ListItem_StreamDetails]", text, name)
             self.assertNotIn("$INFO[ListItem.VideoCodec]$VAR", text, name)
             self.assertNotIn("$INFO[ListItem.VideoCodec, • ,]", text, name)
-        self.assertEqual(2, (SKIN / "Includes_DialogInfo.xml").read_text(encoding="utf-8").count("$VAR[Label_ListItem_StreamDetails]"))
+        self.assertEqual(1, (SKIN / "Includes_DialogInfo.xml").read_text(encoding="utf-8").count("$VAR[Label_ListItem_StreamDetails]"))
         value = _variable("Includes_Labels.xml", "Label_ListItem_StreamDetails").find("value").text
         order = ["VideoCodec", "Label_ListItem_VideoQuality", "HdrType", "VideoAspect", "AudioCodec", "Label_ListItem_AudioChannels"]
         positions = [value.index(part) for part in order]
@@ -805,7 +805,202 @@ class SharedLabelTests(unittest.TestCase):
         text = "".join(p.read_text(encoding="utf-8") for p in SKIN.glob("*.xml"))
         self.assertNotIn("$LOCALIZE[31184]", text)
         self.assertNotIn("$LOCALIZE[16102] , $LOCALIZE[1443]", text)
-        self.assertEqual(3, text.count("Property(watchedepisodes), • , [LOWERCASE]$LOCALIZE[16102][/LOWERCASE]]"))
+        self.assertEqual(2, text.count("Property(watchedepisodes), • , [LOWERCASE]$LOCALIZE[16102][/LOWERCASE]]"))
+
+
+class CompactVideoInfoTests(unittest.TestCase):
+    """Video information pages have no details grid: genre and director move
+    to the info line and the widget rows start under the action buttons."""
+
+    def test_video_details_has_no_grid(self):
+        definition = _include(
+            "Includes_DialogInfo.xml", "DialogInfo_VideoDetails"
+        ).find("definition")
+        text = ET.tostring(definition, encoding="unicode")
+        self.assertNotIn('id="9100"', text)
+        self.assertNotIn('id="9200"', text)
+        self.assertNotIn("90001", text)
+        grouplist = definition.find(".//control[@id='9000']")
+        ondowns = [node.text for node in grouplist.findall("ondown")]
+        self.assertEqual(["5014", "5000", "5019"], ondowns)
+
+    def test_compact_poster_and_rows_clear_the_text_and_captions(self):
+        body = _include("Includes_DialogInfo.xml", "DialogInfo_Body_Group")
+        zoom = next(
+            node
+            for node in body.iter("animation")
+            if "Exp_DialogInfo_CompactVideo" in (node.get("condition") or "")
+            and node.get("effect") == "zoom"
+        )
+        # Center is in parent coordinates: the poster right edge stays fixed.
+        self.assertEqual("1760,0", zoom.get("center"))
+
+        widgets = _include("Includes_DialogInfo.xml", "DialogInfo_Widget_Group")
+        slide = next(
+            node
+            for node in widgets.iter("animation")
+            if "Exp_DialogInfo_CompactVideo" in (node.get("condition") or "")
+        )
+        self.assertEqual("0,-320", slide.get("end"))
+
+    def test_compact_video_expression_excludes_people(self):
+        expr = _root("Includes_Expressions.xml").find(
+            "./expression[@name='Exp_DialogInfo_CompactVideo']"
+        )
+        self.assertIsNotNone(expr)
+        self.assertIn("movieinformation", expr.text)
+        self.assertIn("person", expr.text)
+
+    def test_movie_row_order_and_dynamic_starring(self):
+        widgets = _include("Includes_DialogInfo.xml", "DialogInfo_VideoWidgets")
+        rows = []
+        for node in widgets:
+            if node.tag != "include":
+                continue
+            condition = node.get("condition") or ""
+            if condition.startswith("$EXP[Exp_DialogInfo_LibraryTV]"):
+                continue
+            rows.append(node.findtext("param[@name='id']"))
+        # Videos, Cast, dynamic Starring, then the rest; Recommendations
+        # (16) second last and Comments (15) last, no Year (13), no second
+        # Starring (52).
+        self.assertEqual(["14", "50", "50", "51"], rows[:4])
+        row_by_id = {}
+        for node in widgets:
+            if node.tag != "include":
+                continue
+            row_by_id.setdefault(node.findtext("param[@name='id']"), node)
+        # Videos are part of the top-level page: the row does not wait
+        # for the widget group to gain focus before appearing.
+        for row_id in ("14",):
+            self.assertIsNone(row_by_id[row_id].find("param[@name='visible']"))
+        self.assertIn(
+            "| !String.IsEmpty(Container(5050).ListItem.Property(tmdb_id))",
+            row_by_id["51"].findtext("param[@name='altvisible']"),
+        )
+        self.assertEqual(["16", "15"], rows[-2:])
+        self.assertNotIn("13", rows)
+        self.assertNotIn("52", rows)
+
+        text = ET.tostring(widgets, encoding="unicode")
+        self.assertIn("Container(5050).ListItem.Property(tmdb_id)", text)
+        self.assertNotIn("TMDbHelper.ListItem.Cast.1.Name", text)
+        self.assertNotIn("Path_VideoInfo_OnlineYear", text)
+
+    def test_secondary_actions_are_icon_circles_with_captions(self):
+        actions = self._secondary_action_items()
+        self.assertEqual("110", actions.findtext("height"))
+        for layout_name in ("itemlayout", "focusedlayout"):
+            layout = actions.find(layout_name)
+            self.assertEqual("110", layout.get("height"))
+            text = ET.tostring(layout, encoding="unicode")
+            self.assertIn("diffuse/circle/circle_120.png", text)
+            self.assertIn("$INFO[ListItem.Icon]", text)
+            self.assertIn("$INFO[ListItem.Label]", text)
+
+    def _video_details_grouplist(self):
+        definition = _include(
+            "Includes_DialogInfo.xml", "DialogInfo_VideoDetails"
+        ).find("definition")
+        return definition.find(".//control[@id='9000']")
+
+    def _secondary_action_items(self):
+        actions = self._video_details_grouplist().find("./control[@id='4901']")
+        self.assertIsNotNone(actions)
+        return actions
+
+    def test_secondary_actions_are_a_list_beside_the_pills(self):
+        grouplist = self._video_details_grouplist()
+        pills = [
+            node.findtext("param[@name='id']")
+            for node in grouplist.findall("include")
+            if node.findtext("param[@name='id']")
+        ]
+        self.assertEqual(["4006", "4001"], pills)
+        # The group list steps between direct children, so the pills and
+        # the action list carry no explicit Left or Right of their own.
+        for node in grouplist.findall("include"):
+            self.assertEqual([], node.findall("onright"))
+            self.assertEqual([], node.findall("onleft"))
+        actions = self._secondary_action_items()
+        self.assertEqual("list", actions.get("type"))
+        content = actions.find("content")
+        positions = content.findall("include[@content='DialogInfo_VideoButtons_Position']")
+        self.assertEqual(6, len(positions))
+        action_ids = [
+            item.findtext("property[@name='action_id']")
+            for item in content.findall("item")
+        ]
+        self.assertEqual(["trailer", "watched", "options"], action_ids)
+
+    def test_trailer_and_mark_watched_buttons(self):
+        content = self._secondary_action_items().find("content")
+        items = {
+            item.findtext("property[@name='action_id']"): item
+            for item in content.findall("item")
+        }
+        trailer = items["trailer"]
+        play = trailer.find("include[@content='Action_PlayTrailer_OnClick']")
+        self.assertIsNotNone(play)
+        self.assertEqual("ListItem.Trailer", play.findtext("param[@name='trailer']"))
+        # The trailer left the Options overflow list for the top-level button.
+        overflow = _include("Includes_DialogInfo.xml", "DialogInfo_VideoButtons_Overflow")
+        self.assertNotIn("31393", ET.tostring(overflow, encoding="unicode"))
+
+        watched = items["watched"]
+        clicks = [n.text or "" for n in watched.findall("onclick")]
+        self.assertTrue(any("toggle_watched.py,episode" in c and "Container(5019)" in c for c in clicks))
+        self.assertTrue(any("toggle_watched.py,movie" in c for c in clicks))
+        self.assertIn("Label_DialogInfo_WatchedButton", watched.findtext("label"))
+        label_var = _root("Includes_Labels.xml").find("./variable[@name='Label_DialogInfo_WatchedButton']")
+        text = ET.tostring(label_var, encoding="unicode")
+        self.assertIn("$LOCALIZE[16103]", text)
+        self.assertIn("$LOCALIZE[16104]", text)
+        import py_compile
+
+        py_compile.compile(str(SKIN_ROOT / "toggle_watched.py"), doraise=True)
+
+        options = items["options"]
+        clicks = [n.text or "" for n in options.findall("onclick")]
+        self.assertTrue(any("ActivateWindow(1172)" in c for c in clicks))
+
+        grouplist = self._video_details_grouplist()
+        replay = next(
+            node
+            for node in grouplist.findall("include")
+            if node.findtext("param[@name='id']") == "4006"
+        )
+        self.assertIn("ListItem.IsResumable", replay.findtext("visible"))
+        clicks = [n.text or "" for n in replay.findall("onclick")]
+        self.assertTrue(any("PlayMedia($ESCINFO[ListItem.FileNameAndPath],noresume)" in c for c in clicks))
+
+    def test_cast_and_season_rows_hide_when_empty(self):
+        # A row kept visible while empty breaks the group list scrolling:
+        # moving past an empty Cast row landed on a blank page.
+        widgets = _include("Includes_DialogInfo.xml", "DialogInfo_VideoWidgets")
+        checked = 0
+        for node in widgets.findall("include"):
+            if node.findtext("param[@name='label']") in ("$LOCALIZE[206]", "$LOCALIZE[33054]"):
+                self.assertNotEqual("true", node.findtext("param[@name='altvisible']"))
+                checked += 1
+        self.assertGreaterEqual(checked, 5)
+
+    def test_genre_and_director_in_info_line(self):
+        text = (SKIN / "Includes_Info.xml").read_text(encoding="utf-8")
+        self.assertNotIn("Control.GetLabel(0)", text)
+        metas = {}
+        for node in _root("Includes_Info.xml").iter("include"):
+            if node.get("content") != "Info_Meta_Object":
+                continue
+            label = node.findtext("param[@name='label']")
+            if label in ("$VAR[Label_Genre]", "$VAR[Label_FromDirector]"):
+                metas[label] = node.findtext("param[@name='visible']")
+        self.assertEqual(
+            {"$VAR[Label_Genre]", "$VAR[Label_FromDirector]"}, set(metas)
+        )
+        for visible in metas.values():
+            self.assertIn("Exp_DialogInfo_CompactVideo", visible)
+            self.assertIn("Exp_DialogInfo_LibraryTV", visible)
 
 
 class PlaceholderAndCleanupTests(unittest.TestCase):

@@ -78,6 +78,9 @@
     <!-- ============== -->
 
     <expression name="Exp_InfoDialogs_WidgetsGroup_HasFocus">[ControlGroup(5000).HasFocus()]</expression>
+    <!-- Video information pages without the details grid: a smaller poster and the rows directly under the buttons -->
+    <expression name="Exp_DialogInfo_CompactVideo">[Window.IsVisible(movieinformation) + !String.IsEqual(ListItem.Property(tmdb_type),person)]</expression>
+    <expression name="Exp_DialogInfo_VideosFocusable">[Control.IsVisible(5014) + [Container(5014).IsUpdating | !Integer.IsEqual(Container(5014).NumItems,0)]]</expression>
     <!-- Library show, season or episode info: Episodes and Seasons from the library sit under the action buttons. -->
     <expression name="Exp_DialogInfo_LibraryTV">[[String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)] + !String.IsEmpty(ListItem.DBID) + !Skin.HasSetting(VideoInfo.Widgets.DisableSeasons) + !Skin.HasSetting(VideoInfo.Widgets.DisableEpisodes)]</expression>
     <!-- The Episodes row shares the page with the title and buttons, so only the rows below the Episodes row slide the widget group up. -->

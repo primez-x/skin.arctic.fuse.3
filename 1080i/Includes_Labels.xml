@@ -607,6 +607,14 @@
         <value>$LOCALIZE[31329]</value>
     </variable>
 
+    <variable name="Label_DialogInfo_WatchedButton">
+        <value condition="String.IsEqual(Window(movieinformation).Property(WatchedToggle),watched)">$LOCALIZE[16104]</value>
+        <value condition="String.IsEqual(Window(movieinformation).Property(WatchedToggle),unwatched)">$LOCALIZE[16103]</value>
+        <value condition="$EXP[Exp_DialogInfo_LibraryTV_Episode] + Integer.IsGreater(Container(5019).ListItem.PlayCount,0)">$LOCALIZE[16104]</value>
+        <value condition="Integer.IsGreater(ListItem.PlayCount,0)">$LOCALIZE[16104]</value>
+        <value>$LOCALIZE[16103]</value>
+    </variable>
+
     <variable name="Label_DialogInfo_PlayButton">
         <value condition="$EXP[Exp_DialogInfo_LibraryTV_Episode] + Container(5019).ListItem.IsResumable">$LOCALIZE[13404]</value>
         <value condition="$EXP[Exp_DialogInfo_LibraryTV] + !$EXP[Exp_DialogInfo_LibraryTV_Ready] + ListItem.IsResumable">$LOCALIZE[13404]</value>

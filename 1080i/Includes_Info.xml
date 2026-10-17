@@ -251,6 +251,19 @@
                         <param name="visible">[$PARAM[override_tvshow] | $PARAM[override_movie]] + !String.IsEmpty($PARAM[container]$PARAM[listitem].FinishTime)</param>
                     </include>
 
+                    <!-- Director and genre: video information pages, which have no details grid -->
+                    <include content="Info_Meta_Object">
+                        <param name="icon">resource://resource.images.arctic.fuse.3/extras/icons/clapperboard.png</param>
+                        <param name="label">$VAR[Label_FromDirector]</param>
+                        <param name="max_width">320</param>
+                        <param name="visible">$EXP[Exp_DialogInfo_CompactVideo] + !$EXP[Exp_DialogInfo_LibraryTV] + [!String.IsEmpty(ListItem.Director) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Director))]</param>
+                    </include>
+                    <include content="Info_Meta_Object">
+                        <param name="icon">resource://resource.images.arctic.fuse.3/extras/icons/genre.png</param>
+                        <param name="label">$VAR[Label_Genre]</param>
+                        <param name="max_width">700</param>
+                        <param name="visible">$EXP[Exp_DialogInfo_CompactVideo] + !$EXP[Exp_DialogInfo_LibraryTV] + [!String.IsEmpty(ListItem.Genre) | !String.IsEmpty(Window(Home).Property(TMDbHelper.ListItem.Genre))]</param>
+                    </include>
                     <!-- Status -->
                     <include content="Info_Meta_Object" condition="$EXP[Exp_TMDbHelper_IsData]">
                         <param name="label">$VAR[Label_$PARAM[service]_Status]$VAR[Label_$PARAM[service]_StatusDate, ,]</param>

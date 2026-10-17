@@ -265,7 +265,7 @@
         <definition>
             <control type="image">
                 <left>26</left>
-                <centertop>50%</centertop>
+                <top>12</top>
                 <width>56</width>
                 <height>56</height>
                 <texture colordiffuse="$VAR[Color_DialogInfo_PlayIcon]">$VAR[Image_DialogInfo_PlayButton]</texture>

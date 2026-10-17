@@ -334,6 +334,11 @@ class WatchlistActionOrderTests(unittest.TestCase):
             "DialogInfo_VideoDetails": "120",
             "_DialogInfo_MusicDetails": "100",
         }
+        # Video rows are taller: secondary actions are icon circles with captions.
+        row_heights = {
+            "DialogInfo_VideoDetails": "110",
+            "_DialogInfo_MusicDetails": "80",
+        }
         for include_name, action_height in action_heights.items():
             definition = dialog_root.find(
                 f"./include[@name='{include_name}']/definition"
@@ -348,13 +353,13 @@ class WatchlistActionOrderTests(unittest.TestCase):
 
             self.assertEqual(action_group.findtext("height"), action_height)
             self.assertEqual(action_row.findtext("top"), "10")
-            self.assertEqual(action_row.findtext("height"), "80")
+            self.assertEqual(action_row.findtext("height"), row_heights[include_name])
             self.assertEqual(action_list.findtext("top"), "0")
-            self.assertEqual(action_list.findtext("height"), "80")
+            self.assertEqual(action_list.findtext("height"), row_heights[include_name])
 
             if include_name == "DialogInfo_VideoDetails":
-                divider = action_group.find("./include[@content='View_Line']")
-                self.assertEqual(divider.findtext("param[@name='top']"), "80")
+                # No separator under the video buttons: the widget rows start there.
+                self.assertIsNone(action_group.find("./include[@content='View_Line']"))
 
         foregrounds = dialog_root.findall(
             ".//include[@content='DialogInfo_PrimaryActionForeground']"
@@ -371,8 +376,9 @@ class WatchlistActionOrderTests(unittest.TestCase):
         buttons = dialog_root.findall(
             ".//include[@content='Button_DialogInfo_ActionPill']"
         )
-        # Video pills: Replay (4006) left of Play, three Container(4900) pills, Options.
-        self.assertEqual(len(buttons), 10)
+        # Pills: video Replay (4006) left of Play, then the music dialog pills.
+        # Video secondary actions are icon circles (Button_DialogInfo_IconAction).
+        self.assertEqual(len(buttons), 6)
         self.assertEqual(
             [button.findtext("param[@name='id']") for button in buttons[:2]],
             ["4006", "4001"],
@@ -380,9 +386,19 @@ class WatchlistActionOrderTests(unittest.TestCase):
         self.assertEqual(buttons[0].findtext("param[@name='width']"), "80")
         self.assertEqual(
             [button.findtext("param[@name='textoffsetx']") for button in buttons],
-            [None, "39", None, None, None, None, "39", None, None, None],
+            [None, "39", "39", None, None, None],
         )
-        for button in (buttons[1], buttons[6]):
+        # Secondary actions are items in one horizontal list beside the pills.
+        action_list = dialog_root.find(".//control[@id='4901']")
+        self.assertIsNotNone(action_list)
+        self.assertEqual(
+            [
+                item.findtext("property[@name='action_id']")
+                for item in action_list.findall("./content/item")
+            ],
+            ["trailer", "watched", "options"],
+        )
+        for button in (buttons[1], buttons[2]):
             self.assertEqual(button.findtext("param[@name='align']"), "left")
             self.assertEqual(button.findtext("param[@name='textcolor']"), "00ffffff")
             self.assertEqual(button.findtext("param[@name='focusedcolor']"), "00ffffff")
@@ -397,8 +413,9 @@ class WatchlistActionOrderTests(unittest.TestCase):
         )
         icon = foreground.find("./definition/control[@type='image']")
         self.assertEqual(icon.findtext("left"), "26")
-        self.assertEqual(icon.findtext("centertop"), "50%")
-        self.assertIsNone(icon.find("top"))
+        # The icon is centred on the 80px pill, not on the taller action row.
+        self.assertEqual(icon.findtext("top"), "12")
+        self.assertIsNone(icon.find("centertop"))
         self.assertEqual(icon.findtext("width"), "56")
         self.assertEqual(icon.findtext("height"), "56")
         labels = foreground.findall("./definition/control[@type='label']")
