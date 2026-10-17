@@ -40,6 +40,7 @@
         <news>v4.1.0
 - Show information page buttons as icons that open into labelled pills on focus.
 - Show the time left and a progress ring on the Resume button.
+- Show the watched state as an outlined or filled check circle.
 - Show video, audio and subtitle chips on the information page.
 - Restyle the hub tabs as a compact glass bar, with a chevron on tabs that have a submenu.
 - Fix the music information toggle notification text.
