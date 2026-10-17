@@ -1,4 +1,4 @@
-<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.29.0">
+<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.29.1">
     <requires>
         <import addon="xbmc.gui" version="5.17.0" />
         <import addon="xbmc.python" version="3.0.0" />
@@ -36,7 +36,11 @@
         <license>Creative Commons Attribution Non-Commercial Share-Alike 4.0</license>
         <forum />
         <source>https://github.com/primez-x/skin.arctic.fuse.3</source>
-        <news>v3.29.0
+        <news>v3.29.1
+- Restore the TV information page Cast row when episode metadata arrives after the page opens.
+- Keep empty widget rows responsive to source changes without showing blank rows.
+
+v3.29.0
 - Place every widget row title next to its items on Home, Hubs and information pages.
 
 v3.28.0
