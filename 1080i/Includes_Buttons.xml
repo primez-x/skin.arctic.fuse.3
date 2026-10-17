@@ -441,7 +441,7 @@
                 <texture colordiffuse="$VAR[Color_DialogInfo_PlayIcon]">$VAR[Image_DialogInfo_PlayButton]</texture>
                 <visible>!$EXP[Exp_DialogInfo_PlayResumes]</visible>
             </control>
-            <!-- Resume: a thin progress ring around a play mark. The ring frames draw a thick ring in the middle
+            <!-- Resume: a thin progress ring around a play triangle. The ring frames draw a thick ring in the middle
                  half of the image; the diffuse mask keeps a 3px band of it at this size. -->
             <control type="group">
                 <left>12</left>
@@ -458,12 +458,12 @@
                     <texture colordiffuse="$VAR[Color_DialogInfo_PlayIcon]" diffuse="progress/circle-thin-diffuse.png" flipx="true" flipy="true">$VAR[Label_DialogInfo_ResumePercent,progress/circle/p,.png]</texture>
                 </control>
                 <control type="image">
-                    <left>28</left>
-                    <top>28</top>
-                    <width>20</width>
-                    <height>20</height>
+                    <left>12</left>
+                    <top>12</top>
+                    <width>52</width>
+                    <height>52</height>
                     <aspectratio>keep</aspectratio>
-                    <texture colordiffuse="$VAR[Color_DialogInfo_PlayIcon]">resource://resource.images.arctic.fuse.3/extras/icons/play.png</texture>
+                    <texture colordiffuse="$VAR[Color_DialogInfo_PlayIcon]">resource://resource.images.arctic.fuse.3/extras/icons/play2.png</texture>
                 </control>
             </control>
             <control type="label">

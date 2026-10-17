@@ -1409,7 +1409,7 @@
                         <param name="shift_l">$EXP[Exp_DialogInfo_PillsBefore_4012_l]</param>
                         <param name="shift_xl">Control.HasFocus(4006)</param>
                         <param name="label">$VAR[Label_DialogInfo_WatchedButton]</param>
-                        <param name="icon">resource://resource.images.arctic.fuse.3/extras/icons/check.png</param>
+                        <param name="icon">$VAR[Image_DialogInfo_WatchedButton]</param>
                         <onclick condition="$EXP[Exp_DialogInfo_LibraryTV_Episode]">RunScript(special://skin/toggle_watched.py,episode,$INFO[Container(5019).ListItem.DBID])</onclick>
                         <onclick condition="!$EXP[Exp_DialogInfo_LibraryTV] + String.IsEqual(ListItem.DBType,movie)">RunScript(special://skin/toggle_watched.py,movie,$INFO[ListItem.DBID])</onclick>
                         <onclick condition="!$EXP[Exp_DialogInfo_LibraryTV] + String.IsEqual(ListItem.DBType,episode)">RunScript(special://skin/toggle_watched.py,episode,$INFO[ListItem.DBID])</onclick>
