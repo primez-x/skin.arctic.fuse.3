@@ -1291,7 +1291,7 @@
                     <top>0</top>
                     <left>20</left>
                     <height>110</height>
-                    <itemgap>10</itemgap>
+                    <itemgap>20</itemgap>
                     <ondown condition="!$EXP[Exp_DialogInfo_LibraryTV]">5000</ondown>
                     <ondown condition="$EXP[Exp_DialogInfo_LibraryTV]">5019</ondown>
                     <onup condition="$EXP[Exp_TMDbHelper_IsData]">ActivateWindow(1113)</onup>
@@ -1406,7 +1406,7 @@
                         <visible>Control.HasFocus(4006)</visible>
                     </control>
                     <control type="group">
-                        <animation effect="slide" end="90,0" time="0" condition="Control.IsVisible(4006)">Conditional</animation>
+                        <animation effect="slide" end="100,0" time="0" condition="Control.IsVisible(4006)">Conditional</animation>
                         <include content="DialogInfo_PrimaryActionForeground">
                             <param name="label">$VAR[Label_DialogInfo_PlayButton]</param>
                         </include>
@@ -1440,7 +1440,7 @@
                     <top>0</top>
                     <left>20</left>
                     <height>80</height>
-                    <itemgap>10</itemgap>
+                    <itemgap>20</itemgap>
                     <ondown>5000</ondown>
                     <onup condition="$EXP[Exp_TMDbHelper_IsData]">ActivateWindow(1113)</onup>
 

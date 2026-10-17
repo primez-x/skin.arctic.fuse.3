@@ -880,7 +880,10 @@ class CompactVideoInfoTests(unittest.TestCase):
         circle = _include("Includes_Buttons.xml", "Button_DialogInfo_ActionCircle").find("definition")
         overlay = circle.find("control[@type='group']")
         self.assertEqual("$PARAM[id]9", overlay.get("id"))
-        self.assertEqual("-140", overlay.findtext("left"))
+        self.assertEqual("-100", overlay.findtext("left"))
+        # One visible gap everywhere: circles are as wide as they are tall, and the overlay cancels the 20px gap.
+        self.assertEqual("80", circle.find("control[@type='button']").findtext("width"))
+        self.assertEqual("20", grouplist.findtext("itemgap"))
         text = ET.tostring(grouplist, encoding="unicode")
         self.assertNotIn("31393", text)
         self.assertNotIn("Trakt", text)

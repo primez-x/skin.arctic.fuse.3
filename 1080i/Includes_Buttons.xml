@@ -259,12 +259,13 @@
     </include>
 
     <!-- Icon buttons show their caption only while focused, as on the Replay button.
-         A focusable 130px button in the action grouplist. The overlay group that follows sits on top of
-         the button: a -140 left plus 130 width cancels the 10px grouplist gap, so the overlay takes no space. -->
+         An 80px focusable circle in the action grouplist. The overlay group that follows sits on top of
+         the button: a -100 left plus 80 width cancels the 20px grouplist gap, so the overlay takes no space.
+         The caption is wider than the circle and may overlap the unfocused neighbours' empty caption area. -->
     <include name="Button_DialogInfo_ActionCircle">
         <definition>
             <control type="button" id="$PARAM[id]">
-                <width>130</width>
+                <width>80</width>
                 <height>110</height>
                 <texturefocus />
                 <texturenofocus />
@@ -273,26 +274,24 @@
             </control>
             <!-- Grouplist navigation chains children by id, so the overlay needs one for focus to pass through -->
             <control type="group" id="$PARAM[id]9">
-                <left>-140</left>
-                <width>130</width>
+                <left>-100</left>
+                <width>80</width>
                 <height>110</height>
                 <visible>Control.IsVisible($PARAM[id])</visible>
                 <control type="image">
-                    <left>25</left>
                     <width>80</width>
                     <height>80</height>
                     <texture colordiffuse="dialog_fg_12">diffuse/circle/circle_120.png</texture>
                     <visible>!Control.HasFocus($PARAM[id])</visible>
                 </control>
                 <control type="image">
-                    <left>25</left>
                     <width>80</width>
                     <height>80</height>
                     <texture colordiffuse="$VAR[ColorHighlight]">diffuse/circle/circle_120.png</texture>
                     <visible>Control.HasFocus($PARAM[id])</visible>
                 </control>
                 <control type="image">
-                    <left>37</left>
+                    <left>12</left>
                     <top>12</top>
                     <width>56</width>
                     <height>56</height>
@@ -301,7 +300,7 @@
                     <visible>!Control.HasFocus($PARAM[id])</visible>
                 </control>
                 <control type="image">
-                    <left>37</left>
+                    <left>12</left>
                     <top>12</top>
                     <width>56</width>
                     <height>56</height>
@@ -310,7 +309,7 @@
                     <visible>Control.HasFocus($PARAM[id])</visible>
                 </control>
                 <control type="label">
-                    <left>-20</left>
+                    <left>-45</left>
                     <top>84</top>
                     <width>170</width>
                     <height>24</height>
