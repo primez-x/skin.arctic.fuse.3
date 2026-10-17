@@ -406,8 +406,8 @@
                 <param name="control">$PARAM[control]</param>
                 <param name="dialog">$PARAM[dialog]</param>
                 <param name="icon">$PARAM[icon]</param>
-                <param name="font">font_main</param>
-                <param name="top">-80</param>
+                <param name="font">font_mini</param>
+                <param name="top">-pill_pitch</param>
                 <param name="left">$PARAM[left]</param>
                 <param name="has_label2">$PARAM[has_label2]</param>
                 <param name="label2">$PARAM[label2]</param>

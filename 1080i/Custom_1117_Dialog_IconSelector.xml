@@ -39,6 +39,7 @@
                         <include>Size_Group_Body</include>
                         <control type="grouplist" id="8200">
                             <include>Size_Grouplist_Pad</include>
+                            <itemgap>pill_gap</itemgap>
                             <onright>450</onright>
                             <onup>SetFocus(8100,9999,absolute)</onup>
                             <ondown>SetFocus(8100,0,absolute)</ondown>

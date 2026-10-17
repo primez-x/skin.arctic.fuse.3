@@ -791,10 +791,12 @@
                 <width>auto</width>
                 <label>$INFO[Skin.String(HomeSwitcher.$PARAM[window].Name)]</label>
             </control>
+            <!-- The chevron glyph fills under half of its icon, so a 32 box with -8 left draws a 15px chevron 8px after the label -->
             <control type="image">
-                <top>32</top>
-                <width>16</width>
-                <height>16</height>
+                <left>-8</left>
+                <top>24</top>
+                <width>32</width>
+                <height>32</height>
                 <aspectratio>keep</aspectratio>
                 <texture colordiffuse="$PARAM[color]">resource://resource.images.arctic.fuse.3/extras/icons/chevron-down.png</texture>
                 <visible>$PARAM[submenu]</visible>

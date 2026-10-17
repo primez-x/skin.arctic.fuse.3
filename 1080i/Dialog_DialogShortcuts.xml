@@ -89,6 +89,7 @@
                     <control type="group">
                         <include>Size_Group_Body</include>
                         <control type="grouplist" id="7000">
+                            <itemgap>pill_gap</itemgap>
                             <onleft>61</onleft>
                             <onright>62</onright>
                             <pagecontrol>62</pagecontrol>
