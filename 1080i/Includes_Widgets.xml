@@ -719,6 +719,8 @@
     </include>
 
     <include name="Widget_Info_Row">
+        <param name="labeltop">widget_label_t_info</param>
+        <param name="labelheight">widget_label_h_info</param>
         <param name="set_widgetcontainer">true</param>
         <param name="baseid">50</param>
         <param name="basegroupid">51</param>

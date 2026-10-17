@@ -622,6 +622,8 @@
             <param name="set_widgetcontainer">false</param>
             <param name="widget_hideartwork">true</param>
             <param name="widgetheight">widget_items_h_gallery</param>
+            <param name="labeltop">widget_label_t_info</param>
+            <param name="labelheight">widget_label_h_info</param>
             <param name="altvisible">!String.IsEqual(Window.Property(CurrentID),Window.Property(BaseID))</param>
             <onfocus>SetProperty(CurrentID,$INFO[Window.Property(BaseID)])</onfocus>
 
