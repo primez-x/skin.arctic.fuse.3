@@ -1390,7 +1390,7 @@
                         <top>10</top>
                         <width>60</width>
                         <height>60</height>
-                        <texture colordiffuse="$VAR[Color_DialogInfo_ReplayIcon]">resource://resource.images.arctic.fuse.3/extras/icons/rotate-left.png</texture>
+                        <texture colordiffuse="$VAR[Color_DialogInfo_ReplayIcon]">buttons/replay.png</texture>
                         <visible>Control.IsVisible(4006)</visible>
                     </control>
                     <control type="group">

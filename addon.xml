@@ -1,4 +1,4 @@
-<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.24.0">
+<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="3.25.0">
     <requires>
         <import addon="xbmc.gui" version="5.17.0" />
         <import addon="xbmc.python" version="3.0.0" />
@@ -36,7 +36,10 @@
         <license>Creative Commons Attribution Non-Commercial Share-Alike 4.0</license>
         <forum />
         <source>https://github.com/primez-x/skin.arctic.fuse.3</source>
-        <news>v3.24.0
+        <news>v3.25.0
+- Show the Replay button as a circular back arrow with a play triangle inside.
+
+v3.24.0
 - Give every information page button the same two states: a dark fill with a bright icon or label when idle, and the highlight fill when focused. Replay is now a circle like the other actions.
 - Match the size of the action circle icons to the Play and Replay icons.
 
