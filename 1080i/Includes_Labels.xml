@@ -593,14 +593,14 @@
         <value>$INFO[ListItem.PercentPlayed]</value>
     </variable>
 
-    <!-- resume_remaining.py keys the time left by DBType and DBID, so a value shows only for the item Resume plays -->
+    <!-- dialoginfo_details.py keys the time left by DBType and DBID, so a value shows only for the item Resume plays -->
     <variable name="Label_DialogInfo_PlayButton">
-        <value condition="$EXP[Exp_DialogInfo_LibraryTV_Episode] + Container(5019).ListItem.IsResumable + String.IsEqual(Window(Home).Property(DialogInfo.EpisodeRemaining.DBID),Container(5019).ListItem.DBID) + String.IsEqual(Window(Home).Property(DialogInfo.EpisodeRemaining.DBType),Container(5019).ListItem.DBType)">$LOCALIZE[13404]$INFO[Window(Home).Property(DialogInfo.EpisodeRemaining), • ,]</value>
+        <value condition="$EXP[Exp_DialogInfo_LibraryTV_Episode] + Container(5019).ListItem.IsResumable + String.IsEqual(Window(Home).Property(DialogInfo.Episode.DBID),Container(5019).ListItem.DBID) + String.IsEqual(Window(Home).Property(DialogInfo.Episode.DBType),Container(5019).ListItem.DBType)">$LOCALIZE[13404]$INFO[Window(Home).Property(DialogInfo.Episode.Remaining), • ,]</value>
         <value condition="$EXP[Exp_DialogInfo_LibraryTV_Episode] + Container(5019).ListItem.IsResumable">$LOCALIZE[13404]</value>
-        <value condition="$EXP[Exp_DialogInfo_LibraryTV] + !$EXP[Exp_DialogInfo_LibraryTV_Ready] + ListItem.IsResumable + String.IsEqual(Window(Home).Property(DialogInfo.Remaining.DBID),ListItem.DBID) + String.IsEqual(Window(Home).Property(DialogInfo.Remaining.DBType),ListItem.DBType)">$LOCALIZE[13404]$INFO[Window(Home).Property(DialogInfo.Remaining), • ,]</value>
+        <value condition="$EXP[Exp_DialogInfo_LibraryTV] + !$EXP[Exp_DialogInfo_LibraryTV_Ready] + ListItem.IsResumable + String.IsEqual(Window(Home).Property(DialogInfo.Item.DBID),ListItem.DBID) + String.IsEqual(Window(Home).Property(DialogInfo.Item.DBType),ListItem.DBType)">$LOCALIZE[13404]$INFO[Window(Home).Property(DialogInfo.Item.Remaining), • ,]</value>
         <value condition="$EXP[Exp_DialogInfo_LibraryTV] + !$EXP[Exp_DialogInfo_LibraryTV_Ready] + ListItem.IsResumable">$LOCALIZE[13404]</value>
         <value condition="$EXP[Exp_DialogInfo_LibraryTV]">$LOCALIZE[208]</value>
-        <value condition="$EXP[Exp_DialogInfo_ResumableVideo] + String.IsEqual(Window(Home).Property(DialogInfo.Remaining.DBID),ListItem.DBID) + String.IsEqual(Window(Home).Property(DialogInfo.Remaining.DBType),ListItem.DBType)">$LOCALIZE[13404]$INFO[Window(Home).Property(DialogInfo.Remaining), • ,]</value>
+        <value condition="$EXP[Exp_DialogInfo_ResumableVideo] + String.IsEqual(Window(Home).Property(DialogInfo.Item.DBID),ListItem.DBID) + String.IsEqual(Window(Home).Property(DialogInfo.Item.DBType),ListItem.DBType)">$LOCALIZE[13404]$INFO[Window(Home).Property(DialogInfo.Item.Remaining), • ,]</value>
         <value condition="$EXP[Exp_DialogInfo_ResumableVideo]">$LOCALIZE[13404]</value>
         <value condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.OptimisticState),present)">$LOCALIZE[31991]</value>
         <value condition="$EXP[Exp_PlexWatchlist_Target] + String.IsEqual(Window(Home).Property(PKC.Watchlist.Detail.OptimisticState),absent)">$LOCALIZE[31990]</value>

@@ -2471,7 +2471,7 @@ msgid "item"
 msgstr ""
 
 #. Time left on a part-watched item after Resume, for example "26m left"
-#: /resume_remaining.py
+#: /dialoginfo_details.py
 msgctxt "#31997"
 msgid "{0} left"
 msgstr ""

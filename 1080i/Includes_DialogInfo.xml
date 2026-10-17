@@ -147,6 +147,9 @@
                     <param name="plotwidth">$PARAM[plotwidth]</param>
                     <param name="include_title">false</param>
                     <param name="visible">!$EXP[Exp_DialogInfo_LibraryTV_Episode]</param>
+                    <param name="stream_chips">true</param>
+                    <!-- The meta line and the chips row fit in the old line height plus 12 -->
+                    <param name="line_height">46</param>
                 </include>
                 <!-- Library TV: details follow the highlighted episode, which the action buttons play -->
                 <include content="Info_Panel" condition="$EXP[Exp_DialogInfo_LibraryTV]">
@@ -155,6 +158,10 @@
                     <param name="plotwidth">$PARAM[plotwidth]</param>
                     <param name="include_title">false</param>
                     <param name="visible">$EXP[Exp_DialogInfo_LibraryTV_Episode]</param>
+                    <param name="stream_chips">true</param>
+                    <!-- The meta line and the chips row fit in the old line height plus 12 -->
+                    <param name="line_height">46</param>
+                    <param name="chips_target">Episode</param>
                 </include>
                 <include content="Info_Panel" condition="String.IsEqual(ListItem.Property(tmdb_type),person)">
                     <param name="use_textbox">true</param>

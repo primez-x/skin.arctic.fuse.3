@@ -491,6 +491,85 @@
         </definition>
     </include>
 
+    <!-- Stream chips: what will play, as glass capsules with an icon (dialoginfo_details.py writes the labels).
+         Kodi cannot size a group to its content, so a zero-width item draws the icon and label and the glass
+         button after it pulls back over them: its transparent copy of the label sizes it to icon + text. -->
+    <include name="Info_StreamChips">
+        <definition>
+            <control type="group">
+                <!-- A page without chips (a TV show, an item without stream details) keeps no empty row -->
+                <visible>$PARAM[visible] + $EXP[Exp_DialogInfo_Details_$PARAM[target]] + [!String.IsEmpty(Window(Home).Property(DialogInfo.$PARAM[target].Video)) | !String.IsEmpty(Window(Home).Property(DialogInfo.$PARAM[target].Audio)) | !String.IsEmpty(Window(Home).Property(DialogInfo.$PARAM[target].Subtitles))]</visible>
+                <left>40</left>
+                <height>46</height>
+                <control type="grouplist">
+                    <hitrect x="0" y="0" w="0" h="0" />
+                    <orientation>horizontal</orientation>
+                    <itemgap>10</itemgap>
+                    <left>-20</left>
+                    <control type="group" description="Avoid grouplist chop with spacer">
+                        <left>-10</left>
+                        <width>20</width>
+                    </control>
+                    <include content="Info_StreamChip">
+                        <param name="icon">resource://resource.images.arctic.fuse.3/extras/icons/display.png</param>
+                        <param name="label">$INFO[Window(Home).Property(DialogInfo.$PARAM[target].Video)]</param>
+                        <param name="visible">$EXP[Exp_DialogInfo_Details_$PARAM[target]] + !String.IsEmpty(Window(Home).Property(DialogInfo.$PARAM[target].Video))</param>
+                    </include>
+                    <include content="Info_StreamChip">
+                        <param name="icon">resource://resource.images.arctic.fuse.3/extras/icons/volume-high.png</param>
+                        <param name="label">$INFO[Window(Home).Property(DialogInfo.$PARAM[target].Audio)]</param>
+                        <param name="visible">$EXP[Exp_DialogInfo_Details_$PARAM[target]] + !String.IsEmpty(Window(Home).Property(DialogInfo.$PARAM[target].Audio))</param>
+                    </include>
+                    <include content="Info_StreamChip">
+                        <param name="icon">resource://resource.images.arctic.fuse.3/extras/icons/closed-captioning.png</param>
+                        <param name="label">$INFO[Window(Home).Property(DialogInfo.$PARAM[target].Subtitles)]</param>
+                        <param name="visible">$EXP[Exp_DialogInfo_Details_$PARAM[target]] + !String.IsEmpty(Window(Home).Property(DialogInfo.$PARAM[target].Subtitles))</param>
+                    </include>
+                </control>
+            </control>
+        </definition>
+    </include>
+
+    <include name="Info_StreamChip">
+        <definition>
+            <control type="group">
+                <visible>$PARAM[visible]</visible>
+                <width>0</width>
+                <control type="image">
+                    <left>12</left>
+                    <centertop>50%</centertop>
+                    <width>28</width>
+                    <height>28</height>
+                    <aspectratio>keep</aspectratio>
+                    <texture colordiffuse="dialog_fg_90">$PARAM[icon]</texture>
+                </control>
+                <control type="label">
+                    <left>46</left>
+                    <width>auto</width>
+                    <aligny>center</aligny>
+                    <font>font_mini_bold</font>
+                    <textcolor>dialog_fg_90</textcolor>
+                    <label>$PARAM[label]</label>
+                </control>
+            </control>
+            <!-- Padding 31 a side: 12 + icon 28 + gap 6 before the text, 16 after it -->
+            <control type="button">
+                <visible>$PARAM[visible]</visible>
+                <left>-10</left>
+                <centertop>50%</centertop>
+                <height>40</height>
+                <width>auto</width>
+                <textoffsetx>31</textoffsetx>
+                <font>font_mini_bold</font>
+                <textcolor>00ffffff</textcolor>
+                <focusedcolor>00ffffff</focusedcolor>
+                <texturefocus colordiffuse="dialog_fg_12" border="20">common/chip.png</texturefocus>
+                <texturenofocus colordiffuse="dialog_fg_12" border="20">common/chip.png</texturenofocus>
+                <label>$PARAM[label]</label>
+            </control>
+        </definition>
+    </include>
+
     <include name="Info_Line_Pill_Text">
         <param name="visible">true</param>
         <param name="width">auto</param>
@@ -659,6 +738,8 @@
              horizontal grouplist still skips hidden items and lays out the
              visible ones correctly. -->
         <param name="show_quality">true</param>
+        <!-- Info page: the stream chips row (Info_StreamChips) replaces the quality pills -->
+        <param name="stream_chips">false</param>
         <param name="show_meta">true</param>
         <param name="show_divider">true</param>
         <param name="leading_divider">true</param>
@@ -692,7 +773,7 @@
                     <!-- Info Pill -->
                     <include content="Info_Line_VideoQuality_Resolution">
                         <param name="colordiffuse">$PARAM[colordiffuse]</param>
-                        <param name="visible">$PARAM[show_quality]</param>
+                        <param name="visible">$PARAM[show_quality] + !$PARAM[stream_chips]</param>
                         <param name="is_8k">[Integer.IsGreater($PARAM[container]$PARAM[listitem].VideoResolution,2160) | String.IsEqual($PARAM[container]$PARAM[listitem].VideoResolution,8K)]</param>
                         <param name="is_4k">[Integer.IsGreater($PARAM[container]$PARAM[listitem].VideoResolution,1080) | String.IsEqual($PARAM[container]$PARAM[listitem].VideoResolution,4K)]</param>
                         <param name="is_fd">[Integer.IsGreater($PARAM[container]$PARAM[listitem].VideoResolution,720)]</param>
@@ -703,24 +784,26 @@
                         <param name="colordiffuse">$PARAM[colordiffuse]</param>
                         <param name="container">$PARAM[container]</param>
                         <param name="listitem">$PARAM[listitem]</param>
-                        <param name="visible">$PARAM[show_quality]</param>
+                        <param name="visible">$PARAM[show_quality] + !$PARAM[stream_chips]</param>
                     </include>
                     <include content="Info_Line_AudioChannels_Resolution" condition="Skin.HasSetting(InfoTags.EnableAudioChannels)">
                         <param name="colordiffuse">$PARAM[colordiffuse]</param>
                         <param name="container">$PARAM[container]</param>
                         <param name="listitem">$PARAM[listitem]</param>
-                        <param name="visible">$PARAM[show_quality]</param>
+                        <param name="visible">$PARAM[show_quality] + !$PARAM[stream_chips]</param>
                     </include>
 
                     <!-- Star Rating -->
                     <include content="Info_Line_StarRating" condition="!Skin.HasSetting(InfoTags.DisableStarRating)">
                         <param name="colordiffuse">$PARAM[colordiffuse]</param>
                         <param name="rating">$PARAM[container]$PARAM[listitem].Rating</param>
+                        <param name="show_divider">!$PARAM[stream_chips]</param>
                         <param name="visible">$PARAM[show_quality] + !String.IsEmpty($PARAM[container]$PARAM[listitem].Rating) + String.IsEmpty($PARAM[container]$PARAM[listitem].UserRating)</param>
                     </include>
                     <include content="Info_Line_StarRating" condition="!Skin.HasSetting(InfoTags.DisableStarRating)">
                         <param name="colordiffuse">$PARAM[colordiffuse]</param>
                         <param name="rating">$PARAM[container]$PARAM[listitem].UserRating</param>
+                        <param name="show_divider">!$PARAM[stream_chips]</param>
                         <param name="visible">$PARAM[show_quality] + !String.IsEmpty($PARAM[container]$PARAM[listitem].UserRating)</param>
                     </include>
 
@@ -899,9 +982,10 @@
 
     <include name="Info_Line_StarRating">
         <param name="visible">true</param>
+        <param name="show_divider">true</param>
         <definition>
             <include content="Info_Line_Divider">
-                <param name="visible">$PARAM[visible]</param>
+                <param name="visible">$PARAM[visible] + $PARAM[show_divider]</param>
             </include>
             <include content="Info_StarRating">
                 <param name="colordiffuse">$PARAM[colordiffuse]</param>
@@ -1361,6 +1445,9 @@
         <param name="container" />
         <param name="include_title">true</param>
         <param name="include_details">true</param>
+        <param name="stream_chips">false</param>
+        <param name="chips_target">Item</param>
+        <param name="line_height">80</param>
         <param name="colordiffuse">main_fg</param>
         <param name="plotwidth">info_plot_w</param>
         <param name="plotaligny">center</param>
@@ -1401,6 +1488,16 @@
                     <param name="colordiffuse">$PARAM[colordiffuse]</param>
                     <param name="container">$PARAM[container]</param>
                     <param name="listitem">$PARAM[listitem]</param>
+                    <param name="visible">$PARAM[visible_line]</param>
+                    <param name="stream_chips">$PARAM[stream_chips]</param>
+                    <param name="height">$PARAM[line_height]</param>
+                    <!-- Without the quality pills, a dot leads the meta labels only after a star rating -->
+                    <param name="leading_divider">[!$PARAM[stream_chips] | [!Skin.HasSetting(InfoTags.DisableStarRating) + [!String.IsEmpty($PARAM[container]$PARAM[listitem].Rating) | !String.IsEmpty($PARAM[container]$PARAM[listitem].UserRating)]]]</param>
+                </include>
+
+                <!-- Stream chips -->
+                <include content="Info_StreamChips" condition="$PARAM[include_details] + $PARAM[stream_chips]">
+                    <param name="target">$PARAM[chips_target]</param>
                     <param name="visible">$PARAM[visible_line]</param>
                 </include>
 

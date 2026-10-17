@@ -462,7 +462,7 @@ if __name__ == "__main__":
     main()
     if xbmc.getSkinDir() == ADDON_ID:
         # Imported here: the module needs xbmcgui, which the startup work does not
-        import resume_remaining
+        import dialoginfo_details
 
         # Skin strings live in Kodi's main string table, not in the add-on table
-        resume_remaining.watch(xbmc.Monitor(), xbmc.getLocalizedString(31997))
+        dialoginfo_details.watch(xbmc.Monitor(), xbmc.getLocalizedString(31997))
