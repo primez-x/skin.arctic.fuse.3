@@ -92,6 +92,33 @@
     <expression name="Exp_DialogInfo_LibraryTV_EpisodesFocus">[$EXP[Exp_DialogInfo_LibraryTV] + Control.HasFocus(5019)]</expression>
     <expression name="Exp_DialogInfo_WidgetsPage">[ControlGroup(5000).HasFocus() + !$EXP[Exp_DialogInfo_LibraryTV_EpisodesFocus]]</expression>
 
+    <!-- Play resumes a part-watched item (the Resume cases of Label_DialogInfo_PlayButton) -->
+    <expression name="Exp_DialogInfo_PlayResumes">[[$EXP[Exp_DialogInfo_LibraryTV_Episode] + Container(5019).ListItem.IsResumable] | [$EXP[Exp_DialogInfo_LibraryTV] + !$EXP[Exp_DialogInfo_LibraryTV_Ready] + ListItem.IsResumable] | $EXP[Exp_DialogInfo_ResumableVideo]]</expression>
+
+    <!-- Action pills (Button_DialogInfo_ActionIcon): the focused icon button and the width class of its caption.
+         Replay ("Play from beginning") and Watched ("Mark as unwatched") are extra large; the configured
+         actions carry their class in Container(4900). Options is small. -->
+    <expression name="Exp_DialogInfo_Pill_4002_s">[Control.HasFocus(4002) + String.IsEqual(Container(4900).ListItemAbsolute(0).Property(pill),s)]</expression>
+    <expression name="Exp_DialogInfo_Pill_4002_m">[Control.HasFocus(4002) + String.IsEqual(Container(4900).ListItemAbsolute(0).Property(pill),m)]</expression>
+    <expression name="Exp_DialogInfo_Pill_4002_l">[Control.HasFocus(4002) + String.IsEqual(Container(4900).ListItemAbsolute(0).Property(pill),l)]</expression>
+    <expression name="Exp_DialogInfo_Pill_4003_s">[Control.HasFocus(4003) + String.IsEqual(Container(4900).ListItemAbsolute(1).Property(pill),s)]</expression>
+    <expression name="Exp_DialogInfo_Pill_4003_m">[Control.HasFocus(4003) + String.IsEqual(Container(4900).ListItemAbsolute(1).Property(pill),m)]</expression>
+    <expression name="Exp_DialogInfo_Pill_4003_l">[Control.HasFocus(4003) + String.IsEqual(Container(4900).ListItemAbsolute(1).Property(pill),l)]</expression>
+    <expression name="Exp_DialogInfo_Pill_4004_s">[Control.HasFocus(4004) + String.IsEqual(Container(4900).ListItemAbsolute(2).Property(pill),s)]</expression>
+    <expression name="Exp_DialogInfo_Pill_4004_m">[Control.HasFocus(4004) + String.IsEqual(Container(4900).ListItemAbsolute(2).Property(pill),m)]</expression>
+    <expression name="Exp_DialogInfo_Pill_4004_l">[Control.HasFocus(4004) + String.IsEqual(Container(4900).ListItemAbsolute(2).Property(pill),l)]</expression>
+    <!-- An action slides right while any action before it is open -->
+    <expression name="Exp_DialogInfo_PillsBefore_4003_s">$EXP[Exp_DialogInfo_Pill_4002_s]</expression>
+    <expression name="Exp_DialogInfo_PillsBefore_4003_m">$EXP[Exp_DialogInfo_Pill_4002_m]</expression>
+    <expression name="Exp_DialogInfo_PillsBefore_4003_l">$EXP[Exp_DialogInfo_Pill_4002_l]</expression>
+    <expression name="Exp_DialogInfo_PillsBefore_4004_s">[$EXP[Exp_DialogInfo_PillsBefore_4003_s] | $EXP[Exp_DialogInfo_Pill_4003_s]]</expression>
+    <expression name="Exp_DialogInfo_PillsBefore_4004_m">[$EXP[Exp_DialogInfo_PillsBefore_4003_m] | $EXP[Exp_DialogInfo_Pill_4003_m]]</expression>
+    <expression name="Exp_DialogInfo_PillsBefore_4004_l">[$EXP[Exp_DialogInfo_PillsBefore_4003_l] | $EXP[Exp_DialogInfo_Pill_4003_l]]</expression>
+    <expression name="Exp_DialogInfo_PillsBefore_4012_s">[$EXP[Exp_DialogInfo_PillsBefore_4004_s] | $EXP[Exp_DialogInfo_Pill_4004_s]]</expression>
+    <expression name="Exp_DialogInfo_PillsBefore_4012_m">[$EXP[Exp_DialogInfo_PillsBefore_4004_m] | $EXP[Exp_DialogInfo_Pill_4004_m]]</expression>
+    <expression name="Exp_DialogInfo_PillsBefore_4012_l">[$EXP[Exp_DialogInfo_PillsBefore_4004_l] | $EXP[Exp_DialogInfo_Pill_4004_l]]</expression>
+    <expression name="Exp_DialogInfo_PillsBefore_4005_xl">[Control.HasFocus(4006) | Control.HasFocus(4012)]</expression>
+
     <expression name="Exp_IsAlphabetStrip">[!Skin.HasSetting(Navigation.DisableAlphabetJump) + !Window.IsVisible(MyPlaylist.xml) + [String.IsEqual(Container.SortMethod,$LOCALIZE[20376]) | String.IsEqual(Container.SortMethod,$LOCALIZE[556]) | String.IsEqual(Container.SortMethod,$LOCALIZE[551]) | String.IsEqual(Container.SortMethod,$LOCALIZE[21899]) | String.IsEqual(Container.SortMethod,$LOCALIZE[557]) | String.IsEqual(Container.SortMethod,$LOCALIZE[558]) | String.IsEqual(Container.SortMethod,$LOCALIZE[578])]]</expression>
 
     <expression name="Exp_PVRGuide_NoFocus">[Control.HasFocus(28) | Control.HasFocus(11)]</expression>

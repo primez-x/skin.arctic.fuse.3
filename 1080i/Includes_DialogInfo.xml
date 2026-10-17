@@ -1172,6 +1172,7 @@
         <item>
             <label>$LOCALIZE[207]</label>
             <icon>resource://resource.images.arctic.fuse.3/extras/icons/quote.png</icon>
+            <property name="pill">s</property>
             <onclick>Dialog.Close(1172,true)</onclick>
             <onclick>ActivateWindow(1113)</onclick>
             <visible>$EXP[Exp_TMDbHelper_IsData]</visible>
@@ -1181,6 +1182,7 @@
         <item>
             <label>$LOCALIZE[39123]</label>
             <icon>resource://resource.images.arctic.fuse.3/extras/icons/image.png</icon>
+            <property name="pill">s</property>
             <onclick>Dialog.Close(1172,true)</onclick>
             <onclick>SendClick(10)</onclick>
         </item>
@@ -1189,6 +1191,7 @@
         <item>
             <label>$LOCALIZE[31061]$INFO[ListItem.UserRating, (,)]</label>
             <icon>resource://resource.images.arctic.fuse.3/extras/icons/star.png</icon>
+            <property name="pill">l</property>
             <onclick>Dialog.Close(1172,true)</onclick>
             <onclick>SendClick(7)</onclick>
         </item>
@@ -1197,6 +1200,7 @@
         <item>
             <label>$LOCALIZE[40000]</label>
             <icon>resource://resource.images.arctic.fuse.3/extras/icons/bookmarks.png</icon>
+            <property name="pill">s</property>
             <onclick>Dialog.Close(1172,true)</onclick>
             <onclick>SendClick(14)</onclick>
         </item>
@@ -1205,6 +1209,7 @@
         <item>
             <label>$LOCALIZE[40211]</label>
             <icon>resource://resource.images.arctic.fuse.3/extras/icons/director.png</icon>
+            <property name="pill">s</property>
             <onclick>Dialog.Close(1172,true)</onclick>
             <onclick>SendClick(15)</onclick>
         </item>
@@ -1213,6 +1218,7 @@
         <item>
             <label>$LOCALIZE[184]</label>
             <icon>resource://resource.images.arctic.fuse.3/extras/icons/arrows-rotate.png</icon>
+            <property name="pill">s</property>
             <onclick>Dialog.Close(1172,true)</onclick>
             <onclick>SendClick(6)</onclick>
         </item>
@@ -1221,6 +1227,7 @@
         <item>
             <label>$LOCALIZE[31097]</label>
             <icon>resource://resource.images.arctic.fuse.3/extras/icons/file.png</icon>
+            <property name="pill">m</property>
             <onclick>Dialog.Close(1172,true)</onclick>
             <onclick>ActivateWindow(1126)</onclick>
         </item>
@@ -1298,12 +1305,12 @@
                     <ondown condition="$EXP[Exp_DialogInfo_LibraryTV]">5019</ondown>
                     <onup condition="$EXP[Exp_TMDbHelper_IsData]">ActivateWindow(1113)</onup>
 
-                    <!-- Replay: an icon pill left of Resume plays a started episode or movie from the beginning -->
-                    <include content="Button_DialogInfo_ActionPill">
+                    <!-- Replay: an icon button left of Resume plays a started episode or movie from the beginning -->
+                    <include content="Button_DialogInfo_ActionIcon">
                         <param name="id">4006</param>
-                        <param name="control">button</param>
-                        <param name="width">80</param>
-                        <label />
+                        <param name="label">$LOCALIZE[12021]</param>
+                        <param name="icon">buttons/replay.png</param>
+                        <param name="pill_xl">true</param>
                         <include content="Action_DialogInfo_PlayEpisode">
                             <param name="start">noresume</param>
                         </include>
@@ -1322,6 +1329,9 @@
                         <param name="focusedcolor">00ffffff</param>
                         <param name="selectedcolor">00ffffff</param>
                         <label>$VAR[Label_DialogInfo_PlayButton]</label>
+                        <include content="Animation_DialogInfo_ActionShift">
+                            <param name="shift_xl">Control.HasFocus(4006)</param>
+                        </include>
                         <include>Action_DialogInfo_WatchlistPreflight</include>
                         <onclick condition="!$EXP[Exp_PlexWatchlist_Target] + !$EXP[Exp_DialogInfo_LibraryTV] + !$EXP[Exp_DialogInfo_ResumableVideo]">$VAR[Action_DialogInfo_PlayMedia]</onclick>
                         <onclick condition="$EXP[Exp_DialogInfo_ResumableVideo]">PlayMedia($ESCINFO[ListItem.FileNameAndPath],resume)</onclick>
@@ -1333,8 +1343,12 @@
                     </include>
 
                     <!-- Configured action 0 -->
-                    <include content="Button_DialogInfo_ActionCircle">
+                    <include content="Button_DialogInfo_ActionIcon">
                         <param name="id">4002</param>
+                        <param name="pill_s">String.IsEqual(Container(4900).ListItemAbsolute(0).Property(pill),s)</param>
+                        <param name="pill_m">String.IsEqual(Container(4900).ListItemAbsolute(0).Property(pill),m)</param>
+                        <param name="pill_l">String.IsEqual(Container(4900).ListItemAbsolute(0).Property(pill),l)</param>
+                        <param name="shift_xl">Control.HasFocus(4006)</param>
                         <param name="label">$INFO[Container(4900).ListItemAbsolute(0).Label]</param>
                         <param name="icon">$INFO[Container(4900).ListItemAbsolute(0).Icon]</param>
                         <onclick>SetFocus(4900,0,absolute)</onclick>
@@ -1344,8 +1358,15 @@
                     </include>
 
                     <!-- Configured action 1 -->
-                    <include content="Button_DialogInfo_ActionCircle">
+                    <include content="Button_DialogInfo_ActionIcon">
                         <param name="id">4003</param>
+                        <param name="pill_s">String.IsEqual(Container(4900).ListItemAbsolute(1).Property(pill),s)</param>
+                        <param name="pill_m">String.IsEqual(Container(4900).ListItemAbsolute(1).Property(pill),m)</param>
+                        <param name="pill_l">String.IsEqual(Container(4900).ListItemAbsolute(1).Property(pill),l)</param>
+                        <param name="shift_s">$EXP[Exp_DialogInfo_PillsBefore_4003_s]</param>
+                        <param name="shift_m">$EXP[Exp_DialogInfo_PillsBefore_4003_m]</param>
+                        <param name="shift_l">$EXP[Exp_DialogInfo_PillsBefore_4003_l]</param>
+                        <param name="shift_xl">Control.HasFocus(4006)</param>
                         <param name="label">$INFO[Container(4900).ListItemAbsolute(1).Label]</param>
                         <param name="icon">$INFO[Container(4900).ListItemAbsolute(1).Icon]</param>
                         <onclick>SetFocus(4900,1,absolute)</onclick>
@@ -1355,8 +1376,15 @@
                     </include>
 
                     <!-- Configured action 2 -->
-                    <include content="Button_DialogInfo_ActionCircle">
+                    <include content="Button_DialogInfo_ActionIcon">
                         <param name="id">4004</param>
+                        <param name="pill_s">String.IsEqual(Container(4900).ListItemAbsolute(2).Property(pill),s)</param>
+                        <param name="pill_m">String.IsEqual(Container(4900).ListItemAbsolute(2).Property(pill),m)</param>
+                        <param name="pill_l">String.IsEqual(Container(4900).ListItemAbsolute(2).Property(pill),l)</param>
+                        <param name="shift_s">$EXP[Exp_DialogInfo_PillsBefore_4004_s]</param>
+                        <param name="shift_m">$EXP[Exp_DialogInfo_PillsBefore_4004_m]</param>
+                        <param name="shift_l">$EXP[Exp_DialogInfo_PillsBefore_4004_l]</param>
+                        <param name="shift_xl">Control.HasFocus(4006)</param>
                         <param name="label">$INFO[Container(4900).ListItemAbsolute(2).Label]</param>
                         <param name="icon">$INFO[Container(4900).ListItemAbsolute(2).Icon]</param>
                         <onclick>SetFocus(4900,2,absolute)</onclick>
@@ -1366,8 +1394,13 @@
                     </include>
 
                     <!-- Mark as watched / unwatched -->
-                    <include content="Button_DialogInfo_ActionCircle">
+                    <include content="Button_DialogInfo_ActionIcon">
                         <param name="id">4012</param>
+                        <param name="pill_xl">true</param>
+                        <param name="shift_s">$EXP[Exp_DialogInfo_PillsBefore_4012_s]</param>
+                        <param name="shift_m">$EXP[Exp_DialogInfo_PillsBefore_4012_m]</param>
+                        <param name="shift_l">$EXP[Exp_DialogInfo_PillsBefore_4012_l]</param>
+                        <param name="shift_xl">Control.HasFocus(4006)</param>
                         <param name="label">$VAR[Label_DialogInfo_WatchedButton]</param>
                         <param name="icon">resource://resource.images.arctic.fuse.3/extras/icons/check.png</param>
                         <onclick condition="$EXP[Exp_DialogInfo_LibraryTV_Episode]">RunScript(special://skin/toggle_watched.py,episode,$INFO[Container(5019).ListItem.DBID])</onclick>
@@ -1377,8 +1410,13 @@
                     </include>
 
                     <!-- Options -->
-                    <include content="Button_DialogInfo_ActionCircle">
+                    <include content="Button_DialogInfo_ActionIcon">
                         <param name="id">4005</param>
+                        <param name="pill_s">true</param>
+                        <param name="shift_s">[$EXP[Exp_DialogInfo_PillsBefore_4012_s] | $EXP[Exp_DialogInfo_Pill_4004_s]]</param>
+                        <param name="shift_m">[$EXP[Exp_DialogInfo_PillsBefore_4012_m] | $EXP[Exp_DialogInfo_Pill_4004_m]]</param>
+                        <param name="shift_l">[$EXP[Exp_DialogInfo_PillsBefore_4012_l] | $EXP[Exp_DialogInfo_Pill_4004_l]]</param>
+                        <param name="shift_xl">$EXP[Exp_DialogInfo_PillsBefore_4005_xl]</param>
                         <param name="label">$LOCALIZE[33063]</param>
                         <param name="icon">resource://resource.images.arctic.fuse.3/extras/icons/ellipsis-vertical.png</param>
                         <onclick>SetProperty(Dialog.1172.DBTYPE,$INFO[ListItem.DBType],Home)</onclick>
@@ -1387,28 +1425,11 @@
                     </include>
 
                     </control>
-                    <control type="image">
-                        <left>30</left>
-                        <top>10</top>
-                        <width>60</width>
-                        <height>60</height>
-                        <texture colordiffuse="$VAR[Color_DialogInfo_ReplayIcon]">buttons/replay.png</texture>
-                        <visible>Control.IsVisible(4006)</visible>
-                    </control>
-                    <control type="label">
-                        <left>-25</left>
-                        <top>84</top>
-                        <width>170</width>
-                        <height>24</height>
-                        <align>center</align>
-                        <aligny>center</aligny>
-                        <font>font_hint</font>
-                        <textcolor>dialog_fg_100</textcolor>
-                        <label>$LOCALIZE[12021]</label>
-                        <visible>Control.HasFocus(4006)</visible>
-                    </control>
                     <control type="group">
                         <animation effect="slide" end="100,0" time="0" condition="Control.IsVisible(4006)">Conditional</animation>
+                        <include content="Animation_DialogInfo_ActionShift">
+                            <param name="shift_xl">Control.HasFocus(4006)</param>
+                        </include>
                         <include content="DialogInfo_PrimaryActionForeground">
                             <param name="label">$VAR[Label_DialogInfo_PlayButton]</param>
                         </include>

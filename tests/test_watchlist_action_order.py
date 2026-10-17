@@ -334,7 +334,7 @@ class WatchlistActionOrderTests(unittest.TestCase):
             "DialogInfo_VideoDetails": "120",
             "_DialogInfo_MusicDetails": "100",
         }
-        # Video rows are taller: secondary actions are icon circles with captions.
+        # Video rows keep the height they had when captions sat under the icon buttons.
         row_heights = {
             "DialogInfo_VideoDetails": "110",
             "_DialogInfo_MusicDetails": "80",
@@ -376,28 +376,24 @@ class WatchlistActionOrderTests(unittest.TestCase):
         buttons = dialog_root.findall(
             ".//include[@content='Button_DialogInfo_ActionPill']"
         )
-        # Pills: video Replay (4006) left of Play, then the music dialog pills.
-        # Video secondary actions are icon circles (Button_DialogInfo_ActionCircle).
-        self.assertEqual(len(buttons), 6)
-        self.assertEqual(
-            [button.findtext("param[@name='id']") for button in buttons[:2]],
-            ["4006", "4001"],
-        )
-        self.assertEqual(buttons[0].findtext("param[@name='width']"), "80")
+        # Pills: video Play (4001), then the music dialog pills.
+        # Video Replay and secondary actions are icon buttons (Button_DialogInfo_ActionIcon).
+        self.assertEqual(len(buttons), 5)
+        self.assertEqual(buttons[0].findtext("param[@name='id']"), "4001")
         self.assertEqual(
             [button.findtext("param[@name='textoffsetx']") for button in buttons],
-            [None, "39", "39", None, None, None],
+            ["39", "39", None, None, None],
         )
-        # Secondary actions are circle buttons in the same grouplist as the pills.
+        # Secondary actions are icon buttons in the same grouplist as the pills.
         self.assertIsNone(dialog_root.find(".//control[@id='4901']"))
         self.assertEqual(
             [
-                circle.findtext("param[@name='id']")
-                for circle in dialog_root.findall(".//include[@content='Button_DialogInfo_ActionCircle']")
+                icon.findtext("param[@name='id']")
+                for icon in dialog_root.findall(".//include[@content='Button_DialogInfo_ActionIcon']")
             ],
-            ["4002", "4003", "4004", "4012", "4005"],
+            ["4006", "4002", "4003", "4004", "4012", "4005"],
         )
-        for button in (buttons[1], buttons[2]):
+        for button in (buttons[0], buttons[1]):
             self.assertEqual(button.findtext("param[@name='align']"), "left")
             self.assertEqual(button.findtext("param[@name='textcolor']"), "00ffffff")
             self.assertEqual(button.findtext("param[@name='focusedcolor']"), "00ffffff")

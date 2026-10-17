@@ -1,7 +1,6 @@
 import json
 
 import xbmc
-import xbmcaddon
 import xbmcgui
 
 
@@ -29,6 +28,6 @@ if __name__ == "__main__":
         xbmc.log(f"skin.arctic.fuse.3: {error}", xbmc.LOGERROR)
         xbmcgui.Dialog().notification(
             xbmc.getLocalizedString(257),
-            xbmcaddon.Addon("skin.arctic.fuse.3").getLocalizedString(31994),
+            xbmc.getLocalizedString(31994),
             icon=xbmcgui.NOTIFICATION_ERROR,
         )

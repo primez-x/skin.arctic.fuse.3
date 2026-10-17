@@ -874,38 +874,58 @@ class CompactVideoInfoTests(unittest.TestCase):
         self.assertIsNone(grouplist.find(".//control[@type='list']"))
         ids = [node.findtext("param[@name='id']") for node in grouplist.findall("include")]
         self.assertEqual(["4006", "4001", "4002", "4003", "4004", "4012", "4005"], ids)
-        circles = grouplist.findall("include[@content='Button_DialogInfo_ActionCircle']")
-        self.assertEqual(5, len(circles))
-        # The overlay after each circle needs an id: grouplist navigation chains children by id.
-        circle = _include("Includes_Buttons.xml", "Button_DialogInfo_ActionCircle").find("definition")
-        overlay = circle.find("control[@type='group']")
+        icons = grouplist.findall("include[@content='Button_DialogInfo_ActionIcon']")
+        self.assertEqual(["4006", "4002", "4003", "4004", "4012", "4005"], [n.findtext("param[@name='id']") for n in icons])
+        # The overlay after each icon button needs an id: grouplist navigation chains children by id.
+        icon = _include("Includes_Buttons.xml", "Button_DialogInfo_ActionIcon").find("definition")
+        overlay = icon.find("control[@type='group']")
         self.assertEqual("$PARAM[id]9", overlay.get("id"))
         self.assertEqual("-100", overlay.findtext("left"))
-        # One visible gap everywhere: circles are as wide as they are tall, and the overlay cancels the 20px gap.
-        self.assertEqual("80", circle.find("control[@type='button']").findtext("width"))
+        # One visible gap everywhere: icon buttons are as wide as they are tall, and the overlay cancels the 20px gap.
+        self.assertEqual("80", icon.find("control[@type='button']").findtext("width"))
         self.assertEqual("20", grouplist.findtext("itemgap"))
         text = ET.tostring(grouplist, encoding="unicode")
         self.assertNotIn("31393", text)
         self.assertNotIn("Trakt", text)
 
+    def test_icon_buttons_open_into_a_labelled_pill_on_focus(self):
+        icon = _include("Includes_Buttons.xml", "Button_DialogInfo_ActionIcon")
+        captions = [n for n in icon.iter("control") if n.get("type") == "label"]
+        self.assertEqual(["Control.HasFocus($PARAM[id])"], [n.findtext("visible") for n in captions])
+        # The caption sits inside the pill, right of the icon, not under the button
+        self.assertEqual("76", captions[0].findtext("left"))
+        self.assertIsNone(captions[0].find("top"))
+        grouplist = self._video_details_grouplist()
+        replay = [n for n in grouplist.findall("include") if n.findtext("param[@name='id']") == "4006"][0]
+        self.assertEqual("$LOCALIZE[12021]", replay.findtext("param[@name='label']"))
+        self.assertEqual("true", replay.findtext("param[@name='pill_xl']"))
+
+    def test_pill_strip_meets_the_slid_right_cap(self):
+        # The strip is 1px at rest, the right cap starts 1px after it: zoom = (slide + 1) x 100%
+        icon = _include("Includes_Buttons.xml", "Button_DialogInfo_ActionIcon")
+        zooms = {n.findtext("param[@name='pill']").split("_")[-1].rstrip("]"): int(n.findtext("param[@name='zoom']"))
+                 for n in icon.iter("include") if n.get("content") == "Object_DialogInfo_ActionPillStrip"}
+        shift = _include("Includes_Buttons.xml", "Animation_DialogInfo_ActionShift")
+        slides = {a.get("condition").split("_")[-1].rstrip("]"): int(a.get("end").split(",")[0])
+                  for a in shift.iter("animation")}
+        self.assertEqual({"s", "m", "l", "xl"}, set(zooms))
+        self.assertEqual(set(zooms), set(slides))
+        for size, zoom in zooms.items():
+            self.assertEqual((slides[size] + 1) * 100, zoom, size)
+
     def test_pills_and_circles_share_both_states(self):
-        circle = ET.tostring(_include("Includes_Buttons.xml", "Button_DialogInfo_ActionCircle"), encoding="unicode")
+        icon = ET.tostring(_include("Includes_Buttons.xml", "Button_DialogInfo_ActionIcon"), encoding="unicode")
+        cap = ET.tostring(_include("Includes_Buttons.xml", "Object_DialogInfo_ActionPillCap"), encoding="unicode")
+        strip = ET.tostring(_include("Includes_Buttons.xml", "Object_DialogInfo_ActionPillStrip"), encoding="unicode")
         pill = _include("Includes_Textures.xml", "Texture_DialogInfo_Action")
-        self.assertIn('colordiffuse="dialog_fg_12">diffuse/circle', circle)
-        self.assertIn('colordiffuse="$VAR[ColorHighlight]">diffuse/circle', circle)
+        self.assertIn("Object_DialogInfo_ActionPillCap", icon)
+        for part in (cap, strip):
+            self.assertIn('colordiffuse="dialog_fg_12"', part)
+            self.assertIn('colordiffuse="$VAR[ColorHighlight]"', part)
         self.assertEqual("dialog_fg_12", pill.find("texturenofocus").get("colordiffuse"))
         self.assertEqual("$VAR[ColorHighlight]", pill.find("texturefocus").get("colordiffuse"))
-        for name in ("Color_DialogInfo_PlayIcon", "Color_DialogInfo_ReplayIcon"):
-            values = [v.text for v in _variable("Includes_Colors.xml", name).findall("value")]
-            self.assertEqual(["$VAR[ColorSelected]", "dialog_fg_100"], values)
-
-    def test_icon_buttons_caption_only_on_focus(self):
-        circle = _include("Includes_Buttons.xml", "Button_DialogInfo_ActionCircle")
-        captions = [n.findtext("visible") for n in circle.iter("control") if n.get("type") == "label"]
-        self.assertEqual(["Control.HasFocus($PARAM[id])"], captions)
-        details = ET.tostring(_include("Includes_DialogInfo.xml", "DialogInfo_VideoDetails"), encoding="unicode")
-        self.assertIn("<label>$LOCALIZE[12021]</label>", details)
-        self.assertIn("<visible>Control.HasFocus(4006)</visible>", details)
+        values = [v.text for v in _variable("Includes_Colors.xml", "Color_DialogInfo_PlayIcon").findall("value")]
+        self.assertEqual(["$VAR[ColorSelected]", "dialog_fg_100"], values)
 
     def test_row_labels_sit_next_to_their_items(self):
         # Every widget row reads these constants. The label moved 35px down, next to its items,

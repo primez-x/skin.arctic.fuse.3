@@ -40,9 +40,9 @@
         <value>dialog_fg_100</value>
     </variable>
 
-    <variable name="Color_DialogInfo_ReplayIcon">
-        <value condition="Control.HasFocus(4006)">$VAR[ColorSelected]</value>
-        <value>dialog_fg_100</value>
+    <variable name="Color_DialogInfo_PlayRingTrack">
+        <value condition="Control.HasFocus(4001)">main_bg_30</value>
+        <value>dialog_fg_30</value>
     </variable>
 
     <!-- Watched / Progress Color -->
