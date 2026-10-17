@@ -71,7 +71,7 @@
 
             <control type="grouplist" id="9000">
                 <onleft>61</onleft>
-                <itemgap>20</itemgap>
+                <itemgap>pill_gap</itemgap>
                 <orientation>vertical</orientation>
                 <include>Size_Grouplist_Pad</include>
                 <onup>noop</onup>

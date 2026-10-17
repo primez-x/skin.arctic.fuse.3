@@ -177,7 +177,7 @@
     </include>
 
     <include name="List_DialogSelect">
-        <param name="item_height">80</param>
+        <param name="item_height">menu_row_h</param>
         <param name="detailed">false</param>
         <param name="itemlayout_include">Layout_DialogSelect</param>
         <param name="control">list</param>

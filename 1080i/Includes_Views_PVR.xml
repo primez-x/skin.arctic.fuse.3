@@ -81,7 +81,7 @@
                 <param name="programheight">80</param>
                 <param name="detailed">$PARAM[detailed]</param>
                 <param name="include_ruler">Layout_PVRGuide_Ruler_Horizontal</param>
-                <param name="border">40</param>
+                <param name="border">26</param>
                 <param name="border_genre">40,37,40,37</param>
                 <param name="timeblocks">$PARAM[timeblocks]</param>
                 <param name="rulerunit">$PARAM[rulerunit]</param>

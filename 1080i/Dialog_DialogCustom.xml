@@ -21,6 +21,7 @@
             <control type="grouplist" id="$PARAM[id]">
                 <onright>$PARAM[scrollbarid]</onright>
                 <pagecontrol>$PARAM[scrollbarid]</pagecontrol>
+                <itemgap>pill_gap</itemgap>
                 <include>$PARAM[include_content]</include>
                 <include>Size_Grouplist_Pad</include>
             </control>
@@ -30,13 +31,16 @@
     <include name="DialogCustom_Resizer_Slide">
         <include>Dimension_DialogMiniMenu</include>
         <include>Animation_BounceIn_Dialog</include>
-        <animation effect="slide" start="0" end="0,40" condition="Integer.IsEqual(Container($PARAM[id]).NumItems,7)">Conditional</animation>
-        <animation effect="slide" start="0" end="0,80" condition="Integer.IsEqual(Container($PARAM[id]).NumItems,6)">Conditional</animation>
-        <animation effect="slide" start="0" end="0,120" condition="Integer.IsEqual(Container($PARAM[id]).NumItems,5)">Conditional</animation>
-        <animation effect="slide" start="0" end="0,160" condition="Integer.IsEqual(Container($PARAM[id]).NumItems,4)">Conditional</animation>
-        <animation effect="slide" start="0" end="0,200" condition="Integer.IsEqual(Container($PARAM[id]).NumItems,3)">Conditional</animation>
-        <animation effect="slide" start="0" end="0,240" condition="Integer.IsEqual(Container($PARAM[id]).NumItems,2)">Conditional</animation>
-        <animation effect="slide" start="0" end="0,280" condition="Integer.IsEqual(Container($PARAM[id]).NumItems,1)">Conditional</animation>
+        <!-- Half of the space each missing menu_row_h row leaves in the full menu (10 rows) -->
+        <animation effect="slide" start="0" end="0,32" condition="Integer.IsEqual(Container($PARAM[id]).NumItems,9)">Conditional</animation>
+        <animation effect="slide" start="0" end="0,64" condition="Integer.IsEqual(Container($PARAM[id]).NumItems,8)">Conditional</animation>
+        <animation effect="slide" start="0" end="0,96" condition="Integer.IsEqual(Container($PARAM[id]).NumItems,7)">Conditional</animation>
+        <animation effect="slide" start="0" end="0,128" condition="Integer.IsEqual(Container($PARAM[id]).NumItems,6)">Conditional</animation>
+        <animation effect="slide" start="0" end="0,160" condition="Integer.IsEqual(Container($PARAM[id]).NumItems,5)">Conditional</animation>
+        <animation effect="slide" start="0" end="0,192" condition="Integer.IsEqual(Container($PARAM[id]).NumItems,4)">Conditional</animation>
+        <animation effect="slide" start="0" end="0,224" condition="Integer.IsEqual(Container($PARAM[id]).NumItems,3)">Conditional</animation>
+        <animation effect="slide" start="0" end="0,256" condition="Integer.IsEqual(Container($PARAM[id]).NumItems,2)">Conditional</animation>
+        <animation effect="slide" start="0" end="0,288" condition="Integer.IsEqual(Container($PARAM[id]).NumItems,1)">Conditional</animation>
     </include>
 
     <include name="DialogCustom_Resizer_Backing">

@@ -39,7 +39,7 @@
         <textcolor>dialog_fg_70</textcolor>
         <selectedcolor>dialog_fg_70</selectedcolor>
         <disabledcolor>dialog_fg_30</disabledcolor>
-        <texturenofocus colordiffuse="$VAR[Color_DialogBorder]" border="40">common/menu.png</texturenofocus>
+        <texturenofocus colordiffuse="$VAR[Color_DialogBorder]" border="26">common/pill.png</texturenofocus>
     </include>
 
     <default type="colorbutton">

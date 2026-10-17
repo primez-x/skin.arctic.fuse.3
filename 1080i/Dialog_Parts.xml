@@ -2,7 +2,7 @@
 <includes>
 	<include name="Part_List_Highlight">
         <control type="image">
-            <include>Texture_Menu_Highlight_H</include>
+            <include>Texture_Menu_Highlight_Row</include>
         </control>
     </include>
 
@@ -101,7 +101,7 @@
                 <control type="grouplist" id="$PARAM[id]">
                     <onleft>$PARAM[onleft]</onleft>
                     <ondown>$PARAM[ondown]</ondown>
-                    <itemgap>20</itemgap>
+                    <itemgap>pill_gap</itemgap>
                     <orientation>vertical</orientation>
                     <include>Size_Grouplist_Pad</include>
                     <include>$PARAM[items]</include>
@@ -449,12 +449,20 @@
 
     <include name="Part_Dialog_Backing_Resizeable">
         <control type="group">
-            <visible>Integer.IsGreater(Container($PARAM[id]).NumItems,7)</visible>
+            <visible>Integer.IsGreater(Container($PARAM[id]).NumItems,9)</visible>
             <include>Dimension_DialogMiniMenu</include>
             <include content="Part_Background_Panel">
                 <param name="dialog_size">Dimension_DialogMiniMenu</param>
             </include>
         </control>
+        <include content="Part_Dialog_Backing_Resizeable_Object">
+            <param name="id">$PARAM[id]</param>
+            <param name="numitems">9</param>
+        </include>
+        <include content="Part_Dialog_Backing_Resizeable_Object">
+            <param name="id">$PARAM[id]</param>
+            <param name="numitems">8</param>
+        </include>
         <include content="Part_Dialog_Backing_Resizeable_Object">
             <param name="id">$PARAM[id]</param>
             <param name="numitems">7</param>

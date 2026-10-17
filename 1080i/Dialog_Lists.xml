@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
     <include name="List_Dialog">
-        <param name="item_height">80</param>
+        <param name="item_height">menu_row_h</param>
         <param name="itemlayout_include">List_Layout_Dialog_SimpleCheckmark</param>
         <param name="control">list</param>
         <param name="misc">ListItem.IsSelected</param>

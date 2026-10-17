@@ -1307,7 +1307,7 @@
                     <top>0</top>
                     <left>20</left>
                     <height>110</height>
-                    <itemgap>20</itemgap>
+                    <itemgap>pill_gap</itemgap>
                     <ondown condition="!$EXP[Exp_DialogInfo_LibraryTV]">5000</ondown>
                     <ondown condition="$EXP[Exp_DialogInfo_LibraryTV]">5019</ondown>
                     <onup condition="$EXP[Exp_TMDbHelper_IsData]">ActivateWindow(1113)</onup>
@@ -1331,7 +1331,7 @@
                         <param name="id">4001</param>
                         <param name="control">button</param>
                         <param name="align">left</param>
-                        <param name="textoffsetx">39</param>
+                        <param name="textoffsetx">40</param>
                         <param name="textcolor">00ffffff</param>
                         <param name="focusedcolor">00ffffff</param>
                         <param name="selectedcolor">00ffffff</param>
@@ -1433,7 +1433,7 @@
 
                     </control>
                     <control type="group">
-                        <animation effect="slide" end="100,0" time="0" condition="Control.IsVisible(4006)">Conditional</animation>
+                        <animation effect="slide" end="64,0" time="0" condition="Control.IsVisible(4006)">Conditional</animation>
                         <include content="Animation_DialogInfo_ActionShift">
                             <param name="shift_xl">Control.HasFocus(4006)</param>
                         </include>
@@ -1470,7 +1470,7 @@
                     <top>0</top>
                     <left>20</left>
                     <height>80</height>
-                    <itemgap>20</itemgap>
+                    <itemgap>pill_gap</itemgap>
                     <ondown>5000</ondown>
                     <onup condition="$EXP[Exp_TMDbHelper_IsData]">ActivateWindow(1113)</onup>
 
@@ -1478,7 +1478,7 @@
                     <include content="Button_DialogInfo_ActionPill">
                         <param name="id">4001</param>
                         <param name="align">left</param>
-                        <param name="textoffsetx">39</param>
+                        <param name="textoffsetx">40</param>
                         <param name="textcolor">00ffffff</param>
                         <param name="focusedcolor">00ffffff</param>
                         <param name="selectedcolor">00ffffff</param>

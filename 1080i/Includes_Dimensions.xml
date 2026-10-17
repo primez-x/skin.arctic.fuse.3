@@ -110,46 +110,59 @@
         <width>640</width>
         <include>Dimension_DialogCenter</include>
     </include>
+    <!-- A mini menu of n menu_row_h rows: 240 of header and padding plus 64 x n, centred -->
+    <include name="Dimension_DialogMiniMenu_9">
+        <width>640</width>
+        <top>132</top>
+        <bottom>132</bottom>
+        <include>Dimension_DialogCenter</include>
+    </include>
+    <include name="Dimension_DialogMiniMenu_8">
+        <width>640</width>
+        <top>164</top>
+        <bottom>164</bottom>
+        <include>Dimension_DialogCenter</include>
+    </include>
     <include name="Dimension_DialogMiniMenu_7">
         <width>640</width>
-        <top>140</top>
-        <bottom>140</bottom>
+        <top>196</top>
+        <bottom>196</bottom>
         <include>Dimension_DialogCenter</include>
     </include>
     <include name="Dimension_DialogMiniMenu_6">
         <width>640</width>
-        <top>180</top>
-        <bottom>180</bottom>
+        <top>228</top>
+        <bottom>228</bottom>
         <include>Dimension_DialogCenter</include>
     </include>
     <include name="Dimension_DialogMiniMenu_5">
-        <width>640</width>
-        <top>220</top>
-        <bottom>220</bottom>
-        <include>Dimension_DialogCenter</include>
-    </include>
-    <include name="Dimension_DialogMiniMenu_4">
         <width>640</width>
         <top>260</top>
         <bottom>260</bottom>
         <include>Dimension_DialogCenter</include>
     </include>
+    <include name="Dimension_DialogMiniMenu_4">
+        <width>640</width>
+        <top>292</top>
+        <bottom>292</bottom>
+        <include>Dimension_DialogCenter</include>
+    </include>
     <include name="Dimension_DialogMiniMenu_3">
         <width>640</width>
-        <top>300</top>
-        <bottom>300</bottom>
+        <top>324</top>
+        <bottom>324</bottom>
         <include>Dimension_DialogCenter</include>
     </include>
     <include name="Dimension_DialogMiniMenu_2">
         <width>640</width>
-        <top>340</top>
-        <bottom>340</bottom>
+        <top>356</top>
+        <bottom>356</bottom>
         <include>Dimension_DialogCenter</include>
     </include>
     <include name="Dimension_DialogMiniMenu_1">
         <width>640</width>
-        <top>380</top>
-        <bottom>380</bottom>
+        <top>388</top>
+        <bottom>388</bottom>
         <include>Dimension_DialogCenter</include>
     </include>
 

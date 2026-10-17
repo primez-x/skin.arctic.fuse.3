@@ -34,7 +34,7 @@
                                 <height>80</height>
                                 <width>keyboard_edit_w</width>
                                 <control type="image">
-                                    <texture colordiffuse="$VAR[Color_DialogBorder]" border="40">common/menu.png</texture>
+                                    <texture colordiffuse="$VAR[Color_DialogBorder]" border="26">common/pill.png</texture>
                                     <visible>!Control.HasFocus(312)</visible>
                                 </control>
                                 <control type="image">

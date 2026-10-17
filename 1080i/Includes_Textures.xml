@@ -39,12 +39,12 @@
     </include>
     <!-- Detail page action pills share the fill of the action circles in both states. -->
     <include name="Texture_DialogInfo_Action">
-        <texturenofocus colordiffuse="dialog_fg_12" border="40">common/menu.png</texturenofocus>
-        <texturefocus colordiffuse="$VAR[ColorHighlight]" border="40">common/menu.png</texturefocus>
+        <texturenofocus colordiffuse="dialog_fg_12" border="26">common/pill.png</texturenofocus>
+        <texturefocus colordiffuse="$VAR[ColorHighlight]" border="26">common/pill.png</texturefocus>
     </include>
     <include name="Texture_Highlight_ToggleButton_Settings">
-        <texturefocus colordiffuse="$VAR[ColorSettingsToggleButtonHighlight]" border="40">common/menu.png</texturefocus>
-        <alttexturefocus colordiffuse="$VAR[ColorSettingsToggleButtonHighlight]" border="40">common/menu.png</alttexturefocus>
+        <texturefocus colordiffuse="$VAR[ColorSettingsToggleButtonHighlight]" border="26">common/pill.png</texturefocus>
+        <alttexturefocus colordiffuse="$VAR[ColorSettingsToggleButtonHighlight]" border="26">common/pill.png</alttexturefocus>
     </include>
     <include name="Texture_Highlight_Underline_H">
         <texturefocus border="10" colordiffuse="$VAR[ColorHighlight]">common/underline.png</texturefocus>
@@ -82,10 +82,16 @@
         <texture border="20" colordiffuse="$VAR[ColorHighlight]">common/box.png</texture>
     </include>
     <include name="Texture_Menu_Highlight_H">
-        <param name="border">40</param>
+        <param name="border">26</param>
         <definition>
-            <texture border="$PARAM[border]" colordiffuse="$VAR[ColorHighlight]">common/menu.png</texture>
+            <texture border="$PARAM[border]" colordiffuse="$VAR[ColorHighlight]">common/pill.png</texture>
         </definition>
+    </include>
+    <!-- Focus pill of a one-line menu row: pill_h high, centred in its menu_row_h row -->
+    <include name="Texture_Menu_Highlight_Row">
+        <centertop>50%</centertop>
+        <height>pill_h</height>
+        <include>Texture_Menu_Highlight_H</include>
     </include>
     <include name="Texture_Circle_Highlight_H">
         <texture colordiffuse="$VAR[ColorHighlight]">common/circle.png</texture>
@@ -106,12 +112,12 @@
         <texturefocus colordiffuse="$VAR[ColorHighlight]">common/circle.png</texturefocus>
     </include>
     <include name="Texture_Button">
-        <texturenofocus colordiffuse="$VAR[Color_DialogBorder]" border="40">common/menu.png</texturenofocus>
-        <texturefocus border="40" colordiffuse="$VAR[ColorHighlight]">common/menu.png</texturefocus>
+        <texturenofocus colordiffuse="$VAR[Color_DialogBorder]" border="26">common/pill.png</texturenofocus>
+        <texturefocus border="26" colordiffuse="$VAR[ColorHighlight]">common/pill.png</texturefocus>
     </include>
     <include name="Texture_ToggleButton">
-        <alttexturenofocus colordiffuse="main_bg_12" border="40">common/menu.png</alttexturenofocus>
-        <alttexturefocus border="40" colordiffuse="$VAR[ColorHighlight]">common/menu.png</alttexturefocus>
+        <alttexturenofocus colordiffuse="main_bg_12" border="26">common/pill.png</alttexturenofocus>
+        <alttexturefocus border="26" colordiffuse="$VAR[ColorHighlight]">common/pill.png</alttexturefocus>
     </include>
 
     <include name="Defs_BusySpinner_Image">

@@ -599,14 +599,17 @@
     </include>
 
     <include name="Home_Submenu_Panel_VertReposition">
-        <animation effect="slide" start="0" end="0,40" condition="Integer.IsEqual(Container(80$PARAM[id]).NumItems,8)">Conditional</animation>
-        <animation effect="slide" start="0" end="0,80" condition="Integer.IsEqual(Container(80$PARAM[id]).NumItems,7)">Conditional</animation>
-        <animation effect="slide" start="0" end="0,120" condition="Integer.IsEqual(Container(80$PARAM[id]).NumItems,6)">Conditional</animation>
-        <animation effect="slide" start="0" end="0,160" condition="Integer.IsEqual(Container(80$PARAM[id]).NumItems,5)">Conditional</animation>
-        <animation effect="slide" start="0" end="0,200" condition="Integer.IsEqual(Container(80$PARAM[id]).NumItems,4)">Conditional</animation>
-        <animation effect="slide" start="0" end="0,240" condition="Integer.IsEqual(Container(80$PARAM[id]).NumItems,3)">Conditional</animation>
-        <animation effect="slide" start="0" end="0,280" condition="Integer.IsEqual(Container(80$PARAM[id]).NumItems,2)">Conditional</animation>
-        <animation effect="slide" start="0" end="0,320" condition="Integer.IsEqual(Container(80$PARAM[id]).NumItems,1)">Conditional</animation>
+        <!-- Centre the panel: (880 - 100 - 64 x rows - 60) / 2 -->
+        <animation effect="slide" start="0" end="0,40" condition="Integer.IsEqual(Container(80$PARAM[id]).NumItems,10)">Conditional</animation>
+        <animation effect="slide" start="0" end="0,72" condition="Integer.IsEqual(Container(80$PARAM[id]).NumItems,9)">Conditional</animation>
+        <animation effect="slide" start="0" end="0,104" condition="Integer.IsEqual(Container(80$PARAM[id]).NumItems,8)">Conditional</animation>
+        <animation effect="slide" start="0" end="0,136" condition="Integer.IsEqual(Container(80$PARAM[id]).NumItems,7)">Conditional</animation>
+        <animation effect="slide" start="0" end="0,168" condition="Integer.IsEqual(Container(80$PARAM[id]).NumItems,6)">Conditional</animation>
+        <animation effect="slide" start="0" end="0,200" condition="Integer.IsEqual(Container(80$PARAM[id]).NumItems,5)">Conditional</animation>
+        <animation effect="slide" start="0" end="0,232" condition="Integer.IsEqual(Container(80$PARAM[id]).NumItems,4)">Conditional</animation>
+        <animation effect="slide" start="0" end="0,264" condition="Integer.IsEqual(Container(80$PARAM[id]).NumItems,3)">Conditional</animation>
+        <animation effect="slide" start="0" end="0,296" condition="Integer.IsEqual(Container(80$PARAM[id]).NumItems,2)">Conditional</animation>
+        <animation effect="slide" start="0" end="0,328" condition="Integer.IsEqual(Container(80$PARAM[id]).NumItems,1)">Conditional</animation>
     </include>
 
     <include name="Home_Submenu_Panel">
@@ -626,49 +629,60 @@
                     <!-- The panel starts below the glass tab bar, clear of the other tab names -->
                     <control type="group">
                         <top>40</top>
+                        <!-- The panel ends 60 below the last menu_row_h row: 100 + rows x 64 + 60 of its 880 -->
                         <control type="group">
                             <include>Part_Background_Panel</include>
-                            <visible>Integer.IsGreater(Container(80$PARAM[id]).NumItems,8)</visible>
+                            <visible>Integer.IsGreater(Container(80$PARAM[id]).NumItems,10)</visible>
                         </control>
                         <control type="group">
                             <include>Part_Background_Panel</include>
-                            <visible>Integer.IsEqual(Container(80$PARAM[id]).NumItems,8)</visible>
+                            <visible>Integer.IsEqual(Container(80$PARAM[id]).NumItems,10)</visible>
                             <bottom>80</bottom>
                         </control>
                         <control type="group">
                             <include>Part_Background_Panel</include>
+                            <visible>Integer.IsEqual(Container(80$PARAM[id]).NumItems,9)</visible>
+                            <bottom>144</bottom>
+                        </control>
+                        <control type="group">
+                            <include>Part_Background_Panel</include>
+                            <visible>Integer.IsEqual(Container(80$PARAM[id]).NumItems,8)</visible>
+                            <bottom>208</bottom>
+                        </control>
+                        <control type="group">
+                            <include>Part_Background_Panel</include>
                             <visible>Integer.IsEqual(Container(80$PARAM[id]).NumItems,7)</visible>
-                            <bottom>160</bottom>
+                            <bottom>272</bottom>
                         </control>
                         <control type="group">
                             <include>Part_Background_Panel</include>
                             <visible>Integer.IsEqual(Container(80$PARAM[id]).NumItems,6)</visible>
-                            <bottom>240</bottom>
+                            <bottom>336</bottom>
                         </control>
                         <control type="group">
                             <include>Part_Background_Panel</include>
                             <visible>Integer.IsEqual(Container(80$PARAM[id]).NumItems,5)</visible>
-                            <bottom>320</bottom>
-                        </control>
-                        <control type="group">
-                            <include>Part_Background_Panel</include>
-                            <visible>Integer.IsEqual(Container(80$PARAM[id]).NumItems,4)</visible>
                             <bottom>400</bottom>
                         </control>
                         <control type="group">
                             <include>Part_Background_Panel</include>
+                            <visible>Integer.IsEqual(Container(80$PARAM[id]).NumItems,4)</visible>
+                            <bottom>464</bottom>
+                        </control>
+                        <control type="group">
+                            <include>Part_Background_Panel</include>
                             <visible>Integer.IsEqual(Container(80$PARAM[id]).NumItems,3)</visible>
-                            <bottom>480</bottom>
+                            <bottom>528</bottom>
                         </control>
                         <control type="group">
                             <include>Part_Background_Panel</include>
                             <visible>Integer.IsEqual(Container(80$PARAM[id]).NumItems,2)</visible>
-                            <bottom>560</bottom>
+                            <bottom>592</bottom>
                         </control>
                         <control type="group">
                             <include>Part_Background_Panel</include>
                             <visible>Integer.IsEqual(Container(80$PARAM[id]).NumItems,1)</visible>
-                            <bottom>640</bottom>
+                            <bottom>656</bottom>
                         </control>
                         <include content="Part_Scrollbar">
                             <param name="id">61$PARAM[id]</param>
@@ -847,13 +861,13 @@
                     <include content="Home_Tab_Shape" condition="![$PARAM[outline]]">
                         <param name="window">$PARAM[window]</param>
                         <param name="submenu">$PARAM[submenu]</param>
-                        <param name="texture">common/tab.png</param>
+                        <param name="texture">common/pill.png</param>
                         <param name="pill">true</param>
                     </include>
                     <include content="Home_Tab_Shape" condition="$PARAM[outline]">
                         <param name="window">$PARAM[window]</param>
                         <param name="submenu">$PARAM[submenu]</param>
-                        <param name="texture">common/tab-outline.png</param>
+                        <param name="texture">common/pill-outline.png</param>
                         <param name="pill">true</param>
                     </include>
                     <control type="grouplist">

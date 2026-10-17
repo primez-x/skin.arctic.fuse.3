@@ -880,10 +880,13 @@ class CompactVideoInfoTests(unittest.TestCase):
         icon = _include("Includes_Buttons.xml", "Button_DialogInfo_ActionIcon").find("definition")
         overlay = icon.find("control[@type='group']")
         self.assertEqual("$PARAM[id]9", overlay.get("id"))
-        self.assertEqual("-100", overlay.findtext("left"))
-        # One visible gap everywhere: icon buttons are as wide as they are tall, and the overlay cancels the 20px gap.
-        self.assertEqual("80", icon.find("control[@type='button']").findtext("width"))
-        self.assertEqual("20", grouplist.findtext("itemgap"))
+        self.assertEqual("-pill_pitch", overlay.findtext("left"))
+        # One visible gap everywhere: icon buttons are pill_h circles, and the overlay cancels the pill_gap.
+        self.assertEqual("pill_h", icon.find("control[@type='button']").findtext("width"))
+        self.assertEqual("pill_h", overlay.findtext("width"))
+        self.assertEqual("pill_gap", grouplist.findtext("itemgap"))
+        constants = _constants()
+        self.assertEqual(-(int(constants["pill_h"]) + int(constants["pill_gap"])), int(constants["-pill_pitch"]))
         text = ET.tostring(grouplist, encoding="unicode")
         self.assertNotIn("31393", text)
         self.assertNotIn("Trakt", text)
@@ -893,7 +896,7 @@ class CompactVideoInfoTests(unittest.TestCase):
         captions = [n for n in icon.iter("control") if n.get("type") == "label"]
         self.assertEqual(["Control.HasFocus($PARAM[id])"], [n.findtext("visible") for n in captions])
         # The caption sits inside the pill, right of the icon, not under the button
-        self.assertEqual("76", captions[0].findtext("left"))
+        self.assertEqual("50", captions[0].findtext("left"))
         self.assertIsNone(captions[0].find("top"))
         grouplist = self._video_details_grouplist()
         replay = [n for n in grouplist.findall("include") if n.findtext("param[@name='id']") == "4006"][0]

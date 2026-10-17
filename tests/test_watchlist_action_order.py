@@ -382,7 +382,7 @@ class WatchlistActionOrderTests(unittest.TestCase):
         self.assertEqual(buttons[0].findtext("param[@name='id']"), "4001")
         self.assertEqual(
             [button.findtext("param[@name='textoffsetx']") for button in buttons],
-            ["39", "39", None, None, None],
+            ["40", "40", None, None, None],
         )
         # Secondary actions are icon buttons in the same grouplist as the pills.
         self.assertIsNone(dialog_root.find(".//control[@id='4901']"))
@@ -407,20 +407,20 @@ class WatchlistActionOrderTests(unittest.TestCase):
             "./include[@name='DialogInfo_PrimaryActionForeground']"
         )
         icon = foreground.find("./definition/control[@type='image']")
-        self.assertEqual(icon.findtext("left"), "26")
-        # The icon is centred on the 80px pill, not on the taller action row.
-        self.assertEqual(icon.findtext("top"), "12")
+        self.assertEqual(icon.findtext("left"), "28")
+        # The icon is centred on the 52px pill, not on the taller action row.
+        self.assertEqual(icon.findtext("top"), "8")
         self.assertIsNone(icon.find("centertop"))
-        self.assertEqual(icon.findtext("width"), "56")
-        self.assertEqual(icon.findtext("height"), "56")
+        self.assertEqual(icon.findtext("width"), "36")
+        self.assertEqual(icon.findtext("height"), "36")
         labels = foreground.findall("./definition/control[@type='label']")
         self.assertEqual(len(labels), 2)
         self.assertTrue(
             all(
-                label.findtext("left") == "78"
+                label.findtext("left") == "76"
                 and label.findtext("top") == "0"
                 and label.findtext("width") == "auto"
-                and label.findtext("height") == "80"
+                and label.findtext("height") == "pill_h"
                 for label in labels
             )
         )
@@ -436,7 +436,7 @@ class WatchlistActionOrderTests(unittest.TestCase):
         self.assertIn('<param name="align">center</param>', button_template)
         self.assertIn('<param name="focusedcolor">$VAR[ColorSelected]</param>', button_template)
         self.assertIn('<focusedcolor>$PARAM[focusedcolor]</focusedcolor>', button_template)
-        self.assertIn("<height>80</height>", button_template)
+        self.assertIn("<height>pill_h</height>", button_template)
         self.assertIn("Texture_DialogInfo_Action", button_template)
 
 

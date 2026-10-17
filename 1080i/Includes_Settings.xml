@@ -111,22 +111,24 @@
         <definition>
             <control type="$PARAM[control]" id="$PARAM[id]">
                 <nested />
-                <itemlayout height="80">
+                <itemlayout height="menu_row_h">
                     <control type="label">
-                        <textoffsetx>40</textoffsetx>
+                        <font>font_mini</font>
+                        <textoffsetx>pill_pad_x</textoffsetx>
                         <textcolor>main_fg_70</textcolor>
                         <label>$INFO[ListItem.Label]</label>
                     </control>
                 </itemlayout>
-                <focusedlayout height="80">
+                <focusedlayout height="menu_row_h">
                     <control type="group">
                         <control type="image">
-                            <include>Texture_Menu_Highlight_H</include>
+                            <include>Texture_Menu_Highlight_Row</include>
                         </control>
                         <control type="label">
                             <include>Color_SelectedText</include>
                             <textcolor>main_fg_70</textcolor>
-                            <textoffsetx>40</textoffsetx>
+                            <font>font_mini</font>
+                        <textoffsetx>pill_pad_x</textoffsetx>
                             <label>$INFO[ListItem.Label]</label>
                         </control>
                     </control>
@@ -142,6 +144,8 @@
             <bottom>100</bottom>
             <left>40</left>
             <right>-100</right>
+            <!-- pill_h rows on the menu_row_h pitch -->
+            <itemgap>12</itemgap>
         </control>
     </include>
 
@@ -191,6 +195,8 @@
             <left>20</left>
             <right>20</right>
             <bottom>20</bottom>
+            <!-- pill_h rows on the menu_row_h pitch -->
+            <itemgap>12</itemgap>
         </control>
     </include>
 
@@ -239,9 +245,9 @@
             <control type="$PARAM[control]" id="$PARAM[baseid]$PARAM[id]">
                 <nested />
                 <align>left</align>
-                <font>font_main</font>
-                <height>80</height>
-                <textoffsetx>40</textoffsetx>
+                <font>font_mini</font>
+                <height>pill_h</height>
+                <textoffsetx>pill_pad_x</textoffsetx>
                 <texturenofocus />
                 <alttexturenofocus />
                 <include condition="$PARAM[dialog]">defs_dialog_$PARAM[control]</include>

@@ -525,6 +525,7 @@
                     <control type="group">
                         <include>Size_Group_Body</include>
                         <control type="grouplist" id="9000">
+                            <itemgap>pill_gap</itemgap>
                             <include>Size_Grouplist_Pad</include>
                             <include>DialogSelect_Versions_Items</include>
                         </control>

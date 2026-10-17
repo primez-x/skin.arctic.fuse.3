@@ -19,13 +19,16 @@
                 <include>Dimension_DialogMiniMenu</include>
                 <include>Animation_BounceIn_Dialog</include>
 
-                <animation effect="slide" start="0" end="0,40" condition="Integer.IsEqual(Container(7000).NumItems,7)">Conditional</animation>
-                <animation effect="slide" start="0" end="0,80" condition="Integer.IsEqual(Container(7000).NumItems,6)">Conditional</animation>
-                <animation effect="slide" start="0" end="0,120" condition="Integer.IsEqual(Container(7000).NumItems,5)">Conditional</animation>
-                <animation effect="slide" start="0" end="0,160" condition="Integer.IsEqual(Container(7000).NumItems,4)">Conditional</animation>
-                <animation effect="slide" start="0" end="0,200" condition="Integer.IsEqual(Container(7000).NumItems,3)">Conditional</animation>
-                <animation effect="slide" start="0" end="0,240" condition="Integer.IsEqual(Container(7000).NumItems,2)">Conditional</animation>
-                <animation effect="slide" start="0" end="0,280" condition="Integer.IsEqual(Container(7000).NumItems,1)">Conditional</animation>
+                <!-- Half of the space each missing menu_row_h row leaves in the full menu (10 rows) -->
+                <animation effect="slide" start="0" end="0,32" condition="Integer.IsEqual(Container(7000).NumItems,9)">Conditional</animation>
+                <animation effect="slide" start="0" end="0,64" condition="Integer.IsEqual(Container(7000).NumItems,8)">Conditional</animation>
+                <animation effect="slide" start="0" end="0,96" condition="Integer.IsEqual(Container(7000).NumItems,7)">Conditional</animation>
+                <animation effect="slide" start="0" end="0,128" condition="Integer.IsEqual(Container(7000).NumItems,6)">Conditional</animation>
+                <animation effect="slide" start="0" end="0,160" condition="Integer.IsEqual(Container(7000).NumItems,5)">Conditional</animation>
+                <animation effect="slide" start="0" end="0,192" condition="Integer.IsEqual(Container(7000).NumItems,4)">Conditional</animation>
+                <animation effect="slide" start="0" end="0,224" condition="Integer.IsEqual(Container(7000).NumItems,3)">Conditional</animation>
+                <animation effect="slide" start="0" end="0,256" condition="Integer.IsEqual(Container(7000).NumItems,2)">Conditional</animation>
+                <animation effect="slide" start="0" end="0,288" condition="Integer.IsEqual(Container(7000).NumItems,1)">Conditional</animation>
 
                 <control type="group">
                     <include>Size_Dialog_Pad</include>

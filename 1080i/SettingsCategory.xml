@@ -14,6 +14,8 @@
                     <include content="Settings_Left_Content">
                         <control type="grouplist" id="3">
                             <onright>5</onright>
+                            <!-- pill_h category buttons on the menu_row_h pitch -->
+                            <itemgap>12</itemgap>
 
                             <onup>20</onup>
                             <ondown>20</ondown>

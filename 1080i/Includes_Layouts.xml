@@ -99,6 +99,7 @@
     <include name="Layout_MenuList_Labels">
         <control type="group">
             <control type="label">
+                <font>font_mini</font>
                 <include condition="$PARAM[selected]">Color_SelectedText</include>
                 <textoffsetx>40</textoffsetx>
                 <textcolor>$PARAM[textcolor]_70</textcolor>
@@ -107,6 +108,7 @@
                 <visible>$PARAM[detailed]</visible>
             </control>
             <control type="label">
+                <font>font_mini</font>
                 <include condition="$PARAM[selected]">Color_SelectedText</include>
                 <align>right</align>
                 <textoffsetx>40</textoffsetx>
@@ -118,6 +120,7 @@
 
 
             <control type="label">
+                <font>font_mini</font>
                 <include condition="$PARAM[selected]">Color_SelectedText</include>
                 <textoffsetx>40</textoffsetx>
                 <textcolor>$PARAM[textcolor]_70</textcolor>
@@ -174,7 +177,7 @@
 
             <include content="Object_Control" condition="$PARAM[selected]">
                 <param name="control">image</param>
-                <include>Texture_Menu_Highlight_H</include>
+                <include>Texture_Menu_Highlight_Row</include>
             </include>
 
             <control type="group">
@@ -257,7 +260,7 @@
 
             <include content="Object_Control" condition="$PARAM[selected]">
                 <param name="control">image</param>
-                <include>Texture_Menu_Highlight_H</include>
+                <include>Texture_Menu_Highlight_Row</include>
             </include>
 
             <control type="group">
@@ -565,7 +568,7 @@
                     <include content="Object_Control" condition="$PARAM[selected]">
                         <param name="control">image</param>
                         <include content="Texture_Menu_Highlight_H">
-                            <param name="border">40,0,40,0</param>
+                            <param name="border">26,0,26,0</param>
                         </include>
                         <include content="Dimension_Padding"><param name="pad">1</param></include>
                     </include>
@@ -652,7 +655,7 @@
         <param name="detailed">false</param>
         <param name="selected">false</param>
         <param name="include_detailed_labels">Skin.HasSetting(View.UseDetailedListLabels)</param>
-        <param name="border">40,0,40,0</param>
+        <param name="border">26,0,26,0</param>
         <param name="border_genre">40,0,40,0</param>
         <param name="left">0</param>
         <param name="left_text">40</param>
@@ -790,7 +793,7 @@
             </include>
             <include content="Object_Control" condition="![$PARAM[selected]]">
                 <param name="control">image</param>
-                <texture border="40" colordiffuse="$VAR[Color_DialogBorder]">common/menu.png</texture>
+                <texture border="26" colordiffuse="$VAR[Color_DialogBorder]">common/pill.png</texture>
                 <animation effect="fade" start="100" end="0" condition="![$PARAM[altfocus]]">Conditional</animation>
             </include>
             <control type="group">
@@ -977,7 +980,7 @@
         <definition>
             <include content="Object_Control" condition="$PARAM[selected]">
                 <param name="control">image</param>
-                <include>Texture_Menu_Highlight_H</include>
+                <include>Texture_Menu_Highlight_Row</include>
             </include>
             <control type="group">
                 <left>40</left>
@@ -1346,7 +1349,7 @@
         <definition>
             <include content="Object_Control" condition="$PARAM[selected]">
                 <param name="control">image</param>
-                <include>Texture_Menu_Highlight_H</include>
+                <include>Texture_Menu_Highlight_Row</include>
             </include>
             <control type="label">
                 <include condition="$PARAM[selected]">Color_SelectedText</include>
@@ -1527,7 +1530,7 @@
                 <right>40</right>
                 <bottom>40</bottom>
                 <control type="image">
-                    <texture border="40" colordiffuse="main_fg_12">common/menu.png</texture>
+                    <texture border="26" colordiffuse="main_fg_12">common/pill.png</texture>
                 </control>
                 <include content="Object_Control" condition="$PARAM[selected]">
                     <param name="control">image</param>
@@ -1559,7 +1562,8 @@
         <definition>
             <include content="Object_Control" condition="$PARAM[selected]">
                 <param name="control">image</param>
-                <include>Texture_Menu_Highlight_H</include>
+                <include content="Texture_Menu_Highlight_Row" condition="![$PARAM[detailed]]" />
+                <include content="Texture_Menu_Highlight_H" condition="$PARAM[detailed]" />
             </include>
             <control type="group">
                 <left>40</left>
@@ -1598,6 +1602,7 @@
                 <control type="group">
                     <include content="Object_Control" condition="!$PARAM[detailed]">
                         <param name="control">label</param>
+                        <font>font_mini</font>
                         <include condition="$PARAM[selected]">Color_SelectedText</include>
                         <textcolor>$PARAM[textcolor]_70</textcolor>
                         <selectedcolor>$PARAM[textcolor]_70</selectedcolor>

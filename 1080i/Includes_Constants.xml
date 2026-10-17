@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 
+    <!-- Compact controls: a 52 high pill (common/pill.png) in a 64 high row, with 24 of text padding a side.
+         The hub tab bar set this scale; every pill button and menu row follows it. -->
+    <constant name="pill_h">52</constant>
+    <constant name="menu_row_h">64</constant>
+    <constant name="pill_pad_x">24</constant>
+    <!-- Grouplists of pill buttons: pill_h + pill_gap = menu_row_h. An overlay after its button moves up -pill_pitch. -->
+    <constant name="pill_gap">12</constant>
+    <constant name="-pill_pitch">-64</constant>
+
     <!-- Basic View Constants -->
     <constant name="view_pad">80</constant>
     <constant name="-view_pad">-80</constant>
@@ -13,7 +22,7 @@
     <constant name="-view_menu_mini">-120</constant>
     <constant name="view_menu_comp">360</constant>
     <constant name="-view_menu_comp">-360</constant>
-    <constant name="view_menu_itemlayout_h">80</constant>
+    <constant name="view_menu_itemlayout_h">64</constant>
     <constant name="view_menu_height">560</constant>
     <constant name="view_menu_extended_height">720</constant>
     <constant name="view_menu_mini_pad_x">80</constant>

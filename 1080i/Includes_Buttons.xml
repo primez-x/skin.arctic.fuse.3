@@ -19,8 +19,8 @@
         <param name="control">button</param>
         <param name="dialog">true</param>
         <param name="istext">false</param>
-        <param name="top">-80</param>
-        <param name="font">font_main</param>
+        <param name="top">-pill_pitch</param>
+        <param name="font">font_mini</param>
         <definition>
             <include content="Button_Dialog">
                 <param name="id">$PARAM[id]</param>
@@ -89,9 +89,9 @@
             <control type="$PARAM[control]" id="$PARAM[baseid]$PARAM[id]">
                 <nested />
                 <align>left</align>
-                <font>font_main</font>
-                <height>80</height>
-                <textoffsetx>80</textoffsetx>
+                <font>font_mini</font>
+                <height>pill_h</height>
+                <textoffsetx>72</textoffsetx>
                 <include condition="$PARAM[dialog]">defs_dialog_$PARAM[control]</include>
                 <include content="Settings_Button_$PARAM[window]">
                     <param name="id">$PARAM[id]</param>
@@ -132,9 +132,9 @@
                 <left>$PARAM[left]</left>
                 <control type="group">
                     <centertop>50%</centertop>
-                    <left>60</left>
-                    <height>80</height>
-                    <right>30</right>
+                    <left>52</left>
+                    <height>pill_h</height>
+                    <right>pill_pad_x</right>
                     <include content="Button_Label_Controls_Objects" condition="![$PARAM[has_label2]]">
                         <param name="control">$PARAM[control]</param>
                         <param name="font">$PARAM[font]</param>
@@ -162,18 +162,18 @@
     </include>
 
     <include name="Button_Image">
-        <param name="top">-100</param>
+        <param name="top">-pill_pitch</param>
         <param name="left">20</param>
         <definition>
             <control type="group" id="$PARAM[id]">
                 <top>$PARAM[top]</top>
-                <height>80</height>
+                <height>pill_h</height>
                 <visible>Control.IsVisible($PARAM[buttonid])</visible>
                 <control type="group">
                     <centertop>50%</centertop>
                     <left>$PARAM[left]</left>
-                    <width>40</width>
-                    <height>40</height>
+                    <width>32</width>
+                    <height>32</height>
                     <control type="image">
                         <bordersize>icon_home_bordersize</bordersize>
                         <texture colordiffuse="dialog_fg_70">$PARAM[icon]</texture>
@@ -199,11 +199,11 @@
     </include>
 
     <include name="Button_Label">
-        <param name="top">-100</param>
+        <param name="top">-pill_pitch</param>
         <definition>
             <control type="group" id="$PARAM[id]">
                 <top>$PARAM[top]</top>
-                <height>80</height>
+                <height>pill_h</height>
                 <visible>Control.IsVisible($PARAM[buttonid])</visible>
                 <include content="Button_Label_Controls">
                     <param name="label">$PARAM[label]</param>
@@ -237,7 +237,7 @@
         <param name="control">button</param>
         <param name="width">auto</param>
         <param name="align">center</param>
-        <param name="textoffsetx">20</param>
+        <param name="textoffsetx">pill_pad_x</param>
         <param name="textcolor">dialog_fg_100</param>
         <param name="focusedcolor">$VAR[ColorSelected]</param>
         <param name="selectedcolor">dialog_fg_100</param>
@@ -245,11 +245,11 @@
             <control type="$PARAM[control]" id="$PARAM[id]">
                 <nested />
                 <width>$PARAM[width]</width>
-                <height>80</height>
+                <height>pill_h</height>
                 <align>$PARAM[align]</align>
                 <aligny>center</aligny>
                 <textoffsetx>$PARAM[textoffsetx]</textoffsetx>
-                <font>font_main_bold</font>
+                <font>font_mini_bold</font>
                 <textcolor>$PARAM[textcolor]</textcolor>
                 <focusedcolor>$PARAM[focusedcolor]</focusedcolor>
                 <selectedcolor>$PARAM[selectedcolor]</selectedcolor>
@@ -259,13 +259,13 @@
     </include>
 
     <!-- Icon buttons grow into a labelled pill while focused.
-         An 80px focusable circle in the action grouplist. The overlay group that follows sits on top of
-         the button: a -100 left plus 80 width cancels the 20px grouplist gap, so the overlay takes no space.
+         A pill_h (52px) focusable circle in the action grouplist. The overlay group that follows sits on top of
+         the button: a -pill_pitch left plus 52 width cancels the pill_gap grouplist gap, so the overlay takes no space.
          The pill is a left cap, a middle strip that zooms open from the cap, and a right cap that slides with
          the strip's end. Kodi multiplies stacked zooms, so each width class has its own strip; pill_<size>
          selects the class from the label. The overlays of later buttons slide by the same growth (shift_<size>),
-         so the row opens around the focused pill. A class fits a 28px Inter Bold caption of up to 120 (s), 160 (m),
-         220 (l) or 280 (xl) pixels with 20px clear of the right curve. -->
+         so the row opens around the focused pill. A class fits a 24px Inter Bold caption of up to 104 (s), 140 (m),
+         192 (l) or 244 (xl) pixels with 12px clear of the right curve. -->
     <include name="Button_DialogInfo_ActionIcon">
         <param name="pill_s">false</param>
         <param name="pill_m">false</param>
@@ -277,7 +277,7 @@
         <param name="shift_xl">false</param>
         <definition>
             <control type="button" id="$PARAM[id]">
-                <width>80</width>
+                <width>pill_h</width>
                 <height>110</height>
                 <texturefocus />
                 <texturenofocus />
@@ -286,8 +286,8 @@
             </control>
             <!-- Grouplist navigation chains children by id, so the overlay needs one for focus to pass through -->
             <control type="group" id="$PARAM[id]9">
-                <left>-100</left>
-                <width>80</width>
+                <left>-pill_pitch</left>
+                <width>pill_h</width>
                 <height>110</height>
                 <visible>Control.IsVisible($PARAM[id])</visible>
                 <include content="Animation_DialogInfo_ActionShift">
@@ -302,26 +302,26 @@
                 <include content="Object_DialogInfo_ActionPillStrip">
                     <param name="id">$PARAM[id]</param>
                     <param name="pill">$PARAM[pill_s]</param>
-                    <param name="zoom">16900</param>
+                    <param name="zoom">14100</param>
                 </include>
                 <include content="Object_DialogInfo_ActionPillStrip">
                     <param name="id">$PARAM[id]</param>
                     <param name="pill">$PARAM[pill_m]</param>
-                    <param name="zoom">20900</param>
+                    <param name="zoom">17700</param>
                 </include>
                 <include content="Object_DialogInfo_ActionPillStrip">
                     <param name="id">$PARAM[id]</param>
                     <param name="pill">$PARAM[pill_l]</param>
-                    <param name="zoom">26900</param>
+                    <param name="zoom">22900</param>
                 </include>
                 <include content="Object_DialogInfo_ActionPillStrip">
                     <param name="id">$PARAM[id]</param>
                     <param name="pill">$PARAM[pill_xl]</param>
-                    <param name="zoom">32900</param>
+                    <param name="zoom">28100</param>
                 </include>
                 <control type="group">
-                    <left>41</left>
-                    <width>40</width>
+                    <left>27</left>
+                    <width>26</width>
                     <include content="Animation_DialogInfo_ActionShift">
                         <param name="shift_s">Control.HasFocus($PARAM[id]) + [$PARAM[pill_s]]</param>
                         <param name="shift_m">Control.HasFocus($PARAM[id]) + [$PARAM[pill_m]]</param>
@@ -334,29 +334,29 @@
                     </include>
                 </control>
                 <control type="image">
-                    <left>12</left>
-                    <top>12</top>
-                    <width>56</width>
-                    <height>56</height>
+                    <left>8</left>
+                    <top>8</top>
+                    <width>36</width>
+                    <height>36</height>
                     <aspectratio>keep</aspectratio>
                     <texture colordiffuse="dialog_fg_100">$PARAM[icon]</texture>
                     <visible>!Control.HasFocus($PARAM[id])</visible>
                 </control>
                 <control type="image">
-                    <left>12</left>
-                    <top>12</top>
-                    <width>56</width>
-                    <height>56</height>
+                    <left>8</left>
+                    <top>8</top>
+                    <width>36</width>
+                    <height>36</height>
                     <aspectratio>keep</aspectratio>
                     <texture colordiffuse="$VAR[ColorSelected]">$PARAM[icon]</texture>
                     <visible>Control.HasFocus($PARAM[id])</visible>
                 </control>
                 <control type="label">
-                    <left>76</left>
-                    <width>300</width>
-                    <height>80</height>
+                    <left>50</left>
+                    <width>260</width>
+                    <height>pill_h</height>
                     <aligny>center</aligny>
-                    <font>font_main_bold</font>
+                    <font>font_mini_bold</font>
                     <textcolor>$VAR[ColorSelected]</textcolor>
                     <label>$PARAM[label]</label>
                     <visible>Control.HasFocus($PARAM[id])</visible>
@@ -374,14 +374,14 @@
         <param name="flipx">false</param>
         <definition>
             <control type="image">
-                <width>40</width>
-                <height>80</height>
+                <width>26</width>
+                <height>pill_h</height>
                 <texture colordiffuse="dialog_fg_12" flipx="$PARAM[flipx]">common/halfcircle.png</texture>
                 <visible>!Control.HasFocus($PARAM[id])</visible>
             </control>
             <control type="image">
-                <width>40</width>
-                <height>80</height>
+                <width>26</width>
+                <height>pill_h</height>
                 <texture colordiffuse="$VAR[ColorHighlight]" flipx="$PARAM[flipx]">common/halfcircle.png</texture>
                 <visible>Control.HasFocus($PARAM[id])</visible>
             </control>
@@ -393,20 +393,20 @@
     <include name="Object_DialogInfo_ActionPillStrip">
         <definition>
             <control type="group">
-                <left>40</left>
+                <left>26</left>
                 <width>1</width>
-                <height>80</height>
+                <height>pill_h</height>
                 <visible>$PARAM[pill]</visible>
-                <animation effect="zoom" start="100,100" end="$PARAM[zoom],100" center="40,40" time="200" tween="cubic" easing="out" condition="Control.HasFocus($PARAM[id])">Conditional</animation>
+                <animation effect="zoom" start="100,100" end="$PARAM[zoom],100" center="26,26" time="200" tween="cubic" easing="out" condition="Control.HasFocus($PARAM[id])">Conditional</animation>
                 <control type="image">
                     <width>1</width>
-                    <height>80</height>
+                    <height>pill_h</height>
                     <texture colordiffuse="dialog_fg_12">common/white.png</texture>
                     <visible>!Control.HasFocus($PARAM[id])</visible>
                 </control>
                 <control type="image">
                     <width>1</width>
-                    <height>80</height>
+                    <height>pill_h</height>
                     <texture colordiffuse="$VAR[ColorHighlight]">common/white.png</texture>
                     <visible>Control.HasFocus($PARAM[id])</visible>
                 </control>
@@ -421,71 +421,72 @@
         <param name="shift_l">false</param>
         <param name="shift_xl">false</param>
         <definition>
-            <animation effect="slide" end="168,0" time="200" tween="cubic" easing="out" condition="$PARAM[shift_s]">Conditional</animation>
-            <animation effect="slide" end="208,0" time="200" tween="cubic" easing="out" condition="$PARAM[shift_m]">Conditional</animation>
-            <animation effect="slide" end="268,0" time="200" tween="cubic" easing="out" condition="$PARAM[shift_l]">Conditional</animation>
-            <animation effect="slide" end="328,0" time="200" tween="cubic" easing="out" condition="$PARAM[shift_xl]">Conditional</animation>
+            <animation effect="slide" end="140,0" time="200" tween="cubic" easing="out" condition="$PARAM[shift_s]">Conditional</animation>
+            <animation effect="slide" end="176,0" time="200" tween="cubic" easing="out" condition="$PARAM[shift_m]">Conditional</animation>
+            <animation effect="slide" end="228,0" time="200" tween="cubic" easing="out" condition="$PARAM[shift_l]">Conditional</animation>
+            <animation effect="slide" end="280,0" time="200" tween="cubic" easing="out" condition="$PARAM[shift_xl]">Conditional</animation>
         </definition>
     </include>
 
-    <!-- A 39px transparent native offset yields the 78px icon, gap, and outer-padding reserve; this foreground centers the visible icon and label as one unit. -->
+    <!-- The foreground starts 20px left of the pill (the action grouplist sits 20 in). A 40px transparent native
+         offset sizes the pill to the label plus 80: the 52px icon zone, a 4px gap, and 24px after the label. -->
     <include name="DialogInfo_PrimaryActionForeground">
         <param name="buttonid">4001</param>
         <param name="label" />
         <definition>
             <control type="image">
-                <left>26</left>
-                <top>12</top>
-                <width>56</width>
-                <height>56</height>
+                <left>28</left>
+                <top>8</top>
+                <width>36</width>
+                <height>36</height>
                 <texture colordiffuse="$VAR[Color_DialogInfo_PlayIcon]">$VAR[Image_DialogInfo_PlayButton]</texture>
                 <visible>!$EXP[Exp_DialogInfo_PlayResumes]</visible>
             </control>
             <!-- Resume: a thin progress ring around a play triangle. The ring frames draw a thick ring in the middle
-                 half of the image; the diffuse mask keeps a 3px band of it at this size. -->
+                 half of the image; the diffuse mask keeps a 2px band of it at this size. -->
             <control type="group">
-                <left>12</left>
+                <left>22</left>
                 <top>2</top>
                 <visible>$EXP[Exp_DialogInfo_PlayResumes]</visible>
                 <control type="image">
-                    <width>76</width>
-                    <height>76</height>
+                    <width>48</width>
+                    <height>48</height>
                     <texture colordiffuse="$VAR[Color_DialogInfo_PlayRingTrack]" diffuse="progress/circle-thin-diffuse.png">progress/circle/p100.png</texture>
                 </control>
                 <control type="image">
-                    <width>76</width>
-                    <height>76</height>
+                    <width>48</width>
+                    <height>48</height>
                     <texture colordiffuse="$VAR[Color_DialogInfo_PlayIcon]" diffuse="progress/circle-thin-diffuse.png" flipx="true" flipy="true">$VAR[Label_DialogInfo_ResumePercent,progress/circle/p,.png]</texture>
                 </control>
                 <control type="image">
-                    <left>12</left>
-                    <top>12</top>
-                    <width>52</width>
-                    <height>52</height>
+                    <left>8</left>
+                    <top>8</top>
+                    <width>32</width>
+                    <height>32</height>
                     <aspectratio>keep</aspectratio>
                     <texture colordiffuse="$VAR[Color_DialogInfo_PlayIcon]">resource://resource.images.arctic.fuse.3/extras/icons/play2.png</texture>
                 </control>
             </control>
             <control type="label">
-                <left>78</left>
+                <left>76</left>
                 <top>0</top>
                 <width>auto</width>
-                <height>80</height>
+                <height>pill_h</height>
                 <align>left</align>
                 <aligny>center</aligny>
-                <font>font_main_bold</font>
+                <font>font_mini_bold</font>
                 <textcolor>dialog_fg_100</textcolor>
                 <label>$PARAM[label]</label>
                 <visible>!Control.HasFocus($PARAM[buttonid])</visible>
             </control>
             <control type="label">
-                <left>78</left>
+                <left>76</left>
                 <top>0</top>
                 <width>auto</width>
-                <height>80</height>
+                <height>pill_h</height>
                 <align>left</align>
                 <aligny>center</aligny>
-                <font>font_main_bold</font>
+                <font>font_mini_bold</font>
                 <textcolor>$VAR[ColorSelected]</textcolor>
                 <label>$PARAM[label]</label>
                 <visible>Control.HasFocus($PARAM[buttonid])</visible>
