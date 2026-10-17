@@ -238,9 +238,9 @@
         <param name="width">auto</param>
         <param name="align">center</param>
         <param name="textoffsetx">20</param>
-        <param name="textcolor">dialog_fg_30</param>
+        <param name="textcolor">dialog_fg_100</param>
         <param name="focusedcolor">$VAR[ColorSelected]</param>
-        <param name="selectedcolor">dialog_fg_30</param>
+        <param name="selectedcolor">dialog_fg_100</param>
         <definition>
             <control type="$PARAM[control]" id="$PARAM[id]">
                 <nested />
@@ -253,7 +253,7 @@
                 <textcolor>$PARAM[textcolor]</textcolor>
                 <focusedcolor>$PARAM[focusedcolor]</focusedcolor>
                 <selectedcolor>$PARAM[selectedcolor]</selectedcolor>
-                <include>Texture_Highlight_ToggleButton_FakeFocus_H</include>
+                <include>Texture_DialogInfo_Action</include>
             </control>
         </definition>
     </include>
@@ -291,19 +291,19 @@
                     <visible>Control.HasFocus($PARAM[id])</visible>
                 </control>
                 <control type="image">
-                    <left>45</left>
-                    <top>20</top>
-                    <width>40</width>
-                    <height>40</height>
+                    <left>37</left>
+                    <top>12</top>
+                    <width>56</width>
+                    <height>56</height>
                     <aspectratio>keep</aspectratio>
                     <texture colordiffuse="dialog_fg_100">$PARAM[icon]</texture>
                     <visible>!Control.HasFocus($PARAM[id])</visible>
                 </control>
                 <control type="image">
-                    <left>45</left>
-                    <top>20</top>
-                    <width>40</width>
-                    <height>40</height>
+                    <left>37</left>
+                    <top>12</top>
+                    <width>56</width>
+                    <height>56</height>
                     <aspectratio>keep</aspectratio>
                     <texture colordiffuse="$VAR[ColorSelected]">$PARAM[icon]</texture>
                     <visible>Control.HasFocus($PARAM[id])</visible>
@@ -356,7 +356,7 @@
                 <align>left</align>
                 <aligny>center</aligny>
                 <font>font_main_bold</font>
-                <textcolor>dialog_fg_30</textcolor>
+                <textcolor>dialog_fg_100</textcolor>
                 <label>$PARAM[label]</label>
                 <visible>!Control.HasFocus($PARAM[buttonid])</visible>
             </control>

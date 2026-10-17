@@ -885,6 +885,17 @@ class CompactVideoInfoTests(unittest.TestCase):
         self.assertNotIn("31393", text)
         self.assertNotIn("Trakt", text)
 
+    def test_pills_and_circles_share_both_states(self):
+        circle = ET.tostring(_include("Includes_Buttons.xml", "Button_DialogInfo_ActionCircle"), encoding="unicode")
+        pill = _include("Includes_Textures.xml", "Texture_DialogInfo_Action")
+        self.assertIn('colordiffuse="dialog_fg_12">diffuse/circle', circle)
+        self.assertIn('colordiffuse="$VAR[ColorHighlight]">diffuse/circle', circle)
+        self.assertEqual("dialog_fg_12", pill.find("texturenofocus").get("colordiffuse"))
+        self.assertEqual("$VAR[ColorHighlight]", pill.find("texturefocus").get("colordiffuse"))
+        for name in ("Color_DialogInfo_PlayIcon", "Color_DialogInfo_ReplayIcon"):
+            values = [v.text for v in _variable("Includes_Colors.xml", name).findall("value")]
+            self.assertEqual(["$VAR[ColorSelected]", "dialog_fg_100"], values)
+
     def test_play_resumes_and_replay_starts_over(self):
         grouplist = self._video_details_grouplist()
         by_id = {node.findtext("param[@name='id']"): node for node in grouplist.findall("include")}

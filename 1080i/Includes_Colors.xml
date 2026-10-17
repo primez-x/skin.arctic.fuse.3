@@ -37,12 +37,12 @@
     <!-- Dialog Info action icons become ink-coloured inside their focused pill. -->
     <variable name="Color_DialogInfo_PlayIcon">
         <value condition="Control.HasFocus(4001)">$VAR[ColorSelected]</value>
-        <value>dialog_fg_30</value>
+        <value>dialog_fg_100</value>
     </variable>
 
     <variable name="Color_DialogInfo_ReplayIcon">
         <value condition="Control.HasFocus(4006)">$VAR[ColorSelected]</value>
-        <value>dialog_fg_30</value>
+        <value>dialog_fg_100</value>
     </variable>
 
     <!-- Watched / Progress Color -->

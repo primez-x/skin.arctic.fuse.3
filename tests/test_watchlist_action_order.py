@@ -441,7 +441,7 @@ class WatchlistActionOrderTests(unittest.TestCase):
         self.assertIn('<param name="focusedcolor">$VAR[ColorSelected]</param>', button_template)
         self.assertIn('<focusedcolor>$PARAM[focusedcolor]</focusedcolor>', button_template)
         self.assertIn("<height>80</height>", button_template)
-        self.assertIn("Texture_Highlight_ToggleButton_FakeFocus_H", button_template)
+        self.assertIn("Texture_DialogInfo_Action", button_template)
 
 
 if __name__ == "__main__":
