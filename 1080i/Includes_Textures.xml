@@ -82,16 +82,16 @@
         <texture border="20" colordiffuse="$VAR[ColorHighlight]">common/box.png</texture>
     </include>
     <include name="Texture_Menu_Highlight_H">
-        <param name="border">26</param>
+        <param name="border">40</param>
         <definition>
-            <texture border="$PARAM[border]" colordiffuse="$VAR[ColorHighlight]">common/pill.png</texture>
+            <texture border="$PARAM[border]" colordiffuse="$VAR[ColorHighlight]">common/menu.png</texture>
         </definition>
     </include>
-    <!-- Focus pill of a one-line menu row: pill_h high, centred in its menu_row_h row -->
+    <!-- Focus pill of a one-line menu row: pill_h high, centred in its menu_row_h row. Taller content rows use Texture_Menu_Highlight_H. -->
     <include name="Texture_Menu_Highlight_Row">
         <centertop>50%</centertop>
         <height>pill_h</height>
-        <include>Texture_Menu_Highlight_H</include>
+        <texture border="26" colordiffuse="$VAR[ColorHighlight]">common/pill.png</texture>
     </include>
     <include name="Texture_Circle_Highlight_H">
         <texture colordiffuse="$VAR[ColorHighlight]">common/circle.png</texture>

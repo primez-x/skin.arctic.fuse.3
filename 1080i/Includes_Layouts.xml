@@ -568,7 +568,7 @@
                     <include content="Object_Control" condition="$PARAM[selected]">
                         <param name="control">image</param>
                         <include content="Texture_Menu_Highlight_H">
-                            <param name="border">26,0,26,0</param>
+                            <param name="border">40,0,40,0</param>
                         </include>
                         <include content="Dimension_Padding"><param name="pad">1</param></include>
                     </include>
@@ -655,7 +655,7 @@
         <param name="detailed">false</param>
         <param name="selected">false</param>
         <param name="include_detailed_labels">Skin.HasSetting(View.UseDetailedListLabels)</param>
-        <param name="border">26,0,26,0</param>
+        <param name="border">40,0,40,0</param>
         <param name="border_genre">40,0,40,0</param>
         <param name="left">0</param>
         <param name="left_text">40</param>
@@ -793,7 +793,7 @@
             </include>
             <include content="Object_Control" condition="![$PARAM[selected]]">
                 <param name="control">image</param>
-                <texture border="26" colordiffuse="$VAR[Color_DialogBorder]">common/pill.png</texture>
+                <texture border="40" colordiffuse="$VAR[Color_DialogBorder]">common/menu.png</texture>
                 <animation effect="fade" start="100" end="0" condition="![$PARAM[altfocus]]">Conditional</animation>
             </include>
             <control type="group">
@@ -1530,7 +1530,7 @@
                 <right>40</right>
                 <bottom>40</bottom>
                 <control type="image">
-                    <texture border="26" colordiffuse="main_fg_12">common/pill.png</texture>
+                    <texture border="40" colordiffuse="main_fg_12">common/menu.png</texture>
                 </control>
                 <include content="Object_Control" condition="$PARAM[selected]">
                     <param name="control">image</param>

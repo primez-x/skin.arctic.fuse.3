@@ -151,7 +151,7 @@
     <include name="Search_Bar_Defs">
         <left>-20</left>
         <width>800</width>
-        <height>80</height>
+        <height>pill_h</height>
         <centertop>50%</centertop>
     </include>
 
@@ -171,7 +171,7 @@
 
         <!-- Backing Panel -->
         <control type="image">
-            <texture colordiffuse="main_fg_12" border="40">common/menu-outlined.png</texture>
+            <texture colordiffuse="main_fg_12" border="26">common/pill-outlined.png</texture>
             <visible>!Control.HasFocus(3000)</visible>
         </control>
         <control type="image">
@@ -198,8 +198,8 @@
             <include>Object_Hidden_Button_Definition</include>
         </control>
         <control type="edit" id="3000">
-            <left>40</left>
-            <font>font_main</font>
+            <left>pill_pad_x</left>
+            <font>font_mini</font>
             <textcolor>main_fg_30</textcolor>
             <focusedcolor>$VAR[ColorSelected]</focusedcolor>
             <align>left</align>

@@ -9,7 +9,7 @@
             <aligny>center</aligny>
             <texturenofocus />
             <texturefocus />
-            <font>font_main_bold</font>
+            <font>font_mini_bold</font>
             <textcolor>00ffffff</textcolor>
             <focusedcolor>00ffffff</focusedcolor>
             <selectedcolor>00ffffff</selectedcolor>
@@ -33,7 +33,7 @@
             <centertop>50%</centertop>
             <aligny>center</aligny>
             <include>Texture_Highlight_Underline_FakeFocus_H</include>
-            <font>font_main_bold</font>
+            <font>font_mini_bold</font>
             <textcolor>00ffffff</textcolor>
             <focusedcolor>00ffffff</focusedcolor>
             <selectedcolor>00ffffff</selectedcolor>
@@ -58,7 +58,7 @@
             <height>80</height>
             <centertop>50%</centertop>
             <aligny>center</aligny>
-            <font>font_main_bold</font>
+            <font>font_mini_bold</font>
             <textcolor>$PARAM[color_nf]</textcolor>
             <label>$INFO[Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Label]</label>
             <include content="Categories_Selector_Fake_Item_Visible">
@@ -75,7 +75,7 @@
             <height>80</height>
             <centertop>50%</centertop>
             <aligny>center</aligny>
-            <font>font_main_bold</font>
+            <font>font_mini_bold</font>
             <textcolor>main_fg_90</textcolor>
             <label>$INFO[Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Label]</label>
             <include content="Categories_Selector_Fake_Item_Visible">
@@ -92,7 +92,7 @@
             <height>80</height>
             <centertop>50%</centertop>
             <aligny>center</aligny>
-            <font>font_main_bold</font>
+            <font>font_mini_bold</font>
             <textcolor>main_fg_100</textcolor>
             <label>$INFO[Container($PARAM[id]).ListItemNoWrap($PARAM[pos]).Label]</label>
             <include content="Categories_Selector_Fake_Item_Visible">

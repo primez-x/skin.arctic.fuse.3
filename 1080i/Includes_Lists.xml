@@ -749,11 +749,9 @@
                             <visible>[Control.HasFocus($PARAM[id]) | $PARAM[altfocus]]</visible>
                             <centertop>50%</centertop>
                             <control type="image">
-                                <height>80</height>
-                                <centertop>50%</centertop>
                                 <left>-20</left>
                                 <right>-20</right>
-                                <include>Texture_Menu_Highlight_H</include>
+                                <include>Texture_Menu_Highlight_Row</include>
                             </control>
                             <control type="label">
                                 <height>20</height>

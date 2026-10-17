@@ -26,6 +26,8 @@
                             <control type="group">
                                 <height>80</height>
                                 <control type="image">
+                                    <centertop>50%</centertop>
+                                    <height>pill_h</height>
                                     <texture colordiffuse="$VAR[Color_DialogBorder]" border="26">common/pill.png</texture>
                                 </control>
                                 <control type="label" id="4">
@@ -33,7 +35,7 @@
                                     <textoffset>40</textoffset>
                                     <width>100%</width>
                                     <disabledcolor>dialog_bg_30</disabledcolor>
-                                    <font>font_midi</font>
+                                    <font>font_main</font>
                                 </control>
                                 <control type="image">
                                     <height>1</height>

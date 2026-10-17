@@ -34,11 +34,13 @@
                                 <height>80</height>
                                 <width>keyboard_edit_w</width>
                                 <control type="image">
+                                    <centertop>50%</centertop>
+                                    <height>pill_h</height>
                                     <texture colordiffuse="$VAR[Color_DialogBorder]" border="26">common/pill.png</texture>
                                     <visible>!Control.HasFocus(312)</visible>
                                 </control>
                                 <control type="image">
-                                    <include>Texture_Menu_Highlight_H</include>
+                                    <include>Texture_Menu_Highlight_Row</include>
                                     <visible>Control.HasFocus(312)</visible>
                                 </control>
                                 <control type="edit" id="312">
@@ -49,7 +51,7 @@
                                     <width>keyboard_edit_w</width>
                                     <ondown>8001</ondown>
                                     <onright>9000</onright>
-                                    <font>font_midi</font>
+                                    <font>font_main</font>
                                 </control>
                                 <control type="image">
                                     <bottom>-20</bottom>

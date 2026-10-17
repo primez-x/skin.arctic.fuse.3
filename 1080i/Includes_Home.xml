@@ -522,7 +522,9 @@
                 <control type="group">
                     <visible>Window.IsVisible($PARAM[window])</visible>
                     <control type="image">
-                        <include>Texture_Menu_Highlight_H</include>
+                        <centerleft>50%</centerleft>
+                        <width>pill_h</width>
+                        <include>Texture_Menu_Highlight_Row</include>
                     </control>
                     <control type="image">
                         <include>Home_Grouplist_Icon_Definition</include>
@@ -889,7 +891,9 @@
                         <width>80</width>
                         <visible>$PARAM[use_icons]</visible>
                         <control type="image">
-                            <include>Texture_Menu_Highlight_H</include>
+                            <centerleft>50%</centerleft>
+                            <width>pill_h</width>
+                            <include>Texture_Menu_Highlight_Row</include>
                         </control>
                         <control type="image">
                             <include>Home_Grouplist_Icon_Definition</include>
@@ -1091,7 +1095,9 @@
                 <control type="group">
                     <visible>Window.IsVisible($PARAM[window]) + Integer.IsEqual(System.CurrentControlID,300)</visible>
                     <control type="image">
-                        <include>Texture_Menu_Highlight_H</include>
+                        <centerleft>50%</centerleft>
+                        <width>pill_h</width>
+                        <include>Texture_Menu_Highlight_Row</include>
                     </control>
                     <control type="image">
                         <include>Home_Grouplist_Icon_Definition</include>

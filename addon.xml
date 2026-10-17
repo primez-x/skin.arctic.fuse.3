@@ -1,4 +1,4 @@
-<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="4.1.0">
+<addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="primez-x" version="4.2.0">
     <requires>
         <import addon="xbmc.gui" version="5.17.0" />
         <import addon="xbmc.python" version="3.0.0" />
@@ -37,7 +37,10 @@
         <license>Creative Commons Attribution Non-Commercial Share-Alike 4.0</license>
         <forum />
         <source>https://github.com/primez-x/skin.arctic.fuse.3</source>
-        <news>v4.1.0
+        <news>v4.2.0
+- Shrink buttons, menus, dialogs, settings rows and text fields to the compact hub tab scale.
+
+v4.1.0
 - Show information page buttons as icons that open into labelled pills on focus.
 - Show the time left and a progress ring on the Resume button.
 - Show the watched state as an outlined or filled check circle.

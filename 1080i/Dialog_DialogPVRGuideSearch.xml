@@ -32,9 +32,9 @@
                                 <top>20</top>
                                 <left>20</left>
                                 <right>20</right>
-                                <height>80</height>
+                                <height>pill_h</height>
                                 <control type="image">
-                                    <include>Texture_Menu_Highlight_H</include>
+                                    <include>Texture_Menu_Highlight_Row</include>
                                     <visible>ControlGroup(7000).HasFocus()</visible>
                                 </control>
 
@@ -42,7 +42,8 @@
                                     <param name="id">9</param>
                                     <param name="control">edit</param>
                                     <width>100%</width>
-                                    <textoffsetx>40</textoffsetx>
+                                    <font>font_main</font>
+                                    <textoffsetx>pill_pad_x</textoffsetx>
                                     <align>left</align>
                                     <onright>26</onright>
                                     <ondown>8300</ondown>
@@ -52,7 +53,7 @@
                                     <label>$LOCALIZE[19001] $LOCALIZE[19002]</label>
                                     <textcolor>dialog_fg_70</textcolor>
                                     <font>font_mini</font>
-                                    <left>40</left>
+                                    <left>pill_pad_x</left>
                                     <right>160</right>
                                     <aligny>center</aligny>
                                     <visible>String.IsEmpty(Control.GetLabel(9).index(1))</visible>

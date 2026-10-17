@@ -35,8 +35,9 @@
                                     <param name="control">edit</param>
                                     <width>100%</width>
                                     <ondown>11</ondown>
-                                    <textoffsetx>40</textoffsetx>
-                                    <height>80</height>
+                                    <font>font_main</font>
+                                    <textoffsetx>pill_pad_x</textoffsetx>
+                                    <height>pill_h</height>
                                 </include>
                             </control>
 
@@ -64,7 +65,7 @@
                                     </include>
                                     <control type="grouplist" id="9001">
                                         <orientation>horizontal</orientation>
-                                        <height>80</height>
+                                        <height>menu_row_h</height>
                                         <align>right</align>
                                         <right>20</right>
                                         <itemgap>0</itemgap>
@@ -73,14 +74,14 @@
                                         <onup condition="Integer.IsEqual(Container(10).CurrentItem,1)">12</onup>
                                         <onup condition="!Integer.IsEqual(Container(10).CurrentItem,1)">Control.Move(10,-1)</onup>
                                         <ondown condition="!String.IsEmpty(Container(10).ListItemNoWrap(1).Label)">Control.Move(10,1)</ondown>
-                                        <animation effect="slide" start="0" end="0,80" condition="Container(10).Position(1)">Conditional</animation>
-                                        <animation effect="slide" start="0" end="0,160" condition="Container(10).Position(2)">Conditional</animation>
-                                        <animation effect="slide" start="0" end="0,240" condition="Container(10).Position(3)">Conditional</animation>
-                                        <animation effect="slide" start="0" end="0,320" condition="Container(10).Position(4)">Conditional</animation>
-                                        <animation effect="slide" start="0" end="0,400" condition="Container(10).Position(5)">Conditional</animation>
-                                        <animation effect="slide" start="0" end="0,480" condition="Container(10).Position(6)">Conditional</animation>
-                                        <animation effect="slide" start="0" end="0,560" condition="Container(10).Position(7)">Conditional</animation>
-                                        <animation effect="slide" start="0" end="0,640" condition="Container(10).Position(8)">Conditional</animation>
+                                        <animation effect="slide" start="0" end="0,64" condition="Container(10).Position(1)">Conditional</animation>
+                                        <animation effect="slide" start="0" end="0,128" condition="Container(10).Position(2)">Conditional</animation>
+                                        <animation effect="slide" start="0" end="0,192" condition="Container(10).Position(3)">Conditional</animation>
+                                        <animation effect="slide" start="0" end="0,256" condition="Container(10).Position(4)">Conditional</animation>
+                                        <animation effect="slide" start="0" end="0,320" condition="Container(10).Position(5)">Conditional</animation>
+                                        <animation effect="slide" start="0" end="0,384" condition="Container(10).Position(6)">Conditional</animation>
+                                        <animation effect="slide" start="0" end="0,448" condition="Container(10).Position(7)">Conditional</animation>
+                                        <animation effect="slide" start="0" end="0,512" condition="Container(10).Position(8)">Conditional</animation>
                                         <visible allowhiddenfocus="true">Control.HasFocus(10) | Control.HasFocus(11) | Control.HasFocus(13) | Control.HasFocus(14) | Control.HasFocus(9001)</visible>
                                         <include content="Settings_EditButton">
                                             <param name="id">10</param>
