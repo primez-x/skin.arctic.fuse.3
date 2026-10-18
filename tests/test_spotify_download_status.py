@@ -2,7 +2,7 @@
 
 Failures: ambiguous states; selected hides progress/error; false completion for partial;
 normal rows gain chrome; metadata reads another container; status replaces play overlays;
-shared row variants omit status; local playback lacks a user label.
+shared row variants omit status; playback source labels or artist separators become stale.
 """
 import re
 import unittest
@@ -96,13 +96,41 @@ class SpotifyDownloadStatusTests(unittest.TestCase):
         self.assertIn('Spotify.DownloadState', visible)
         self.assertIn('.Year', visible)
 
-    def test_local_playback_label_uses_the_current_source(self):
-        osd = xml('Includes_OSD.xml').find("include[@name='OSD_TitleDetails']")
-        matches = [node for node in osd.findall(".//include[@content='Info_Line_Label']")
-                   if node.findtext("param[@name='label']") == '$LOCALIZE[31896]']
-        self.assertEqual(1, len(matches))
-        self.assertIn('String.IsEqual(Window(Home).Property(Spotify.CurrentTrackPlaybackSource),local)',
-                      matches[0].findtext("param[@name='visible']"))
+    def test_playback_source_transitions_preserve_artist_separators(self):
+        root = xml('Includes_OSD.xml')
+        osd = root.find("include[@name='OSD_TitleDetails']")
+        labels = osd.findall(".//include[@content='Info_Line_Label']")
+        sources = [node for node in labels
+                   if not node.findtext("param[@name='label']").startswith('$INFO[')]
+        self.assertEqual(1, len(sources), 'one mutually exclusive source label region')
+        source = sources[0]
+        artist = next(node for node in labels
+                      if node.findtext("param[@name='label']") == '$INFO[$PARAM[listitem].Artist]')
+        self.assertEqual('false', source.findtext("param[@name='show_divider']"))
+        source_property = 'Window(Home).Property(Spotify.CurrentTrackPlaybackSource)'
+        for state, expected in (('local', '$LOCALIZE[31896]'), ('stream', '$LOCALIZE[31897]'),
+                                ('', ''), ('unknown', ''), ('stream', '$LOCALIZE[31897]'),
+                                ('local', '$LOCALIZE[31896]'), ('', '')):
+            with self.subTest(source=state):
+                def active(expression):
+                    return condition(expression.replace(source_property, 'state'), state, '')
+
+                label = source.findtext("param[@name='label']")
+                if label.startswith('$VAR['):
+                    variable = root.find(f"variable[@name='{label[5:-1]}']")
+                    self.assertIsNotNone(variable)
+                    label = next((node.text or '' for node in variable.findall('value')
+                                  if node.get('condition') is None or active(node.get('condition'))), '')
+                visible = active(source.findtext("param[@name='visible']"))
+                self.assertEqual(expected, label if visible else '')
+                self.assertEqual(bool(expected), visible)
+                for artist_name, album_artist in (('Artist', ''), ('', 'Album artist'), ('', '')):
+                    artist_visible = condition(artist.findtext("param[@name='visible']")
+                                               .replace('$PARAM[listitem].AlbumArtist', 'selected')
+                                               .replace('$PARAM[listitem].Artist', 'state'),
+                                               artist_name, album_artist)
+                    divider_visible = artist_visible and active(artist.findtext("param[@name='show_divider']"))
+                    self.assertEqual(bool(expected and (artist_name or album_artist)), divider_visible)
 
     def test_progress_is_optional_and_zero_is_visible(self):
         nodes = self.status().findall('definition/control/control')
@@ -137,7 +165,8 @@ class SpotifyDownloadStatusTests(unittest.TestCase):
     def test_english_labels_are_short_and_distinct(self):
         text = (ROOT / 'language/resource.language.en_gb/strings.po').read_text()
         for number, label in enumerate(('Selected', 'Queued', 'Downloading', 'Downloaded',
-                                        'Partly downloaded', 'Download failed', 'Local playback'), 31890):
+                                        'Partly downloaded', 'Download failed', 'Local playback',
+                                        'Spotify stream'), 31890):
             self.assertIn(f'msgctxt "#{number}"\nmsgid "{label}"', text)
 
 

@@ -1024,6 +1024,11 @@
 
 
 
+    <variable name="Label_OSD_MusicPlaybackSource">
+        <value condition="String.IsEqual(Window(Home).Property(Spotify.CurrentTrackPlaybackSource),local)">$LOCALIZE[31896]</value>
+        <value condition="String.IsEqual(Window(Home).Property(Spotify.CurrentTrackPlaybackSource),stream)">$LOCALIZE[31897]</value>
+    </variable>
+
     <!-- Music OSD title and artist/album subtitle share the Info_Panel layout. -->
     <include name="OSD_TitleDetails">
         <control type="grouplist">
@@ -1058,15 +1063,15 @@
                     </control>
                     <include content="Info_Line_Label">
                         <param name="colordiffuse">panel_fg</param>
-                        <param name="label">$LOCALIZE[31896]</param>
+                        <param name="label">$VAR[Label_OSD_MusicPlaybackSource]</param>
                         <param name="show_divider">false</param>
-                        <param name="visible">String.IsEqual(Window(Home).Property(Spotify.CurrentTrackPlaybackSource),local)</param>
+                        <param name="visible">String.IsEqual(Window(Home).Property(Spotify.CurrentTrackPlaybackSource),local) | String.IsEqual(Window(Home).Property(Spotify.CurrentTrackPlaybackSource),stream)</param>
                     </include>
                     <include content="Info_Line_Label">
                         <param name="colordiffuse">panel_fg</param>
                         <param name="label">$INFO[$PARAM[listitem].Artist]</param>
                         <param name="label_fallback">$INFO[$PARAM[listitem].AlbumArtist]</param>
-                        <param name="show_divider">String.IsEqual(Window(Home).Property(Spotify.CurrentTrackPlaybackSource),local)</param>
+                        <param name="show_divider">String.IsEqual(Window(Home).Property(Spotify.CurrentTrackPlaybackSource),local) | String.IsEqual(Window(Home).Property(Spotify.CurrentTrackPlaybackSource),stream)</param>
                         <param name="visible">!String.IsEmpty($PARAM[listitem].Artist) | !String.IsEmpty($PARAM[listitem].AlbumArtist)</param>
                     </include>
                     <include content="Info_Line_Label">

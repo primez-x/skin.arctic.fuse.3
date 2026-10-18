@@ -2510,3 +2510,8 @@ msgstr ""
 msgctxt "#31896"
 msgid "Local playback"
 msgstr ""
+
+#: /1080i/Includes_OSD.xml
+msgctxt "#31897"
+msgid "Spotify stream"
+msgstr ""
