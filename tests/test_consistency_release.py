@@ -663,11 +663,15 @@ class PanelTests(unittest.TestCase):
         details = _include("Includes_OSD.xml", "OSD_TitleDetails")
         self.assertIsNotNone(details.find(".//include[@content='Info_Title']"))
         self.assertIsNone(details.find(".//include[@content='Info_Line']"))
-        labels = details.findall(".//include[@content='Info_Line_Label']")
+        all_labels = details.findall(".//include[@content='Info_Line_Label']")
+        labels = [label for label in all_labels
+                  if (label.findtext("param[@name='label']") or "").startswith("$INFO[")]
+        source = next(label for label in all_labels if label not in labels)
         self.assertEqual(2, len(labels))
         self.assertEqual("$INFO[$PARAM[listitem].Artist]", labels[0].findtext("param[@name='label']"))
         self.assertEqual("$INFO[$PARAM[listitem].AlbumArtist]", labels[0].findtext("param[@name='label_fallback']"))
-        self.assertEqual("false", labels[0].findtext("param[@name='show_divider']"))
+        self.assertEqual(source.findtext("param[@name='visible']"),
+                         labels[0].findtext("param[@name='show_divider']"))
         self.assertEqual("$INFO[$PARAM[listitem].Album]", labels[1].findtext("param[@name='label']"))
         self.assertEqual("!String.IsEmpty($PARAM[listitem].Artist) | !String.IsEmpty($PARAM[listitem].AlbumArtist)",
                          labels[1].findtext("param[@name='show_divider']"))
