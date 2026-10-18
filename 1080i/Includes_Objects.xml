@@ -351,6 +351,7 @@
                 <visible>String.IsEqual($PARAM[listitem].Icon,DefaultFolder.png) + String.IsEqual($PARAM[listitem].Label,$LOCALIZE[22082])</visible>
             </control>
             <include content="Object_SpotifyDownloadBadge">
+                <param name="downloadid">$PARAM[listitem].Property(Spotify.DownloadId)</param>
                 <param name="state">$PARAM[listitem].Property(Spotify.DownloadState)</param>
                 <param name="download_selected">$PARAM[listitem].Property(Spotify.DownloadSelected)</param>
                 <param name="trackid">$PARAM[listitem].Property(spotifytrackid)</param>
@@ -1065,9 +1066,8 @@
         </definition>
     </include>
 
-    <expression name="Exp_SpotifyDownloadStatus">String.IsEqual(ListItem.Property(Spotify.DownloadState),queued) | String.IsEqual(ListItem.Property(Spotify.DownloadState),downloading) | String.IsEqual(ListItem.Property(Spotify.DownloadState),complete) | String.IsEqual(ListItem.Property(Spotify.DownloadState),partial) | String.IsEqual(ListItem.Property(Spotify.DownloadState),error) | [String.IsEmpty(ListItem.Property(Spotify.DownloadState)) + String.IsEqual(ListItem.Property(Spotify.DownloadSelected),true)]</expression>
-
     <include name="Object_SpotifyDownloadBadge">
+        <param name="downloadid">ListItem.Property(Spotify.DownloadId)</param>
         <param name="state">ListItem.Property(Spotify.DownloadState)</param>
         <param name="download_selected">ListItem.Property(Spotify.DownloadSelected)</param>
         <param name="trackid">ListItem.Property(spotifytrackid)</param>
@@ -1075,6 +1075,22 @@
         <param name="albumid">ListItem.Property(spotifyalbumid)</param>
         <param name="size">44</param>
         <param name="arrow_pad">12</param>
+        <definition>
+            <include content="Object_SpotifyDownloadBadge_States">
+                <nested />
+                <param name="live">String.IsEqual(Window(Home).Property(Spotify.BadgeReady),true) + [!String.IsEmpty($PARAM[downloadid]) | !String.IsEmpty($PARAM[trackid]) | !String.IsEmpty($PARAM[playlistid]) | !String.IsEmpty($PARAM[albumid])]</param>
+                <param name="live_complete">[!String.IsEmpty($PARAM[downloadid]) + String.Contains(Window(Home).Property(Spotify.BadgeComplete),$PARAM[downloadid])] | [String.IsEmpty($PARAM[downloadid]) + [[!String.IsEmpty($PARAM[trackid]) + String.Contains(Window(Home).Property(Spotify.BadgeComplete),$PARAM[trackid])] | [!String.IsEmpty($PARAM[playlistid]) + String.Contains(Window(Home).Property(Spotify.BadgeComplete),$PARAM[playlistid])] | [!String.IsEmpty($PARAM[albumid]) + String.Contains(Window(Home).Property(Spotify.BadgeComplete),$PARAM[albumid])]]]</param>
+                <param name="live_active">[!String.IsEmpty($PARAM[downloadid]) + String.Contains(Window(Home).Property(Spotify.BadgeActive),$PARAM[downloadid])] | [String.IsEmpty($PARAM[downloadid]) + [[!String.IsEmpty($PARAM[trackid]) + String.Contains(Window(Home).Property(Spotify.BadgeActive),$PARAM[trackid])] | [!String.IsEmpty($PARAM[playlistid]) + String.Contains(Window(Home).Property(Spotify.BadgeActive),$PARAM[playlistid])] | [!String.IsEmpty($PARAM[albumid]) + String.Contains(Window(Home).Property(Spotify.BadgeActive),$PARAM[albumid])]]]</param>
+                <param name="live_error">[!String.IsEmpty($PARAM[downloadid]) + String.Contains(Window(Home).Property(Spotify.BadgeError),$PARAM[downloadid])] | [String.IsEmpty($PARAM[downloadid]) + [[!String.IsEmpty($PARAM[trackid]) + String.Contains(Window(Home).Property(Spotify.BadgeError),$PARAM[trackid])] | [!String.IsEmpty($PARAM[playlistid]) + String.Contains(Window(Home).Property(Spotify.BadgeError),$PARAM[playlistid])] | [!String.IsEmpty($PARAM[albumid]) + String.Contains(Window(Home).Property(Spotify.BadgeError),$PARAM[albumid])]]]</param>
+                <param name="state">$PARAM[state]</param>
+                <param name="download_selected">$PARAM[download_selected]</param>
+                <param name="size">$PARAM[size]</param>
+                <param name="arrow_pad">$PARAM[arrow_pad]</param>
+            </include>
+        </definition>
+    </include>
+
+    <include name="Object_SpotifyDownloadBadge_States">
         <definition>
             <control type="group">
                 <nested />
@@ -1084,26 +1100,26 @@
                     <texture>common/circle.png</texture>
                     <colordiffuse>FF1DB954</colordiffuse>
                     <aspectratio>keep</aspectratio>
-                    <visible>String.IsEqual($PARAM[state],complete) | [!String.IsEmpty($PARAM[trackid]) + String.Contains(Window(Home).Property(Spotify.BadgeComplete),$PARAM[trackid])] | [!String.IsEmpty($PARAM[playlistid]) + String.Contains(Window(Home).Property(Spotify.BadgeComplete),$PARAM[playlistid])] | [!String.IsEmpty($PARAM[albumid]) + String.Contains(Window(Home).Property(Spotify.BadgeComplete),$PARAM[albumid])]</visible>
+                    <visible>[$PARAM[live] + [$PARAM[live_complete]]] | [![$PARAM[live]] + String.IsEqual($PARAM[state],complete)]</visible>
                 </control>
                 <control type="image">
                     <texture>common/circle.png</texture>
                     <colordiffuse>FF707070</colordiffuse>
                     <aspectratio>keep</aspectratio>
-                    <visible>[String.IsEqual($PARAM[state],queued) | String.IsEqual($PARAM[state],downloading) | String.IsEqual($PARAM[state],partial) | [String.IsEmpty($PARAM[state]) + String.IsEqual($PARAM[download_selected],true)] | [!String.IsEmpty($PARAM[trackid]) + String.Contains(Window(Home).Property(Spotify.BadgeActive),$PARAM[trackid])] | [!String.IsEmpty($PARAM[playlistid]) + String.Contains(Window(Home).Property(Spotify.BadgeActive),$PARAM[playlistid])] | [!String.IsEmpty($PARAM[albumid]) + String.Contains(Window(Home).Property(Spotify.BadgeActive),$PARAM[albumid])]] + ![String.IsEqual($PARAM[state],complete) | [!String.IsEmpty($PARAM[trackid]) + String.Contains(Window(Home).Property(Spotify.BadgeComplete),$PARAM[trackid])] | [!String.IsEmpty($PARAM[playlistid]) + String.Contains(Window(Home).Property(Spotify.BadgeComplete),$PARAM[playlistid])] | [!String.IsEmpty($PARAM[albumid]) + String.Contains(Window(Home).Property(Spotify.BadgeComplete),$PARAM[albumid])]] + ![String.IsEqual($PARAM[state],error) | [!String.IsEmpty($PARAM[trackid]) + String.Contains(Window(Home).Property(Spotify.BadgeError),$PARAM[trackid])] | [!String.IsEmpty($PARAM[playlistid]) + String.Contains(Window(Home).Property(Spotify.BadgeError),$PARAM[playlistid])] | [!String.IsEmpty($PARAM[albumid]) + String.Contains(Window(Home).Property(Spotify.BadgeError),$PARAM[albumid])]]</visible>
+                    <visible>[$PARAM[live] + [$PARAM[live_active]] + ![$PARAM[live_complete]] + ![$PARAM[live_error]]] | [![$PARAM[live]] + [String.IsEqual($PARAM[state],queued) | String.IsEqual($PARAM[state],downloading) | String.IsEqual($PARAM[state],partial) | [String.IsEmpty($PARAM[state]) + String.IsEqual($PARAM[download_selected],true)]]]</visible>
                 </control>
                 <control type="image">
                     <texture>common/circle.png</texture>
                     <colordiffuse>FFE22134</colordiffuse>
                     <aspectratio>keep</aspectratio>
-                    <visible>[String.IsEqual($PARAM[state],error) | [!String.IsEmpty($PARAM[trackid]) + String.Contains(Window(Home).Property(Spotify.BadgeError),$PARAM[trackid])] | [!String.IsEmpty($PARAM[playlistid]) + String.Contains(Window(Home).Property(Spotify.BadgeError),$PARAM[playlistid])] | [!String.IsEmpty($PARAM[albumid]) + String.Contains(Window(Home).Property(Spotify.BadgeError),$PARAM[albumid])]] + ![String.IsEqual($PARAM[state],complete) | [!String.IsEmpty($PARAM[trackid]) + String.Contains(Window(Home).Property(Spotify.BadgeComplete),$PARAM[trackid])] | [!String.IsEmpty($PARAM[playlistid]) + String.Contains(Window(Home).Property(Spotify.BadgeComplete),$PARAM[playlistid])] | [!String.IsEmpty($PARAM[albumid]) + String.Contains(Window(Home).Property(Spotify.BadgeComplete),$PARAM[albumid])]]</visible>
+                    <visible>[$PARAM[live] + [$PARAM[live_error]] + ![$PARAM[live_complete]]] | [![$PARAM[live]] + String.IsEqual($PARAM[state],error)]</visible>
                 </control>
                 <control type="image">
                     <include content="Dimension_Padding"><param name="pad">$PARAM[arrow_pad]</param></include>
                     <texture flipy="true">arrows/arrow-up-240.png</texture>
                     <colordiffuse>FFFFFFFF</colordiffuse>
                     <aspectratio align="center" aligny="center">keep</aspectratio>
-                    <visible>String.IsEqual($PARAM[state],complete) | String.IsEqual($PARAM[state],queued) | String.IsEqual($PARAM[state],downloading) | String.IsEqual($PARAM[state],partial) | String.IsEqual($PARAM[state],error) | [String.IsEmpty($PARAM[state]) + String.IsEqual($PARAM[download_selected],true)] | [!String.IsEmpty($PARAM[trackid]) + [String.Contains(Window(Home).Property(Spotify.BadgeComplete),$PARAM[trackid]) | String.Contains(Window(Home).Property(Spotify.BadgeActive),$PARAM[trackid]) | String.Contains(Window(Home).Property(Spotify.BadgeError),$PARAM[trackid])]] | [!String.IsEmpty($PARAM[playlistid]) + [String.Contains(Window(Home).Property(Spotify.BadgeComplete),$PARAM[playlistid]) | String.Contains(Window(Home).Property(Spotify.BadgeActive),$PARAM[playlistid]) | String.Contains(Window(Home).Property(Spotify.BadgeError),$PARAM[playlistid])]] | [!String.IsEmpty($PARAM[albumid]) + [String.Contains(Window(Home).Property(Spotify.BadgeComplete),$PARAM[albumid]) | String.Contains(Window(Home).Property(Spotify.BadgeActive),$PARAM[albumid]) | String.Contains(Window(Home).Property(Spotify.BadgeError),$PARAM[albumid])]]</visible>
+                    <visible>[$PARAM[live] + [[$PARAM[live_complete]] | [$PARAM[live_active]] | [$PARAM[live_error]]]] | [![$PARAM[live]] + [String.IsEqual($PARAM[state],complete) | String.IsEqual($PARAM[state],queued) | String.IsEqual($PARAM[state],downloading) | String.IsEqual($PARAM[state],partial) | String.IsEqual($PARAM[state],error) | [String.IsEmpty($PARAM[state]) + String.IsEqual($PARAM[download_selected],true)]]]</visible>
                 </control>
             </control>
         </definition>

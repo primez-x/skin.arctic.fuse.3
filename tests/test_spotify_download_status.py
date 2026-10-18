@@ -17,20 +17,27 @@ def xml(name):
     return ET.parse(ROOT / '1080i' / name).getroot()
 
 
-def condition(value, state, selected):
-    value = value.replace('$PARAM[state]', 'state').replace('$PARAM[download_selected]', 'selected')
-    for name in ('trackid', 'playlistid', 'albumid'):
-        value = value.replace(f'$PARAM[{name}]', 'needle')
-    # Live window-property sets evaluate empty here; per-item state is under test.
-    value = re.sub(r'String\.Contains\(Window\(Home\)\.Property\(Spotify\.Badge\w+\)\s*,\s*needle\)', 'False', value)
-    values = {'state': state, 'selected': selected, 'needle': 'x'}
-    value = re.sub(r'String.IsEqual\((state|selected),([^)]*)\)',
-                   lambda match: str(values[match[1]] == match[2]), value)
-    value = re.sub(r'String.IsEmpty\((state|selected|needle)\)',
-                   lambda match: str(not values[match[1]]), value)
+def condition(value, state, selected, *, ready='', ids=None, live=None):
+    values = {'state': state, 'download_selected': selected,
+              **dict.fromkeys(('downloadid', 'trackid', 'playlistid', 'albumid'), ''),
+              **(ids or {})}
+    for name, content in values.items():
+        value = value.replace(f'$PARAM[{name}]', repr(content))
+    for name in ('Complete', 'Active', 'Error', 'Ready'):
+        content = ready if name == 'Ready' else (live or {}).get(name, '')
+        value = value.replace(f'Window(Home).Property(Spotify.Badge{name})', repr(content))
+    value = re.sub(r'(?<=[(,])(state|selected)(?=[,)])',
+                   lambda match: repr(state if match[1] == 'state' else selected), value)
+    value = value.replace('String.Contains(', 'contains(')
+    value = value.replace('String.IsEqual(', 'equal(').replace('String.IsEmpty(', 'empty(')
+    value = re.sub(r'(?<=,)([a-z]+)(?=\))', r"'\1'", value)
     value = value.replace('!', ' not ').replace('+', ' and ').replace('|', ' or ')
     value = value.replace('[', '(').replace(']', ')')
-    return eval(value, {'__builtins__': {}}, {})
+    return eval(value, {'__builtins__': {}}, {
+        'contains': lambda haystack, needle: needle.lower() in haystack.lower(),
+        'equal': lambda left, right: left.lower() == right.lower(),
+        'empty': lambda text: not text,
+    })
 
 
 class SpotifyDownloadBadgeTests(unittest.TestCase):
@@ -39,8 +46,58 @@ class SpotifyDownloadBadgeTests(unittest.TestCase):
         self.assertIsNotNone(node, 'shared download badge required')
         return node
 
+    def badge_images(self):
+        badge = self.badge()
+        helper = badge.find("definition/include[@content='Object_SpotifyDownloadBadge_States']")
+        self.assertIsNotNone(helper)
+        node = xml('Includes_Objects.xml').find("include[@name='Object_SpotifyDownloadBadge_States']")
+        params = {param.get('name'): param.text for param in helper.findall('param')}
+        images = node.findall('definition/control/control')
+        for image in images:
+            visible = image.find('visible')
+            for name, value in params.items():
+                visible.text = visible.text.replace(f'$PARAM[{name}]', value)
+        return images
+
+    def assert_badge(self, expected, state='', selected='', **kwargs):
+        images = self.badge_images()
+        rendered = [node.findtext('colordiffuse') for node in images
+                    if node.findtext('texture') == 'common/circle.png'
+                    and condition(node.findtext('visible'), state, selected, **kwargs)]
+        arrows = [node for node in images if 'arrow-up-240' in (node.findtext('texture') or '')]
+        self.assertEqual([] if expected is None else [expected], rendered)
+        arrow_visible = condition(arrows[0].findtext('visible'), state, selected, **kwargs)
+        self.assertEqual(expected is not None, bool(arrow_visible))
+
+    def test_live_state_replaces_stale_rows(self):
+        for identity in ('downloadid', 'trackid', 'playlistid', 'albumid'):
+            for stale, selected in (('complete', ''), ('error', ''), ('', 'true')):
+                with self.subTest(identity=identity, stale=stale, selected=selected):
+                    self.assert_badge('FF707070', stale, selected, ready='true',
+                                      ids={identity: 'track123'}, live={'Active': ',track123,'})
+                    self.assert_badge(None, stale, selected, ready='true', ids={identity: 'track123'})
+
+    def test_liked_songs_and_local_collections_use_generic_identity(self):
+        for identity in ('songs', 'local-collection'):
+            for status, color in (('Complete', 'FF1DB954'), ('Active', 'FF707070'), ('Error', 'FFE22134')):
+                with self.subTest(identity=identity, status=status):
+                    self.assert_badge(color, ready='true', ids={'downloadid': identity},
+                                      live={status: f',{identity},'})
+
+    def test_row_fallback_before_ready_or_without_identity(self):
+        for ready, ids in (('', {'trackid': 'track123'}), ('false', {'downloadid': 'songs'}), ('true', {})):
+            self.assert_badge('FF1DB954', 'complete', ready=ready, ids=ids, live={'Active': ',track123,songs,'})
+            self.assert_badge('FFE22134', 'error', ready=ready, ids=ids)
+            self.assert_badge('FF707070', selected='true', ready=ready, ids=ids)
+            self.assert_badge(None, ready=ready, ids=ids, live={'Complete': ',track123,songs,'})
+
+    def test_generic_identity_has_priority_over_legacy_identity(self):
+        self.assert_badge('FF707070', 'complete', ready='true',
+                          ids={'downloadid': 'songs', 'playlistid': 'old'},
+                          live={'Complete': ',old,', 'Active': ',songs,'})
+
     def test_badge_color_matrix_and_arrow(self):
-        images = self.badge().findall('definition/control/control')
+        images = self.badge_images()
         circles = [node for node in images if (node.findtext('texture') or '') == 'common/circle.png']
         arrows = [node for node in images if 'arrow-up-240' in (node.findtext('texture') or '')]
         self.assertEqual(3, len(circles))
@@ -64,13 +121,16 @@ class SpotifyDownloadBadgeTests(unittest.TestCase):
         text = ET.tostring(self.badge(), encoding='unicode')
         for name in ('Spotify.BadgeComplete', 'Spotify.BadgeActive', 'Spotify.BadgeError'):
             self.assertIn(f'Window(Home).Property({name})', text)
-        for param in ('trackid', 'playlistid', 'albumid'):
+        self.assertIn('Window(Home).Property(Spotify.BadgeReady)', text)
+        self.assertEqual('ListItem.Property(Spotify.DownloadId)',
+                         self.badge().findtext("param[@name='downloadid']"))
+        for param in ('downloadid', 'trackid', 'playlistid', 'albumid'):
             self.assertIn(f'!String.IsEmpty($PARAM[{param}])', text)
         objects = (ROOT / '1080i/Includes_Objects.xml').read_text()
         self.assertNotIn('Exp_SpotifyDownloadStatus]</visible>\n                    </include>\n                </control>\n                <nested', objects)
 
     def test_badge_is_passive_and_keeps_playing_overlays(self):
-        badge = self.badge()
+        badge = xml('Includes_Objects.xml').find("include[@name='Object_SpotifyDownloadBadge_States']")
         self.assertEqual({'image', 'group'}, {node.get('type') for node in badge.iter('control')})
         self.assertNotIn('IsPlaying', ET.tostring(badge, encoding='unicode'))
         self.assertNotIn('<label', ET.tostring(badge, encoding='unicode'))
@@ -103,7 +163,10 @@ class SpotifyDownloadBadgeTests(unittest.TestCase):
         rows = xml('Includes_Lists.xml')
         layouts = xml('Includes_Layouts.xml')
         rectangle = xml('Includes_Objects.xml').find("include[@name='Object_Layout_Image_Rectangle']")
-        self.assertIsNotNone(rectangle.find(".//include[@content='Object_SpotifyDownloadBadge']"))
+        rectangle_badge = rectangle.find(".//include[@content='Object_SpotifyDownloadBadge']")
+        self.assertIsNotNone(rectangle_badge)
+        self.assertEqual('$PARAM[listitem].Property(Spotify.DownloadId)',
+                         rectangle_badge.findtext("param[@name='downloadid']"))
         for family, layout in (('Poster', 'Poster'), ('Card', 'Card'), ('Landscape', 'Landscape'),
                                ('Board', 'Landscape'), ('Banner', 'Banner'), ('Circle', 'Circle'),
                                ('Square', 'Square')):
