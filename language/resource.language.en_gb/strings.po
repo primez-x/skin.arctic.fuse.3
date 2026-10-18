@@ -2475,3 +2475,38 @@ msgstr ""
 msgctxt "#31997"
 msgid "{0} left"
 msgstr ""
+
+#: /1080i/Includes_Objects.xml /1080i/Includes_OSD.xml
+msgctxt "#31890"
+msgid "Selected"
+msgstr ""
+
+#: /1080i/Includes_Objects.xml /1080i/Includes_OSD.xml
+msgctxt "#31891"
+msgid "Queued"
+msgstr ""
+
+#: /1080i/Includes_Objects.xml /1080i/Includes_OSD.xml
+msgctxt "#31892"
+msgid "Downloading"
+msgstr ""
+
+#: /1080i/Includes_Objects.xml /1080i/Includes_OSD.xml
+msgctxt "#31893"
+msgid "Downloaded"
+msgstr ""
+
+#: /1080i/Includes_Objects.xml /1080i/Includes_OSD.xml
+msgctxt "#31894"
+msgid "Partly downloaded"
+msgstr ""
+
+#: /1080i/Includes_Objects.xml /1080i/Includes_OSD.xml
+msgctxt "#31895"
+msgid "Download failed"
+msgstr ""
+
+#: /1080i/Includes_Objects.xml /1080i/Includes_OSD.xml
+msgctxt "#31896"
+msgid "Local playback"
+msgstr ""

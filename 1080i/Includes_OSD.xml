@@ -1058,9 +1058,15 @@
                     </control>
                     <include content="Info_Line_Label">
                         <param name="colordiffuse">panel_fg</param>
+                        <param name="label">$LOCALIZE[31896]</param>
+                        <param name="show_divider">false</param>
+                        <param name="visible">String.IsEqual(Window(Home).Property(Spotify.CurrentTrackPlaybackSource),local)</param>
+                    </include>
+                    <include content="Info_Line_Label">
+                        <param name="colordiffuse">panel_fg</param>
                         <param name="label">$INFO[$PARAM[listitem].Artist]</param>
                         <param name="label_fallback">$INFO[$PARAM[listitem].AlbumArtist]</param>
-                        <param name="show_divider">false</param>
+                        <param name="show_divider">String.IsEqual(Window(Home).Property(Spotify.CurrentTrackPlaybackSource),local)</param>
                         <param name="visible">!String.IsEmpty($PARAM[listitem].Artist) | !String.IsEmpty($PARAM[listitem].AlbumArtist)</param>
                     </include>
                     <include content="Info_Line_Label">

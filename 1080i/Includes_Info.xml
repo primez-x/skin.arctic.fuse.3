@@ -752,7 +752,7 @@
                 <top>$PARAM[top]</top>
                 <height>$PARAM[height]</height>
 
-                <visible>[String.IsEqual($PARAM[container]$PARAM[listitem].DBType,movie) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,tvshow) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,season) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,episode) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,video) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,album) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,song) | !String.IsEmpty($PARAM[container]$PARAM[listitem].ChannelNumberLabel) | $PARAM[override]]</visible>
+                <visible>[String.IsEqual($PARAM[container]$PARAM[listitem].DBType,movie) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,tvshow) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,season) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,episode) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,video) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,album) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,song) | !String.IsEmpty($PARAM[container]$PARAM[listitem].ChannelNumberLabel) | String.IsEqual($PARAM[container]$PARAM[listitem].Property(Spotify.DownloadState),queued) | String.IsEqual($PARAM[container]$PARAM[listitem].Property(Spotify.DownloadState),downloading) | String.IsEqual($PARAM[container]$PARAM[listitem].Property(Spotify.DownloadState),complete) | String.IsEqual($PARAM[container]$PARAM[listitem].Property(Spotify.DownloadState),partial) | String.IsEqual($PARAM[container]$PARAM[listitem].Property(Spotify.DownloadState),error) | [String.IsEmpty($PARAM[container]$PARAM[listitem].Property(Spotify.DownloadState)) + String.IsEqual($PARAM[container]$PARAM[listitem].Property(Spotify.DownloadSelected),true)] | $PARAM[override]]</visible>
 
 
                 <control type="grouplist">
@@ -904,6 +904,19 @@
                         <param name="visible">$PARAM[show_meta] + !String.IsEmpty($PARAM[container]$PARAM[listitem].Duration) + Integer.IsEqual($PARAM[container]$PARAM[listitem].Duration(h),0) + [String.IsEqual($PARAM[container]$PARAM[listitem].DBType,movie) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,tvshow) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,episode) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,season) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,video) | $PARAM[override]]</param>
                     </include>
 
+                    <include content="Info_Line_Divider">
+                        <param name="visible">$PARAM[show_meta] + [String.IsEqual($PARAM[container]$PARAM[listitem].Property(Spotify.DownloadState),queued) | String.IsEqual($PARAM[container]$PARAM[listitem].Property(Spotify.DownloadState),downloading) | String.IsEqual($PARAM[container]$PARAM[listitem].Property(Spotify.DownloadState),complete) | String.IsEqual($PARAM[container]$PARAM[listitem].Property(Spotify.DownloadState),partial) | String.IsEqual($PARAM[container]$PARAM[listitem].Property(Spotify.DownloadState),error) | [String.IsEmpty($PARAM[container]$PARAM[listitem].Property(Spotify.DownloadState)) + String.IsEqual($PARAM[container]$PARAM[listitem].Property(Spotify.DownloadSelected),true)]] + [$PARAM[show_divider]] + [[[String.IsEqual($PARAM[container]$PARAM[listitem].DBType,album) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,song)] + [!String.IsEmpty($PARAM[container]$PARAM[listitem].Year) | !String.IsEmpty($PARAM[container]$PARAM[listitem].Duration) | !String.IsEmpty($PARAM[container]$PARAM[listitem].Property(album_label))]] | [$PARAM[show_quality] + !Skin.HasSetting(InfoTags.DisableStarRating) + [!String.IsEmpty($PARAM[container]$PARAM[listitem].Rating) | !String.IsEmpty($PARAM[container]$PARAM[listitem].UserRating)]]]</param>
+                    </include>
+                    <include content="Object_SpotifyDownloadStatus">
+                        <param name="state">$PARAM[container]$PARAM[listitem].Property(Spotify.DownloadState)</param>
+                        <param name="download_selected">$PARAM[container]$PARAM[listitem].Property(Spotify.DownloadSelected)</param>
+                        <param name="progress">$PARAM[container]$PARAM[listitem].Property(Spotify.DownloadProgress)</param>
+                        <param name="font">font_main</param>
+                        <param name="textcolor">$PARAM[colordiffuse]_70</param>
+                        <width>spotify_download_status_w</width>
+                        <height>$PARAM[height]</height>
+                        <visible>$PARAM[show_meta] + [String.IsEqual($PARAM[container]$PARAM[listitem].Property(Spotify.DownloadState),queued) | String.IsEqual($PARAM[container]$PARAM[listitem].Property(Spotify.DownloadState),downloading) | String.IsEqual($PARAM[container]$PARAM[listitem].Property(Spotify.DownloadState),complete) | String.IsEqual($PARAM[container]$PARAM[listitem].Property(Spotify.DownloadState),partial) | String.IsEqual($PARAM[container]$PARAM[listitem].Property(Spotify.DownloadState),error) | [String.IsEmpty($PARAM[container]$PARAM[listitem].Property(Spotify.DownloadState)) + String.IsEqual($PARAM[container]$PARAM[listitem].Property(Spotify.DownloadSelected),true)]]</visible>
+                    </include>
                 </control>
             </control>
         </definition>
