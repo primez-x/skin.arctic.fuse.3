@@ -350,6 +350,13 @@
                 <aspectratio scalediffuse="false">scale</aspectratio>
                 <visible>String.IsEqual($PARAM[listitem].Icon,DefaultFolder.png) + String.IsEqual($PARAM[listitem].Label,$LOCALIZE[22082])</visible>
             </control>
+            <include content="Object_SpotifyDownloadBadge">
+                <param name="state">$PARAM[listitem].Property(Spotify.DownloadState)</param>
+                <param name="download_selected">$PARAM[listitem].Property(Spotify.DownloadSelected)</param>
+                <right>10</right>
+                <top>10</top>
+                <visible>[String.IsEqual($PARAM[listitem].Property(Spotify.DownloadState),queued) | String.IsEqual($PARAM[listitem].Property(Spotify.DownloadState),downloading) | String.IsEqual($PARAM[listitem].Property(Spotify.DownloadState),complete) | String.IsEqual($PARAM[listitem].Property(Spotify.DownloadState),partial) | String.IsEqual($PARAM[listitem].Property(Spotify.DownloadState),error) | [String.IsEmpty($PARAM[listitem].Property(Spotify.DownloadState)) + String.IsEqual($PARAM[listitem].Property(Spotify.DownloadSelected),true)]]</visible>
+            </include>
         </definition>
     </include>
 
@@ -577,6 +584,13 @@
                     </include>
                 </control>
                 <nested />
+                <include content="Object_SpotifyDownloadBadge" condition="$PARAM[spotify_status]">
+                    <left>26</left>
+                    <top>8</top>
+                    <param name="size">28</param>
+                    <param name="arrow_pad">8</param>
+                    <visible>$EXP[Exp_SpotifyDownloadStatus]</visible>
+                </include>
                 <left>40</left>
                 <include content="Object_InfoCircle_Text_Top" condition="$PARAM[include_labels]">
                     <left>80</left>
@@ -584,25 +598,11 @@
                     <selectedcolor>$PARAM[textcolor_top]</selectedcolor>
                     <label fallback="$PARAM[fallback_role]">$PARAM[role]</label>
                 </include>
-                <include content="Object_InfoCircle_Text_Top" condition="$PARAM[spotify_status] + !$PARAM[include_labels]">
-                    <left>80</left>
-                    <textcolor>$PARAM[textcolor_top]</textcolor>
-                    <selectedcolor>$PARAM[textcolor_top]</selectedcolor>
-                    <label>$PARAM[role]</label>
-                    <visible>$EXP[Exp_SpotifyDownloadStatus]</visible>
-                </include>
-                <include content="Object_SpotifyDownloadStatus" condition="$PARAM[spotify_status]">
-                    <param name="textcolor">$PARAM[textcolor_sub]</param>
-                    <left>80</left>
-                    <include>Dimension_Object_InfoCircle_Text_Sub</include>
-                    <visible>$EXP[Exp_SpotifyDownloadStatus]</visible>
-                </include>
                 <include content="Object_InfoCircle_Text_Sub" condition="$PARAM[include_labels]">
                     <left>80</left>
                     <textcolor>$PARAM[textcolor_sub]</textcolor>
                     <selectedcolor>$PARAM[textcolor_sub]</selectedcolor>
                     <label fallback="$PARAM[fallback_name]">$PARAM[name]</label>
-                    <visible>!$PARAM[spotify_status] | !$EXP[Exp_SpotifyDownloadStatus]</visible>
                 </include>
             </control>
         </definition>
@@ -1066,64 +1066,40 @@
 
     <expression name="Exp_SpotifyDownloadStatus">String.IsEqual(ListItem.Property(Spotify.DownloadState),queued) | String.IsEqual(ListItem.Property(Spotify.DownloadState),downloading) | String.IsEqual(ListItem.Property(Spotify.DownloadState),complete) | String.IsEqual(ListItem.Property(Spotify.DownloadState),partial) | String.IsEqual(ListItem.Property(Spotify.DownloadState),error) | [String.IsEmpty(ListItem.Property(Spotify.DownloadState)) + String.IsEqual(ListItem.Property(Spotify.DownloadSelected),true)]</expression>
 
-    <include name="Object_SpotifyDownloadStatus">
+    <include name="Object_SpotifyDownloadBadge">
         <param name="state">ListItem.Property(Spotify.DownloadState)</param>
         <param name="download_selected">ListItem.Property(Spotify.DownloadSelected)</param>
-        <param name="progress">ListItem.Property(Spotify.DownloadProgress)</param>
-        <param name="font">font_mini</param>
-        <param name="textcolor">main_fg_70</param>
-        <param name="selected">false</param>
-        <param name="align">left</param>
+        <param name="size">44</param>
+        <param name="arrow_pad">12</param>
         <definition>
             <control type="group">
                 <nested />
-                <control type="label">
-                    <font>$PARAM[font]</font>
-                    <textcolor>$PARAM[textcolor]</textcolor>
-                    <include condition="$PARAM[selected]">Color_SelectedText</include>
-                    <align>$PARAM[align]</align>
-                    <label>$LOCALIZE[31890]</label>
-                    <visible>String.IsEmpty($PARAM[state]) + String.IsEqual($PARAM[download_selected],true)</visible>
-                </control>
-                <control type="label">
-                    <font>$PARAM[font]</font>
-                    <textcolor>$PARAM[textcolor]</textcolor>
-                    <include condition="$PARAM[selected]">Color_SelectedText</include>
-                    <align>$PARAM[align]</align>
-                    <label>$LOCALIZE[31891]</label>
-                    <visible>String.IsEqual($PARAM[state],queued)</visible>
-                </control>
-                <control type="label">
-                    <font>$PARAM[font]</font>
-                    <textcolor>$PARAM[textcolor]</textcolor>
-                    <include condition="$PARAM[selected]">Color_SelectedText</include>
-                    <align>$PARAM[align]</align>
-                    <label>$LOCALIZE[31892]$INFO[$PARAM[progress], ,%]</label>
-                    <visible>String.IsEqual($PARAM[state],downloading)</visible>
-                </control>
-                <control type="label">
-                    <font>$PARAM[font]</font>
-                    <textcolor>$PARAM[textcolor]</textcolor>
-                    <include condition="$PARAM[selected]">Color_SelectedText</include>
-                    <align>$PARAM[align]</align>
-                    <label>$LOCALIZE[31893]</label>
+                <width>$PARAM[size]</width>
+                <height>$PARAM[size]</height>
+                <control type="image">
+                    <texture>common/circle.png</texture>
+                    <colordiffuse>FF1DB954</colordiffuse>
+                    <aspectratio>keep</aspectratio>
                     <visible>String.IsEqual($PARAM[state],complete)</visible>
                 </control>
-                <control type="label">
-                    <font>$PARAM[font]</font>
-                    <textcolor>$PARAM[textcolor]</textcolor>
-                    <include condition="$PARAM[selected]">Color_SelectedText</include>
-                    <align>$PARAM[align]</align>
-                    <label>$LOCALIZE[31894]</label>
-                    <visible>String.IsEqual($PARAM[state],partial)</visible>
+                <control type="image">
+                    <texture>common/circle.png</texture>
+                    <colordiffuse>FF707070</colordiffuse>
+                    <aspectratio>keep</aspectratio>
+                    <visible>String.IsEqual($PARAM[state],queued) | String.IsEqual($PARAM[state],downloading) | String.IsEqual($PARAM[state],partial) | [String.IsEmpty($PARAM[state]) + String.IsEqual($PARAM[download_selected],true)]</visible>
                 </control>
-                <control type="label">
-                    <font>$PARAM[font]</font>
-                    <textcolor>$PARAM[textcolor]</textcolor>
-                    <include condition="$PARAM[selected]">Color_SelectedText</include>
-                    <align>$PARAM[align]</align>
-                    <label>$LOCALIZE[31895]</label>
+                <control type="image">
+                    <texture>common/circle.png</texture>
+                    <colordiffuse>FFE22134</colordiffuse>
+                    <aspectratio>keep</aspectratio>
                     <visible>String.IsEqual($PARAM[state],error)</visible>
+                </control>
+                <control type="image">
+                    <include content="Dimension_Padding"><param name="pad">$PARAM[arrow_pad]</param></include>
+                    <texture flipy="true">arrows/arrow-up-240.png</texture>
+                    <colordiffuse>FFFFFFFF</colordiffuse>
+                    <aspectratio align="center" aligny="center">keep</aspectratio>
+                    <visible>String.IsEqual($PARAM[state],complete) | String.IsEqual($PARAM[state],queued) | String.IsEqual($PARAM[state],downloading) | String.IsEqual($PARAM[state],partial) | String.IsEqual($PARAM[state],error) | [String.IsEmpty($PARAM[state]) + String.IsEqual($PARAM[download_selected],true)]</visible>
                 </control>
             </control>
         </definition>

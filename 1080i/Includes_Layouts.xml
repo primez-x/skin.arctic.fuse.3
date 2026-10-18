@@ -1057,7 +1057,7 @@
                                 <align>left</align>
                                 <left>80</left>
                                 <textcolor>main_fg_70</textcolor>
-                                <visible>![$PARAM[include_detailed_labels]] + !$EXP[Exp_SpotifyDownloadStatus]</visible>
+                                <visible>![$PARAM[include_detailed_labels]]</visible>
                             </control>
                             <control type="label">
                                 <right>120</right>
@@ -1070,7 +1070,6 @@
                                 <visible>![$PARAM[detailed]]</visible>
                                 <visible>![$PARAM[variation]]</visible>
                                 <visible>String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,set) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,artist) | String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,video) | String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,song) | String.IsEqual(ListItem.DBType,musicvideo)</visible>
-                                <visible>!$EXP[Exp_SpotifyDownloadStatus]</visible>
                             </control>
                             <control type="label">
                                 <left>80</left>
@@ -1080,7 +1079,6 @@
                                 <label>$VAR[Label_MediaList_Rating,            ,]</label>
                                 <align>right</align>
                                 <visible>String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,set) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,artist) | String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,video) | String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,song) | String.IsEqual(ListItem.DBType,musicvideo)</visible>
-                                <visible>!$EXP[Exp_SpotifyDownloadStatus]</visible>
                             </control>
                         </include>
                         <include content="Object_InfoCircle" condition="$PARAM[selected]">
@@ -1104,7 +1102,7 @@
                                 <align>left</align>
                                 <left>80</left>
                                 <include>Color_SelectedText</include>
-                                <visible>![$PARAM[include_detailed_labels]] + !$EXP[Exp_SpotifyDownloadStatus]</visible>
+                                <visible>![$PARAM[include_detailed_labels]]</visible>
                             </control>
                             <control type="label">
                                 <include>Color_SelectedText</include>
@@ -1118,7 +1116,6 @@
                                 <visible>![$PARAM[detailed]]</visible>
                                 <visible>![$PARAM[variation]]</visible>
                                 <visible>String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,set) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,artist) | String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,video) | String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,song) | String.IsEqual(ListItem.DBType,musicvideo)</visible>
-                                <visible>!$EXP[Exp_SpotifyDownloadStatus]</visible>
                             </control>
                             <control type="label">
                                 <include>Color_SelectedText</include>
@@ -1129,7 +1126,6 @@
                                 <font>font_mini</font>
                                 <visible>![$PARAM[variation]]</visible>
                                 <visible>String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,set) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,artist) | String.IsEqual(ListItem.DBType,album) | String.IsEqual(ListItem.DBType,video) | String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,song) | String.IsEqual(ListItem.DBType,musicvideo)</visible>
-                                <visible>!$EXP[Exp_SpotifyDownloadStatus]</visible>
                             </control>
                         </include>
                         <include condition="$PARAM[indicator]" content="Object_Indicator_List">
@@ -1308,14 +1304,6 @@
                                         </control>
                                     </control>
 
-                                    <include content="Object_SpotifyDownloadStatus">
-                                        <param name="selected">$PARAM[selected]</param>
-                                        <param name="align">right</param>
-                                        <right>60</right>
-                                        <width>spotify_download_status_w</width>
-                                        <visible>$EXP[Exp_SpotifyDownloadStatus]</visible>
-                                    </include>
-
                                     <control type="group">
                                         <visible>![String.IsEqual(ListItem.DBType,movie) | String.IsEqual(ListItem.DBType,video) | String.IsEqual(ListItem.DBType,episode) | String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season)]</visible>
                                         <control type="label">
@@ -1324,7 +1312,6 @@
                                             <include condition="$PARAM[selected]">Color_SelectedText</include>
                                             <textcolor>main_fg_70</textcolor>
                                             <label>$INFO[ListItem.Premiered]</label>
-                                            <visible>!$EXP[Exp_SpotifyDownloadStatus]</visible>
                                             <align>right</align>
                                         </control>
                                         <include content="Object_Indicator_List">
@@ -2484,7 +2471,6 @@
                         <aligny>$PARAM[aligny]</aligny>
                         <font>font_mini</font>
                         <label>$VAR[Label_ListItem_Simple$PARAM[affix]]</label>
-                        <visible>!$EXP[Exp_SpotifyDownloadStatus]</visible>
                         <align>$PARAM[align]</align>
                         <include condition="$PARAM[selected]">Color_SelectedText</include>
                         <textcolor>main_fg_70</textcolor>
@@ -2496,7 +2482,6 @@
                         <aligny>$PARAM[aligny]</aligny>
                         <font>font_mini</font>
                         <label>$VAR[Label_ListItem_Simple$PARAM[affix]]</label>
-                        <visible>!$EXP[Exp_SpotifyDownloadStatus]</visible>
                         <align>$PARAM[align]</align>
                         <include condition="$PARAM[selected]">Color_SelectedText</include>
                         <textcolor>main_fg_70</textcolor>
@@ -2508,19 +2493,9 @@
                         <aligny>$PARAM[aligny]</aligny>
                         <font>font_mini</font>
                         <label>$VAR[Label_ListItem_Simple$PARAM[affix]]</label>
-                        <visible>!$EXP[Exp_SpotifyDownloadStatus]</visible>
                         <align>$PARAM[align]</align>
                         <include condition="$PARAM[selected]">Color_SelectedText</include>
                         <textcolor>main_fg_70</textcolor>
-                    </include>
-
-                    <include content="Object_InfoCircle_Text_Top" condition="![$PARAM[include_detailed_labels]] + ![$PARAM[use_label2]]">
-                        <label>$INFO[$PARAM[listitem].Label]</label>
-                        <include condition="$PARAM[selected]">Color_SelectedText</include>
-                        <textcolor>$PARAM[textcolor]_90</textcolor>
-                        <selectedcolor>$PARAM[textcolor]_90</selectedcolor>
-                        <align>$PARAM[align]</align>
-                        <visible>$EXP[Exp_SpotifyDownloadStatus]</visible>
                     </include>
 
                     <!-- Detailed (or use_label2): the title, then a _70 subline -->
@@ -2532,16 +2507,7 @@
                         <selectedcolor>$PARAM[textcolor]_90</selectedcolor>
                     </include>
 
-                    <include content="Object_SpotifyDownloadStatus">
-                        <param name="selected">$PARAM[selected]</param>
-                        <param name="align">$PARAM[align]</param>
-                        <param name="font">font_tiny</param>
-                        <param name="textcolor">$PARAM[textcolor]_70</param>
-                        <include>Dimension_Object_InfoCircle_Text_Sub</include>
-                        <visible>$EXP[Exp_SpotifyDownloadStatus]</visible>
-                    </include>
                     <control type="group">
-                        <visible>!$EXP[Exp_SpotifyDownloadStatus]</visible>
                         <!-- use_label2: Label2 is its own subline, never joined to the title -->
                         <include content="Object_InfoCircle_Text_Sub" condition="$PARAM[use_label2]">
                             <label>$INFO[$PARAM[listitem].Label2]</label>

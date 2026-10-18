@@ -1,8 +1,8 @@
-"""XML contract: state precedence, empty rows, context binding, overlays, and shared surfaces.
+"""XML contract: download badge states, passive art overlay, restored labels.
 
-Failures: ambiguous states; selected hides progress/error; false completion for partial;
-normal rows gain chrome; metadata reads another container; status replaces play overlays;
-shared row variants omit status; playback source labels or artist separators become stale.
+Failures: ambiguous badge colors; badge on unflagged rows; badge replacing play
+overlays or artist labels; shared row/tile surfaces missing the badge; status
+text returning to list or info layouts; playback source separators going stale.
 """
 import re
 import unittest
@@ -29,72 +29,83 @@ def condition(value, state, selected):
     return eval(value, {'__builtins__': {}}, {})
 
 
-class SpotifyDownloadStatusTests(unittest.TestCase):
-    def status(self):
-        node = xml('Includes_Objects.xml').find("include[@name='Object_SpotifyDownloadStatus']")
-        self.assertIsNotNone(node, 'shared secondary status required')
+class SpotifyDownloadBadgeTests(unittest.TestCase):
+    def badge(self):
+        node = xml('Includes_Objects.xml').find("include[@name='Object_SpotifyDownloadBadge']")
+        self.assertIsNotNone(node, 'shared download badge required')
         return node
 
-    def test_state_matrix_and_selected_precedence(self):
-        group = self.status().find('definition/control')
-        labels = group.findall('control')
-        expected = {'queued': '31891', 'downloading': '31892', 'complete': '31893',
-                    'partial': '31894', 'error': '31895', '': '31890'}
+    def test_badge_color_matrix_and_arrow(self):
+        images = self.badge().findall('definition/control/control')
+        circles = [node for node in images if (node.findtext('texture') or '') == 'common/circle.png']
+        arrows = [node for node in images if 'arrow-up-240' in (node.findtext('texture') or '')]
+        self.assertEqual(3, len(circles))
+        self.assertEqual(1, len(arrows))
+        self.assertEqual('true', arrows[0].find('texture').get('flipy'))
+        expected = {'complete': 'FF1DB954', 'queued': 'FF707070', 'downloading': 'FF707070',
+                    'partial': 'FF707070', 'error': 'FFE22134', '': 'FF707070'}
         for state, selected in [(s, flag) for s in expected for flag in ('', 'true')]:
-            rendered = [node.findtext('label') for node in labels
+            rendered = [node.findtext('colordiffuse') for node in circles
                         if condition(node.findtext('visible'), state, selected)]
+            arrow = condition(arrows[0].findtext('visible'), state, selected)
             if not state and not selected:
                 self.assertEqual([], rendered)
+                self.assertFalse(arrow)
             else:
-                self.assertEqual(1, len(rendered), (state, selected, rendered))
-                self.assertIn('$LOCALIZE[' + expected[state] + ']', rendered[0])
-        self.assertFalse(any(condition(node.findtext('visible'), 'unknown', '') for node in labels))
+                self.assertEqual([expected[state]], rendered, (state, selected))
+                self.assertTrue(arrow)
+        self.assertFalse(any(condition(node.findtext('visible'), 'unknown', '') for node in images))
 
-    def test_status_is_passive_and_keeps_playing_overlays(self):
-        status = self.status()
-        self.assertEqual({'label', 'group'}, {node.get('type') for node in status.iter('control')})
-        self.assertNotIn('IsPlaying', ET.tostring(status, encoding='unicode'))
+    def test_badge_is_passive_and_keeps_playing_overlays(self):
+        badge = self.badge()
+        self.assertEqual({'image', 'group'}, {node.get('type') for node in badge.iter('control')})
+        self.assertNotIn('IsPlaying', ET.tostring(badge, encoding='unicode'))
+        self.assertNotIn('<label', ET.tostring(badge, encoding='unicode'))
         overlay = xml('Includes_Images.xml').find("variable[@name='Image_Overlay_List']/value")
         self.assertEqual('ListItem.IsPlaying', overlay.get('condition'))
         self.assertEqual('indicator/play.png', overlay.text)
-        for name in ('Object_Indicator', 'Object_Indicator_List'):
-            node = xml('Includes_Objects.xml').find(f"include[@name='{name}']")
-            self.assertNotIn('Spotify.Download', ET.tostring(node, encoding='unicode'))
 
-    def test_all_shared_row_and_tile_label_surfaces_use_status(self):
-        root = xml('Includes_Layouts.xml')
-        for name in ('Layout_MediaList_Detailed', 'Layout_Labels'):
-            node = root.find(f"include[@name='{name}']")
-            self.assertIsNotNone(node.find(".//include[@content='Object_SpotifyDownloadStatus']"), name)
-        standard = root.find("include[@name='Layout_MediaList']")
+    def test_no_status_text_or_hidden_labels_anywhere(self):
+        for name in ('Includes_Layouts.xml', 'Includes_Objects.xml', 'Includes_Info.xml'):
+            text = (ROOT / '1080i' / name).read_text()
+            self.assertNotIn('Object_SpotifyDownloadStatus', text, name)
+            self.assertNotIn('!$EXP[Exp_SpotifyDownloadStatus]', text, name)
+        info = xml('Includes_Info.xml').find("include[@name='Info_Line']")
+        self.assertNotIn('Spotify.Download', ET.tostring(info, encoding='unicode'))
+
+    def test_shared_surfaces_carry_the_badge(self):
+        objects = xml('Includes_Objects.xml')
+        circle = objects.find("include[@name='Object_InfoCircle']")
+        badge = circle.find(".//include[@content='Object_SpotifyDownloadBadge']")
+        self.assertIsNotNone(badge)
+        self.assertEqual('$PARAM[spotify_status]', badge.get('condition'))
+        layouts = xml('Includes_Layouts.xml')
+        standard = layouts.find("include[@name='Layout_MediaList']")
         opted_in = standard.findall(".//include[@content='Object_InfoCircle']/param[@name='spotify_status']")
         self.assertEqual(['true', 'true'], [node.text for node in opted_in])
-        circle = xml('Includes_Objects.xml').find("include[@name='Object_InfoCircle']")
-        self.assertIsNotNone(circle.find(".//include[@content='Object_SpotifyDownloadStatus']"))
-        for node in standard.findall('.//label'):
-            if 'Label_MediaList_Year' in (node.text or '') or 'Label_MediaList_Rating' in (node.text or ''):
-                parent = next(parent for parent in standard.iter() if node in list(parent))
-                self.assertIn('!$EXP[Exp_SpotifyDownloadStatus]', ' '.join(v.text or '' for v in parent.findall('visible')))
+        detailed = layouts.find("include[@name='Layout_MediaList_Detailed']")
+        self.assertIsNotNone(detailed.find(".//include[@content='Object_Layout_Image_Rectangle']"))
 
-    def test_info_status_preserves_container_and_unknown_collection_types(self):
-        info = xml('Includes_Info.xml').find("include[@name='Info_Line']")
-        node = info.find(".//include[@content='Object_SpotifyDownloadStatus']")
-        self.assertIsNotNone(node)
-        self.assertEqual('$PARAM[container]$PARAM[listitem].Property(Spotify.DownloadState)',
-                         node.findtext("param[@name='state']"))
-        self.assertEqual('$PARAM[container]$PARAM[listitem].Property(Spotify.DownloadSelected)',
-                         node.findtext("param[@name='download_selected']"))
-        self.assertIn('Spotify.Download', ' '.join(v.text or '' for v in info.findall('definition/control/visible')))
+    def test_seven_shared_music_row_families_reach_the_badge(self):
+        rows = xml('Includes_Lists.xml')
+        layouts = xml('Includes_Layouts.xml')
+        rectangle = xml('Includes_Objects.xml').find("include[@name='Object_Layout_Image_Rectangle']")
+        self.assertIsNotNone(rectangle.find(".//include[@content='Object_SpotifyDownloadBadge']"))
+        for family, layout in (('Poster', 'Poster'), ('Card', 'Card'), ('Landscape', 'Landscape'),
+                               ('Board', 'Landscape'), ('Banner', 'Banner'), ('Circle', 'Circle'),
+                               ('Square', 'Square')):
+            row = rows.find(f"include[@name='List_{family}_Row']")
+            targets = [node.text for node in row.findall(".//param[@name='itemlayout_include']")]
+            self.assertIn('Layout_' + layout, targets, family)
+            target = layouts.find(f"include[@name='Layout_{layout}']")
+            art = {node.get('content') for node in target.findall('.//include')}
+            self.assertTrue({'Object_Layout_Image_Icon', 'Object_Layout_Image_Rectangle'} & art, family)
 
-    def test_info_status_follows_metadata_with_a_conditional_dot_divider(self):
-        line = xml('Includes_Info.xml').find("include[@name='Info_Line']")
-        children = list(line.find('definition/control/control[@type="grouplist"]'))
-        self.assertEqual('Object_SpotifyDownloadStatus', children[-1].get('content'))
-        self.assertEqual('Info_Line_Divider', children[-2].get('content'))
-        visible = children[-2].findtext("param[@name='visible']")
-        self.assertIn('$PARAM[show_meta]', visible)
-        self.assertIn('Spotify.DownloadState', visible)
-        self.assertIn('.Year', visible)
+    def test_per_row_state_uses_runtime_visibility(self):
+        for name in ('Includes_Layouts.xml', 'Includes_Objects.xml', 'Includes_Info.xml'):
+            for node in xml(name).iter('include'):
+                self.assertNotIn('Exp_SpotifyDownloadStatus', node.get('condition', ''), name)
+                self.assertNotIn('Spotify.Download', node.get('condition', ''), name)
 
     def test_playback_source_transitions_preserve_artist_separators(self):
         root = xml('Includes_OSD.xml')
@@ -131,36 +142,6 @@ class SpotifyDownloadStatusTests(unittest.TestCase):
                                                artist_name, album_artist)
                     divider_visible = artist_visible and active(artist.findtext("param[@name='show_divider']"))
                     self.assertEqual(bool(expected and (artist_name or album_artist)), divider_visible)
-
-    def test_progress_is_optional_and_zero_is_visible(self):
-        nodes = self.status().findall('definition/control/control')
-        label = next(node.findtext('label') for node in nodes
-                     if condition(node.findtext('visible'), 'downloading', 'true'))
-        self.assertIn('$INFO[$PARAM[progress], ,%]', label)
-        for progress, expected in (('', '$LOCALIZE[31892]'), ('0', '$LOCALIZE[31892] 0%'),
-                                   ('47', '$LOCALIZE[31892] 47%'), ('100', '$LOCALIZE[31892] 100%')):
-            rendered = label.replace('$INFO[$PARAM[progress], ,%]', f' {progress}%' if progress else '')
-            self.assertEqual(expected, rendered)
-
-    def test_seven_shared_music_row_families_reach_the_tile_status(self):
-        rows = xml('Includes_Lists.xml')
-        layouts = xml('Includes_Layouts.xml')
-        for family, layout in (('Poster', 'Poster'), ('Card', 'Card'), ('Landscape', 'Landscape'),
-                               ('Board', 'Landscape'), ('Banner', 'Banner'), ('Circle', 'Circle'),
-                               ('Square', 'Square')):
-            row = rows.find(f"include[@name='List_{family}_Row']")
-            targets = [node.text for node in row.findall(".//param[@name='itemlayout_include']")]
-            self.assertIn('Layout_' + layout, targets, family)
-            target = layouts.find(f"include[@name='Layout_{layout}']")
-            self.assertIsNotNone(target.find(".//include[@content='Layout_Labels']"), family)
-        labels = layouts.find("include[@name='Layout_Labels']")
-        self.assertIsNotNone(labels.find(".//include[@content='Object_SpotifyDownloadStatus']"))
-
-    def test_per_row_state_uses_runtime_visibility(self):
-        for name in ('Includes_Layouts.xml', 'Includes_Objects.xml', 'Includes_Info.xml'):
-            for node in xml(name).iter('include'):
-                self.assertNotIn('Exp_SpotifyDownloadStatus', node.get('condition', ''), name)
-                self.assertNotIn('Spotify.Download', node.get('condition', ''), name)
 
     def test_english_labels_are_short_and_distinct(self):
         text = (ROOT / 'language/resource.language.en_gb/strings.po').read_text()

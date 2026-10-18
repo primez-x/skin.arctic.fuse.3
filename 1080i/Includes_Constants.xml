@@ -10,9 +10,6 @@
     <constant name="pill_gap">12</constant>
     <constant name="-pill_pitch">-64</constant>
 
-    <constant name="spotify_download_status_w">300</constant>
-    <constant name="-spotify_download_status_w">-300</constant>
-
     <!-- Basic View Constants -->
     <constant name="view_pad">80</constant>
     <constant name="-view_pad">-80</constant>
