@@ -19,10 +19,14 @@ def xml(name):
 
 def condition(value, state, selected):
     value = value.replace('$PARAM[state]', 'state').replace('$PARAM[download_selected]', 'selected')
-    values = {'state': state, 'selected': selected}
+    for name in ('trackid', 'playlistid', 'albumid'):
+        value = value.replace(f'$PARAM[{name}]', 'needle')
+    # Live window-property sets evaluate empty here; per-item state is under test.
+    value = re.sub(r'String\.Contains\(Window\(Home\)\.Property\(Spotify\.Badge\w+\)\s*,\s*needle\)', 'False', value)
+    values = {'state': state, 'selected': selected, 'needle': 'x'}
     value = re.sub(r'String.IsEqual\((state|selected),([^)]*)\)',
                    lambda match: str(values[match[1]] == match[2]), value)
-    value = re.sub(r'String.IsEmpty\((state|selected)\)',
+    value = re.sub(r'String.IsEmpty\((state|selected|needle)\)',
                    lambda match: str(not values[match[1]]), value)
     value = value.replace('!', ' not ').replace('+', ' and ').replace('|', ' or ')
     value = value.replace('[', '(').replace(']', ')')
@@ -55,6 +59,15 @@ class SpotifyDownloadBadgeTests(unittest.TestCase):
                 self.assertEqual([expected[state]], rendered, (state, selected))
                 self.assertTrue(arrow)
         self.assertFalse(any(condition(node.findtext('visible'), 'unknown', '') for node in images))
+
+    def test_badge_matches_live_window_sets_with_empty_needle_guards(self):
+        text = ET.tostring(self.badge(), encoding='unicode')
+        for name in ('Spotify.BadgeComplete', 'Spotify.BadgeActive', 'Spotify.BadgeError'):
+            self.assertIn(f'Window(Home).Property({name})', text)
+        for param in ('trackid', 'playlistid', 'albumid'):
+            self.assertIn(f'!String.IsEmpty($PARAM[{param}])', text)
+        objects = (ROOT / '1080i/Includes_Objects.xml').read_text()
+        self.assertNotIn('Exp_SpotifyDownloadStatus]</visible>\n                    </include>\n                </control>\n                <nested', objects)
 
     def test_badge_is_passive_and_keeps_playing_overlays(self):
         badge = self.badge()
