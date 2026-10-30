@@ -90,6 +90,18 @@
                                     <onclick condition="String.IsEqual(Container(30000).ListItem.Property(enabled),true)">Skin.Reset($INFO[Container(30000).ListItem.Property(rename),,.Toggle])</onclick>
                                     <onclick>Skin.SetString(Shortcuts.RebuildDateTime,$INFO[System.Date(yyyy-mm-dd)]_$INFO[System.Time(hh:mm:ss)])</onclick>
                                 </item>
+                                <item id="10">
+                                    <label>$INFO[Skin.String(HomeSwitcher.1110.Name)]</label>
+                                    <icon>$VAR[Home_Icon_1110]</icon>
+                                    <property name="checkmark">true</property>
+                                    <property name="editmenu">menu=1110</property>
+                                    <property name="rename">HomeSwitcher.1110</property>
+                                    <property name="enabled">$INFO[Skin.String(HomeSwitcher.1110.Toggle)]</property>
+                                    <property name="mode">$INFO[Skin.String(HomeSwitcher.1110.Mode)]</property>
+                                    <onclick condition="String.IsEmpty(Container(30000).ListItem.Property(enabled))">Skin.SetString($INFO[Container(30000).ListItem.Property(rename),,.Toggle],true)</onclick>
+                                    <onclick condition="String.IsEqual(Container(30000).ListItem.Property(enabled),true)">Skin.Reset($INFO[Container(30000).ListItem.Property(rename),,.Toggle])</onclick>
+                                    <onclick>Skin.SetString(Shortcuts.RebuildDateTime,$INFO[System.Date(yyyy-mm-dd)]_$INFO[System.Time(hh:mm:ss)])</onclick>
+                                </item>
                                 <item id="5">
                                     <label>$LOCALIZE[137]</label>
                                     <icon>resource://resource.images.arctic.fuse.3/extras/icons/search.png</icon>

@@ -15,6 +15,9 @@
         <list name="1104submenu">
             <value name="window_id">1104</value>
         </list>
+        <list name="1110submenu">
+            <value name="window_id">1110</value>
+        </list>
     </lists>
     <items>
         <item>

@@ -199,7 +199,7 @@
             <icon>resource://resource.images.arctic.fuse.3/extras/icons/circle-plus.png</icon>
             <visible>ListItem.IsFolder</visible>
             <onclick>Dialog.Close(contextmenu,true)</onclick>
-            <onclick>RunScript(script.skinvariables,set_listitem_to_menunode=homewidgets||1101widgets||1102widgets||1103widgets||1104widgets||homesubmenu||1101submenu||1102submenu||1103submenu||1104submenu||powermenu||powertray,skin=$VAR[Path_SkinVariables_SkinFolder])</onclick>
+            <onclick>RunScript(script.skinvariables,set_listitem_to_menunode=homewidgets||1101widgets||1102widgets||1103widgets||1104widgets||1110widgets||homesubmenu||1101submenu||1102submenu||1103submenu||1104submenu||1110submenu||powermenu||powertray,skin=$VAR[Path_SkinVariables_SkinFolder])</onclick>
         </item>
         <item>
             <label>$LOCALIZE[33061]</label>

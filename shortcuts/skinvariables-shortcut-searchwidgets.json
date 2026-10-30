@@ -68,5 +68,12 @@
         "path": "DefaultSearch-SpotifyPlaylists",
         "target": "music",
         "widget_style": "Square"
+    },
+    {
+        "label": "YouTube",
+        "icon": "resource://resource.images.arctic.fuse.3/extras/icons/youtube.png",
+        "path": "DefaultSearch-Youtube",
+        "target": "videos",
+        "widget_style": "Landscape"
     }
 ]

@@ -137,6 +137,22 @@
                     "value": "Skin.SetString(HomeSwitcher.1104.Mode,Standard)"
                 }],
                 [{
+                    "rules": ["String.IsEmpty(Skin.String(HomeSwitcher.1110.Mode))"],
+                    "value": "Skin.SetString(HomeSwitcher.1110.Mode,Standard)"
+                }],
+                [{
+                    "rules": [
+                        "!Skin.HasSetting(Migration.YouTubeHub)",
+                        "System.HasAddon(plugin.video.smarttube)"],
+                    "value": [
+                        "Skin.SetString(HomeSwitcher.1110.Toggle,true)",
+                        "Skin.SetString(HomeSwitcher.1110.Shortcut.Path,ActivateWindow(1181))",
+                        "Skin.SetString(HomeSwitcher.1110.Shortcut.label,Hub Submenu)",
+                        "Skin.SetString(HomeSwitcher.1110.Shortcut.icon,resource://resource.images.arctic.fuse.3/extras/icons/bars.png)",
+                        "Skin.SetBool(Migration.YouTubeHub)"
+                    ]
+                }],
+                [{
                     "rules": ["String.IsEmpty(Skin.String(HomeSwitcher.1106.Mode))"],
                     "value": "Skin.SetString(HomeSwitcher.1106.Mode,Standard)"
                 }],

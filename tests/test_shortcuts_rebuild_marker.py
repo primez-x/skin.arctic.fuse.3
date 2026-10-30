@@ -43,7 +43,7 @@ class ShortcutRebuildMarkerTests(unittest.TestCase):
             if any(token in onclick for onclick in onclicks for token in mutation_tokens):
                 mutation_items.append("\n".join(onclicks))
 
-        self.assertEqual(len(mutation_items), 5)
+        self.assertEqual(len(mutation_items), 6)
         self.assertTrue(
             all(
                 "Skin.SetString(Shortcuts.RebuildDateTime" in onclicks

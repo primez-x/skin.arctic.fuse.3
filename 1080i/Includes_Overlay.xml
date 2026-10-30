@@ -241,6 +241,7 @@
         <value condition="Window.IsVisible(11107)">$INFO[Window(11107).Property(TMDbHelper.WidgetContainer),, ](11107)</value>
         <value condition="Window.IsVisible(11108)">$INFO[Window(11108).Property(TMDbHelper.WidgetContainer),, ](11108)</value>
         <value condition="Window.IsVisible(11109)">$INFO[Window(11109).Property(TMDbHelper.WidgetContainer),, ](11109)</value>
+        <value condition="Window.IsVisible(11110)">$INFO[Window(11110).Property(TMDbHelper.WidgetContainer),, ](11110)</value>
         <value condition="Window.IsVisible(videos)">$INFO[Window(videos).Property(TMDbHelper.WidgetContainer)],, (videos)</value>
         <value condition="Window.IsVisible(music)">$INFO[Window(music).Property(TMDbHelper.WidgetContainer),, ](music)</value>
         <value condition="Window.IsVisible(pictures)">$INFO[Window(pictures).Property(TMDbHelper.WidgetContainer)](p,, ictures)</value>

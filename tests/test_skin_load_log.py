@@ -79,6 +79,8 @@ class GeneratedIncludePlaceholderTests(unittest.TestCase):
         self.assertIn("skinvariables-homewidgets-standard", referenced)
         self.assertIn("skinvariables-powermenu-staticitems", referenced)
         self.assertIn("skinvariables-1104submenu-staticitems", referenced)
+        self.assertIn("skinvariables-1110submenu-staticitems", referenced)
+        self.assertIn("skinvariables-1110widgets-standard", referenced)
         stubs = {n.get("name") for n in ET.parse(SKIN / PLACEHOLDER).getroot().findall("include")}
         self.assertEqual(set(), referenced - stubs)
 

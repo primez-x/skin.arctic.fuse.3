@@ -1,0 +1,38 @@
+[
+    {
+        "label": "Subscriptions",
+        "icon": "resource://resource.images.arctic.fuse.3/extras/icons/bell.png",
+        "path": "plugin://plugin.video.smarttube/subscriptions/",
+        "target": "videos"
+    },
+    {
+        "label": "Channels",
+        "icon": "resource://resource.images.arctic.fuse.3/extras/icons/users.png",
+        "path": "plugin://plugin.video.smarttube/channels/",
+        "target": "videos"
+    },
+    {
+        "label": "History",
+        "icon": "resource://resource.images.arctic.fuse.3/extras/icons/clock-rotate-left.png",
+        "path": "plugin://plugin.video.smarttube/history/",
+        "target": "videos"
+    },
+    {
+        "label": "Watch later",
+        "icon": "resource://resource.images.arctic.fuse.3/extras/icons/clock.png",
+        "path": "plugin://plugin.video.smarttube/watch_later/",
+        "target": "videos"
+    },
+    {
+        "label": "Playlists",
+        "icon": "resource://resource.images.arctic.fuse.3/extras/icons/playlist.png",
+        "path": "plugin://plugin.video.smarttube/playlists/",
+        "target": "videos"
+    },
+    {
+        "label": "Search",
+        "icon": "resource://resource.images.arctic.fuse.3/extras/icons/search.png",
+        "path": "plugin://plugin.video.smarttube/search/",
+        "target": "videos"
+    }
+]

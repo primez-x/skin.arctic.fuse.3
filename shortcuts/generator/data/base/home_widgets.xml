@@ -15,6 +15,9 @@
         <list name="1104widgets">
             <value name="window_id">1104</value>
         </list>
+        <list name="1110widgets">
+            <value name="window_id">1110</value>
+        </list>
     </lists>
     <items>
         <item>

@@ -1,5 +1,6 @@
 import json
 import os
+import random
 import re
 import shutil
 import stat
@@ -385,6 +386,82 @@ def _migrate_plex_sources():
     return settings_changed or shortcuts_changed, settings_complete and shortcuts_complete
 
 
+SMARTTUBE_ID = "plugin.video.smarttube"
+YOUTUBE_SEARCH_MARKER = "Migration.YouTubeSearch"
+YOUTUBE_SEARCH_MENU = "skinvariables-shortcut-searchwidgets.json"
+YOUTUBE_SEARCH_ENTRY = {
+    "label": "YouTube",
+    "icon": f"{RESOURCE_EXTRAS_PREFIX}/icons/youtube.png",
+    "path": "DefaultSearch-Youtube",
+    "target": "videos",
+    "widget_style": "Landscape",
+}
+
+
+def _saved_guids(value):
+    if isinstance(value, dict):
+        guids = {value["guid"]} if isinstance(value.get("guid"), str) else set()
+        for child in value.values():
+            guids |= _saved_guids(child)
+        return guids
+    if isinstance(value, list):
+        return set().union(*map(_saved_guids, value))
+    return set()
+
+
+def _new_guid(used):
+    # The format script.skinvariables gives new menu items
+    while True:
+        guid = f"guid-{random.randrange(16**8):08x}"
+        if guid not in used:
+            return guid
+
+
+def _add_youtube_search_widget():
+    """Add the YouTube search widget to a user search menu saved before the skin default had the widget.
+
+    Runs on every start until done, because SmartTube can be installed after the skin update.
+    The marker keeps a widget the user removes later removed. Returns True when the menu changed."""
+    if xbmc.getInfoLabel(f"Skin.String({YOUTUBE_SEARCH_MARKER})") == "1":
+        return False
+    if not xbmc.getCondVisibility(f"System.HasAddon({SMARTTUBE_ID})"):
+        return False
+    path = os.path.join(xbmcvfs.translatePath(SKINVARIABLES_NODES), YOUTUBE_SEARCH_MENU)
+    try:
+        with open(path, "r", encoding="utf-8") as source:
+            menu = json.load(source)
+    except FileNotFoundError:
+        # script.skinvariables copies the skin default, which has the widget, on first use
+        menu = None
+    except (OSError, UnicodeError, json.JSONDecodeError) as error:
+        _log(f"Could not read the saved search menu: {error}", xbmc.LOGWARNING)
+        return False
+    if menu is not None and not isinstance(menu, list):
+        _log("Could not read the saved search menu: not a list of items.", xbmc.LOGWARNING)
+        return False
+
+    changed = False
+    if menu is not None and not any(
+            isinstance(item, dict) and item.get("path") == YOUTUBE_SEARCH_ENTRY["path"] for item in menu):
+        menu.append(dict(YOUTUBE_SEARCH_ENTRY, guid=_new_guid(_saved_guids(menu))))
+        rollback = path + ".before-youtube-search-migration"
+        try:
+            if not os.path.exists(rollback):
+                shutil.copy2(path, rollback)
+            _write_json_atomically(path, menu)
+        except OSError as error:
+            _log(f"Could not add the YouTube search widget: {error}", xbmc.LOGWARNING)
+            return False
+        changed = True
+    xbmc.executebuiltin(f"Skin.SetString({YOUTUBE_SEARCH_MARKER},1)")
+    if changed:
+        # script.skinvariables saves menu edits from this cached copy of the file
+        xbmc.executebuiltin(f"ClearProperty(SkinVariables.ShortcutsNode.{ADDON_ID}-{YOUTUBE_SEARCH_MENU},Home)")
+        xbmc.executebuiltin("ClearProperty(Shortcuts.Checked.Version,Home)")
+        _log("Added the YouTube search widget to the saved search menu.")
+    return changed
+
+
 def _current_window_ids():
     try:
         payload = json.dumps(
@@ -443,6 +520,7 @@ def main():
         # picks the user's includes up (no reload of our own: a version change alone must not
         # reset the GUI, see below)
         _restore_skin_user_includes()
+    _add_youtube_search_widget()
     if not version_changed and not _needs_window_recovery():
         return
 

@@ -32,6 +32,10 @@
             <include content="Hub_Onload_Window">
                 <param name="window">1104</param>
             </include>
+            <include content="Hub_Onload_Window">
+                <param name="window">1110</param>
+                <param name="defaultname">YouTube</param>
+            </include>
 
             <onload condition="String.IsEmpty(Window(1105).Property(TMDbHelper.WidgetContainer))">SetProperty(TMDbHelper.WidgetContainer,501,1105)</onload>
             <onload condition="String.IsEmpty(Window(1106).Property(TMDbHelper.WidgetContainer))">SetProperty(TMDbHelper.WidgetContainer,501,1106)</onload>

@@ -1,0 +1,65 @@
+[
+    {
+        "label": "Continue watching",
+        "icon": "resource://resource.images.arctic.fuse.3/extras/icons/circle-play.png",
+        "path": "plugin://plugin.video.smarttube/continue/",
+        "target": "videos",
+        "widget_style": "Landscape"
+    },
+    {
+        "label": "Latest from subscriptions",
+        "icon": "resource://resource.images.arctic.fuse.3/extras/icons/bell.png",
+        "path": "plugin://plugin.video.smarttube/subscriptions/",
+        "target": "videos",
+        "widget_style": "Landscape"
+    },
+    {
+        "label": "Live now",
+        "icon": "resource://resource.images.arctic.fuse.3/extras/icons/tower-broadcast.png",
+        "path": "plugin://plugin.video.smarttube/live_now",
+        "target": "videos",
+        "widget_style": "Landscape"
+    },
+    {
+        "label": "Recommended",
+        "icon": "resource://resource.images.arctic.fuse.3/extras/icons/thumbs-up.png",
+        "path": "plugin://plugin.video.smarttube/recommended/",
+        "target": "videos",
+        "widget_style": "Landscape"
+    },
+    {
+        "label": "Trending",
+        "icon": "resource://resource.images.arctic.fuse.3/extras/icons/arrow-trend-up.png",
+        "path": "plugin://plugin.video.smarttube/trending/",
+        "target": "videos",
+        "widget_style": "Landscape"
+    },
+    {
+        "label": "Music",
+        "icon": "resource://resource.images.arctic.fuse.3/extras/icons/music.png",
+        "path": "plugin://plugin.video.smarttube/explore/music/",
+        "target": "videos",
+        "widget_style": "Landscape"
+    },
+    {
+        "label": "Gaming",
+        "icon": "resource://resource.images.arctic.fuse.3/extras/icons/gamepad.png",
+        "path": "plugin://plugin.video.smarttube/explore/gaming/",
+        "target": "videos",
+        "widget_style": "Landscape"
+    },
+    {
+        "label": "News",
+        "icon": "resource://resource.images.arctic.fuse.3/extras/icons/newspaper.png",
+        "path": "plugin://plugin.video.smarttube/explore/news/",
+        "target": "videos",
+        "widget_style": "Landscape"
+    },
+    {
+        "label": "Sports",
+        "icon": "resource://resource.images.arctic.fuse.3/extras/icons/futbol.png",
+        "path": "plugin://plugin.video.smarttube/explore/sports/",
+        "target": "videos",
+        "widget_style": "Landscape"
+    }
+]

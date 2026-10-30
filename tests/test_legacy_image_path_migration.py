@@ -20,6 +20,7 @@ def _load_service(skin_dir, profile_dir, resource_dir, values, builtin_calls):
     xbmc.LOGINFO, xbmc.LOGWARNING = 1, 2
     xbmc.log = lambda *args, **kwargs: None
     xbmc.getInfoLabel = lambda label: values.get(label[12:-1], "") if label.startswith("Skin.String(") else ""
+    xbmc.getCondVisibility = lambda condition: False
 
     def execute_builtin(command):
         prefix = "Skin.SetString("

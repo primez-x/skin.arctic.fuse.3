@@ -616,7 +616,7 @@
             <include content="Object_Hidden_Button">
                 <param name="id">612</param>
                 <onfocus>SetFocus(500)</onfocus>
-                <onfocus>RunScript(script.skinvariables,set_listitem_to_menunode=homewidgets||1101widgets||1102widgets||1103widgets||1104widgets||homesubmenu||1101submenu||1102submenu||1103submenu||1104submenu||powermenu||powertray,skin=$VAR[Path_SkinVariables_SkinFolder],use_listitem=False,target=$VAR[Action_CurrentMediaWindow],path=$INFO[Container.FolderPath],label=$VAR[Label_Section_Main])</onfocus>
+                <onfocus>RunScript(script.skinvariables,set_listitem_to_menunode=homewidgets||1101widgets||1102widgets||1103widgets||1104widgets||1110widgets||homesubmenu||1101submenu||1102submenu||1103submenu||1104submenu||1110submenu||powermenu||powertray,skin=$VAR[Path_SkinVariables_SkinFolder],use_listitem=False,target=$VAR[Action_CurrentMediaWindow],path=$INFO[Container.FolderPath],label=$VAR[Label_Section_Main])</onfocus>
             </include>
 
             <include>Background</include>

@@ -66,6 +66,13 @@
                 ],
                 [
                     {
+                        "rules": ["!String.IsEmpty(Skin.String(HomeSwitcher.1110.Toggle))"],
+                        "value": ["ActivateWindow(1110)", "sleep=0.3"]
+
+                    }
+                ],
+                [
+                    {
                         "rules": ["!String.IsEmpty(Skin.String(HomeSwitcher.1106.Toggle))"],
                         "value": ["ActivateWindow(1106)", "sleep=0.3"]
 
