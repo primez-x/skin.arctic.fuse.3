@@ -7,11 +7,11 @@
     <menucontrol>9000</menucontrol>
     <include>DialogInfo_Onload</include>
     <onload>SetProperty(TMDbHelper.EnableExtendedProperties,True)</onload>
-    <onload>SetProperty(BaseID,$INFO[ListItem.Label]$INFO[ListItem.FolderPath])</onload>
+    <onload>SetProperty(BaseID,$ESCVAR[DialogInfo_ItemID])</onload>
     <!-- CurrentID must start equal to BaseID: a stale value from the previous dialog
          keeps every empty widget row visible, and the group list then scrolls past
          the last focused row into those empty rows, showing a blank page. -->
-    <onload>SetProperty(CurrentID,$INFO[ListItem.Label]$INFO[ListItem.FolderPath])</onload>
+    <onload>SetProperty(CurrentID,$ESCVAR[DialogInfo_ItemID])</onload>
     <onload>ClearProperty(TVSelect.Ready,movieinformation)</onload>
     <onload>ClearProperty(WatchedToggle,movieinformation)</onload>
     <onload>ClearProperty(WatchedToggle.ID,movieinformation)</onload>

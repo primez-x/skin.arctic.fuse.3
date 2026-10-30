@@ -190,7 +190,7 @@
                 <param name="icon">resource://resource.images.arctic.fuse.3/extras/icons/globe.png</param>
                 <label>Wiki</label>
                 <onclick>Close</onclick>
-                <onclick>runscript(script.wikipedia,wikipedia=$VAR[Path_Wikipedia_Title],tmdb_type=$VAR[Path_Wikipedia_Type])</onclick>
+                <onclick>runscript(script.wikipedia,wikipedia=$ESCVAR[Path_Wikipedia_Title],tmdb_type=$VAR[Path_Wikipedia_Type])</onclick>
             </include>
 
             <include content="Button_Dialog">

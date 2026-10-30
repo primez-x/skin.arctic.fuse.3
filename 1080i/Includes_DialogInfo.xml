@@ -309,7 +309,7 @@
             <param name="widget_hideartwork">true</param>
             <param name="widget_showoverlay">true</param>
             <param name="altvisible">true</param>
-            <onfocus>SetProperty(CurrentID,$INFO[Window.Property(BaseID)])</onfocus>
+            <onfocus>SetProperty(CurrentID,$ESCINFO[Window.Property(BaseID)])</onfocus>
             <content>$INFO[ListItem.UniqueID(tmdb),plugin://plugin.video.themoviedb.helper/?info=stars_in_movies&amp;tmdb_type=person&amp;tmdb_id=,&amp;limit=250&amp;sort_by=premiered&amp;nextpage=false&amp;cacheonly=true&amp;length=1&amp;exclude_key=genre&amp;exclude_value=Documentary / News / Talk]</content>
             <include>DialogInfo_Widgets_Action</include>
         </include>
@@ -327,7 +327,7 @@
             <param name="widget_showoverlay">true</param>
             <param name="visible">$EXP[Exp_InfoDialogs_WidgetsGroup_HasFocus]</param>
             <param name="altvisible">!String.IsEqual(Window.Property(CurrentID),Window.Property(BaseID))</param>
-            <onfocus>SetProperty(CurrentID,$INFO[Window.Property(BaseID)])</onfocus>
+            <onfocus>SetProperty(CurrentID,$ESCINFO[Window.Property(BaseID)])</onfocus>
             <content>$INFO[ListItem.UniqueID(tmdb),plugin://plugin.video.themoviedb.helper/?info=stars_in_tvshows&amp;tmdb_type=person&amp;tmdb_id=,&amp;limit=250&amp;sort_by=premiered&amp;nextpage=false&amp;cacheonly=true&amp;length=1&amp;exclude_key=genre&amp;exclude_value=Documentary / News / Talk]</content>
             <include>DialogInfo_Widgets_Action</include>
         </include>
@@ -345,7 +345,7 @@
             <param name="widget_showoverlay">true</param>
             <param name="visible">$EXP[Exp_InfoDialogs_WidgetsGroup_HasFocus]</param>
             <param name="altvisible">!String.IsEqual(Window.Property(CurrentID),Window.Property(BaseID))</param>
-            <onfocus>SetProperty(CurrentID,$INFO[Window.Property(BaseID)])</onfocus>
+            <onfocus>SetProperty(CurrentID,$ESCINFO[Window.Property(BaseID)])</onfocus>
             <content>$INFO[ListItem.UniqueID(tmdb),plugin://plugin.video.themoviedb.helper/?info=crew_in_both&amp;tmdb_type=person&amp;tmdb_id=,&amp;limit=250&amp;sort_by=premiered&amp;nextpage=false&amp;cacheonly=true&amp;length=1]</content>
             <include>DialogInfo_Widgets_Action</include>
         </include>
@@ -387,7 +387,7 @@
             <param name="detailed">true</param>
             <param name="widget_hideartwork">true</param>
             <param name="widget_showoverlay">true</param>
-            <onfocus>SetProperty(CurrentID,$INFO[Window.Property(BaseID)])</onfocus>
+            <onfocus>SetProperty(CurrentID,$ESCINFO[Window.Property(BaseID)])</onfocus>
         </include>
         <include content="Widget_Info_Row" condition="$EXP[Exp_DialogInfo_LibraryTV] + !Skin.HasSetting(Info.UseLocalCast) + $EXP[Exp_TMDbHelper_IsData]">
             <param name="id">50</param>
@@ -401,7 +401,7 @@
             <param name="detailed">true</param>
             <param name="widget_hideartwork">true</param>
             <param name="widget_showoverlay">true</param>
-            <onfocus>SetProperty(CurrentID,$INFO[Window.Property(BaseID)])</onfocus>
+            <onfocus>SetProperty(CurrentID,$ESCINFO[Window.Property(BaseID)])</onfocus>
             <content target="videos">$VAR[Path_VideoInfo_LibraryEpisodeCast]</content>
             <include>DialogInfo_Widgets_Action</include>
         </include>
@@ -433,7 +433,7 @@
             <param name="detailed">true</param>
             <param name="widget_hideartwork">true</param>
             <param name="widget_showoverlay">true</param>
-            <onfocus>SetProperty(CurrentID,$INFO[Window.Property(BaseID)])</onfocus>
+            <onfocus>SetProperty(CurrentID,$ESCINFO[Window.Property(BaseID)])</onfocus>
         </include>
         <include content="Widget_Info_Row" condition="!$EXP[Exp_DialogInfo_LibraryTV] + !Skin.HasSetting(Info.UseLocalCast) + $EXP[Exp_TMDbHelper_IsData]">
             <param name="id">50</param>
@@ -447,7 +447,7 @@
             <param name="detailed">true</param>
             <param name="widget_hideartwork">true</param>
             <param name="widget_showoverlay">true</param>
-            <onfocus>SetProperty(CurrentID,$INFO[Window.Property(BaseID)])</onfocus>
+            <onfocus>SetProperty(CurrentID,$ESCINFO[Window.Property(BaseID)])</onfocus>
             <content target="videos">$VAR[Path_VideoInfo_OnlineCast]</content>
             <include>DialogInfo_Widgets_Action</include>
         </include>
@@ -465,7 +465,7 @@
             <param name="widget_hideartwork">true</param>
             <param name="widget_showoverlay">true</param>
             <param name="altvisible">!String.IsEqual(Window.Property(CurrentID),Window.Property(BaseID))</param>
-            <onfocus>SetProperty(CurrentID,$INFO[Window.Property(BaseID)])</onfocus>
+            <onfocus>SetProperty(CurrentID,$ESCINFO[Window.Property(BaseID)])</onfocus>
             <content>$VAR[Path_VideoInfo_Trailers]</content>
             <include content="Action_PlayTrailer_OnClick">
                 <param name="trailer">Container(5014).ListItem.FileNameAndPath</param>
@@ -487,7 +487,7 @@
             <param name="widget_hideartwork">true</param>
             <param name="widget_showoverlay">true</param>
             <param name="altvisible">!String.IsEqual(Window.Property(CurrentID),Window.Property(BaseID))</param>
-            <onfocus>SetProperty(CurrentID,$INFO[Window.Property(BaseID)])</onfocus>
+            <onfocus>SetProperty(CurrentID,$ESCINFO[Window.Property(BaseID)])</onfocus>
             <content>$VAR[Path_VideoInfo_OnlineCollection]</content>
             <include>DialogInfo_Widgets_Action</include>
         </include>
@@ -504,7 +504,7 @@
             <param name="widget_hideartwork">true</param>
             <param name="widget_showoverlay">true</param>
             <param name="altvisible">!String.IsEqual(Window.Property(CurrentID),Window.Property(BaseID))</param>
-            <onfocus>SetProperty(CurrentID,$INFO[Window.Property(BaseID)])</onfocus>
+            <onfocus>SetProperty(CurrentID,$ESCINFO[Window.Property(BaseID)])</onfocus>
             <content>$VAR[Path_VideoInfo_LocalSets]</content>
             <include>DialogInfo_Widgets_Action</include>
         </include>
@@ -523,9 +523,9 @@
             <param name="widget_hideartwork">true</param>
             <param name="widget_showoverlay">true</param>
             <param name="altvisible">!String.IsEqual(Window.Property(CurrentID),Window.Property(BaseID))</param>
-            <onfocus>SetProperty(CurrentID,$INFO[Window.Property(BaseID)])</onfocus>
+            <onfocus>SetProperty(CurrentID,$ESCINFO[Window.Property(BaseID)])</onfocus>
             <content>$VAR[Path_VideoInfo_OnlineSeasons]</content>
-            <!-- <onclick>RunScript(plugin.video.themoviedb.helper,close_dialog=1190,call_path=$INFO[Container(5018).ListItem.FolderPath])</onclick> -->
+            <!-- <onclick>RunScript(plugin.video.themoviedb.helper,close_dialog=1190,call_path=$ESCINFO[Container(5018).ListItem.FolderPath])</onclick> -->
             <include>DialogInfo_Widgets_Action</include>
         </include>
         <include content="Widget_Info_Row" condition="!$EXP[Exp_DialogInfo_LibraryTV] + !Skin.HasSetting(VideoInfo.Widgets.DisableEpisodes) + !Skin.HasSetting(VideoInfo.Widgets.DisableSeasons) + [String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)] + $EXP[Exp_TMDbHelper_IsData]">
@@ -542,9 +542,9 @@
             <param name="widget_showoverlay">true</param>
             <param name="detailed">true</param>
             <param name="altvisible">!String.IsEqual(Window.Property(CurrentID),Window.Property(BaseID)) | Container(5018).IsUpdating</param>
-            <onfocus>SetProperty(CurrentID,$INFO[Window.Property(BaseID)])</onfocus>
+            <onfocus>SetProperty(CurrentID,$ESCINFO[Window.Property(BaseID)])</onfocus>
             <content>$VAR[Path_VideoInfo_OnlineEpisodes]</content>
-            <!-- <onclick>RunScript(plugin.video.themoviedb.helper,close_dialog=1190,playmedia=$INFO[Container(5019).ListItem.FolderPath])</onclick> -->
+            <!-- <onclick>RunScript(plugin.video.themoviedb.helper,close_dialog=1190,playmedia=$ESCINFO[Container(5019).ListItem.FolderPath])</onclick> -->
             <include>DialogInfo_Widgets_Action</include>
         </include>
         <include content="Widget_Info_Row" condition="!Skin.HasSetting(VideoInfo.Widgets.DisableEpisodes) + Skin.HasSetting(VideoInfo.Widgets.DisableSeasons) + [String.IsEqual(ListItem.DBType,tvshow) | String.IsEqual(ListItem.DBType,season) | String.IsEqual(ListItem.DBType,episode)] + $EXP[Exp_TMDbHelper_IsData]">
@@ -560,9 +560,9 @@
             <param name="widget_hideartwork">true</param>
             <param name="widget_showoverlay">true</param>
             <param name="altvisible">!String.IsEqual(Window.Property(CurrentID),Window.Property(BaseID))</param>
-            <onfocus>SetProperty(CurrentID,$INFO[Window.Property(BaseID)])</onfocus>
+            <onfocus>SetProperty(CurrentID,$ESCINFO[Window.Property(BaseID)])</onfocus>
             <content>$VAR[Path_VideoInfo_OnlineFlatSeasons]</content>
-            <!-- <onclick>RunScript(plugin.video.themoviedb.helper,close_dialog=1190,playmedia=$INFO[Container(5018).ListItem.FolderPath])</onclick> -->
+            <!-- <onclick>RunScript(plugin.video.themoviedb.helper,close_dialog=1190,playmedia=$ESCINFO[Container(5018).ListItem.FolderPath])</onclick> -->
             <include>DialogInfo_Widgets_Action</include>
         </include>
 
@@ -580,7 +580,7 @@
             <param name="widget_hideartwork">true</param>
             <param name="widget_showoverlay">true</param>
             <param name="altvisible">!String.IsEqual(Window.Property(CurrentID),Window.Property(BaseID))</param>
-            <onfocus>SetProperty(CurrentID,$INFO[Window.Property(BaseID)])</onfocus>
+            <onfocus>SetProperty(CurrentID,$ESCINFO[Window.Property(BaseID)])</onfocus>
             <content>$VAR[Path_VideoInfo_OnlineRecommendations]</content>
             <include>DialogInfo_Widgets_Action</include>
         </include>
@@ -599,7 +599,7 @@
             <param name="widget_hideartwork">true</param>
             <param name="widget_showoverlay">true</param>
             <param name="altvisible">!String.IsEqual(Window.Property(CurrentID),Window.Property(BaseID))</param>
-            <onfocus>SetProperty(CurrentID,$INFO[Window.Property(BaseID)])</onfocus>
+            <onfocus>SetProperty(CurrentID,$ESCINFO[Window.Property(BaseID)])</onfocus>
             <content>
                 <item>
                     <label>$LOCALIZE[31024]</label>
@@ -612,7 +612,7 @@
             <content>$VAR[Path_VideoInfo_OnlineComments]</content>
             <onclick condition="!String.IsEmpty(Container(5015).ListItem.Property(PlexReviewPath)) + !String.IsEqual(Container(5015).ListItem.Property(PlexReviewMore),true)">RunPlugin($INFO[Container(5015).ListItem.Property(PlexReviewPath)])</onclick>
             <onclick condition="String.IsEqual(Container(5015).ListItem.Property(PlexReviewMore),true)">ActivateWindow(Videos,$INFO[Container(5015).ListItem.Property(PlexReviewPath)],return)</onclick>
-            <onclick condition="String.IsEmpty(Container(5015).ListItem.Property(PlexReviewPath))">SetProperty(header,$INFO[ListItem.Label]$INFO[ListItem.Label2, - ,],1114)</onclick>
+            <onclick condition="String.IsEmpty(Container(5015).ListItem.Property(PlexReviewPath))">SetProperty(header,$ESCVAR[Label_DialogInfo_Header],1114)</onclick>
             <onclick condition="String.IsEmpty(Container(5015).ListItem.Property(PlexReviewPath))">SetProperty(textbox,$ESCINFO[Container(5015).ListItem.Plot]$ESCINFO[Container(5015).ListItem.Property(plotlabel)],1114)</onclick>
             <onclick condition="String.IsEmpty(Container(5015).ListItem.Property(PlexReviewPath))">ActivateWindow(1114)</onclick>
         </include>
@@ -632,7 +632,7 @@
             <param name="widget_hideartwork">true</param>
             <param name="widgetheight">widget_items_h_gallery</param>
             <param name="altvisible">!String.IsEqual(Window.Property(CurrentID),Window.Property(BaseID))</param>
-            <onfocus>SetProperty(CurrentID,$INFO[Window.Property(BaseID)])</onfocus>
+            <onfocus>SetProperty(CurrentID,$ESCINFO[Window.Property(BaseID)])</onfocus>
 
             <content>
                 <item>
@@ -782,6 +782,19 @@
         </include>
     </include>
 
+    <!-- Builtins quote these values with $ESCVAR: a title can contain a comma -->
+    <variable name="DialogInfo_ItemID">
+        <value>$INFO[ListItem.Label]$INFO[ListItem.FolderPath]</value>
+    </variable>
+
+    <variable name="Label_DialogInfo_Header">
+        <value>$INFO[ListItem.Label]$INFO[ListItem.Label2, - ,]</value>
+    </variable>
+
+    <variable name="Label_DialogInfo_Widgets_Header">
+        <value>$INFO[Container.ListItem.Label]$INFO[Container.ListItem.Year, (,)]</value>
+    </variable>
+
     <variable name="Path_DialogInfo_Widgets">
         <value condition="!String.IsEmpty(Container.ListItem.DBID) + String.IsEqual(Container.ListItem.DBType,movie)">plugin://script.skinvariables/?info=get_dbitem_movie_details&amp;dbid=$INFO[Container.ListItem.DBID]</value>
         <value condition="!String.IsEmpty(Container.ListItem.DBID) + String.IsEqual(Container.ListItem.DBType,tvshow)">plugin://script.skinvariables/?info=get_dbitem_tvshow_details&amp;dbid=$INFO[Container.ListItem.DBID]</value>
@@ -825,10 +838,10 @@
             <onclick>SetProperty(trailer,$INFO[Container.ListItem.Trailer],1114)</onclick>
 
 
-            <onclick condition="$PARAM[set_path]">SetProperty(path,$VAR[Path_DialogInfo_Widgets],1114)</onclick>
+            <onclick condition="$PARAM[set_path]">SetProperty(path,$ESCVAR[Path_DialogInfo_Widgets],1114)</onclick>
             <onclick condition="![$PARAM[set_path]]">ClearProperty(path,1114)</onclick>
 
-            <onclick>SetProperty(header,$INFO[Container.ListItem.Label]$INFO[Container.ListItem.Year, (,)],1114)</onclick>
+            <onclick>SetProperty(header,$ESCVAR[Label_DialogInfo_Widgets_Header],1114)</onclick>
             <onclick>SetProperty(textbox,$ESCINFO[Container.ListItem.Plot,[B][COLOR=dialog_fg_90]$LOCALIZE[31028][/COLOR][/B][CR],],1114)</onclick>
             <onclick>SetProperty(poster,$VAR[Image_Poster_Container],1114)</onclick>
             <onclick>SetProperty(landscape,$VAR[Image_LandscapeOnly_Container],1114)</onclick>
@@ -862,7 +875,7 @@
             <param name="widget_hideartwork">true</param>
             <param name="widget_showoverlay">true</param>
             <param name="altvisible">true</param>
-            <onfocus>SetProperty(CurrentID,$INFO[Window.Property(BaseID)])</onfocus>
+            <onfocus>SetProperty(CurrentID,$ESCINFO[Window.Property(BaseID)])</onfocus>
             <onclick condition="!System.AddonIsEnabled(script.playalbum) + System.HasAddon(script.playalbum)">EnableAddon(script.playalbum)</onclick>
             <onclick condition="!System.HasAddon(script.playalbum)">InstallAddon(script.playalbum)</onclick>
 
@@ -887,7 +900,7 @@
             <param name="widget_hideartwork">true</param>
             <param name="widget_showoverlay">true</param>
             <param name="altvisible">!String.IsEqual(Window.Property(CurrentID),Window.Property(BaseID))</param>
-            <onfocus>SetProperty(CurrentID,$INFO[Window.Property(BaseID)])</onfocus>
+            <onfocus>SetProperty(CurrentID,$ESCINFO[Window.Property(BaseID)])</onfocus>
             <include content="Object_ContentDynamic" condition="String.IsEqual(ListItem.DBType,artist)">
                 <param name="target">music</param>
                 <param name="sortby">playcount</param>
@@ -914,7 +927,7 @@
             <param name="widget_hideartwork">true</param>
             <param name="widget_showoverlay">true</param>
             <param name="altvisible">!String.IsEqual(Window.Property(CurrentID),Window.Property(BaseID))</param>
-            <onfocus>SetProperty(CurrentID,$INFO[Window.Property(BaseID)])</onfocus>
+            <onfocus>SetProperty(CurrentID,$ESCINFO[Window.Property(BaseID)])</onfocus>
         </include>
 
 
@@ -931,7 +944,7 @@
             <param name="widget_hideartwork">true</param>
             <param name="widget_showoverlay">true</param>
             <param name="altvisible">!String.IsEqual(Window.Property(CurrentID),Window.Property(BaseID))</param>
-            <onfocus>SetProperty(CurrentID,$INFO[Window.Property(BaseID)])</onfocus>
+            <onfocus>SetProperty(CurrentID,$ESCINFO[Window.Property(BaseID)])</onfocus>
             <include content="Action_PlayTrailer_OnClick">
                 <param name="trailer">Container(5002).ListItem.FileNameAndPath</param>
                 <param name="trailer_fallback" />
@@ -942,12 +955,12 @@
     </include>
 
     <include name="DialogInfo_FileProperties_Onload">
-        <onload>SetProperty(Icon,$VAR[Image_Landscape],1126)</onload>
-        <onload>SetProperty(Header,$INFO[ListItem.Label],1126)</onload>
+        <onload>SetProperty(Icon,$ESCVAR[Image_Landscape],1126)</onload>
+        <onload>SetProperty(Header,$ESCINFO[ListItem.Label],1126)</onload>
         <onload>SetProperty(Itemline,$INFO[ListItem.FileName],1126)</onload>
 
         <onload>SetProperty(Data01.Label,$LOCALIZE[19076],1126)</onload>
-        <onload>SetProperty(Data01.Label2,$INFO[ListItem.FolderName],1126)</onload>
+        <onload>SetProperty(Data01.Label2,$ESCINFO[ListItem.FolderName],1126)</onload>
         <onload>SetProperty(Data02.Label,$LOCALIZE[573],1126)</onload>
         <onload>SetProperty(Data02.Label2,$INFO[ListItem.Path],1126)</onload>
         <onload>SetProperty(Data03.Label,$LOCALIZE[31102],1126)</onload>
@@ -975,7 +988,7 @@
         <onload>SetProperty(Data16.Label2,$INFO[ListItem.UniqueID(tvdb)],1126)</onload>
 
         <onload>SetProperty(Data19.Label,URI,1126)</onload>
-        <onload>SetProperty(Data19.Label2,$INFO[ListItem.FolderPath],1126)</onload>
+        <onload>SetProperty(Data19.Label2,$ESCINFO[ListItem.FolderPath],1126)</onload>
 
 
     </include>

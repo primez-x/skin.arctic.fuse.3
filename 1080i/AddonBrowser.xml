@@ -24,7 +24,7 @@
                         <movement>4</movement>
                         <onback>Action(PreviousMenu)</onback>
 
-                        <onright condition="String.IsEmpty(Container(6000).ListItem.Property(folderpath))">Container.Update($INFO[Container(6000).ListItem.FolderPath],replace)</onright>
+                        <onright condition="String.IsEmpty(Container(6000).ListItem.Property(folderpath))">Container.Update($ESCINFO[Container(6000).ListItem.FolderPath],replace)</onright>
                         <onright condition="!String.IsEmpty(Container(6000).ListItem.Property(folderpath))">Container.Update($INFO[Container(6000).ListItem.Property(folderpath)],replace)</onright>
                         <onright>50</onright>
                         <onclick condition="String.IsEmpty(Container(6000).ListItem.Property(skipupdate))">SendClick(9)</onclick>

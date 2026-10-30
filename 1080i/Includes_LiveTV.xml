@@ -18,7 +18,7 @@
         </item>
         <item>
             <label>$VAR[LiveTV_Switcher_Items_GroupName]</label>
-            <onclick>ActivateWindow(tvchannels,$INFO[Container(509).ListItemAbsolute(0).FolderPath],return)</onclick>
+            <onclick>ActivateWindow(tvchannels,$ESCINFO[Container(509).ListItemAbsolute(0).FolderPath],return)</onclick>
             <visible>!Integer.IsEqual(Container(509).NumItems,0) | !Integer.IsEqual(Container(502).NumItems,0) | Container(502).IsUpdating</visible>
             <property name="widget_id">$NUMBER[502]</property>
             <property name="guid">pvr-502</property>

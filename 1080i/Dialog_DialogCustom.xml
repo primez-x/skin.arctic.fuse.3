@@ -114,7 +114,7 @@
     </include>
 
     <include name="DialogCustom_Favourites_Content">
-        <onclick>RunScript(script.skinvariables,run_executebuiltin=special://skin/shortcuts/builtins/skinvariables-openfavourite.json,use_rules,folderpath=$INFO[Container(450).ListItem.FolderPath])</onclick>
+        <onclick>RunScript(script.skinvariables,run_executebuiltin=special://skin/shortcuts/builtins/skinvariables-openfavourite.json,use_rules,folderpath=$ESCINFO[Container(450).ListItem.FolderPath])</onclick>
         <content>favourites://</content>
     </include>
 

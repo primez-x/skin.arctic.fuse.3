@@ -1182,7 +1182,7 @@
     </include>
 
     <include name="Hub_Settings_Favourites_Onclick">
-        <onclick>RunScript(script.skinvariables,run_executebuiltin=special://skin/shortcuts/builtins/skinvariables-openfavourite.json,use_rules,close_dialog=false,folderpath=$INFO[Container(502).ListItem.FolderPath])</onclick>
+        <onclick>RunScript(script.skinvariables,run_executebuiltin=special://skin/shortcuts/builtins/skinvariables-openfavourite.json,use_rules,close_dialog=false,folderpath=$ESCINFO[Container(502).ListItem.FolderPath])</onclick>
     </include>
 
     <include name="Hub_Settings_Widgets">
