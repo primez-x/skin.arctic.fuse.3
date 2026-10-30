@@ -1,24 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <includes>
 
+    <!-- Every icon draws a 28px glyph in a 32px frame. bordersize scales the image to the glyph:
+         2 for full-bleed flags (default), -12 for extras/icons (glyph in the middle half).
+         The frame group keeps the layout width fixed, so the label gap is the same for every icon. -->
     <include name="Info_Meta_Object">
         <param name="font">font_main</param>
         <param name="colordiffuse">main_fg</param>
         <param name="icon_w">32</param>
-        <param name="bordersize">0</param>
+        <param name="bordersize">2</param>
         <param name="max_width">680</param>
         <definition>
-            <control type="image">
+            <control type="group">
                 <width>$PARAM[icon_w]</width>
                 <height>32</height>
-                <aspectratio>keep</aspectratio>
                 <centertop>50%</centertop>
-                <texture colordiffuse="$PARAM[colordiffuse]_90">$PARAM[icon]</texture>
                 <visible>$PARAM[visible]</visible>
-                <bordersize>$PARAM[bordersize]</bordersize>
+                <control type="image">
+                    <aspectratio>keep</aspectratio>
+                    <texture colordiffuse="$PARAM[colordiffuse]_90">$PARAM[icon]</texture>
+                    <bordersize>$PARAM[bordersize]</bordersize>
+                </control>
             </control>
             <control type="label">
-                <left>$PARAM[bordersize]</left>
                 <aligny>center</aligny>
                 <label>$PARAM[label]</label>
                 <textcolor>$PARAM[colordiffuse]_70</textcolor>
@@ -41,6 +45,7 @@
         <definition>
             <include content="Info_Meta_Object">
                 <param name="icon">resource://resource.images.arctic.fuse.3/extras/icons/plex.png</param>
+                <param name="bordersize">-5</param>
                 <param name="label">$PARAM[source]: $INFO[$PARAM[rating],,/10]</param>
                 <param name="visible">[$PARAM[visible]] + [String.IsEqual($PARAM[provider],None) | ![$EXP[Exp_TMDbHelper_IsData] + [$PARAM[provider_visible]] + [Skin.String(CustomRating.$PARAM[content].Item01,$PARAM[provider]) | Skin.String(CustomRating.$PARAM[content].Item02,$PARAM[provider]) | Skin.String(CustomRating.$PARAM[content].Item03,$PARAM[provider])]]] + ![String.IsEqual($PARAM[item],Item02) + Skin.String(CustomRating.$PARAM[content].Item01,Plex)] + ![String.IsEqual($PARAM[item],Item03) + [Skin.String(CustomRating.$PARAM[content].Item01,Plex) | Skin.String(CustomRating.$PARAM[content].Item02,Plex)]]</param>
                 <param name="colordiffuse">$PARAM[colordiffuse]</param>
@@ -217,6 +222,7 @@
                 <param name="visible">[$PARAM[visible]] + !String.IsEmpty(Window(Home).Property(TMDbHelper.$PARAM[service].IMDb_Rating))</param>
                 <param name="colordiffuse">$PARAM[colordiffuse]</param>
                 <param name="icon_w">52</param>
+                <param name="bordersize">0</param>
             </include>
             <include content="Info_Meta_Object" condition="$EXP[Exp_TMDbHelper_IsData] + Skin.String(CustomRating.$PARAM[content].$PARAM[item],TMDb)">
                 <param name="icon">flags/$VAR[Color_Directory]/ratings/tmdb.png</param>
@@ -392,7 +398,6 @@
 
                     <!-- Start at -->
                     <include content="Info_Meta_Object">
-                        <!-- <param name="bordersize">-12</param> -->
                         <param name="icon">flags/$VAR[Color_Directory]/ratings/ends.png</param>
                         <param name="label">$INFO[$PARAM[container]$PARAM[listitem].StartTime]$INFO[$PARAM[container]$PARAM[listitem].EndTime, - ,]</param>
                         <param name="visible">[!String.IsEmpty($PARAM[container]$PARAM[listitem].ChannelNumberLabel)] + !String.IsEmpty($PARAM[container]$PARAM[listitem].StartTime)</param>
@@ -429,6 +434,7 @@
                     <include content="Info_Meta_Object" condition="$EXP[Exp_TMDbHelper_IsData]">
                         <param name="label">$VAR[Label_$PARAM[service]_Status]$VAR[Label_$PARAM[service]_StatusDate, ,]</param>
                         <param name="icon">$VAR[Image_$PARAM[service]_Status]</param>
+                        <param name="bordersize">1</param>
                         <param name="visible">[[String.IsEqual($PARAM[container]$PARAM[listitem].DBType,tvshow) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,season) | String.IsEqual($PARAM[container]$PARAM[listitem].DBType,episode) | $PARAM[override_tvshow]] + !String.IsEmpty(Window(Home).Property(TMDbHelper.$PARAM[service].Status))]</param>
                     </include>
 

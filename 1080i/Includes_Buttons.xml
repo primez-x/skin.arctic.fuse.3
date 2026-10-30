@@ -353,19 +353,19 @@
                     </include>
                 </control>
                 <control type="image">
-                    <left>8</left>
-                    <top>8</top>
-                    <width>36</width>
-                    <height>36</height>
+                    <centerleft>26</centerleft>
+                    <centertop>26</centertop>
+                    <width>pill_icon</width>
+                    <height>pill_icon</height>
                     <aspectratio>keep</aspectratio>
                     <texture colordiffuse="dialog_fg_100">$PARAM[icon]</texture>
                     <visible>!Control.HasFocus($PARAM[id])</visible>
                 </control>
                 <control type="image">
-                    <left>8</left>
-                    <top>8</top>
-                    <width>36</width>
-                    <height>36</height>
+                    <centerleft>26</centerleft>
+                    <centertop>26</centertop>
+                    <width>pill_icon</width>
+                    <height>pill_icon</height>
                     <aspectratio>keep</aspectratio>
                     <texture colordiffuse="$VAR[ColorSelected]">$PARAM[icon]</texture>
                     <visible>Control.HasFocus($PARAM[id])</visible>
@@ -454,34 +454,34 @@
         <param name="label" />
         <definition>
             <control type="image">
-                <left>28</left>
-                <top>8</top>
-                <width>36</width>
-                <height>36</height>
+                <centerleft>46</centerleft>
+                <centertop>26</centertop>
+                <width>pill_icon</width>
+                <height>pill_icon</height>
                 <texture colordiffuse="$VAR[Color_DialogInfo_PlayIcon]">$VAR[Image_DialogInfo_PlayButton]</texture>
                 <visible>!$EXP[Exp_DialogInfo_PlayResumes]</visible>
             </control>
-            <!-- Resume: a thin progress ring around a play triangle. The ring frames draw a thick ring in the middle
-                 half of the image; the diffuse mask keeps a 2px band of it at this size. -->
+            <!-- Resume: a thin progress ring around a play triangle, both the size of the play3 circle and its cut-out.
+                 The ring frames draw a thick ring in the middle half of the image; the diffuse mask keeps a 2px band of it at this size. -->
             <control type="group">
-                <left>22</left>
-                <top>2</top>
+                <left>21</left>
+                <top>1</top>
                 <visible>$EXP[Exp_DialogInfo_PlayResumes]</visible>
                 <control type="image">
-                    <width>48</width>
-                    <height>48</height>
+                    <width>50</width>
+                    <height>50</height>
                     <texture colordiffuse="$VAR[Color_DialogInfo_PlayRingTrack]" diffuse="progress/circle-thin-diffuse.png">progress/circle/p100.png</texture>
                 </control>
                 <control type="image">
-                    <width>48</width>
-                    <height>48</height>
+                    <width>50</width>
+                    <height>50</height>
                     <texture colordiffuse="$VAR[Color_DialogInfo_PlayIcon]" diffuse="progress/circle-thin-diffuse.png" flipx="true" flipy="true">$VAR[Label_DialogInfo_ResumePercent,progress/circle/p,.png]</texture>
                 </control>
                 <control type="image">
-                    <left>8</left>
-                    <top>8</top>
-                    <width>32</width>
-                    <height>32</height>
+                    <left>11</left>
+                    <top>11</top>
+                    <width>28</width>
+                    <height>28</height>
                     <aspectratio>keep</aspectratio>
                     <texture colordiffuse="$VAR[Color_DialogInfo_PlayIcon]">resource://resource.images.arctic.fuse.3/extras/icons/play2.png</texture>
                 </control>

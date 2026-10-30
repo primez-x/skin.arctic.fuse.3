@@ -407,12 +407,11 @@ class WatchlistActionOrderTests(unittest.TestCase):
             "./include[@name='DialogInfo_PrimaryActionForeground']"
         )
         icon = foreground.find("./definition/control[@type='image']")
-        self.assertEqual(icon.findtext("left"), "28")
+        self.assertEqual(icon.findtext("centerleft"), "46")
         # The icon is centred on the 52px pill, not on the taller action row.
-        self.assertEqual(icon.findtext("top"), "8")
-        self.assertIsNone(icon.find("centertop"))
-        self.assertEqual(icon.findtext("width"), "36")
-        self.assertEqual(icon.findtext("height"), "36")
+        self.assertEqual(icon.findtext("centertop"), "26")
+        self.assertEqual(icon.findtext("width"), "pill_icon")
+        self.assertEqual(icon.findtext("height"), "pill_icon")
         labels = foreground.findall("./definition/control[@type='label']")
         self.assertEqual(len(labels), 2)
         self.assertTrue(
